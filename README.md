@@ -29,6 +29,7 @@ Sections, snippets, assets and one JSON template: `templates/product.acne-duo.js
    | `custom.day_night_specs` | JSON | Product | Optional. Shape: `{"rows":[{"label":"Finish","day":"…","night":"…"}]}`. If empty, the section's row blocks are used |
    | `custom.wear_time` | Single line text | Product | Wear-time line in the label box and the day vs night section |
    | `custom.material` | Multi-line text | Product | "Material" disclosure in the label box |
+   | `custom.ingredients` | Multi-line text | Product | Full ingredient list in the Ingredients section (same order as the label). Falls back to the section setting |
    | `custom.warnings` | Multi-line text | Product | Replaces the default warning text |
    | `custom.vegan_verified` | Boolean | Product | Vegan badge (also needs the theme setting) |
    | `custom.cruelty_free_verified` | Boolean | Product | Cruelty-free badge (also needs the theme setting) |

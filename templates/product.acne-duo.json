@@ -315,6 +315,37 @@
         "card_4"
       ]
     },
+    "ingredients": {
+      "type": "ap-ingredients",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hydrocolloid layer",
+            "note": "A soft, flexible layer that sits on the skin and covers the spot."
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Breathable film",
+            "note": "A thin outer film that keeps the patch smooth and in place."
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Skin-friendly adhesive",
+            "note": "Holds the patch on until you peel it off."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3"
+      ]
+    },
     "daynight": {
       "type": "ap-day-night",
       "blocks": {
@@ -687,6 +718,7 @@
     "problem",
     "how",
     "cards",
+    "ingredients",
     "daynight",
     "when",
     "size",

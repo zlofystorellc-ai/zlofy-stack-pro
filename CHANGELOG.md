@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 — 2026-11-07 — Ingredients section
+
+- New `ap-ingredients`: intro, ingredient cards (plain-language materials), a "Full ingredient list" disclosure and small print. Anchor `#ingredients`.
+- Full list comes from product metafield `custom.ingredients`, else the section setting. All defaults are placeholders: replace them with your real formula and match the pack label.
+- Placed after the feature cards in the template
+
 ## 0.5.0 — 2026-11-07 — Three more template sections
 
 Same page structure as the reference (section types and order), own content:

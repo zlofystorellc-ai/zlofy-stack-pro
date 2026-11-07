@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 — 2026-11-07 — Buy box layout like the reference screenshot
+
+- Product form: soft gradient band behind the product, divider between gallery and buy box (desktop), uppercase option labels, bigger gallery thumbnails (88 px on desktop)
+- Kit chooser: **round swatches** using each variant's image (setting `option_style`: swatches or cards; swatches apply to single-option products)
+- Subscribe card: corner tag (setting `plan_badge`, default "Best value"; empty hides it). Keep it only if Subscribe really is the best price.
+- Sticky bar: button now shows the live price (follows Subscribe or one-time)
+- Deliberately not copied: countdown timer, "clinicians' choice" style badges, press logos (unverifiable or time-pressure claims)
+
 ## 0.2.0 — 2026-11-07 — Gifts, "Which patch, when" tabs, founder note
 
 Page structure inspired by a long-form supplement product page (section order only; no names, images, claims or copy reused):

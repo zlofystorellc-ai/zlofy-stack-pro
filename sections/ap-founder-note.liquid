@@ -1,0 +1,51 @@
+{%- comment -%}
+  Founder note. Write this yourself, in your own words, about your own brand.
+  Do not use anyone else's name, photo or quote. Renders nothing until a note is entered.
+{%- endcomment -%}
+{%- if section.settings.body != blank or request.design_mode -%}
+<section class="apx-founder apx-section" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap apx-founder__wrap">
+    {%- if section.settings.image != blank -%}
+      <div class="apx-founder__img">
+        {{ section.settings.image | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 760px) 320px, 60vw', alt: section.settings.image.alt | default: section.settings.name }}
+      </div>
+    {%- endif -%}
+    <div class="apx-founder__text">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      <div class="apx-founder__body">{{ section.settings.body }}</div>
+      {%- if section.settings.name != blank -%}
+        <p class="apx-founder__sig"><strong>{{ section.settings.name }}</strong>{%- if section.settings.role != blank -%}<span>{{ section.settings.role }}</span>{%- endif -%}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-founder__wrap{display:grid;gap:24px;max-width:900px;align-items:center}
+  .apx-founder__img img{display:block;width:100%;max-width:320px;margin-inline:auto;aspect-ratio:1;object-fit:cover;border-radius:var(--ap-radius)}
+  .apx-founder__body{color:var(--ap-ink-soft)}
+  .apx-founder__sig{display:grid;margin:1rem 0 0}
+  .apx-founder__sig span{font-size:.875rem;color:var(--ap-ink-soft)}
+  @media (min-width:760px){.apx-founder__wrap.apx-wrap{grid-template-columns:320px 1fr;gap:40px}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Founder note",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A note from us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why we made this kit" },
+    { "type": "richtext", "id": "body", "label": "Note", "info": "Write it in your own words. Cosmetic claims only." },
+    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Upload only photos you own or have licensed." },
+    { "type": "text", "id": "name", "label": "Name" },
+    { "type": "text", "id": "role", "label": "Role", "default": "Founder, BRAND_NAME" }
+  ],
+  "presets": [
+    { "name": "Founder note" }
+  ]
+}
+{% endschema %}

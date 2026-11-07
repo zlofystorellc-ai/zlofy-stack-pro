@@ -1,0 +1,89 @@
+{%- comment -%}
+  "Which patch, when" tabs. Without JavaScript every panel is shown stacked (progressive enhancement);
+  ap-tabs.js turns it into an accessible tablist (arrow keys, Home/End).
+  Edit all text so it matches your real product. Cosmetic wording only.
+{%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+<section class="apx-when apx-section apx-section--sand" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap" data-ap-tabs>
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="apx-when__list" role="tablist" aria-label="{{ 'ap.when.tabs_label' | t }}" data-ap-tablist hidden>
+      {%- for block in section.blocks -%}
+        <button type="button" role="tab" class="apx-when__tab" id="{{ section.id }}-tab-{{ forloop.index }}" aria-controls="{{ section.id }}-panel-{{ forloop.index }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != 'none' -%}{% render 'ap-icon', name: block.settings.icon, size: 22 %}{%- endif -%}
+          <span>{{ block.settings.title }}</span>
+        </button>
+      {%- endfor -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      <div class="apx-when__panel" role="tabpanel" id="{{ section.id }}-panel-{{ forloop.index }}" aria-labelledby="{{ section.id }}-tab-{{ forloop.index }}" data-ap-panel {{ block.shopify_attributes }}>
+        <h3 class="apx-when__ph">{{ block.settings.title }}</h3>
+        <div class="apx-when__body">{{ block.settings.text }}</div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+<script src="{{ 'ap-tabs.js' | asset_url }}" type="module"></script>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-when__list{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:28px 0 20px}
+  .apx-when__tab{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;padding:.5rem 1.25rem;border:2px solid var(--ap-teal-dark);border-radius:999px;background:var(--ap-white);color:var(--ap-teal-dark);font-weight:700;cursor:pointer}
+  .apx-when__tab[aria-selected="true"]{background:var(--ap-teal-dark);color:var(--ap-white)}
+  .apx-when__panel{max-width:720px;margin:16px auto 0;padding:22px 24px;border-radius:var(--ap-radius);background:var(--ap-white)}
+  .apx-when__ph{margin:0 0 .5rem;font-size:1.25rem}
+  .apx-when__body{color:var(--ap-ink-soft)}
+  .apx-when__body p:last-child{margin-bottom:0}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Which patch, when",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Pick your moment" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Which patch, and when" }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Morning" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "sun", "label": "Sun" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "leaf", "label": "Leaf" }
+          ],
+          "default": "none"
+        },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Describe when to use this patch.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Which patch, when",
+      "blocks": [
+        { "type": "tab", "settings": { "title": "Daytime", "icon": "sun", "text": "<p>Reach for the day patch before school, work or errands. It is thin with a low-shine finish, so it sits close to the skin.</p>" } },
+        { "type": "tab", "settings": { "title": "Bedtime", "icon": "moon", "text": "<p>Press a night patch on after cleansing. It is thicker and more cushioned, so it stays put while you sleep.</p>" } },
+        { "type": "tab", "settings": { "title": "On the go", "icon": "clock", "text": "<p>Keep a few patches in a bag or pouch to swap when a patch has turned white or the edges lift.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

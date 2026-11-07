@@ -74,21 +74,28 @@
             "text": "A lower price on every delivery"
           }
         },
-        "accordion_7": {
+        "gift_7": {
+          "type": "gift",
+          "settings": {
+            "title": "Travel pouch",
+            "note": "Added to your first subscription box"
+          }
+        },
+        "accordion_8": {
           "type": "accordion",
           "settings": {
             "title": "How to use",
             "body": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, leave it on for 6–8 hours or until it turns white, then peel and swap.</p>"
           }
         },
-        "accordion_8": {
+        "accordion_9": {
           "type": "accordion",
           "settings": {
             "title": "What is in the kit",
             "body": "<p>Day and night patches in the sizes shown in the size guide below. The patch count is shown on each option above.</p>"
           }
         },
-        "accordion_9": {
+        "accordion_10": {
           "type": "accordion",
           "settings": {
             "title": "Shipping and returns",
@@ -103,9 +110,10 @@
         "bullet_4",
         "plan_perk_5",
         "plan_perk_6",
-        "accordion_7",
+        "gift_7",
         "accordion_8",
-        "accordion_9"
+        "accordion_9",
+        "accordion_10"
       ]
     },
     "problem": {
@@ -231,6 +239,40 @@
         "row_2",
         "row_3",
         "row_4"
+      ]
+    },
+    "when": {
+      "type": "ap-when-tabs",
+      "blocks": {
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "title": "Daytime",
+            "icon": "sun",
+            "text": "<p>Reach for the day patch before school, work or errands. It is thin with a low-shine finish, so it sits close to the skin.</p>"
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "title": "Bedtime",
+            "icon": "moon",
+            "text": "<p>Press a night patch on after cleansing. It is thicker and more cushioned, so it stays put while you sleep.</p>"
+          }
+        },
+        "tab_3": {
+          "type": "tab",
+          "settings": {
+            "title": "On the go",
+            "icon": "clock",
+            "text": "<p>Keep a few patches in a bag or pouch to swap when a patch has turned white or the edges lift.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3"
       ]
     },
     "size": {
@@ -482,6 +524,9 @@
         "question_10"
       ]
     },
+    "founder": {
+      "type": "ap-founder-note"
+    },
     "guarantee": {
       "type": "ap-guarantee",
       "blocks": {
@@ -523,12 +568,14 @@
     "problem",
     "how",
     "daynight",
+    "when",
     "size",
     "shade",
     "comparison",
     "bundles",
     "reviews",
     "faq",
+    "founder",
     "guarantee",
     "upsell",
     "sticky"

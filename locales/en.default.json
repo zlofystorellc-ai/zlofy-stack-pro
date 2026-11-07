@@ -24,6 +24,7 @@
       "fine_print": "These are cosmetic skin-covering patches for external use only. They are not medicines."
     },
     "product": {
+      "gift_free": "FREE",
       "gallery": "Product images",
       "show_image": "Show image {{ number }} of {{ total }}",
       "rating_label": "{{ rating }} out of {{ max }} stars",
@@ -58,6 +59,9 @@
     "how": {
       "note_label": "Good to know:",
       "note": "Best for surfaced spots. Not designed for deep, under-the-skin bumps — see a dermatologist for painful or persistent breakouts."
+    },
+    "when": {
+      "tabs_label": "Choose a moment"
     },
     "dn": {
       "caption": "Day patch and night patch compared",

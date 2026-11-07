@@ -205,6 +205,23 @@
                 {%- endfor -%}
               </ul>
             {%- endif -%}
+            {%- assign gift_count = 0 -%}
+            {%- for block in section.blocks -%}{%- if block.type == 'gift' -%}{%- assign gift_count = gift_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+            {%- if gift_count > 0 -%}
+              <div class="apx-gifts">
+                <p class="apx-gifts__h">{{ section.settings.gifts_heading }}</p>
+                <ul>
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'gift' -%}
+                      <li {{ block.shopify_attributes }}>
+                        <span class="apx-gifts__tag">{{ 'ap.product.gift_free' | t }}</span>
+                        <span class="apx-gifts__t">{{ block.settings.title }}{%- if block.settings.note != blank -%}<small>{{ block.settings.note }}</small>{%- endif -%}</span>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
             {%- assign plan_total = 0 -%}
             {%- for group in product.selling_plan_groups -%}
               {%- assign plan_total = plan_total | plus: group.selling_plans.size -%}
@@ -421,6 +438,12 @@
   .apx-buy{display:flex;gap:10px;align-items:stretch}
   .apx-buy__atc{flex:1}
   .apx-error{margin:.6rem 0 0;padding:.6rem .8rem;border-left:4px solid var(--ap-ink);background:var(--ap-sand);font-weight:600}
+  .apx-gifts{margin:0 0 .75rem;padding:12px 14px;border:1.5px dashed var(--ap-teal-dark);border-radius:var(--ap-radius-sm);background:var(--ap-white)}
+  .apx-gifts__h{margin:0 0 .5rem;font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ap-teal-dark)}
+  .apx-gifts ul{display:grid;gap:.5rem}
+  .apx-gifts li{display:flex;gap:.6rem;align-items:flex-start;font-size:.9375rem}
+  .apx-gifts__tag{flex:none;padding:.1rem .5rem;border-radius:999px;background:var(--ap-ink);color:var(--ap-white);font-size:.6875rem;font-weight:700;letter-spacing:.06em}
+  .apx-gifts__t small{display:block;color:var(--ap-ink-soft);font-size:.8125rem}
   .apx-assure{display:grid;gap:.4rem;margin:1rem 0 .5rem;font-size:.9375rem}
   .apx-assure li{display:flex;align-items:center;gap:.6rem}
   .apx-assure .apx-icon{color:var(--ap-teal-dark)}
@@ -503,6 +526,7 @@
       "default": "30-day happiness promise",
       "info": "Must match your real return policy."
     },
+    { "type": "text", "id": "gifts_heading", "label": "Welcome gifts heading", "default": "Your welcome gifts" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
   ],
   "blocks": [
@@ -520,6 +544,15 @@
       "limit": 4,
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Cancel or skip any time", "info": "Shown under the Subscribe card. List only perks you really offer." }
+      ]
+    },
+    {
+      "type": "gift",
+      "name": "Welcome gift",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Gift", "default": "Travel pouch" },
+        { "type": "text", "id": "note", "label": "Note (optional)", "default": "Added to your first subscription box", "info": "Only list gifts you really ship, with the real conditions." }
       ]
     },
     {
@@ -558,6 +591,7 @@
         { "type": "bullet", "settings": { "text": "Three sizes, so the patch fits the spot" } },
         { "type": "plan_perk", "settings": { "text": "Cancel or skip any time" } },
         { "type": "plan_perk", "settings": { "text": "A lower price on every delivery" } },
+        { "type": "gift", "settings": { "title": "Travel pouch", "note": "Added to your first subscription box" } },
         { "type": "accordion", "settings": { "title": "How to use", "body": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, leave it on for 6–8 hours or until it turns white, then peel and swap.</p>" } },
         { "type": "accordion", "settings": { "title": "What is in the kit", "body": "<p>Day and night patches in the sizes shown in the size guide below. The patch count is shown on each option above.</p>" } },
         { "type": "accordion", "settings": { "title": "Shipping and returns", "body": "<p>Shipping times and costs are shown at checkout. See our refund policy for how returns work.</p>" } }

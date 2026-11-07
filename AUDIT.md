@@ -93,7 +93,7 @@ by Shopify's GitHub integration as a theme in its current shape.
 - Spacing rhythm: generous vertical padding, rounded cards, one strong CTA.
 
 ### Not reused
-- All copy, all numbers, all labels, gradients, the red/maroon palette, serif/sans pairing via Google Fonts, the "welcome kit/quarterly/ambassador/advisory board" mechanics.
+- All copy, all numbers, all labels, gradients, the old prototype's maroon/orange palette (the theme now uses its own soft blush red on navy and sand, chosen by the owner), serif/sans pairing via Google Fonts, the "welcome kit/quarterly/ambassador/advisory board" mechanics.
 
 ## 6. Assumptions (no questions were asked)
 

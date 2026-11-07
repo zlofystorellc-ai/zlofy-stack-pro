@@ -7,9 +7,9 @@
  * Usage: node scripts/contrast-check.mjs   (exit 1 if any pair fails)
  */
 const C = {
-  ink: '#1F2A44', teal: '#2A9D8F', tealDark: '#1B6F65', lilac: '#C8B6E2', sand: '#F4EDE4',
+  ink: '#1F2A44', blush: '#E5707F', blushDeep: '#B3384B', lilac: '#C8B6E2', sand: '#F4EDE4',
   apricot: '#F4A261', white: '#FFFFFF', inkSoft: '#44506B',
-  cmpUs: '#EEF6F4', dayCell: '#FBF8F3', nightCell: '#ECE7F5', star: '#757E94', ledeOnInk: '#E6E9F2'
+  cmpUs: '#FBEDEF', dayCell: '#FBF8F3', nightCell: '#ECE7F5', star: '#757E94', ledeOnInk: '#E6E9F2'
 };
 
 const lum = (hex) => {
@@ -28,14 +28,14 @@ const PAIRS = [
   ['Body text: ink on sand', C.ink, C.sand, 4.5],
   ['Secondary text: ink-soft on white', C.inkSoft, C.white, 4.5],
   ['Secondary text: ink-soft on sand', C.inkSoft, C.sand, 4.5],
-  ['Primary button: white on teal-dark', C.white, C.tealDark, 4.5],
+  ['Primary button: white on blush-deep', C.white, C.blushDeep, 4.5],
   ['Button hover: white on ink', C.white, C.ink, 4.5],
-  ['Link: teal-dark on white', C.tealDark, C.white, 4.5],
-  ['Link: teal-dark on sand', C.tealDark, C.sand, 4.5],
-  ['Eyebrow: teal-dark on sand', C.tealDark, C.sand, 4.5],
-  ['Savings: teal-dark on white', C.tealDark, C.white, 4.5],
+  ['Link: blush-deep on white', C.blushDeep, C.white, 4.5],
+  ['Link: blush-deep on sand', C.blushDeep, C.sand, 4.5],
+  ['Eyebrow: blush-deep on sand', C.blushDeep, C.sand, 4.5],
+  ['Savings: blush-deep on white', C.blushDeep, C.white, 4.5],
   ['Comparison "us" column: ink on tint', C.ink, C.cmpUs, 4.5],
-  ['Comparison "us" header: white on teal-dark', C.white, C.tealDark, 4.5],
+  ['Comparison "us" header: white on blush-deep', C.white, C.blushDeep, 4.5],
   ['Day/night: ink on day cell', C.ink, C.dayCell, 4.5],
   ['Day/night: ink on night cell', C.ink, C.nightCell, 4.5],
   ['Night header: white on ink', C.white, C.ink, 4.5],
@@ -51,13 +51,13 @@ const PAIRS = [
   ['UI: control border ink-soft on white', C.inkSoft, C.white, 3],
   ['UI: control border ink-soft on sand', C.inkSoft, C.sand, 3],
   ['UI: selected card border ink on sand', C.ink, C.sand, 3],
-  ['UI: check/icon teal-dark on white', C.tealDark, C.white, 3],
-  ['UI: check/icon teal-dark on sand', C.tealDark, C.sand, 3],
+  ['UI: check/icon blush-deep on white', C.blushDeep, C.white, 3],
+  ['UI: check/icon blush-deep on sand', C.blushDeep, C.sand, 3],
   ['UI: rating star (empty) on white', C.star, C.white, 3],
   ['UI: lilac icon on ink', C.lilac, C.ink, 3],
   ['UI: focus ring ink on white', C.ink, C.white, 3],
   ['UI: focus ring white on ink', C.white, C.ink, 3],
-  ['Decorative only (not required): teal on white', C.teal, C.white, 3]
+  ['Decorative only (not required): blush on white', C.blush, C.white, 3]
 ];
 
 let fail = 0;

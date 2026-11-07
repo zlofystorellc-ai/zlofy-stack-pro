@@ -1,0 +1,90 @@
+{%- comment -%}
+  FAQ accordion (native <details>/<summary>) + FAQPage JSON-LD generated from the same blocks.
+  Edit every answer so it matches your real product, shipping and subscription policies.
+{%- endcomment -%}
+<section class="apx-faq apx-section apx-section--sand" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap apx-faq__wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="apx-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="apx-faq__item" {{ block.shopify_attributes }}>
+          <summary>
+            <span>{{ block.settings.question }}</span>
+            {% render 'ap-icon', name: 'chevron', size: 22 %}
+          </summary>
+          <div class="apx-faq__answer">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for block in section.blocks -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.question | strip_html | json }},
+          "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | strip_newlines | json }} }
+        }{% unless forloop.last %}, {% endunless %}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-faq__wrap{max-width:820px}
+  .apx-faq__list{display:grid;gap:10px;margin-top:28px}
+  .apx-faq__item{border-radius:var(--ap-radius-sm);background:var(--ap-white)}
+  .apx-faq__item summary{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:56px;padding:12px 18px;font-weight:700;cursor:pointer;list-style:none}
+  .apx-faq__item summary::-webkit-details-marker{display:none}
+  .apx-faq__item[open] summary .apx-icon{transform:rotate(180deg)}
+  .apx-faq__answer{padding:0 18px 16px;color:var(--ap-ink-soft)}
+  .apx-faq__answer p:last-child{margin-bottom:0}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Questions" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Good to know before you start" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How long do I wear a patch?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Leave it on for 6–8 hours, or until it turns white.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "How long do I wear a patch?", "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>" } },
+        { "type": "question", "settings": { "question": "What is the difference between day and night?", "answer": "<p>The day patch is thinner with a low-shine finish so it can blend in during the day. The night patch is thicker and more cushioned so it stays put while you sleep. Use whichever suits the moment.</p>" } },
+        { "type": "question", "settings": { "question": "Can I wear makeup over the day patch?", "answer": "<p>You can try it: press the patch flat, then dab a thin layer of your usual product around the edges. Avoid rubbing, which can lift the patch.</p>" } },
+        { "type": "question", "settings": { "question": "Does it work on deep or cystic bumps?", "answer": "<p>No. These patches are made for surfaced spots, the kind with a visible head. They are not designed for deep, under-the-skin bumps. If a breakout is painful, large or keeps coming back, see a dermatologist.</p>" } },
+        { "type": "question", "settings": { "question": "Is it okay for sensitive skin?", "answer": "<p>The patches are drug-free hydrocolloid with no active ingredients. Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>" } },
+        { "type": "question", "settings": { "question": "Is it drug-free?", "answer": "<p>Yes. The patches are drug-free hydrocolloid. They cover and protect a spot and absorb fluid from surfaced spots. They do not contain medicated ingredients.</p>" } },
+        { "type": "question", "settings": { "question": "How many patches are in a box, and how long will it last?", "answer": "<p>The patch count is shown on each option above, along with the price per patch so you can compare. How long a kit lasts depends on how often you use patches.</p>" } },
+        { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>" } },
+        { "type": "question", "settings": { "question": "How do I skip or cancel a subscription?", "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page, or email us before your next delivery.</p>" } },
+        { "type": "question", "settings": { "question": "What if I am not happy with my order?", "answer": "<p>Contact us within the guarantee window shown on this page and we will help. Full terms are in our refund policy.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

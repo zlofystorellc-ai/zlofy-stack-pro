@@ -1,0 +1,30 @@
+{%- comment -%} Simple, mobile-first header. Cart link opens the drawer when it exists (JS), else goes to /cart. {%- endcomment -%}
+{%- liquid
+  assign menu = linklists['main-menu']
+-%}
+<header class="apx-header">
+  <div class="apx-wrap apx-header__row">
+    <a class="apx-header__brand" href="{{ routes.root_url }}">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 480 | image_tag: width: settings.logo_width, alt: settings.brand_name, loading: 'eager' }}
+      {%- else -%}
+        <span>{{ settings.brand_name }}</span>
+      {%- endif -%}
+    </a>
+
+    {%- if menu.links.size > 0 -%}
+      <nav class="apx-header__nav" aria-label="{{ 'ap.header.primary_nav' | t }}">
+        <ul>
+          {%- for link in menu.links -%}
+            <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    <a class="apx-header__cart" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">
+      {% render 'ap-icon', name: 'bag', size: 24 %}
+      <span class="apx-header__count" data-ap-cart-count>{{ cart.item_count }}</span>
+    </a>
+  </div>
+</header>

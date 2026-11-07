@@ -1,0 +1,71 @@
+{%- comment -%} 4 steps + honest scope note. {%- endcomment -%}
+<section class="apx-how apx-section apx-section--sand">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
+    </div>
+    <ol class="apx-how__steps">
+      {%- for block in section.blocks -%}
+        <li class="apx-how__step" {{ block.shopify_attributes }}>
+          <span class="apx-how__num" aria-hidden="true">{{ forloop.index }}</span>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '(min-width: 990px) 25vw, 90vw', loading: 'lazy', alt: block.settings.image.alt | default: block.settings.title, class: 'apx-how__img' }}
+          {%- endif -%}
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+    <p class="apx-how__note"><strong>{{ 'ap.how.note_label' | t }}</strong> {{ 'ap.how.note' | t }}</p>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-how__steps{display:grid;gap:16px;margin:28px 0;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));counter-reset:none}
+  .apx-how__step{padding:22px;border-radius:var(--ap-radius);background:var(--ap-white)}
+  .apx-how__step h3{font-size:1.15rem}
+  .apx-how__step p{margin:0;color:var(--ap-ink-soft)}
+  .apx-how__num{display:inline-grid;place-items:center;width:40px;height:40px;margin-bottom:12px;border-radius:14px;background:var(--ap-ink);color:var(--ap-white);font-weight:800}
+  .apx-how__img{width:100%;height:auto;margin-bottom:12px;border-radius:var(--ap-radius-sm)}
+  .apx-how__note{max-width:70ch;margin:0 auto;padding:14px 18px;border-left:4px solid var(--ap-teal-dark);background:var(--ap-white);font-size:.9375rem}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "How it works",
+  "tag": "div",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Four simple steps" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Cleanse and dry" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Wash your face gently and pat dry. Patches stick best to clean, dry skin." },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (optional)",
+          "info": "Upload only images you own or have licensed. No supplier/competitor photos. Before/after only from real, consenting customers, unedited."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Cleanse and dry", "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin." } },
+        { "type": "step", "settings": { "title": "Press for 10 seconds", "text": "Place the patch over the spot and press from the center out so the edges seal." } },
+        { "type": "step", "settings": { "title": "Leave on 6–8 hours", "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold." } },
+        { "type": "step", "settings": { "title": "Peel and swap", "text": "Peel from an edge, toss it, and add a fresh patch if the spot is still there." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

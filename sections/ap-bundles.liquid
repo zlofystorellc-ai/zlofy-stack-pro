@@ -1,0 +1,121 @@
+{%- comment -%}
+  Bundle cards. Value ladder: Duo (anchor) -> Stash (best value) -> Refill / add-ons.
+  "Save" is shown ONLY when the bundle costs less than the sum of the single products you pick as
+  "compare products" (so the saving is real). Pick bundles from your own products.
+{%- endcomment -%}
+<section class="apx-bundles apx-section apx-section--sand">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <ul class="apx-bundles__grid">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        {%- if p != blank -%}
+          {%- liquid
+            assign v = p.selected_or_first_available_variant
+            assign count = v.metafields.custom.patch_count.value | default: p.metafields.custom.patch_count.value
+            assign sum = 0
+            assign has_compare = false
+            assign compare_keys = 'compare_1,compare_2,compare_3' | split: ','
+            for key in compare_keys
+              assign cp = block.settings[key]
+              if cp != blank
+                assign sum = sum | plus: cp.price
+                assign has_compare = true
+              endif
+            endfor
+            assign saving = sum | minus: p.price
+            assign bundle_ppp = ''
+            if count > 0
+              assign bundle_ppp = p.price | times: 1.0 | divided_by: count | round | money
+            endif
+            assign saving_money = saving | money
+            assign sum_money = sum | money
+          -%}
+          <li class="apx-bundle" {{ block.shopify_attributes }}>
+            {%- if block.settings.badge != blank -%}<span class="apx-bundle__badge">{{ block.settings.badge }}</span>{%- endif -%}
+            {%- if p.featured_image -%}
+              {{ p.featured_image | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '(min-width: 990px) 22vw, (min-width: 640px) 45vw, 90vw', loading: 'lazy', alt: p.featured_image.alt | default: p.title, class: 'apx-bundle__img' }}
+            {%- endif -%}
+            <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
+            {%- if block.settings.text != blank -%}<p class="apx-bundle__text">{{ block.settings.text }}</p>{%- endif -%}
+            <p class="apx-bundle__price">
+              <strong>{{ p.price | money }}</strong>
+              {%- if count > 0 -%}<span class="apx-fine"> · {{ 'ap.product.per_patch' | t: price: bundle_ppp }}</span>{%- endif -%}
+            </p>
+            {%- if has_compare and saving > 0 -%}
+              <p class="apx-bundle__save">{{ 'ap.bundles.save' | t: amount: saving_money }} <span class="apx-fine">{{ 'ap.bundles.separate' | t: total: sum_money }}</span></p>
+            {%- endif -%}
+            <div class="apx-bundle__cta">{% render 'ap-quick-add', product: p %}</div>
+          </li>
+        {%- elsif request.design_mode -%}
+          <li class="apx-bundle apx-bundle--empty" {{ block.shopify_attributes }}>{{ 'ap.bundles.pick_product' | t }}</li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-bundles__grid{display:grid;gap:16px;margin-top:28px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .apx-bundle{position:relative;display:flex;flex-direction:column;padding:18px;border-radius:var(--ap-radius);background:var(--ap-white)}
+  .apx-bundle__badge{position:absolute;top:12px;left:12px;z-index:1;padding:.25rem .7rem;border-radius:999px;background:var(--ap-apricot);color:var(--ap-ink);font-size:.8125rem;font-weight:800}
+  .apx-bundle__img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;margin-bottom:12px;border-radius:var(--ap-radius-sm);background:var(--ap-sand)}
+  .apx-bundle h3{font-size:1.15rem;margin-bottom:.3em}
+  .apx-bundle h3 a{color:var(--ap-ink);text-decoration:none}
+  .apx-bundle h3 a:hover{text-decoration:underline}
+  .apx-bundle__text{margin:0 0 .5rem;color:var(--ap-ink-soft);font-size:.9375rem}
+  .apx-bundle__price{margin:0 0 .25rem}
+  .apx-bundle__save{margin:0 0 .75rem;font-weight:700;color:var(--ap-teal-dark)}
+  .apx-bundle__cta{margin-top:auto;padding-top:.5rem}
+  .apx-bundle--empty{display:grid;place-items:center;min-height:160px;border:2px dashed var(--ap-ink);background:transparent;font-weight:600;text-align:center}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Bundles",
+  "tag": "div",
+  "max_blocks": 4,
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Kits and refills" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Stock up and spend less per patch" },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro",
+      "default": "Savings are shown only when a kit really costs less than buying its parts separately."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Bundle",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Bundle product" },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Most popular" },
+        { "type": "textarea", "id": "text", "label": "Short description" },
+        { "type": "paragraph", "content": "Compare products: the single items this bundle replaces. The saving is computed from their prices." },
+        { "type": "product", "id": "compare_1", "label": "Compare product 1" },
+        { "type": "product", "id": "compare_2", "label": "Compare product 2" },
+        { "type": "product", "id": "compare_3", "label": "Compare product 3" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundles",
+      "blocks": [
+        { "type": "bundle", "settings": { "badge": "", "text": "Day and night patches together." } },
+        { "type": "bundle", "settings": { "badge": "Most popular", "text": "Three months of patches at the lowest price per patch." } },
+        { "type": "bundle", "settings": { "badge": "", "text": "Body add-on: larger patches for shoulders, back and chest." } },
+        { "type": "bundle", "settings": { "badge": "", "text": "Travel compact: a small case for your bag." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

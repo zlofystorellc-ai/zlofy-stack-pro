@@ -1,0 +1,14 @@
+{
+  "name": "acne-duo-theme",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shopify OS 2.0 product page for a hydrocolloid pimple patch brand. No dependencies: scripts use only Node built-ins.",
+  "type": "module",
+  "scripts": {
+    "build:template": "node scripts/build-template.mjs",
+    "lint:claims": "node scripts/claims-lint.mjs",
+    "check:contrast": "node scripts/contrast-check.mjs",
+    "check:theme": "node scripts/check-theme.mjs",
+    "check": "node scripts/claims-lint.mjs && node scripts/contrast-check.mjs && node scripts/check-theme.mjs"
+  }
+}

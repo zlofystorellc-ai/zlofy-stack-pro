@@ -1,0 +1,411 @@
+{%- comment -%}
+  Product form (main product section) — gallery, title, real rating (only from the reviews app), benefit bullets,
+  variant cards, one-time vs subscribe (selling plans), price + price per patch, quantity,
+  AJAX add to cart, trust micro-copy and the label/warnings block.
+
+  Needs (all optional, section degrades gracefully):
+    product metafields: custom.patch_count, custom.warnings, custom.wear_time, custom.material
+    variant metafield:  custom.patch_count (falls back to the product metafield)
+    reviews app metafields: reviews.rating, reviews.rating_count
+{%- endcomment -%}
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign form_id = 'ap-product-form-' | append: section.id
+  assign product_patch_count = product.metafields.custom.patch_count.value
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+  assign has_plans = false
+  if product.selling_plan_groups.size > 0
+    assign has_plans = true
+  endif
+  assign sub_default = false
+  if has_plans and section.settings.default_subscribe
+    assign sub_default = true
+  endif
+  assign cur_count = current.metafields.custom.patch_count.value | default: product_patch_count
+  assign cur_ppp = ''
+  if cur_count > 0
+    assign cur_ppp = current.price | times: 1.0 | divided_by: cur_count | round | money
+  endif
+-%}
+
+{% render 'ap-tokens' %}
+{% render 'ap-product-jsonld', product: product %}
+
+<div
+  class="apx-pdp apx-wrap"
+  data-ap-product
+  data-locale="{{ request.locale.iso_code }}"
+  data-currency="{{ cart.currency.iso_code }}"
+  data-label-add="{{ 'ap.product.add_to_cart' | t | escape }}"
+  data-label-adding="{{ 'ap.cart.adding' | t | escape }}"
+  data-label-sold="{{ 'ap.cart.sold_out' | t | escape }}"
+  data-label-unavailable="{{ 'ap.product.unavailable' | t | escape }}"
+  data-label-delivery="{{ 'ap.product.per_delivery' | t: price: '__price__' | escape }}"
+  data-label-ppp="{{ 'ap.product.per_patch' | t: price: '__price__' | escape }}"
+  data-label-save="{{ 'ap.product.save_percent' | t: percent: '__percent__' | escape }}"
+>
+  {%- comment -%} ---------- Gallery ---------- {%- endcomment -%}
+  <div class="apx-gallery">
+    <ul class="apx-gallery__track" data-ap-track tabindex="0" aria-label="{{ 'ap.product.gallery' | t }}">
+      {%- for media in product.media -%}
+        <li class="apx-gallery__slide" data-media-id="{{ media.id }}">
+          {%- liquid
+            assign img = media
+            if media.media_type != 'image'
+              assign img = media.preview_image
+            endif
+            assign alt_text = media.alt | default: product.title
+          -%}
+          {%- if forloop.first -%}
+            {{- img | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'eager', fetchpriority: 'high', preload: true, alt: alt_text -}}
+          {%- else -%}
+            {{- img | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: alt_text -}}
+          {%- endif -%}
+        </li>
+      {%- else -%}
+        <li class="apx-gallery__slide apx-gallery__slide--empty">
+          {{ 'product-1' | placeholder_svg_tag: 'apx-placeholder' }}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if product.media.size > 1 -%}
+      <ul class="apx-gallery__thumbs">
+        {%- for media in product.media -%}
+          {%- assign thumb = media -%}
+          {%- if media.media_type != 'image' -%}{%- assign thumb = media.preview_image -%}{%- endif -%}
+          <li>
+            <button type="button" data-ap-thumb="{{ media.id }}" aria-label="{{ 'ap.product.show_image' | t: number: forloop.index, total: product.media.size }}"{% if forloop.first %} aria-current="true"{% endif %}>
+              {{- thumb | image_url: width: 160 | image_tag: width: 64, height: 64, loading: 'lazy', alt: '' -}}
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ---------- Buy box ---------- {%- endcomment -%}
+  <div class="apx-info">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <h1 class="apx-info__title">{{ product.title }}</h1>
+
+    {%- if rating != blank and rating_count > 0 -%}
+      {%- assign pct = rating.rating | divided_by: rating.scale_max | times: 100 -%}
+      <p class="apx-rating">
+        <span class="apx-stars" role="img" aria-label="{{ 'ap.product.rating_label' | t: rating: rating.rating, max: rating.scale_max }}">
+          <span class="apx-stars__row">{% for i in (1..5) %}{% render 'ap-icon', name: 'star', size: 18 %}{% endfor %}</span>
+          <span class="apx-stars__row apx-stars__row--fill" style="width: {{ pct }}%">{% for i in (1..5) %}{% render 'ap-icon', name: 'star', size: 18 %}{% endfor %}</span>
+        </span>
+        <a href="#reviews">{{ 'ap.product.review_count' | t: count: rating_count }}</a>
+      </p>
+    {%- endif -%}
+
+    <div class="apx-price" aria-live="polite" aria-atomic="true">
+      <p class="apx-price__row">
+        <span class="apx-price__now" data-ap-out="price">{{ current.price | money }}</span>
+        <s class="apx-price__was" data-ap-out="compare"{% unless current.compare_at_price > current.price %} hidden{% endunless %}>{% if current.compare_at_price > current.price %}{{ current.compare_at_price | money }}{% endif %}</s>
+        <span class="apx-price__save" data-ap-out="save" hidden></span>
+      </p>
+      <p class="apx-price__ppp" data-ap-out="ppp"{% unless cur_count > 0 %} hidden{% endunless %}>
+        {%- if cur_count > 0 -%}{{ 'ap.product.per_patch' | t: price: cur_ppp }}{%- endif -%}
+      </p>
+      <p class="apx-price__delivery" data-ap-out="delivery" hidden></p>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="apx-bullets">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'bullet' -%}
+            <li {{ block.shopify_attributes }}>{% render 'ap-icon', name: 'check', size: 20 %}<span>{{ block.settings.text }}</span></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-ap-form: 'true' -%}
+      <input type="hidden" name="id" value="{{ current.id }}">
+      <input type="hidden" name="selling_plan" value="">
+
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          {%- assign opt_index = forloop.index0 -%}
+          <fieldset class="apx-options" data-ap-option-group>
+            <legend>{{ option.name }}</legend>
+            <div class="apx-options__grid">
+              {%- for value in option.values -%}
+                {%- assign input_id = form_id | append: '-' | append: opt_index | append: '-' | append: forloop.index -%}
+                {%- assign card_variant = nil -%}
+                {%- if product.options.size == 1 -%}
+                  {%- for v in product.variants -%}{%- if v.option1 == value -%}{%- assign card_variant = v -%}{%- endif -%}{%- endfor -%}
+                {%- endif -%}
+                <div class="apx-card">
+                  <input type="radio" id="{{ input_id }}" name="option_{{ opt_index }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
+                  <label for="{{ input_id }}">
+                    <span class="apx-card__name">{{ value }}</span>
+                    {%- if card_variant -%}
+                      {%- assign card_count = card_variant.metafields.custom.patch_count.value | default: product_patch_count -%}
+                      <span class="apx-card__price">{{ card_variant.price | money }}</span>
+                      {%- if card_count > 0 -%}
+                        {%- assign card_ppp = card_variant.price | times: 1.0 | divided_by: card_count | round | money -%}
+                        <span class="apx-card__ppp">{{ 'ap.product.per_patch' | t: price: card_ppp }}</span>
+                      {%- endif -%}
+                      {%- unless card_variant.available -%}<span class="apx-card__ppp">{{ 'ap.cart.sold_out' | t }}</span>{%- endunless -%}
+                    {%- endif -%}
+                  </label>
+                </div>
+              {%- endfor -%}
+            </div>
+          </fieldset>
+        {%- endfor -%}
+      {%- endunless -%}
+
+      {%- if has_plans -%}
+        <fieldset class="apx-options apx-purchase">
+          <legend>{{ 'ap.product.purchase_options' | t }}</legend>
+          <div class="apx-purchase__grid">
+            <div class="apx-card apx-card--row">
+              <input type="radio" id="{{ form_id }}-once" name="ap_purchase" value="once"{% unless sub_default %} checked{% endunless %}>
+              <label for="{{ form_id }}-once"><span class="apx-card__name">{{ 'ap.product.one_time' | t }}</span></label>
+            </div>
+            <div class="apx-card apx-card--row">
+              <input type="radio" id="{{ form_id }}-sub" name="ap_purchase" value="sub"{% if sub_default %} checked{% endif %}>
+              <label for="{{ form_id }}-sub">
+                <span class="apx-card__name">{{ 'ap.product.subscribe' | t }}</span>
+                <span class="apx-card__ppp">{{ 'ap.product.cancel_anytime' | t }}</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="apx-plan" data-ap-plan-box{% unless sub_default %} hidden{% endunless %}>
+            {%- assign plan_total = 0 -%}
+            {%- for group in product.selling_plan_groups -%}
+              {%- assign plan_total = plan_total | plus: group.selling_plans.size -%}
+            {%- endfor -%}
+            {%- if plan_total > 1 -%}
+              <label for="{{ form_id }}-plan" class="apx-plan__label">{{ 'ap.product.deliver_every' | t }}</label>
+              <select id="{{ form_id }}-plan" data-ap-plan>
+                {%- for group in product.selling_plan_groups -%}
+                  {%- for plan in group.selling_plans -%}
+                    <option value="{{ plan.id }}">{{ plan.name }}</option>
+                  {%- endfor -%}
+                {%- endfor -%}
+              </select>
+            {%- else -%}
+              {%- for group in product.selling_plan_groups -%}
+                {%- for plan in group.selling_plans -%}
+                  <input type="hidden" data-ap-plan value="{{ plan.id }}">
+                  <p class="apx-plan__single">{{ plan.name }}</p>
+                {%- endfor -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </fieldset>
+      {%- endif -%}
+
+      <div class="apx-buy">
+        <div class="apx-qty apx-buy__qty">
+          <button type="button" data-ap-qty="-1" aria-label="{{ 'ap.cart.decrease' | t }}">{% render 'ap-icon', name: 'minus', size: 18 %}</button>
+          <input type="number" name="quantity" value="1" min="1" inputmode="numeric" aria-label="{{ 'ap.product.quantity' | t }}">
+          <button type="button" data-ap-qty="1" aria-label="{{ 'ap.cart.increase' | t }}">{% render 'ap-icon', name: 'plus', size: 18 %}</button>
+        </div>
+        <button type="submit" class="apx-btn apx-buy__atc" data-ap-atc{% unless current.available %} disabled{% endunless %}>
+          <span data-ap-out="atc-label">{% if current.available %}{{ 'ap.product.add_to_cart' | t }}{% else %}{{ 'ap.cart.sold_out' | t }}{% endif %}</span>
+        </button>
+      </div>
+
+      <p class="apx-error" data-ap-error hidden></p>
+      <p class="apx-sr" role="status" aria-live="polite" data-ap-live></p>
+    {%- endform -%}
+
+    <ul class="apx-assure">
+      {%- if settings.shipping_note != blank -%}
+        <li>{% render 'ap-icon', name: 'truck', size: 22 %}<span>{{ settings.shipping_note }}</span></li>
+      {%- endif -%}
+      {%- if section.settings.guarantee_badge != blank -%}
+        <li>{% render 'ap-icon', name: 'shield', size: 22 %}<span>{{ section.settings.guarantee_badge }}</span></li>
+      {%- endif -%}
+    </ul>
+
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <ul class="apx-pay" aria-label="{{ 'ap.product.payment_methods' | t }}">
+        {%- for type in shop.enabled_payment_types -%}
+          <li>{{ type | payment_type_svg_tag: class: 'apx-pay__icon' }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <aside class="apx-label" aria-labelledby="{{ form_id }}-label">
+      <h2 id="{{ form_id }}-label" class="apx-label__title">{{ 'ap.product.good_to_know' | t }}</h2>
+      {%- if product.metafields.custom.warnings.value != blank -%}
+        <p>{{ product.metafields.custom.warnings.value | escape | newline_to_br }}</p>
+      {%- else -%}
+        <p>{{ 'ap.product.default_warnings' | t }}</p>
+      {%- endif -%}
+      {%- if product.metafields.custom.wear_time.value != blank -%}
+        <p><strong>{{ 'ap.product.wear_time' | t }}</strong> {{ product.metafields.custom.wear_time.value }}</p>
+      {%- endif -%}
+      {%- if product.metafields.custom.material.value != blank -%}
+        <details>
+          <summary>{{ 'ap.product.material' | t }}</summary>
+          <p>{{ product.metafields.custom.material.value | escape | newline_to_br }}</p>
+        </details>
+      {%- endif -%}
+      <p class="apx-label__contact">{{ 'ap.product.contact' | t: email: settings.support_email }}</p>
+    </aside>
+  </div>
+
+  <script type="application/json" data-ap-variants>
+    [
+      {%- for variant in product.variants -%}
+        {
+          "id": {{ variant.id }},
+          "title": {{ variant.title | json }},
+          "options": {{ variant.options | json }},
+          "price": {{ variant.price }},
+          "compare_at_price": {{ variant.compare_at_price | default: 0 }},
+          "available": {{ variant.available | json }},
+          "media_id": {{ variant.featured_media.id | default: 0 }},
+          "patch_count": {{ variant.metafields.custom.patch_count.value | default: product_patch_count | default: 0 }},
+          "allocations": [
+            {%- for a in variant.selling_plan_allocations -%}
+              { "plan_id": {{ a.selling_plan.id }}, "price": {{ a.price }} }{% unless forloop.last %}, {% endunless %}
+            {%- endfor -%}
+          ]
+        }{% unless forloop.last %}, {% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
+</div>
+
+{% render 'ap-cart-drawer' %}
+
+<script src="{{ 'ap-cart.js' | asset_url }}" type="module"></script>
+<script src="{{ 'ap-product.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .apx-pdp{display:grid;gap:20px;padding-block:12px 40px}
+  .apx-gallery{min-width:0}
+  .apx-gallery__track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;border-radius:var(--ap-radius);background:var(--ap-sand);scrollbar-width:none}
+  .apx-gallery__track::-webkit-scrollbar{display:none}
+  .apx-gallery__slide{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:5/4;display:grid;place-items:center}
+  .apx-gallery__slide img,.apx-gallery__slide svg{width:100%;height:100%;object-fit:contain}
+  .apx-placeholder{background:var(--ap-sand);padding:12%}
+  .apx-gallery__thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding:4px}
+  .apx-gallery__thumbs button{display:block;width:64px;height:64px;padding:0;border:2px solid transparent;border-radius:var(--ap-radius-sm);overflow:hidden;background:var(--ap-sand);cursor:pointer}
+  .apx-gallery__thumbs button[aria-current="true"]{border-color:var(--ap-ink)}
+  .apx-gallery__thumbs img{width:100%;height:100%;object-fit:cover}
+  .apx-info{display:flex;flex-direction:column;min-width:0}
+  .apx-info__title{font-size:clamp(1.75rem,5vw,2.5rem);margin-bottom:.35em}
+  .apx-rating{display:flex;align-items:center;gap:.6rem;margin:0 0 .75rem;font-size:.9375rem}
+  .apx-stars{position:relative;display:inline-block;line-height:0;color:#757E94}
+  .apx-stars__row{display:inline-flex}
+  .apx-stars__row--fill{position:absolute;inset:0 auto 0 0;overflow:hidden;color:var(--ap-ink)}
+  .apx-stars__row--fill .apx-icon{flex:none}
+  .apx-price{margin-bottom:1rem}
+  .apx-price__row{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem;margin:0}
+  .apx-price__now{font-size:1.75rem;font-weight:800}
+  .apx-price__was{color:var(--ap-ink-soft)}
+  .apx-price__save{padding:.15rem .6rem;border-radius:999px;background:var(--ap-apricot);color:var(--ap-ink);font-size:.8125rem;font-weight:800}
+  .apx-price__ppp,.apx-price__delivery{margin:.15rem 0 0;font-size:.9375rem;color:var(--ap-ink-soft)}
+  .apx-bullets{display:grid;gap:.5rem;margin:0 0 1.25rem}
+  .apx-bullets li{display:flex;gap:.6rem;align-items:flex-start}
+  .apx-bullets .apx-icon{margin-top:.1rem;color:var(--ap-teal-dark)}
+  .apx-options{margin:0 0 1.1rem;padding:0;border:0;min-width:0}
+  .apx-options legend{padding:0;margin-bottom:.5rem;font-weight:700}
+  .apx-options__grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+  .apx-purchase__grid{display:grid;gap:10px}
+  .apx-card{position:relative}
+  .apx-card input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+  .apx-card label{display:flex;flex-direction:column;gap:2px;min-height:64px;padding:12px 14px;border:2px solid var(--ap-ink-soft);border-radius:var(--ap-radius-sm);background:var(--ap-white);cursor:pointer}
+  .apx-card--row label{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;min-height:56px}
+  .apx-card input:checked + label{border-color:var(--ap-ink);background:var(--ap-sand);box-shadow:inset 0 0 0 1px var(--ap-ink)}
+  .apx-card input:focus-visible + label{outline:3px solid var(--ap-ink);outline-offset:2px;box-shadow:0 0 0 6px var(--ap-white)}
+  .apx-card__name{font-weight:700}
+  .apx-card__price{font-weight:700}
+  .apx-card__ppp{font-size:.8125rem;color:var(--ap-ink-soft)}
+  .apx-plan{margin-top:.75rem}
+  .apx-plan__label{display:block;margin-bottom:.35rem;font-size:.9375rem;font-weight:600}
+  .apx-plan select{width:100%;min-height:48px;padding:.5rem .75rem;border:2px solid var(--ap-ink-soft);border-radius:var(--ap-radius-sm);background:var(--ap-white)}
+  .apx-plan__single{margin:0;font-size:.9375rem;color:var(--ap-ink-soft)}
+  .apx-buy{display:flex;gap:10px;align-items:stretch}
+  .apx-buy__atc{flex:1}
+  .apx-error{margin:.6rem 0 0;padding:.6rem .8rem;border-left:4px solid var(--ap-ink);background:var(--ap-sand);font-weight:600}
+  .apx-assure{display:grid;gap:.4rem;margin:1rem 0 .5rem;font-size:.9375rem}
+  .apx-assure li{display:flex;align-items:center;gap:.6rem}
+  .apx-assure .apx-icon{color:var(--ap-teal-dark)}
+  .apx-pay{display:flex;flex-wrap:wrap;gap:6px;margin:.5rem 0 1rem}
+  .apx-pay__icon{width:38px;height:24px}
+  .apx-label{margin-top:.75rem;padding:14px 16px;border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.875rem}
+  .apx-label__title{margin:0 0 .35rem;font-family:var(--ap-font);font-size:.9375rem}
+  .apx-label p{margin:0 0 .5rem}
+  .apx-label summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
+  .apx-label__contact{margin-bottom:0!important}
+  /* Mobile: bullets move below the buy button so price, options and the button come first */
+  .apx-bullets{order:5}
+  .apx-info form{order:3}
+  .apx-assure,.apx-pay,.apx-label{order:6}
+  .apx-price,.apx-rating,.apx-info__title,.apx-info > .apx-eyebrow{order:0}
+  @media (min-width:990px){
+    .apx-pdp{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:start;padding-block:32px 72px}
+    .apx-gallery{position:sticky;top:16px}
+    .apx-gallery__slide{aspect-ratio:1/1}
+    .apx-bullets{order:0}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product form",
+  "tag": "section",
+  "class": "apx-section-product",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Day + night pimple patches"
+    },
+    {
+      "type": "checkbox",
+      "id": "default_subscribe",
+      "label": "Select \"Subscribe\" by default",
+      "default": false,
+      "info": "Only applies when the product has selling plans from a subscriptions app."
+    },
+    {
+      "type": "text",
+      "id": "guarantee_badge",
+      "label": "Guarantee badge text",
+      "default": "30-day happiness promise",
+      "info": "Must match your real return policy."
+    },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "bullet",
+      "name": "Benefit bullet",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Day and night patches in one kit" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product form",
+      "blocks": [
+        { "type": "bullet", "settings": { "text": "Day and night patches in one kit" } },
+        { "type": "bullet", "settings": { "text": "Drug-free hydrocolloid that covers and protects surfaced spots" } },
+        { "type": "bullet", "settings": { "text": "The day patch blends in; the night patch stays put while you sleep" } },
+        { "type": "bullet", "settings": { "text": "Three sizes, so the patch fits the spot" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

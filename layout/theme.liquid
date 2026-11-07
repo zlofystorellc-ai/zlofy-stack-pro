@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  {%- comment -%}
+    Minimal OS 2.0 shell for the ap-* product page.
+    If you merge these files into an existing theme, KEEP your theme's own layout and only
+    make sure it renders snippets/ap-tokens.liquid inside <head> (see README).
+  {%- endcomment -%}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_ink }}">
+  <title>
+    {{- page_title -}}
+    {%- if current_page != 1 %} – {{ 'ap.general.page' | t: number: current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} – {{ shop.name }}{% endunless -%}
+  </title>
+  {%- if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta property="og:site_name" content="{{ shop.name | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:type" content="{% if template.name == 'product' %}product{% else %}website{% endif %}">
+  {%- if page_description %}
+    <meta property="og:description" content="{{ page_description | escape }}">
+  {%- endif %}
+  {%- if template.name == 'product' and product.featured_image %}
+    <meta property="og:image" content="https:{{ product.featured_image | image_url: width: 1200 }}">
+  {%- endif %}
+
+  {% render 'ap-tokens' %}
+
+  {%- comment -%}
+    The product LCP image is the ONLY preloaded asset: sections/ap-hero.liquid uses image_tag's
+    `preload: true` (HTTP Link header) with loading: eager + fetchpriority: high on the first image.
+  {%- endcomment -%}
+
+  {{ content_for_header }}
+</head>
+<body class="apx-body template-{{ template.name | handleize }}">
+  <a class="apx-skip" href="#MainContent">{{ 'ap.general.skip_to_content' | t }}</a>
+
+  {% sections 'header-group' %}
+  {% render 'ap-header' %}
+
+  <main id="MainContent" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% render 'ap-footer' %}
+</body>
+</html>

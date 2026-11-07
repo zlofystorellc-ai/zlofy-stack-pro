@@ -1,0 +1,98 @@
+{%- comment -%}
+  Real wear photos across skin tones. Hidden on the storefront until at least 3 photos are uploaded.
+  Only upload photos of real, consenting customers, unedited. Never supplier or competitor images.
+{%- endcomment -%}
+{%- liquid
+  assign photo_count = 0
+  for block in section.blocks
+    if block.settings.image != blank
+      assign photo_count = photo_count | plus: 1
+    endif
+  endfor
+-%}
+{%- if photo_count >= 3 -%}
+  <section class="apx-shade apx-section">
+    <div class="apx-wrap">
+      <div class="apx-center">
+        {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="apx-h2">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+      </div>
+      <ul class="apx-shade__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image != blank -%}
+            <li {{ block.shopify_attributes }}>
+              <figure>
+                {{ block.settings.image | image_url: width: 800 | image_tag: widths: '320, 480, 640, 800', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', alt: block.settings.alt | default: block.settings.caption }}
+                <figcaption>
+                  {%- if block.settings.skin_tone != blank -%}<strong>{{ block.settings.skin_tone }}</strong>{%- endif -%}
+                  {%- if block.settings.caption != blank -%}<span>{{ block.settings.caption }}</span>{%- endif -%}
+                </figcaption>
+              </figure>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <div class="apx-center">{% render 'ap-disclosure' %}</div>
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <div class="apx-wrap apx-editor-note" role="note">{{ 'ap.shade.editor_note' | t }}</div>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-shade__grid{display:grid;gap:14px;margin-top:28px;grid-template-columns:repeat(2,1fr)}
+  .apx-shade__grid figure{margin:0}
+  .apx-shade__grid img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:var(--ap-radius)}
+  .apx-shade__grid figcaption{display:flex;flex-direction:column;gap:2px;margin-top:8px;font-size:.875rem}
+  .apx-shade__grid figcaption span{color:var(--ap-ink-soft)}
+  .apx-editor-note{margin:16px auto;padding:12px 16px;border:2px dashed var(--ap-ink);border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-weight:600}
+  @media (min-width:990px){.apx-shade__grid{grid-template-columns:repeat(4,1fr)}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Real wear photos",
+  "tag": "div",
+  "max_blocks": 8,
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real wear" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Real customers, daylight, no filters." },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro",
+      "default": "Wear photos from people with a range of skin tones, taken in everyday light."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo",
+          "info": "Upload only images you own or have licensed. No supplier/competitor photos. Before/after only from real, consenting customers, unedited."
+        },
+        { "type": "text", "id": "skin_tone", "label": "Skin tone label", "default": "Medium" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "Day patch, after 5 hours" },
+        { "type": "text", "id": "alt", "label": "Alt text", "info": "Describe what is visible. Leave blank to use the caption." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Real wear photos",
+      "blocks": [
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

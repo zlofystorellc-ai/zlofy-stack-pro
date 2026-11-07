@@ -1,0 +1,93 @@
+{%- comment -%}
+  Trust strip. Vegan and cruelty-free badges render ONLY when BOTH are true:
+    Theme settings > Claims and certifications (documentation confirmed) AND product metafield custom.vegan_verified / custom.cruelty_free_verified.
+{%- endcomment -%}
+<section class="apx-trust apx-section apx-section--sand" aria-label="{{ 'ap.trust.label' | t }}">
+  <div class="apx-wrap">
+    <ul class="apx-trust__list">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'item' -%}
+            <li {{ block.shopify_attributes }}>
+              {% render 'ap-icon', name: block.settings.icon, size: 28 %}
+              <span><strong>{{ block.settings.title }}</strong>{% if block.settings.text != blank %}<br>{{ block.settings.text }}{% endif %}</span>
+            </li>
+          {%- when 'vegan' -%}
+            {%- if settings.vegan_documented and product.metafields.custom.vegan_verified.value -%}
+              <li {{ block.shopify_attributes }}>
+                {% render 'ap-icon', name: 'leaf', size: 28 %}
+                <span><strong>{{ 'ap.trust.vegan' | t }}</strong></span>
+              </li>
+            {%- endif -%}
+          {%- when 'cruelty_free' -%}
+            {%- if settings.cruelty_free_documented and product.metafields.custom.cruelty_free_verified.value -%}
+              <li {{ block.shopify_attributes }}>
+                {% render 'ap-icon', name: 'heart', size: 28 %}
+                <span><strong>{{ 'ap.trust.cruelty_free' | t }}</strong></span>
+              </li>
+            {%- endif -%}
+          {%- when 'support' -%}
+            <li {{ block.shopify_attributes }}>
+              {% render 'ap-icon', name: 'mail', size: 28 %}
+              <span><strong>{{ 'ap.trust.support' | t }}</strong><br><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></span>
+            </li>
+        {%- endcase -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-trust{padding-block:20px}
+  .apx-trust__list{display:grid;gap:14px 24px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .apx-trust__list li{display:flex;align-items:center;gap:.75rem;font-size:.9375rem}
+  .apx-trust__list .apx-icon{color:var(--ap-teal-dark)}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Trust strip",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "drop", "label": "Drop" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "hand", "label": "Hand" }
+          ],
+          "default": "drop"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Drug-free hydrocolloid" },
+        { "type": "text", "id": "text", "label": "Text (optional)" }
+      ]
+    },
+    { "type": "vegan", "name": "Vegan badge (documented only)", "limit": 1 },
+    { "type": "cruelty_free", "name": "Cruelty-free badge (documented only)", "limit": 1 },
+    { "type": "support", "name": "US support contact", "limit": 1 }
+  ],
+  "presets": [
+    {
+      "name": "Trust strip",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "drop", "title": "Drug-free hydrocolloid", "text": "No active ingredients" } },
+        { "type": "item", "settings": { "icon": "hand", "title": "Keeps fingers off", "text": "A cover between you and the spot" } },
+        { "type": "vegan" },
+        { "type": "cruelty_free" },
+        { "type": "support" }
+      ]
+    }
+  ]
+}
+{% endschema %}

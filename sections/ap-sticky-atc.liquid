@@ -1,0 +1,57 @@
+{%- comment -%}
+  Sticky add-to-cart bar. Appears once the main add-to-cart button scrolls out of view
+  (IntersectionObserver in assets/ap-sticky.js). It mirrors the selected variant and price and
+  submits the main product form, so there is one add-to-cart code path.
+  z-index is deliberately LOW (20) so cookie banners and chat widgets stay on top; use the
+  "Bottom offset" setting to lift it above a chat bubble. It never shifts layout (position: fixed).
+{%- endcomment -%}
+{%- assign current = product.selected_or_first_available_variant -%}
+<div class="apx-sticky" data-ap-sticky inert style="--ap-sticky-offset: {{ section.settings.bottom_offset }}px;">
+  <div class="apx-wrap apx-sticky__row">
+    <div class="apx-sticky__info">
+      <p class="apx-sticky__title">{{ product.title }}</p>
+      <p class="apx-sticky__meta">
+        {%- unless product.has_only_default_variant -%}<span data-ap-out="variant">{{ current.title }}</span> · {% endunless -%}
+        <strong data-ap-out="price">{{ current.price | money }}</strong>
+      </p>
+    </div>
+    <button type="button" class="apx-btn apx-sticky__btn" data-ap-sticky-atc{% unless current.available %} disabled{% endunless %}>
+      <span data-ap-out="atc-label">{% if current.available %}{{ 'ap.product.add_to_cart' | t }}{% else %}{{ 'ap.cart.sold_out' | t }}{% endif %}</span>
+    </button>
+  </div>
+</div>
+<script src="{{ 'ap-sticky.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .apx-sticky{position:fixed;left:0;right:0;bottom:var(--ap-sticky-offset,0);z-index:20;padding-bottom:env(safe-area-inset-bottom);background:var(--ap-white);border-top:1px solid var(--ap-line);box-shadow:0 -6px 20px rgba(31,42,68,.12);transform:translateY(110%);visibility:hidden;transition:transform .2s ease,visibility .2s}
+  .apx-sticky.is-visible{transform:none;visibility:visible}
+  .apx-sticky__row{display:flex;align-items:center;gap:12px;padding-block:10px}
+  .apx-sticky__info{flex:1;min-width:0}
+  .apx-sticky__title{margin:0;overflow:hidden;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
+  .apx-sticky__meta{margin:0;font-size:.875rem;color:var(--ap-ink-soft)}
+  .apx-sticky__btn{flex:none}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sticky add to cart",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    {
+      "type": "range",
+      "id": "bottom_offset",
+      "label": "Bottom offset",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Raise the bar above a chat bubble or cookie banner if needed."
+    }
+  ],
+  "presets": [
+    { "name": "Sticky add to cart" }
+  ]
+}
+{% endschema %}

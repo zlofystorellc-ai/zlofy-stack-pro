@@ -37,7 +37,7 @@
       { "type": "color", "id": "color_blush", "label": "Blush red (icons, large UI only)", "default": "#E5707F", "info": "White text on this blush red is about 3.3:1 and fails AA for body text. Use it for icons and large shapes only." },
       { "type": "color", "id": "color_blush_deep", "label": "Blush red deep (text, buttons)", "default": "#B3384B", "info": "Used for text links and buttons with white text (about 6:1)." },
       { "type": "color", "id": "color_lilac", "label": "Lilac (night accents)", "default": "#C8B6E2" },
-      { "type": "color", "id": "color_sand", "label": "Sand (backgrounds)", "default": "#F4EDE4" },
+      { "type": "color", "id": "color_sand", "label": "Blush cream (backgrounds)", "default": "#FBEBED" },
       { "type": "color", "id": "color_apricot", "label": "Apricot (badges, use with ink text)", "default": "#F4A261" },
       { "type": "color", "id": "color_white", "label": "White", "default": "#FFFFFF" }
     ]

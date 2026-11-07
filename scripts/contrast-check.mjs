@@ -7,9 +7,9 @@
  * Usage: node scripts/contrast-check.mjs   (exit 1 if any pair fails)
  */
 const C = {
-  ink: '#1F2A44', blush: '#E5707F', blushDeep: '#B3384B', lilac: '#C8B6E2', sand: '#F4EDE4',
+  ink: '#1F2A44', blush: '#E5707F', blushDeep: '#B3384B', lilac: '#C8B6E2', sand: '#FBEBED',
   apricot: '#F4A261', white: '#FFFFFF', inkSoft: '#44506B',
-  cmpUs: '#FBEDEF', dayCell: '#FBF8F3', nightCell: '#ECE7F5', star: '#757E94', ledeOnInk: '#E6E9F2'
+  cmpUs: '#FCDDE2', dayCell: '#FFF7F7', nightCell: '#ECE7F5', star: '#757E94', ledeOnInk: '#E6E9F2'
 };
 
 const lum = (hex) => {

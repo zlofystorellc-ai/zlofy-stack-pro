@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 — 2026-11-07 — Gifts, "Which patch, when" tabs, founder note
+
+Page structure inspired by a long-form supplement product page (section order only; no names, images, claims or copy reused):
+- Product form: new **Welcome gift** blocks (max 3), shown under the Subscribe card; `gifts_heading` setting. List only gifts you really ship.
+- New section `ap-when-tabs` ("Which patch, when") with `assets/ap-tabs.js`: accessible tabs (arrow keys, Home/End); all panels visible without JavaScript.
+- New section `ap-founder-note`: renders nothing until you write a note; photo optional.
+- Template order: ... Day vs night, **Which patch, when**, Size guide ... FAQ, **Founder note**, Guarantee ...
+- Deliberately NOT added: celebrity/athlete/expert endorsements, "clinically proven" or percentage results, press logos, countdown timers.
+
 ## 0.1.1 — 2026-11-07 — Layout like the earlier prototype (new palette, original copy)
 
 Same page flow and buy-box structure as the old static page, rebuilt with the theme's own palette and copy (nothing copied):

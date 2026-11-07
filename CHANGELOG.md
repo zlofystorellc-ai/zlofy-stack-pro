@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 — 2026-11-07 — Header like the reference, ZLOFY logo
+
+- Announcement bar: gradient, optional second line per message, optional **countdown** (only with a real end date; hides itself when it passes), country/currency picker (only when the store sells in more than one country)
+- Header: links with sub-links become dropdowns (keyboard + Escape), account icon, mobile menu button with a collapsible menu
+- New original **ZLOFY logo** (`snippets/ap-logo.liquid`): rounded patch-shaped mark with a Z and a dot, plus the brand name as real text. Uploading a logo image in Theme settings replaces it.
+- Brand name default is now ZLOFY (was BRAND_NAME)
+- Preview: mock menu with sub-links, a fake countdown (preview only), `localization` form handled
+
 ## 0.2.1 — 2026-11-07 — Buy box layout like the reference screenshot
 
 - Product form: soft gradient band behind the product, divider between gallery and buy box (desktop), uppercase option labels, bigger gallery thumbnails (88 px on desktop)

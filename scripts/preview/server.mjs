@@ -66,6 +66,7 @@ function preprocess(src) {
     .replace(/{%-?\s*schema\s*-?%}[\s\S]*?{%-?\s*endschema\s*-?%}/g, '')
     .replace(/{%-?\s*stylesheet\s*-?%}/g, '<style>')
     .replace(/{%-?\s*endstylesheet\s*-?%}/g, '</style>')
+    .replace(/{%-?\s*form\s+'localization'[\s\S]*?-?%}/g, '<form method="post" action="/localization">')
     .replace(/{%-?\s*form\s+'product'[\s\S]*?-?%}/g, '<form method="post" action="/cart/add" id="{{ form_id }}" novalidate="novalidate" data-ap-form="true">')
     .replace(/{%-?\s*endform\s*-?%}/g, '</form>')
     .replace(/{%-?\s*sections\s+'header-group'\s*-?%}/g, '{{ header_group }}');
@@ -130,6 +131,10 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
       return { id: bid, type: b.type, settings: { ...defaultsOf((blockDefs[b.type] || {}).settings), ...(b.settings || {}) }, shopify_attributes: '' };
     })
   };
+  if (type === 'ap-announcement') {
+    // Preview only: a fake countdown (5 days from now) so the layout can be seen. Real stores enter a real end date.
+    section.settings.countdown_end = new Date(Date.now() + 5 * 864e5).toISOString();
+  }
   if (type === 'ap-hero') {
     // Preview only: fake customer videos (no video files, poster only) so the row's layout can be seen
     [101, 102, 103].forEach((mid, i) => {

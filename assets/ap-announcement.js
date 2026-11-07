@@ -29,3 +29,22 @@ document.querySelectorAll('[data-ap-announce]').forEach((box) => {
   box.addEventListener('focusout', start);
   show(0); paint(); start();
 });
+
+/* Countdown: shows only for a valid FUTURE end date; hides itself at zero. */
+document.querySelectorAll('[data-ap-count]').forEach((box) => {
+  const end = Date.parse(box.dataset.apCount);
+  if (Number.isNaN(end) || end <= Date.now()) return;
+  const pad = (n) => String(n).padStart(2, '0');
+  const set = (sel, v) => { box.querySelector(sel).textContent = pad(v); };
+  let t;
+  const tick = () => {
+    const left = Math.max(0, end - Date.now());
+    if (left === 0) { box.hidden = true; clearInterval(t); return; }
+    const s = Math.floor(left / 1000);
+    set('[data-ap-d]', Math.floor(s / 86400)); set('[data-ap-h]', Math.floor((s % 86400) / 3600));
+    set('[data-ap-m]', Math.floor((s % 3600) / 60)); set('[data-ap-s]', s % 60);
+    box.hidden = false;
+  };
+  tick(); t = setInterval(tick, 1000);
+});
+document.querySelectorAll('[data-ap-country]').forEach((sel) => sel.addEventListener('change', () => sel.form.submit()));

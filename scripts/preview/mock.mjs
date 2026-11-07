@@ -89,6 +89,6 @@ export const bundleCompare = [
 export const settingsOverrides = {};
 
 export const linklists = {
-  'main-menu': { links: [{ title: 'Shop', url: '/collections/all' }, { title: 'How it works', url: '#how' }, { title: 'FAQ', url: '#faq' }] },
+  'main-menu': { links: [{ title: 'Shop', url: '/collections/all', links: [{ title: 'Day patches', url: '#' }, { title: 'Night patches', url: '#' }] }, { title: 'How it works', url: '#how' }, { title: 'Reviews', url: '#reviews' }, { title: 'FAQ', url: '#faq' }] },
   footer: { links: [{ title: 'Refund policy', url: '/policies/refund-policy' }, { title: 'Shipping', url: '/policies/shipping-policy' }, { title: 'Contact', url: '/pages/contact' }] }
 };

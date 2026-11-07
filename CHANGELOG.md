@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 — 2026-11-07 — Clean sans typography, more air
+
+- Headings switch from serif to the same clean system sans as the body: weight 500, tight tracking (-0.02em), line-height 1.12
+- Product title up to 3.25rem on desktop (34 px on phones), lead 1.125rem / 1.55, price 2rem
+- Benefit pills 10 × 16 px padding, weight 500; option labels 0.75rem uppercase with wider tracking; hairline dividers under pills and each option group
+- Nav 1.0625rem / 500 with wider gaps; section titles up to 3rem; body line-height 1.6
+- No layout or colour changes; contrast unchanged (34/34)
+
 ## 0.3.3 — 2026-11-07 — Logo: wordmark with a patch "O"
 
 - `snippets/ap-logo.liquid`: ZL + a round patch as the O + FY. The O is drawn as a hydrocolloid patch (solid disc, soft inner ring, clear centre), so the logo shows the product. Letters are real text; screen readers get the brand name.

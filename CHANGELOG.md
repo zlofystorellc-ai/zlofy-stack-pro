@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1 — 2026-11-07 — Blush red replaces green
+
+- Every teal/green token is now blush red: `--ap-blush` (#E5707F, icons and large shapes only) and `--ap-blush-deep` (#B3384B, text, links, buttons; white on it is 5.9:1). Settings renamed to `color_blush` / `color_blush_deep`.
+- Comparison tint, announcement gradient, logo mark and preview mock images follow the new colour
+- Contrast check: still 34/34 pairs pass
+- Note: if you saved custom colours in the theme editor under the old teal settings, they are ignored; re-pick them under "Blush red".
+
 ## 0.3.0 — 2026-11-07 — Header like the reference, ZLOFY logo
 
 - Announcement bar: gradient, optional second line per message, optional **countdown** (only with a real end date; hides itself when it passes), country/currency picker (only when the store sells in more than one country)

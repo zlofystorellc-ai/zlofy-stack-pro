@@ -232,7 +232,7 @@ function addToCart({ id, quantity = 1, selling_plan }) {
 }
 
 /* ---------- placeholder images (mock photos) ---------- */
-const PALETTE = [['#F4EDE4', '#C8B6E2'], ['#E8F1EF', '#2A9D8F'], ['#ECE7F5', '#1F2A44'], ['#FBF3E8', '#F4A261'], ['#EEF2F8', '#44506B']];
+const PALETTE = [['#F4EDE4', '#C8B6E2'], ['#FBEDEF', '#E5707F'], ['#ECE7F5', '#1F2A44'], ['#FBF3E8', '#F4A261'], ['#EEF2F8', '#44506B']];
 function mockImage(key) {
   let n = 0; for (const c of String(key)) n = (n * 31 + c.charCodeAt(0)) % 997;
   const [bg, fg] = PALETTE[n % PALETTE.length];

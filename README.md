@@ -89,7 +89,7 @@ Allowed wording: "covers and protects blemishes", "absorbs fluid from surfaced s
 
 Verified automatically in this repo (re-run the commands above to confirm):
 
-- [x] No competitor names or trade dress in customer-facing files (claims lint clean; palette has no red/white circle motif, no star-shaped patches, no yellow-dominant colours; icons are original inline SVG)
+- [x] No competitor names or trade dress in customer-facing files (claims lint clean; the palette is a soft blush red + navy ink + sand/lilac (chosen by the owner), with no red/white circle motif, no star-shaped patches, no maroon-to-orange gradient; icons are original inline SVG)
 - [x] No supplier or competitor images (the repo contains no images; every image is a merchant upload slot with the licensing note)
 - [x] No forbidden claims (`claims-lint` passes: 29 files, 33 terms)
 - [x] No hard-coded reviews, ratings or counters (rating and `aggregateRating` come from app metafields only)

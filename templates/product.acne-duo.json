@@ -1,5 +1,40 @@
 {
   "sections": {
+    "trust": {
+      "type": "ap-trust-strip",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "icon": "drop",
+            "title": "Drug-free hydrocolloid"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "icon": "hand",
+            "title": "Keeps fingers off"
+          }
+        },
+        "vegan_3": {
+          "type": "vegan"
+        },
+        "cruelty_free_4": {
+          "type": "cruelty_free"
+        },
+        "support_5": {
+          "type": "support"
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "vegan_3",
+        "cruelty_free_4",
+        "support_5"
+      ]
+    },
     "main": {
       "type": "ap-hero",
       "blocks": {
@@ -26,50 +61,51 @@
           "settings": {
             "text": "Three sizes, so the patch fits the spot"
           }
+        },
+        "plan_perk_5": {
+          "type": "plan_perk",
+          "settings": {
+            "text": "Cancel or skip any time"
+          }
+        },
+        "plan_perk_6": {
+          "type": "plan_perk",
+          "settings": {
+            "text": "A lower price on every delivery"
+          }
+        },
+        "accordion_7": {
+          "type": "accordion",
+          "settings": {
+            "title": "How to use",
+            "body": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, leave it on for 6–8 hours or until it turns white, then peel and swap.</p>"
+          }
+        },
+        "accordion_8": {
+          "type": "accordion",
+          "settings": {
+            "title": "What is in the kit",
+            "body": "<p>Day and night patches in the sizes shown in the size guide below. The patch count is shown on each option above.</p>"
+          }
+        },
+        "accordion_9": {
+          "type": "accordion",
+          "settings": {
+            "title": "Shipping and returns",
+            "body": "<p>Shipping times and costs are shown at checkout. See our refund policy for how returns work.</p>"
+          }
         }
       },
       "block_order": [
         "bullet_1",
         "bullet_2",
         "bullet_3",
-        "bullet_4"
-      ]
-    },
-    "trust": {
-      "type": "ap-trust-strip",
-      "blocks": {
-        "item_1": {
-          "type": "item",
-          "settings": {
-            "icon": "drop",
-            "title": "Drug-free hydrocolloid",
-            "text": "No active ingredients"
-          }
-        },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "icon": "hand",
-            "title": "Keeps fingers off",
-            "text": "A cover between you and the spot"
-          }
-        },
-        "vegan_3": {
-          "type": "vegan"
-        },
-        "cruelty_free_4": {
-          "type": "cruelty_free"
-        },
-        "support_5": {
-          "type": "support"
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "vegan_3",
-        "cruelty_free_4",
-        "support_5"
+        "bullet_4",
+        "plan_perk_5",
+        "plan_perk_6",
+        "accordion_7",
+        "accordion_8",
+        "accordion_9"
       ]
     },
     "problem": {
@@ -482,8 +518,8 @@
     }
   },
   "order": [
-    "main",
     "trust",
+    "main",
     "problem",
     "how",
     "daynight",

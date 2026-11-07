@@ -38,8 +38,8 @@ function sectionFromPreset(type) {
 
 // Section order is editable in the theme editor; this is just the starting order.
 const productOrder = [
-  ['main', 'ap-hero'],
   ['trust', 'ap-trust-strip'],
+  ['main', 'ap-hero'],
   ['problem', 'ap-problem'],
   ['how', 'ap-how-it-works'],
   ['daynight', 'ap-day-night'],

@@ -3,8 +3,8 @@
 An original, mobile-first product page for a **hydrocolloid pimple patch** brand (day + night patches).
 Sections, snippets, assets and one JSON template: `templates/product.acne-duo.json`.
 
-> The old static prototype (`index.html`, `style.css`, `script.js`) is **kept untouched** as a design reference.
-> It is not a Shopify file, and its copy must not be reused. See [AUDIT.md](AUDIT.md).
+> The page **layout follows the earlier static prototype** (`index.html`, `style.css`, `script.js`, kept untouched as a reference): centered-logo header, slim trust strip, gallery + buy box with pills, plan cards and accordions, dark footer.
+> The palette, fonts and every word of copy are new. The prototype's copy and claims must not be reused. See [AUDIT.md](AUDIT.md).
 
 ## What is in here
 
@@ -93,7 +93,7 @@ Verified automatically in this repo (re-run the commands above to confirm):
 - [x] No supplier or competitor images (the repo contains no images; every image is a merchant upload slot with the licensing note)
 - [x] No forbidden claims (`claims-lint` passes: 29 files, 33 terms)
 - [x] No hard-coded reviews, ratings or counters (rating and `aggregateRating` come from app metafields only)
-- [x] WCAG 2.2 AA contrast for every colour pair used (`contrast-check`: 31/31 pass)
+- [x] WCAG 2.2 AA contrast for every colour pair used (`contrast-check`: 34/34 pass)
 - [x] Shopify Theme Check: 0 offenses; Liquid tag balance, locale keys and assets verified
 - [x] Added CSS and JS inside budget: CSS about 5 KB gzip (22.8 KB raw), JS about 7 KB gzip (20.4 KB raw), measured by `check-theme`
 

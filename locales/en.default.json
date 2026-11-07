@@ -13,6 +13,7 @@
     },
     "header": {
       "primary_nav": "Primary",
+      "secondary_nav": "Secondary",
       "cart": "Cart",
       "cart_count_one": "Cart, {{ num }} item",
       "cart_count_other": "Cart, {{ num }} items"

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.1 — 2026-11-07 — Layout like the earlier prototype (new palette, original copy)
+
+Same page flow and buy-box structure as the old static page, rebuilt with the theme's own palette and copy (nothing copied):
+- Header: centered logo, menu split left / right, cart at the far right (logo left on small screens)
+- Slim trust strip directly under the header (template order: trust strip, then product)
+- Product block: rating row, eyebrow chip, title, intro line (`lead` setting), price, benefit **pills**, kit cards, **plan cards** (radio dot, savings badge, price; Subscribe card expands with perks and delivery frequency), add to bag, then **accordions** under the buy box
+- Dark centered footer
+- New Product form blocks: `plan_perk` (Subscribe perks) and `accordion`; new `lead` setting
+- Subscribe card now always shows the subscription price and "Save X%" when a selling plan covers the variant
+- Contrast check extended to 34 pairs (footer, pills): all pass
+- Not carried over on purpose: maroon / red palette and gradient bar, welcome-kit and quarterly mechanics, press ticker, social carousel, advisory board, all unsourced claims
+- The sticky add-to-cart stays a bottom bar on every screen (the old page used a top bar) because it works better on phones
+
 ## 0.1.0 — 2026-11-07 — Acne Duo product page (branch `shopify-acne-duo-theme`)
 
 Nothing existing was changed or deleted. `index.html`, `style.css`, `script.js` and `.gitignore` are untouched.
@@ -56,6 +69,6 @@ Nothing existing was changed or deleted. `index.html`, `style.css`, `script.js` 
 
 ### Verification run for this release
 - `shopify theme check`: 0 offenses (32 files)
-- `claims-lint`: clean; `contrast-check`: 31 / 31 pass; `check-theme`: OK; all JS modules pass `node --check`
+- `claims-lint`: clean; `contrast-check`: 34 / 34 pass; `check-theme`: OK; all JS modules pass `node --check`
 - Local mock preview: page renders; variant switch, subscribe pricing, add to bag, cart drawer, free-shipping bar, upsell and sticky bar exercised; checked at 375 / 390 px and about 800 px
 - **Not run:** 360 / 768 / 1280 px, Lighthouse, real Shopify cart and selling plans (need a development store)

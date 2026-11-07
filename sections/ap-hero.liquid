@@ -87,12 +87,7 @@
 
   {%- comment -%} ---------- Buy box ---------- {%- endcomment -%}
   <div class="apx-info">
-    {%- if section.settings.eyebrow != blank -%}
-      <p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>
-    {%- endif -%}
-
-    <h1 class="apx-info__title">{{ product.title }}</h1>
-
+    {%- comment -%} Order mirrors the earlier prototype: rating row, eyebrow, title, lead, then price and pills. {%- endcomment -%}
     {%- if rating != blank and rating_count > 0 -%}
       {%- assign pct = rating.rating | divided_by: rating.scale_max | times: 100 -%}
       <p class="apx-rating">
@@ -100,15 +95,25 @@
           <span class="apx-stars__row">{% for i in (1..5) %}{% render 'ap-icon', name: 'star', size: 18 %}{% endfor %}</span>
           <span class="apx-stars__row apx-stars__row--fill" style="width: {{ pct }}%">{% for i in (1..5) %}{% render 'ap-icon', name: 'star', size: 18 %}{% endfor %}</span>
         </span>
+        <b>{{ rating.rating }}</b>
         <a href="#reviews">{{ 'ap.product.review_count' | t: count: rating_count }}</a>
       </p>
+    {%- endif -%}
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <h1 class="apx-info__title">{{ product.title }}</h1>
+
+    {%- if section.settings.lead != blank -%}
+      <p class="apx-info__lead">{{ section.settings.lead }}</p>
     {%- endif -%}
 
     <div class="apx-price" aria-live="polite" aria-atomic="true">
       <p class="apx-price__row">
         <span class="apx-price__now" data-ap-out="price">{{ current.price | money }}</span>
         <s class="apx-price__was" data-ap-out="compare"{% unless current.compare_at_price > current.price %} hidden{% endunless %}>{% if current.compare_at_price > current.price %}{{ current.compare_at_price | money }}{% endif %}</s>
-        <span class="apx-price__save" data-ap-out="save" hidden></span>
       </p>
       <p class="apx-price__ppp" data-ap-out="ppp"{% unless cur_count > 0 %} hidden{% endunless %}>
         {%- if cur_count > 0 -%}{{ 'ap.product.per_patch' | t: price: cur_ppp }}{%- endif -%}
@@ -116,15 +121,13 @@
       <p class="apx-price__delivery" data-ap-out="delivery" hidden></p>
     </div>
 
-    {%- if section.blocks.size > 0 -%}
-      <ul class="apx-bullets">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'bullet' -%}
-            <li {{ block.shopify_attributes }}>{% render 'ap-icon', name: 'check', size: 20 %}<span>{{ block.settings.text }}</span></li>
-          {%- endif -%}
-        {%- endfor -%}
-      </ul>
-    {%- endif -%}
+    <ul class="apx-bullets">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'bullet' -%}
+          <li {{ block.shopify_attributes }}>{% render 'ap-icon', name: 'check', size: 18 %}<span>{{ block.settings.text }}</span></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
 
     {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-ap-form: 'true' -%}
       <input type="hidden" name="id" value="{{ current.id }}">
@@ -166,21 +169,42 @@
       {%- if has_plans -%}
         <fieldset class="apx-options apx-purchase">
           <legend>{{ 'ap.product.purchase_options' | t }}</legend>
+          {%- assign first_alloc = current.selling_plan_allocations.first -%}
+          {%- assign first_save = 0 -%}
+          {%- if first_alloc and current.price > 0 -%}
+            {%- assign first_save = current.price | minus: first_alloc.price | times: 100.0 | divided_by: current.price | round -%}
+          {%- endif -%}
           <div class="apx-purchase__grid">
-            <div class="apx-card apx-card--row">
+            <div class="apx-card apx-card--plan">
               <input type="radio" id="{{ form_id }}-once" name="ap_purchase" value="once"{% unless sub_default %} checked{% endunless %}>
-              <label for="{{ form_id }}-once"><span class="apx-card__name">{{ 'ap.product.one_time' | t }}</span></label>
+              <label for="{{ form_id }}-once">
+                <span class="apx-card__name">{{ 'ap.product.one_time' | t }}</span>
+                <span class="apx-card__price" data-ap-out="once-price">{{ current.price | money }}</span>
+              </label>
             </div>
-            <div class="apx-card apx-card--row">
+            <div class="apx-card apx-card--plan">
               <input type="radio" id="{{ form_id }}-sub" name="ap_purchase" value="sub"{% if sub_default %} checked{% endif %}>
               <label for="{{ form_id }}-sub">
                 <span class="apx-card__name">{{ 'ap.product.subscribe' | t }}</span>
+                <span class="apx-price__save" data-ap-out="save"{% unless first_save > 0 %} hidden{% endunless %}>{% if first_save > 0 %}{{ 'ap.product.save_percent' | t: percent: first_save }}{% endif %}</span>
+                <span class="apx-card__price" data-ap-out="sub-price"{% unless first_alloc %} hidden{% endunless %}>{% if first_alloc %}{{ first_alloc.price | money }}{% endif %}</span>
                 <span class="apx-card__ppp">{{ 'ap.product.cancel_anytime' | t }}</span>
               </label>
             </div>
           </div>
 
           <div class="apx-plan" data-ap-plan-box{% unless sub_default %} hidden{% endunless %}>
+            {%- assign perk_count = 0 -%}
+            {%- for block in section.blocks -%}{%- if block.type == 'plan_perk' -%}{%- assign perk_count = perk_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+            {%- if perk_count > 0 -%}
+              <ul class="apx-perks">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'plan_perk' -%}
+                    <li {{ block.shopify_attributes }}>{% render 'ap-icon', name: 'check', size: 18 %}<span>{{ block.settings.text }}</span></li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
             {%- assign plan_total = 0 -%}
             {%- for group in product.selling_plan_groups -%}
               {%- assign plan_total = plan_total | plus: group.selling_plans.size -%}
@@ -256,6 +280,17 @@
       {%- endif -%}
       <p class="apx-label__contact">{{ 'ap.product.contact' | t: email: settings.support_email }}</p>
     </aside>
+
+    <div class="apx-acc">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'accordion' -%}
+          <details class="apx-acc__item" {{ block.shopify_attributes }}>
+            <summary><span>{{ block.settings.title }}</span>{% render 'ap-icon', name: 'chevron', size: 20 %}</summary>
+            <div class="apx-acc__body">{{ block.settings.body }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
   </div>
 
   <script type="application/json" data-ap-variants>
@@ -300,8 +335,9 @@
   .apx-gallery__thumbs button[aria-current="true"]{border-color:var(--ap-ink)}
   .apx-gallery__thumbs img{width:100%;height:100%;object-fit:cover}
   .apx-info{display:flex;flex-direction:column;min-width:0}
-  .apx-info__title{font-size:clamp(1.75rem,5vw,2.5rem);margin-bottom:.35em}
-  .apx-rating{display:flex;align-items:center;gap:.6rem;margin:0 0 .75rem;font-size:.9375rem}
+  .apx-info__title{font-size:clamp(1.75rem,5vw,2.75rem);margin-bottom:.3em}
+  .apx-info__lead{margin:0 0 1rem;font-size:1.0625rem;color:var(--ap-ink-soft)}
+  .apx-rating{display:flex;align-items:center;gap:.5rem;margin:0 0 .75rem;font-size:.9375rem}
   .apx-stars{position:relative;display:inline-block;line-height:0;color:#757E94}
   .apx-stars__row{display:inline-flex}
   .apx-stars__row--fill{position:absolute;inset:0 auto 0 0;overflow:hidden;color:var(--ap-ink)}
@@ -312,9 +348,10 @@
   .apx-price__was{color:var(--ap-ink-soft)}
   .apx-price__save{padding:.15rem .6rem;border-radius:999px;background:var(--ap-apricot);color:var(--ap-ink);font-size:.8125rem;font-weight:800}
   .apx-price__ppp,.apx-price__delivery{margin:.15rem 0 0;font-size:.9375rem;color:var(--ap-ink-soft)}
-  .apx-bullets{display:grid;gap:.5rem;margin:0 0 1.25rem}
-  .apx-bullets li{display:flex;gap:.6rem;align-items:flex-start}
-  .apx-bullets .apx-icon{margin-top:.1rem;color:var(--ap-teal-dark)}
+  /* benefit pills (same idea as the earlier prototype's check pills) */
+  .apx-bullets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 1.25rem}
+  .apx-bullets li{display:flex;gap:.5rem;align-items:center;padding:8px 14px;border:1.5px solid var(--ap-line);border-radius:999px;background:var(--ap-white);font-size:.9375rem}
+  .apx-bullets .apx-icon{color:var(--ap-teal-dark)}
   .apx-options{margin:0 0 1.1rem;padding:0;border:0;min-width:0}
   .apx-options legend{padding:0;margin-bottom:.5rem;font-weight:700}
   .apx-options__grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
@@ -322,7 +359,15 @@
   .apx-card{position:relative}
   .apx-card input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
   .apx-card label{display:flex;flex-direction:column;gap:2px;min-height:64px;padding:12px 14px;border:2px solid var(--ap-ink-soft);border-radius:var(--ap-radius-sm);background:var(--ap-white);cursor:pointer}
-  .apx-card--row label{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;min-height:56px}
+  /* plan cards: radio dot, name, savings badge, price (like the earlier prototype's plan cards) */
+  .apx-card--plan label{position:relative;flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:60px;padding:14px 16px 14px 48px}
+  .apx-card--plan label::before{content:"";position:absolute;left:16px;top:50%;width:20px;height:20px;margin-top:-10px;border:2px solid var(--ap-ink-soft);border-radius:50%;background:var(--ap-white)}
+  .apx-card--plan input:checked + label::before{border-color:var(--ap-ink);background:radial-gradient(circle,var(--ap-ink) 0 45%,var(--ap-white) 50%)}
+  .apx-card--plan .apx-card__price{margin-left:auto;font-size:1.125rem;font-weight:800}
+  .apx-card--plan .apx-card__ppp{flex-basis:100%}
+  .apx-perks{display:grid;gap:.4rem;margin:0 0 .75rem;padding:12px 14px;border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.9375rem}
+  .apx-perks li{display:flex;gap:.5rem;align-items:flex-start}
+  .apx-perks .apx-icon{margin-top:.1rem;color:var(--ap-teal-dark)}
   .apx-card input:checked + label{border-color:var(--ap-ink);background:var(--ap-sand);box-shadow:inset 0 0 0 1px var(--ap-ink)}
   .apx-card input:focus-visible + label{outline:3px solid var(--ap-ink);outline-offset:2px;box-shadow:0 0 0 6px var(--ap-white)}
   .apx-card__name{font-weight:700}
@@ -345,16 +390,25 @@
   .apx-label p{margin:0 0 .5rem}
   .apx-label summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
   .apx-label__contact{margin-bottom:0!important}
-  /* Mobile: bullets move below the buy button so price, options and the button come first */
-  .apx-bullets{order:5}
-  .apx-info form{order:3}
-  .apx-assure,.apx-pay,.apx-label{order:6}
-  .apx-price,.apx-rating,.apx-info__title,.apx-info > .apx-eyebrow{order:0}
+  /* accordions under the buy box */
+  .apx-acc{margin-top:1.25rem;border-top:1px solid var(--ap-line)}
+  .apx-acc__item{border-bottom:1px solid var(--ap-line)}
+  .apx-acc__item summary{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:56px;font-weight:700;cursor:pointer;list-style:none}
+  .apx-acc__item summary::-webkit-details-marker{display:none}
+  .apx-acc__item[open] summary .apx-icon{transform:rotate(180deg)}
+  .apx-acc__body{padding-bottom:14px;color:var(--ap-ink-soft)}
+  .apx-acc__body p:last-child{margin-bottom:0}
+  /* Mobile: pills move below the buy button so price, options and the button come first */
+  @media (max-width:989px){
+    .apx-info form{order:3}
+    .apx-bullets{order:5}
+    .apx-assure,.apx-pay,.apx-label{order:6}
+    .apx-acc{order:7}
+  }
   @media (min-width:990px){
     .apx-pdp{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:start;padding-block:32px 72px}
     .apx-gallery{position:sticky;top:16px}
     .apx-gallery__slide{aspect-ratio:1/1}
-    .apx-bullets{order:0}
   }
 {% endstylesheet %}
 
@@ -370,6 +424,12 @@
       "id": "eyebrow",
       "label": "Eyebrow",
       "default": "Day + night pimple patches"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Intro under the title",
+      "default": "Day and night hydrocolloid patches in one kit, so you have the right patch for the moment."
     },
     {
       "type": "checkbox",
@@ -395,6 +455,23 @@
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Day and night patches in one kit" }
       ]
+    },
+    {
+      "type": "plan_perk",
+      "name": "Subscribe perk",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Cancel or skip any time", "info": "Shown under the Subscribe card. List only perks you really offer." }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "How to use" },
+        { "type": "richtext", "id": "body", "label": "Text", "default": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, then peel and swap.</p>" }
+      ]
     }
   ],
   "presets": [
@@ -404,7 +481,12 @@
         { "type": "bullet", "settings": { "text": "Day and night patches in one kit" } },
         { "type": "bullet", "settings": { "text": "Drug-free hydrocolloid that covers and protects surfaced spots" } },
         { "type": "bullet", "settings": { "text": "The day patch blends in; the night patch stays put while you sleep" } },
-        { "type": "bullet", "settings": { "text": "Three sizes, so the patch fits the spot" } }
+        { "type": "bullet", "settings": { "text": "Three sizes, so the patch fits the spot" } },
+        { "type": "plan_perk", "settings": { "text": "Cancel or skip any time" } },
+        { "type": "plan_perk", "settings": { "text": "A lower price on every delivery" } },
+        { "type": "accordion", "settings": { "title": "How to use", "body": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, leave it on for 6–8 hours or until it turns white, then peel and swap.</p>" } },
+        { "type": "accordion", "settings": { "title": "What is in the kit", "body": "<p>Day and night patches in the sizes shown in the size guide below. The patch count is shown on each option above.</p>" } },
+        { "type": "accordion", "settings": { "title": "Shipping and returns", "body": "<p>Shipping times and costs are shown at checkout. See our refund policy for how returns work.</p>" } }
       ]
     }
   ]

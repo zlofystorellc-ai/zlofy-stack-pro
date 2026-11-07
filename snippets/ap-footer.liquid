@@ -1,16 +1,11 @@
+{%- comment -%} Dark footer, centered, like the earlier prototype. {%- endcomment -%}
 {%- liquid
   assign menu = linklists['footer']
   assign email = settings.support_email
 -%}
 <footer class="apx-footer">
-  <div class="apx-wrap apx-footer__row">
-    <div>
-      <p class="apx-footer__brand">{{ settings.brand_name }}</p>
-      <p class="apx-footer__contact">
-        {{ 'ap.footer.contact' | t }}
-        <a href="mailto:{{ email }}">{{ email }}</a>
-      </p>
-    </div>
+  <div class="apx-wrap apx-footer__inner">
+    <p class="apx-footer__brand">{{ settings.brand_name }}</p>
     {%- if menu.links.size > 0 -%}
       <nav aria-label="{{ 'ap.footer.nav' | t }}">
         <ul class="apx-footer__links">
@@ -20,8 +15,10 @@
         </ul>
       </nav>
     {%- endif -%}
-  </div>
-  <div class="apx-wrap">
+    <p class="apx-footer__contact">
+      {{ 'ap.footer.contact' | t }}
+      <a href="mailto:{{ email }}">{{ email }}</a>
+    </p>
     <p class="apx-footer__fine">{{ 'ap.footer.fine_print' | t }}</p>
     <p class="apx-footer__fine">© {{ 'now' | date: '%Y' }} {{ settings.brand_name }}</p>
   </div>

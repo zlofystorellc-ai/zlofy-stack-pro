@@ -40,37 +40,38 @@ function init(root) {
 
   function update(pushHistory) {
     const v = findVariant();
-    const sub = purchaseMode() === 'sub' && v;
+    // The allocation (subscription price) for the chosen plan, if this variant is covered by it
+    const alloc = v ? v.allocations.find((a) => String(a.plan_id) === String(planSelect ? planSelect.value : '')) : null;
+    const sub = purchaseMode() === 'sub' && !!v && !!alloc;
     let price = v ? v.price : 0;
     let compare = v ? v.compare_at_price : 0;
     let save = '';
 
     if (v) {
       idInput.value = v.id;
+      if (alloc) {
+        const pct = Math.round(((v.price - alloc.price) / v.price) * 100);
+        if (pct > 0) save = fmt(L.labelSave, { percent: pct });
+      }
       if (sub) {
-        const alloc = v.allocations.find((a) => String(a.plan_id) === String(planSelect ? planSelect.value : ''));
-        if (alloc) {
-          price = alloc.price;
-          compare = v.price;
-          const pct = Math.round(((v.price - alloc.price) / v.price) * 100);
-          if (pct > 0) save = fmt(L.labelSave, { percent: pct });
-          planInput.value = alloc.plan_id;
-        } else {
-          // this variant is not covered by the chosen plan: sell it one-time instead of failing at the cart
-          planInput.value = '';
-        }
+        price = alloc.price;
+        compare = v.price;
+        planInput.value = alloc.plan_id;
       } else {
+        // one-time, or this variant is not covered by the chosen plan: sell it one-time instead of failing at the cart
         planInput.value = '';
       }
       planInput.disabled = !planInput.value; // disabled inputs are left out of FormData
     }
 
-    // price block
+    // price block + plan cards
     setOut('price', v ? money(price) : '');
     const showCompare = compare && compare > price;
     setOut('compare', showCompare ? money(compare) : '', !showCompare);
+    setOut('once-price', v ? money(v.price) : '');
+    setOut('sub-price', alloc ? money(alloc.price) : '', !alloc);
     setOut('save', save, !save);
-    setOut('delivery', sub && v ? fmt(L.labelDelivery, { price: money(price) }) : '', !(sub && v));
+    setOut('delivery', sub ? fmt(L.labelDelivery, { price: money(price) }) : '', !sub);
 
     // price per patch (custom.patch_count on the variant, else on the product)
     const count = v && v.patch_count ? Number(v.patch_count) : 0;

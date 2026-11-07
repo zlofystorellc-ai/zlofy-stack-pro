@@ -109,7 +109,7 @@ function makeEngine(globals) {
     if (p.widths) srcset = ` srcset="${String(p.widths).split(',').map((x) => `${String(url).replace(/w=\d+/, `w=${x.trim()}`)} ${x.trim()}w`).join(', ')}"`;
     return `<img src="${esc(url)}"${srcset}${p.sizes ? ` sizes="${esc(p.sizes)}"` : ''} alt="${esc(p.alt || '')}" width="${w}" height="${h}"${p.loading ? ` loading="${p.loading}"` : ''}${p.fetchpriority ? ` fetchpriority="${p.fetchpriority}"` : ''}${p.class ? ` class="${esc(p.class)}"` : ''}>`;
   });
-  engine.registerFilter('placeholder_svg_tag', (_name, cls) => `<svg class="${esc(cls || '')}" viewBox="0 0 525 525" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"><rect width="525" height="525" fill="#F4EDE4"/><rect x="170" y="170" width="185" height="185" rx="60" fill="#C8B6E2" stroke="#1F2A44" stroke-width="6"/></svg>`);
+  engine.registerFilter('placeholder_svg_tag', (_name, cls) => `<svg class="${esc(cls || '')}" viewBox="0 0 525 525" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"><rect width="525" height="525" fill="#FBEBED"/><rect x="170" y="170" width="185" height="185" rx="60" fill="#C8B6E2" stroke="#1F2A44" stroke-width="6"/></svg>`);
   engine.registerFilter('payment_type_svg_tag', (type, ...args) => {
     const p = named(args);
     const label = String(type).replace(/_/g, ' ').toUpperCase().slice(0, 8);
@@ -232,7 +232,7 @@ function addToCart({ id, quantity = 1, selling_plan }) {
 }
 
 /* ---------- placeholder images (mock photos) ---------- */
-const PALETTE = [['#F4EDE4', '#C8B6E2'], ['#FBEDEF', '#E5707F'], ['#ECE7F5', '#1F2A44'], ['#FBF3E8', '#F4A261'], ['#EEF2F8', '#44506B']];
+const PALETTE = [['#FBEBED', '#C8B6E2'], ['#FCDDE2', '#E5707F'], ['#ECE7F5', '#1F2A44'], ['#FDF1F2', '#F4A261'], ['#EEF2F8', '#44506B']];
 function mockImage(key) {
   let n = 0; for (const c of String(key)) n = (n * 31 + c.charCodeAt(0)) % 997;
   const [bg, fg] = PALETTE[n % PALETTE.length];

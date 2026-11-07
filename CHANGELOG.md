@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 — 2026-11-07 — Cream backgrounds now blush-tinted
+
+- Sand/cream backgrounds `#F4EDE4` → blush cream `#FBEBED`; borders `#D8CDBF` → `#EBCDD2`; Day/night cell tints and the comparison highlight follow
+- Setting label "Sand (backgrounds)" is now "Blush cream (backgrounds)" (same setting id `color_sand`, so saved values stay)
+- Contrast: still 34/34 pairs pass
+
 ## 0.3.1 — 2026-11-07 — Blush red replaces green
 
 - Every teal/green token is now blush red: `--ap-blush` (#E5707F, icons and large shapes only) and `--ap-blush-deep` (#B3384B, text, links, buttons; white on it is 5.9:1). Settings renamed to `color_blush` / `color_blush_deep`.

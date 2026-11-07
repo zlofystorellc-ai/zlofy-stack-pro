@@ -1,0 +1,52 @@
+{%- comment -%}
+  Slim text band of short product facts (static, no motion). List only facts that are true for your product.
+{%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+<section class="apx-band-text" aria-label="{{ section.settings.label | escape }}">
+  <ul class="apx-wrap apx-band-text__list">
+    {%- for block in section.blocks -%}
+      <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+    {%- endfor -%}
+  </ul>
+</section>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-band-text{background:var(--ap-ink);color:var(--ap-white)}
+  .apx-band-text__list{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 2.25rem;padding-block:14px;font-size:.8125rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+  .apx-band-text__list li{display:flex;align-items:center;gap:.6rem}
+  .apx-band-text__list li + li::before{content:"";width:5px;height:5px;margin-right:1.65rem;border-radius:50%;background:var(--ap-blush)}
+  @media (max-width:759px){.apx-band-text__list li + li::before{display:none}.apx-band-text__list{gap:.35rem 1.25rem}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Facts band",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "label", "label": "Accessible label", "default": "Product facts" }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Drug-free hydrocolloid" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Facts band",
+      "blocks": [
+        { "type": "fact", "settings": { "text": "Drug-free hydrocolloid" } },
+        { "type": "fact", "settings": { "text": "Day and night patches" } },
+        { "type": "fact", "settings": { "text": "Three sizes" } },
+        { "type": "fact", "settings": { "text": "For external use" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

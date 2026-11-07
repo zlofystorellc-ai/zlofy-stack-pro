@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — 2026-11-07 — Three more template sections
+
+Same page structure as the reference (section types and order), own content:
+- `ap-marquee` ("Facts band"): slim dark band of short product facts, static (no motion)
+- `ap-stats-strip` ("Big numbers"): large-number tiles. Defaults are product facts (patch count, types, sizes, wear time), clearly marked as examples.
+- `ap-feature-cards` ("Feature cards"): four icon cards (covers, protects, day, night)
+- Template order: ... product form, **Facts band**, **Big numbers**, Problem, How it works, **Feature cards**, Day vs night ...
+- Not added on purpose: survey/"clinical" percentages, celebrity or expert blocks, press logos, certification badges (add real ones later)
+
 ## 0.4.0 — 2026-11-07 — Clean sans typography, more air
 
 - Headings switch from serif to the same clean system sans as the body: weight 500, tight tracking (-0.02em), line-height 1.12

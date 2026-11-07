@@ -40,8 +40,11 @@ function sectionFromPreset(type) {
 const productOrder = [
   ['trust', 'ap-trust-strip'],
   ['main', 'ap-hero'],
+  ['facts', 'ap-marquee'],
+  ['stats', 'ap-stats-strip'],
   ['problem', 'ap-problem'],
   ['how', 'ap-how-it-works'],
+  ['cards', 'ap-feature-cards'],
   ['daynight', 'ap-day-night'],
   ['when', 'ap-when-tabs'],
   ['size', 'ap-size-guide'],

@@ -116,6 +116,80 @@
         "accordion_10"
       ]
     },
+    "facts": {
+      "type": "ap-marquee",
+      "blocks": {
+        "fact_1": {
+          "type": "fact",
+          "settings": {
+            "text": "Drug-free hydrocolloid"
+          }
+        },
+        "fact_2": {
+          "type": "fact",
+          "settings": {
+            "text": "Day and night patches"
+          }
+        },
+        "fact_3": {
+          "type": "fact",
+          "settings": {
+            "text": "Three sizes"
+          }
+        },
+        "fact_4": {
+          "type": "fact",
+          "settings": {
+            "text": "For external use"
+          }
+        }
+      },
+      "block_order": [
+        "fact_1",
+        "fact_2",
+        "fact_3",
+        "fact_4"
+      ]
+    },
+    "stats": {
+      "type": "ap-stats-strip",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "36",
+            "label": "patches in the kit"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "2",
+            "label": "patch types: day and night"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "3",
+            "label": "sizes for different spots"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "value": "6–8h",
+            "label": "typical wear time"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ]
+    },
     "problem": {
       "type": "ap-problem",
       "blocks": {
@@ -196,6 +270,49 @@
         "step_2",
         "step_3",
         "step_4"
+      ]
+    },
+    "cards": {
+      "type": "ap-feature-cards",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "icon": "shield",
+            "title": "Covers",
+            "text": "A thin, drug-free patch that covers a surfaced spot."
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "icon": "check",
+            "title": "Protects",
+            "text": "Keeps the spot covered, so it is harder to pick at."
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "icon": "sun",
+            "title": "Day patch",
+            "text": "Low-shine finish that sits close to the skin."
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "icon": "moon",
+            "title": "Night patch",
+            "text": "Thicker and more cushioned to stay put while you sleep."
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
       ]
     },
     "daynight": {
@@ -565,8 +682,11 @@
   "order": [
     "trust",
     "main",
+    "facts",
+    "stats",
     "problem",
     "how",
+    "cards",
     "daynight",
     "when",
     "size",

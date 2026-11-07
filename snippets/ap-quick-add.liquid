@@ -1,0 +1,17 @@
+{%- comment -%}
+  Quick add for cards (bundles, upsell). Single-variant products add directly;
+  everything else links to the product page. Handled by assets/ap-cart.js ([data-ap-quick-add]).
+  Params: product
+{%- endcomment -%}
+{%- assign qa_variant = product.selected_or_first_available_variant -%}
+{%- if product.variants.size == 1 and qa_variant.available -%}
+  <form method="post" action="{{ routes.cart_add_url }}" data-ap-quick-add>
+    <input type="hidden" name="id" value="{{ qa_variant.id }}">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" class="apx-btn apx-btn--sm">{{ 'ap.cart.add' | t }}</button>
+  </form>
+{%- elsif product.available -%}
+  <a class="apx-btn apx-btn--ghost apx-btn--sm" href="{{ product.url }}">{{ 'ap.cart.choose_options' | t }}</a>
+{%- else -%}
+  <span class="apx-soldout">{{ 'ap.cart.sold_out' | t }}</span>
+{%- endif -%}

@@ -1,0 +1,9 @@
+{
+  "name": "acne-duo-local-preview",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Optional local preview. Renders the theme's Liquid with mock data. An approximation, NOT Shopify's renderer.",
+  "scripts": { "start": "node server.mjs" },
+  "devDependencies": { "liquidjs": "^10.16.0" }
+}

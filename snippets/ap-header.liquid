@@ -1,0 +1,41 @@
+{%- comment -%}
+  Header like the earlier prototype: centered logo, menu split left / right, cart at the far right.
+  On small screens the menu is hidden and the logo sits left. Cart link opens the drawer when it exists (JS), else goes to /cart.
+{%- endcomment -%}
+{%- liquid
+  assign menu = linklists['main-menu']
+  assign half = menu.links.size | divided_by: 2.0 | ceil
+-%}
+<header class="apx-header">
+  <div class="apx-wrap apx-header__row">
+    <nav class="apx-header__nav apx-header__nav--l" aria-label="{{ 'ap.header.primary_nav' | t }}">
+      <ul>
+        {%- for link in menu.links limit: half -%}
+          <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <a class="apx-header__brand" href="{{ routes.root_url }}">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 480 | image_tag: width: settings.logo_width, alt: settings.brand_name, loading: 'eager' }}
+      {%- else -%}
+        <span>{{ settings.brand_name }}</span>
+      {%- endif -%}
+    </a>
+
+    <div class="apx-header__right">
+      <nav class="apx-header__nav" aria-label="{{ 'ap.header.secondary_nav' | t }}">
+        <ul>
+          {%- for link in menu.links offset: half -%}
+            <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+      <a class="apx-header__cart" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">
+        {% render 'ap-icon', name: 'bag', size: 24 %}
+        <span class="apx-header__count" data-ap-cart-count>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>

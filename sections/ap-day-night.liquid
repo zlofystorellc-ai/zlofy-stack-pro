@@ -1,0 +1,111 @@
+{%- comment -%}
+  Day vs night comparison. Rows come from the product metafield custom.day_night_specs (JSON) when present:
+    { "rows": [ { "label": "Finish", "day": "...", "night": "..." } ] }
+  Otherwise from the section's row blocks. Edit the defaults to match YOUR real product.
+{%- endcomment -%}
+{%- liquid
+  assign specs = product.metafields.custom.day_night_specs.value
+  assign meta_rows = specs.rows
+  assign wear = product.metafields.custom.wear_time.value
+-%}
+<section class="apx-dn apx-section">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <table class="apx-dn__table">
+      <caption class="apx-sr">{{ 'ap.dn.caption' | t }}</caption>
+      <thead>
+        <tr>
+          <td></td>
+          <th scope="col" class="apx-dn__day">
+            {% render 'ap-icon', name: 'sun', size: 26 %}
+            <span>{{ settings.day_product_name }}</span>
+          </th>
+          <th scope="col" class="apx-dn__night">
+            {% render 'ap-icon', name: 'moon', size: 26 %}
+            <span>{{ settings.night_product_name }}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- if meta_rows.size > 0 -%}
+          {%- for r in meta_rows -%}
+            <tr><th scope="row">{{ r.label }}</th><td>{{ r.day }}</td><td>{{ r.night }}</td></tr>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <th scope="row">{{ block.settings.label }}</th>
+              <td>{{ block.settings.day }}</td>
+              <td>{{ block.settings.night }}</td>
+            </tr>
+          {%- endfor -%}
+        {%- endif -%}
+      </tbody>
+    </table>
+
+    {%- if wear != blank -%}
+      <p class="apx-center apx-fine">{{ 'ap.dn.typical_wear' | t }} {{ wear }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-dn__table{width:100%;max-width:860px;margin:28px auto 0;border-collapse:separate;border-spacing:0;table-layout:fixed;overflow:hidden;border-radius:var(--ap-radius);border:1px solid var(--ap-line)}
+  .apx-dn__table th,.apx-dn__table td{padding:14px 12px;text-align:left;vertical-align:top;border-top:1px solid var(--ap-line)}
+  .apx-dn__table thead th,.apx-dn__table thead td{border-top:0}
+  .apx-dn__table tbody th{font-weight:700;background:var(--ap-white);width:28%}
+  .apx-dn__table thead th{font-family:var(--ap-font-display);font-size:1.05rem}
+  .apx-dn__table thead th .apx-icon{display:block;margin-bottom:4px}
+  .apx-dn__day{background:var(--ap-sand);color:var(--ap-ink)}
+  .apx-dn__day .apx-icon{color:var(--ap-teal-dark)}
+  .apx-dn__night{background:var(--ap-ink);color:var(--ap-white)}
+  .apx-dn__night .apx-icon{color:var(--ap-lilac)}
+  .apx-dn__table tbody tr td:nth-child(2){background:#FBF8F3}
+  .apx-dn__table tbody tr td:nth-child(3){background:#ECE7F5}
+  @media (min-width:640px){.apx-dn__table th,.apx-dn__table td{padding:16px 20px}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Day vs night",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Two patches, two jobs" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Day patch for daylight. Night patch for sleep." },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro",
+      "default": "Pick the one that fits the moment. The defaults below are examples: edit every row to match your real product."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Finish" },
+        { "type": "text", "id": "day", "label": "Day value", "default": "Matte" },
+        { "type": "text", "id": "night", "label": "Night value", "default": "Soft gloss" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Day vs night",
+      "blocks": [
+        { "type": "row", "settings": { "label": "Finish", "day": "Matte, low-shine", "night": "Soft gloss" } },
+        { "type": "row", "settings": { "label": "Thickness", "day": "Ultra-thin", "night": "Thicker and cushioned" } },
+        { "type": "row", "settings": { "label": "Best for", "day": "Out and about", "night": "Overnight" } },
+        { "type": "row", "settings": { "label": "Wear time", "day": "4–6 hours", "night": "6–8 hours" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

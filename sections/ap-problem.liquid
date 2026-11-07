@@ -1,0 +1,80 @@
+{%- comment -%} Relatable problem section: empathetic, not fear-based. {%- endcomment -%}
+<section class="apx-problem apx-section">
+  <div class="apx-wrap">
+    <div class="apx-problem__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+    <ul class="apx-problem__grid">
+      {%- for block in section.blocks -%}
+        <li class="apx-problem__card" {{ block.shopify_attributes }}>
+          <span class="apx-problem__icon">{% render 'ap-icon', name: block.settings.icon, size: 26 %}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-problem__head{margin-bottom:28px}
+  .apx-problem__grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .apx-problem__card{padding:22px;border-radius:var(--ap-radius);background:var(--ap-sand)}
+  .apx-problem__card h3{font-size:1.2rem;margin-bottom:.4em}
+  .apx-problem__card p{margin:0;color:var(--ap-ink-soft)}
+  .apx-problem__icon{display:inline-grid;place-items:center;width:48px;height:48px;margin-bottom:14px;border-radius:16px;background:var(--ap-white);color:var(--ap-teal-dark)}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Problem",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Sound familiar?" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Spots happen. Picking shouldn't be your only plan." },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro",
+      "default": "A spot shows up right before something big, and your fingers have opinions. You are not alone, and there is a gentler habit to try."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "hand", "label": "Hand" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "layers", "label": "Layers" },
+            { "value": "sun", "label": "Sun" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "sparkle", "label": "Sparkle" }
+          ],
+          "default": "hand"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "The picking loop" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Hands find the spot before your brain catches up. A patch gives your fingers something else to find." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Problem",
+      "blocks": [
+        { "type": "point", "settings": { "icon": "hand", "title": "The picking loop", "text": "Hands find the spot before your brain catches up. A patch gives your fingers something else to find." } },
+        { "type": "point", "settings": { "icon": "clock", "title": "Spots before big days", "text": "Photos, dates, interviews. A discreet cover helps you get on with your day." } },
+        { "type": "point", "settings": { "icon": "layers", "title": "Patches that slide off", "text": "Edges lift, patches curl, and by morning one is stuck to your pillow instead of your face." } },
+        { "type": "point", "settings": { "icon": "sun", "title": "Patches that shine in daylight", "text": "Some patches are made for night and look obvious at lunch. Separate day and night formats let you pick the right one for the moment." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

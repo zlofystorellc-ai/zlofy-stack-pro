@@ -1,0 +1,119 @@
+{%- comment -%}
+  Reviews: an app-block slot (Judge.me / Okendo / Yotpo / Shopify Product Reviews) plus an optional
+  UGC video grid (merchant-uploaded videos, never autoplay, captions track supported).
+  This theme ships NO sample or hard-coded reviews.
+{%- endcomment -%}
+{%- liquid
+  assign has_app = false
+  assign has_video = false
+  for block in section.blocks
+    if block.type == '@app'
+      assign has_app = true
+    elsif block.type == 'video'
+      assign has_video = true
+    endif
+  endfor
+-%}
+{%- comment -%} Nothing to show without a reviews app block or customer videos: hide it (editor still shows the hint). {%- endcomment -%}
+{%- if has_app or has_video or request.design_mode -%}
+<section class="apx-reviews apx-section" id="reviews" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+    </div>
+
+    {%- unless has_app -%}
+      {%- if request.design_mode -%}
+        <p class="apx-editor-note" role="note">{{ 'ap.reviews.editor_note' | t }}</p>
+      {%- endif -%}
+    {%- endunless -%}
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == '@app' -%}
+        <div class="apx-reviews__app" {{ block.shopify_attributes }}>{% render block %}</div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if has_video -%}
+      <ul class="apx-reviews__videos">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'video' -%}
+            {%- assign vid = block.settings.video -%}
+            {%- if vid != blank -%}
+              <li {{ block.shopify_attributes }}>
+                <figure>
+                  {%- assign video_label = block.settings.caption -%}
+                  {%- if video_label == blank -%}{%- assign video_label = 'ap.reviews.video_label' | t -%}{%- endif -%}
+                  {%- assign poster_img = block.settings.poster | default: vid.preview_image -%}
+                  <video controls muted playsinline preload="none" poster="{{ poster_img | image_url: width: 640 }}" aria-label="{{ video_label | escape }}">
+                    {%- for source in vid.sources -%}
+                      <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                    {%- endfor -%}
+                    {%- if block.settings.captions_vtt != blank -%}
+                      <track kind="captions" src="{{ block.settings.captions_vtt }}" srclang="{{ request.locale.iso_code }}" label="{{ 'ap.reviews.captions' | t }}" default>
+                    {%- elsif request.design_mode -%}
+                      {%- comment -%} editor-only hint rendered below {%- endcomment -%}
+                    {%- endif -%}
+                  </video>
+                  {%- if block.settings.caption != blank -%}<figcaption>{{ block.settings.caption }}</figcaption>{%- endif -%}
+                  {%- if block.settings.captions_vtt == blank and request.design_mode -%}
+                    <p class="apx-editor-note" role="note">{{ 'ap.reviews.captions_missing' | t }}</p>
+                  {%- endif -%}
+                </figure>
+              </li>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      {% render 'ap-disclosure' %}
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-reviews__app{margin-top:28px}
+  .apx-reviews__videos{display:grid;gap:14px;margin-top:28px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .apx-reviews__videos figure{margin:0}
+  .apx-reviews__videos video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--ap-radius);background:var(--ap-ink)}
+  .apx-reviews__videos figcaption{margin-top:6px;font-size:.875rem;color:var(--ap-ink-soft)}
+  .apx-editor-note{margin:16px auto;padding:12px 16px;border:2px dashed var(--ap-ink);border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-weight:600}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Reviews",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What customers say" },
+    {
+      "type": "paragraph",
+      "content": "Add your reviews app as an app block. Only real reviews should appear here. Videos must be from real customers; add a captions file (.vtt) for each."
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "video",
+      "name": "Customer video",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video", "info": "Upload only videos you own or have licensed, from real, consenting customers." },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Poster image (optional)",
+          "info": "Upload only images you own or have licensed. No supplier/competitor photos. Before/after only from real, consenting customers, unedited."
+        },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "text", "id": "captions_vtt", "label": "Captions file URL (.vtt)", "info": "Upload the .vtt in Content > Files and paste its URL." }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Reviews", "blocks": [] }
+  ]
+}
+{% endschema %}

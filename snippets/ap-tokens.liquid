@@ -1,0 +1,26 @@
+{%- comment -%}
+  Design tokens + shared base stylesheet.
+  Rendered in <head> by layout/theme.liquid and again (harmless duplicate) by sections/ap-hero.liquid,
+  so the product page still works when these files are merged into another theme's layout.
+{%- endcomment -%}
+<style>
+  :root {
+    --ap-ink: {{ settings.color_ink | default: '#1F2A44' }};
+    --ap-teal: {{ settings.color_teal | default: '#2A9D8F' }};
+    --ap-teal-dark: {{ settings.color_teal_dark | default: '#1B6F65' }};
+    --ap-lilac: {{ settings.color_lilac | default: '#C8B6E2' }};
+    --ap-sand: {{ settings.color_sand | default: '#F4EDE4' }};
+    --ap-apricot: {{ settings.color_apricot | default: '#F4A261' }};
+    --ap-white: {{ settings.color_white | default: '#FFFFFF' }};
+    --ap-ink-soft: #44506B;
+    --ap-line: #D8CDBF;
+    --ap-radius: 18px;
+    --ap-radius-sm: 12px;
+    --ap-gutter: 16px;
+    --ap-max: 1200px;
+    --ap-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --ap-font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --ap-sticky-offset: 0px;
+  }
+</style>
+<link rel="stylesheet" href="{{ 'ap-base.css' | asset_url }}">

@@ -1,0 +1,86 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Acne Duo (ap)",
+    "theme_version": "0.1.0",
+    "theme_author": "BRAND_NAME",
+    "theme_documentation_url": "https://shopify.dev/docs/themes",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "text", "id": "brand_name", "label": "Brand name", "default": "BRAND_NAME" },
+      { "type": "text", "id": "day_product_name", "label": "Day product name", "default": "Day Patch" },
+      { "type": "text", "id": "night_product_name", "label": "Night product name", "default": "Night Patch" },
+      {
+        "type": "text",
+        "id": "support_email",
+        "label": "Support email",
+        "default": "SUPPORT_EMAIL",
+        "info": "Shown on the page as the contact for questions and reactions (US cosmetic adverse-event contact). Use a monitored address."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo (optional)",
+        "info": "Upload only images you own or have licensed. No supplier/competitor photos. Before/after only from real, consenting customers, unedited."
+      },
+      { "type": "range", "id": "logo_width", "min": 60, "max": 240, "step": 10, "unit": "px", "label": "Logo width", "default": 120 }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Palette tokens" },
+      { "type": "color", "id": "color_ink", "label": "Ink (text, dark surfaces)", "default": "#1F2A44" },
+      { "type": "color", "id": "color_teal", "label": "Teal (icons, large UI only)", "default": "#2A9D8F", "info": "White text on this teal is about 3.3:1 and fails AA for body text. Use it for icons and large shapes only." },
+      { "type": "color", "id": "color_teal_dark", "label": "Teal dark (text, buttons)", "default": "#1B6F65", "info": "Used for text links and buttons with white text (about 6:1)." },
+      { "type": "color", "id": "color_lilac", "label": "Lilac (night accents)", "default": "#C8B6E2" },
+      { "type": "color", "id": "color_sand", "label": "Sand (backgrounds)", "default": "#F4EDE4" },
+      { "type": "color", "id": "color_apricot", "label": "Apricot (badges, use with ink text)", "default": "#F4A261" },
+      { "type": "color", "id": "color_white", "label": "White", "default": "#FFFFFF" }
+    ]
+  },
+  {
+    "name": "Purchase and cart",
+    "settings": [
+      {
+        "type": "text",
+        "id": "shipping_note",
+        "label": "Shipping time note",
+        "default": "Ships in 7–10 business days",
+        "info": "Must match what you really deliver."
+      },
+      {
+        "type": "range",
+        "id": "free_shipping_threshold",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "unit": "$",
+        "label": "Free-shipping progress bar threshold",
+        "default": 35,
+        "info": "Set to 0 to hide the bar. The bar only reports progress; free shipping itself is configured in Shopify shipping settings."
+      },
+      {
+        "type": "collection",
+        "id": "upsell_collection",
+        "label": "Upsell fallback collection",
+        "info": "Used when Shopify has no complementary recommendations yet."
+      }
+    ]
+  },
+  {
+    "name": "Claims and certifications",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Only switch these on if you hold the documentation. A badge shows only when this setting AND the product metafield are both on."
+      },
+      { "type": "checkbox", "id": "vegan_documented", "label": "I have documentation that the product is vegan", "default": false },
+      { "type": "checkbox", "id": "cruelty_free_documented", "label": "I have documentation that the product is cruelty-free", "default": false },
+      { "type": "checkbox", "id": "show_creator_disclosure", "label": "Show \"Some creators received free product\" next to creator content", "default": true }
+    ]
+  }
+]

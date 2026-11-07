@@ -1,0 +1,69 @@
+{%- comment -%}
+  Cart drawer: markup + config + translated strings for assets/ap-cart.js.
+  Rendered once, by sections/ap-hero.liquid. Without it the header cart link goes to /cart.
+{%- endcomment -%}
+<div
+  class="apx-drawer"
+  data-ap-drawer
+  data-cart-url="{{ routes.cart_url }}"
+  data-add-url="{{ routes.cart_add_url }}"
+  data-change-url="{{ routes.cart_change_url }}"
+  data-recs-url="{{ routes.product_recommendations_url }}"
+  data-root-url="{{ routes.root_url }}"
+  data-threshold="{{ settings.free_shipping_threshold | times: 100 }}"
+  data-fallback-collection="{{ settings.upsell_collection.handle }}"
+  data-currency="{{ cart.currency.iso_code }}"
+  data-locale="{{ request.locale.iso_code }}"
+  hidden
+>
+  <div class="apx-drawer__overlay" data-ap-drawer-close></div>
+  <div class="apx-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="ap-drawer-title" tabindex="-1">
+    <div class="apx-drawer__head">
+      <h2 id="ap-drawer-title">{{ 'ap.cart.title' | t }}</h2>
+      <button type="button" class="apx-iconbtn" data-ap-drawer-close aria-label="{{ 'ap.cart.close' | t }}">
+        {% render 'ap-icon', name: 'x', size: 22 %}
+      </button>
+    </div>
+
+    <div class="apx-drawer__bar" data-ap-bar hidden>
+      <p data-ap-bar-text></p>
+      <div class="apx-progress" aria-hidden="true"><span data-ap-bar-fill></span></div>
+    </div>
+
+    <ul class="apx-drawer__lines" data-ap-lines></ul>
+    <p class="apx-drawer__empty" data-ap-empty hidden>{{ 'ap.cart.empty' | t }}</p>
+
+    <div class="apx-drawer__upsell" data-ap-upsell hidden></div>
+
+    <div class="apx-drawer__foot" data-ap-foot>
+      <p class="apx-drawer__sub"><span>{{ 'ap.cart.subtotal' | t }}</span> <strong data-ap-subtotal></strong></p>
+      <p class="apx-drawer__fine">{{ 'ap.cart.taxes_note' | t }}</p>
+      <a class="apx-btn apx-btn--block" href="{{ routes.cart_url }}" data-ap-checkout>{{ 'ap.cart.checkout' | t }}</a>
+    </div>
+
+    <p class="apx-sr" role="status" aria-live="polite" data-ap-live></p>
+  </div>
+</div>
+
+<script type="application/json" id="ap-i18n">
+  {
+    "cart_updated": {{ 'ap.cart.updated' | t | json }},
+    "added": {{ 'ap.cart.added' | t | json }},
+    "removed": {{ 'ap.cart.removed' | t | json }},
+    "error": {{ 'ap.cart.error' | t | json }},
+    "adding": {{ 'ap.cart.adding' | t | json }},
+    "add": {{ 'ap.cart.add' | t | json }},
+    "sold_out": {{ 'ap.cart.sold_out' | t | json }},
+    "remove": {{ 'ap.cart.remove' | t | json }},
+    "remove_item": {{ 'ap.cart.remove_item' | t: title: '__title__' | json }},
+    "quantity": {{ 'ap.cart.quantity' | t: title: '__title__' | json }},
+    "decrease": {{ 'ap.cart.decrease' | t | json }},
+    "increase": {{ 'ap.cart.increase' | t | json }},
+    "choose_options": {{ 'ap.cart.choose_options' | t | json }},
+    "bar_away": {{ 'ap.cart.bar_away' | t: amount: '__amount__' | json }},
+    "bar_reached": {{ 'ap.cart.bar_reached' | t | json }},
+    "upsell_title": {{ 'ap.cart.upsell_title' | t | json }},
+    "item_count_one": {{ 'ap.header.cart_count_one' | t: num: '__num__' | json }},
+    "item_count_other": {{ 'ap.header.cart_count_other' | t: num: '__num__' | json }}
+  }
+</script>

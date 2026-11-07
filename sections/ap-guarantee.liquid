@@ -1,0 +1,78 @@
+{%- comment -%} Guarantee. The text is a placeholder: it MUST match your real return/refund policy. {%- endcomment -%}
+<section class="apx-guar apx-section apx-section--ink">
+  <div class="apx-wrap apx-guar__wrap">
+    <div class="apx-guar__badge" aria-hidden="true">
+      {% render 'ap-icon', name: 'shield', size: 36 %}
+      <span class="apx-guar__num">{{ section.settings.number }}</span>
+      <span class="apx-guar__unit">{{ section.settings.unit }}</span>
+    </div>
+    <div>
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
+      <p class="apx-lede">{{ section.settings.text }}</p>
+      {%- if section.blocks.size > 0 -%}
+        <ul class="apx-guar__list">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>{% render 'ap-icon', name: 'check', size: 20 %}<span>{{ block.settings.text }}</span></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.policy_link != blank -%}
+        <p><a class="apx-guar__link" href="{{ section.settings.policy_link }}">{{ 'ap.guarantee.policy' | t }}</a></p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-guar__wrap{display:grid;gap:28px;align-items:center}
+  .apx-guar__badge{display:flex;flex-direction:column;align-items:center;justify-content:center;width:160px;height:160px;border-radius:40px;background:var(--ap-lilac);color:var(--ap-ink);text-align:center}
+  .apx-guar__num{font-family:var(--ap-font-display);font-size:2.5rem;font-weight:700;line-height:1}
+  .apx-guar__unit{font-size:.875rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+  .apx-guar__list{display:grid;gap:.4rem;margin:1rem 0}
+  .apx-guar__list li{display:flex;gap:.6rem;align-items:flex-start}
+  .apx-guar__list .apx-icon{margin-top:.1rem;color:var(--ap-lilac)}
+  .apx-guar__link{display:inline-flex;align-items:center;min-height:44px;color:var(--ap-white)}
+  .apx-guar :focus-visible{outline-color:var(--ap-white);box-shadow:0 0 0 5px var(--ap-ink)}
+  @media (min-width:760px){.apx-guar__wrap{grid-template-columns:auto 1fr;gap:56px}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Guarantee",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "This is placeholder wording. It must match your real return and refund policy." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our promise" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "30-day happiness promise" },
+    { "type": "text", "id": "number", "label": "Badge number", "default": "30" },
+    { "type": "text", "id": "unit", "label": "Badge unit", "default": "days" },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Try the patches. If they are not for you, contact us within 30 days and we will help."
+    },
+    { "type": "url", "id": "policy_link", "label": "Refund policy link" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Point",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Questions answered by a real person" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guarantee",
+      "blocks": [
+        { "type": "point", "settings": { "text": "Questions answered by a real person" } },
+        { "type": "point", "settings": { "text": "A clear, easy-to-find refund policy" } },
+        { "type": "point", "settings": { "text": "No pressure, no guilt" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

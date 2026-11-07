@@ -1,0 +1,78 @@
+{%- comment -%}
+  Visual size chart. Shapes are rounded squares ("pebbles") scaled from the mm values you enter.
+  The scale is illustrative, not 1:1 on every screen. Sizes below are EXAMPLES: set your real sizes.
+  Optional product metafield custom.patch_sizes (list of text) adds an "In this kit" line.
+{%- endcomment -%}
+{%- assign kit_sizes = product.metafields.custom.patch_sizes.value -%}
+<section class="apx-size apx-section apx-section--sand">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <ul class="apx-size__grid">
+      {%- for block in section.blocks -%}
+        <li class="apx-size__item" {{ block.shopify_attributes }}>
+          <span class="apx-size__shape" style="--w: {{ block.settings.width_mm }}; --h: {{ block.settings.height_mm }};" aria-hidden="true"></span>
+          <strong>{{ block.settings.label }}</strong>
+          <span>{{ block.settings.use }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if kit_sizes.size > 0 -%}
+      <p class="apx-center"><strong>{{ 'ap.size.in_kit' | t }}</strong> {{ kit_sizes | join: ', ' }}</p>
+    {%- endif -%}
+    <p class="apx-center apx-fine">{{ 'ap.size.scale_note' | t }}</p>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-size__grid{display:grid;gap:16px;margin:28px 0 20px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));align-items:end}
+  .apx-size__item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 12px;border-radius:var(--ap-radius);background:var(--ap-white);text-align:center}
+  .apx-size__shape{display:block;width:calc(var(--w) * 4px);height:calc(var(--h) * 4px);min-width:24px;min-height:24px;max-width:100%;border-radius:calc(min(var(--w), var(--h)) * 1.4px);background:var(--ap-lilac);border:2px solid var(--ap-ink)}
+  .apx-size__item span:last-child{font-size:.9375rem;color:var(--ap-ink-soft)}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Size guide",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Size guide" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Match the patch to the spot" },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro",
+      "default": "A patch that fully covers the spot stays put better. Pick the smallest size that overlaps the edges."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "size",
+      "name": "Size",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "10 mm" },
+        { "type": "range", "id": "width_mm", "label": "Width (mm)", "min": 4, "max": 48, "step": 1, "unit": "mm", "default": 10 },
+        { "type": "range", "id": "height_mm", "label": "Height (mm)", "min": 4, "max": 48, "step": 1, "unit": "mm", "default": 10 },
+        { "type": "text", "id": "use", "label": "Best for", "default": "Most everyday spots" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size guide",
+      "blocks": [
+        { "type": "size", "settings": { "label": "8 mm", "width_mm": 8, "height_mm": 8, "use": "Small, single spots" } },
+        { "type": "size", "settings": { "label": "10 mm", "width_mm": 10, "height_mm": 10, "use": "Most everyday spots" } },
+        { "type": "size", "settings": { "label": "12 mm", "width_mm": 12, "height_mm": 12, "use": "Larger or closely grouped spots" } },
+        { "type": "size", "settings": { "label": "XL body strip", "width_mm": 36, "height_mm": 18, "use": "Back, shoulders and chest" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

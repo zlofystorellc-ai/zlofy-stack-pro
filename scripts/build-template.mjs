@@ -45,6 +45,7 @@ const productOrder = [
   ['problem', 'ap-problem'],
   ['how', 'ap-how-it-works'],
   ['cards', 'ap-feature-cards'],
+  ['ingredients', 'ap-ingredients'],
   ['daynight', 'ap-day-night'],
   ['when', 'ap-when-tabs'],
   ['size', 'ap-size-guide'],

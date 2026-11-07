@@ -9,6 +9,7 @@
     "lint:claims": "node scripts/claims-lint.mjs",
     "check:contrast": "node scripts/contrast-check.mjs",
     "check:theme": "node scripts/check-theme.mjs",
+    "preview": "node scripts/preview/server.mjs",
     "check": "node scripts/claims-lint.mjs && node scripts/contrast-check.mjs && node scripts/check-theme.mjs"
   }
 }

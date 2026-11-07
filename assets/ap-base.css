@@ -52,7 +52,7 @@ main:focus{outline:none}
 /* Header / footer */
 .apx-header{background:var(--ap-white);border-bottom:1px solid var(--ap-line)}
 .apx-header__row{display:flex;align-items:center;gap:1rem;min-height:64px}
-.apx-header__brand{margin-right:auto;font-family:var(--ap-font-display);font-size:1.375rem;font-weight:700;letter-spacing:.04em;color:var(--ap-ink);text-decoration:none}
+.apx-header__brand{display:inline-flex;align-items:center;min-height:44px;margin-right:auto;font-family:var(--ap-font-display);font-size:1.375rem;font-weight:700;letter-spacing:.04em;color:var(--ap-ink);text-decoration:none}
 .apx-header__nav ul{display:flex;gap:1.25rem;flex-wrap:wrap}
 .apx-header__nav a{display:inline-flex;align-items:center;min-height:44px;color:var(--ap-ink);font-weight:600;text-decoration:none}
 .apx-header__nav a:hover,.apx-header__nav a[aria-current]{text-decoration:underline}
@@ -64,6 +64,7 @@ main:focus{outline:none}
 .apx-footer__row{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;margin-bottom:1.5rem}
 .apx-footer__brand{font-family:var(--ap-font-display);font-size:1.25rem;font-weight:700;margin:0 0 .5rem}
 .apx-footer__contact{margin:0}
+.apx-footer__contact a{display:inline-flex;align-items:center;min-height:44px}
 .apx-footer__links{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem}
 .apx-footer__links a{display:inline-flex;align-items:center;min-height:44px;color:var(--ap-ink)}
 .apx-footer__fine{margin:0 0 .5rem;font-size:.8125rem;color:var(--ap-ink-soft)}
@@ -86,7 +87,7 @@ main:focus{outline:none}
 .apx-qty{display:inline-flex;align-items:center;border:1.5px solid var(--ap-ink-soft);border-radius:999px}
 .apx-qty button{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:transparent;cursor:pointer}
 .apx-qty button:hover{background:var(--ap-sand)}
-.apx-qty input{width:2.5rem;border:0;background:transparent;text-align:center;-moz-appearance:textfield;appearance:textfield}
+.apx-qty input{width:2.5rem;height:44px;border:0;background:transparent;text-align:center;-moz-appearance:textfield;appearance:textfield}
 .apx-qty input::-webkit-outer-spin-button,.apx-qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .apx-drawer__price{font-weight:700;text-align:right}
 .apx-drawer__remove{display:inline-flex;align-items:center;min-height:44px;margin-top:.25rem;padding:0;border:0;background:none;color:var(--ap-teal-dark);font-size:.8125rem;text-decoration:underline;cursor:pointer}

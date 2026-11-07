@@ -47,6 +47,14 @@ Sections, snippets, assets and one JSON template: `templates/product.acne-duo.js
 ### Merging into an existing theme
 This repo includes a minimal `layout/theme.liquid` so it works standalone. If you copy the files into another OS 2.0 theme: keep that theme's own layout, add `{% render 'ap-tokens' %}` inside its `<head>`, copy `sections/ap-*`, `snippets/ap-*`, `assets/ap-*`, merge the `ap` block of `locales/en.default.json`, and merge the settings groups from `config/settings_schema.json`. The cart drawer is rendered by the Product form section, so the cart link in your theme's header can carry `data-ap-cart-toggle` to open it.
 
+## Local preview (no Shopify store needed)
+
+```bash
+cd scripts/preview && npm install     # once (installs liquidjs only)
+npm run preview                       # from the repo root, then open http://localhost:8766
+```
+Renders the real Liquid files with **fake product data** (`scripts/preview/mock.mjs`) and a mock cart, so you can see the layout, switch variants, try subscribe, add to bag and the sticky bar. Add `?design=1` to see the editor-only hints. It is an **approximation**: Shopify's renderer differs in details, so always do a final check on a development theme.
+
 ## Checks
 
 ```bash
@@ -91,9 +99,9 @@ Verified automatically in this repo (re-run the commands above to confirm):
 
 **Not yet verified — needs a development store** (Liquid cannot be rendered locally without Shopify):
 
-- [ ] Mobile layout at 360 / 390 / 768 / 1280 px (the CSS is written mobile-first with breakpoints at 640 and 990 px, but it has not been looked at in a browser)
+- [ ] Mobile layout at 360 / 768 / 1280 px. Looked at 375 and 390 px (no horizontal overflow; add-to-cart reachable after about 1.3 screens) and roughly 800 px, in the **local mock preview** only, not on Shopify
 - [ ] Lighthouse mobile Performance ≥ 90, CLS < 0.05, LCP < 2.5 s (see [PERFORMANCE.md](PERFORMANCE.md))
-- [ ] Add to cart, selling plans, cart drawer and sticky bar end to end against real products
+- [ ] Add to cart, selling plans, cart drawer and sticky bar against real products. They work against the mock cart in the local preview (variant switch, subscribe price, drawer, free-shipping bar, sticky bar), which is not Shopify's cart
 - [ ] Screen-reader and keyboard pass (focus order, drawer focus trap, announcement pause button)
 
 ## Notes on repo layout

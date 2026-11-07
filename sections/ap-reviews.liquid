@@ -14,6 +14,8 @@
     endif
   endfor
 -%}
+{%- comment -%} Nothing to show without a reviews app block or customer videos: hide it (editor still shows the hint). {%- endcomment -%}
+{%- if has_app or has_video or request.design_mode -%}
 <section class="apx-reviews apx-section" id="reviews" aria-labelledby="{{ section.id }}-title">
   <div class="apx-wrap">
     <div class="apx-center">
@@ -68,6 +70,7 @@
     {%- endif -%}
   </div>
 </section>
+{%- endif -%}
 
 {% stylesheet %}
   .apx-reviews__app{margin-top:28px}

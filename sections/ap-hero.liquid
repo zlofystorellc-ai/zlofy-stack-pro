@@ -291,8 +291,9 @@
   .apx-gallery{min-width:0}
   .apx-gallery__track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;border-radius:var(--ap-radius);background:var(--ap-sand);scrollbar-width:none}
   .apx-gallery__track::-webkit-scrollbar{display:none}
-  .apx-gallery__slide{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:5/4;display:grid;place-items:center}
-  .apx-gallery__slide img,.apx-gallery__slide svg{width:100%;height:100%;object-fit:contain}
+  .apx-gallery__slide{position:relative;flex:0 0 100%;scroll-snap-align:center;aspect-ratio:5/4}
+  /* absolutely positioned so the image never forces its own (square) height: keeps the 5:4 box and avoids layout shift */
+  .apx-gallery__slide img,.apx-gallery__slide svg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
   .apx-placeholder{background:var(--ap-sand);padding:12%}
   .apx-gallery__thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding:4px}
   .apx-gallery__thumbs button{display:block;width:64px;height:64px;padding:0;border:2px solid transparent;border-radius:var(--ap-radius-sm);overflow:hidden;background:var(--ap-sand);cursor:pointer}

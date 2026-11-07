@@ -50,7 +50,12 @@ Nothing existing was changed or deleted. `index.html`, `style.css`, `script.js` 
 - `check-theme.mjs` — JSON, schemas, Liquid tag balance, locale keys, assets, size budgets
 - `build-template.mjs` — generates the JSON template and header group from section presets
 
+### Added — local preview (optional)
+- `scripts/preview/server.mjs`, `mock.mjs`, `package.json` — renders the Liquid with mock data and a mock cart (liquidjs, dev only). Not Shopify's renderer
+- Found and fixed with it: the Reviews section showed an empty heading when no reviews app was added (now hidden); the sticky bar covered the footer at the end of the page (now hides when the footer is visible); gallery image forced a square box on mobile (now a 5:4 box); several tap targets under 44 px (header brand, quantity input, card title links, contact links)
+
 ### Verification run for this release
-- `shopify theme check`: 0 offenses (29 files)
+- `shopify theme check`: 0 offenses (32 files)
 - `claims-lint`: clean; `contrast-check`: 31 / 31 pass; `check-theme`: OK; all JS modules pass `node --check`
-- **Not run:** visual check at 360 / 390 / 768 / 1280 px, Lighthouse, end-to-end cart flows (need a development store)
+- Local mock preview: page renders; variant switch, subscribe pricing, add to bag, cart drawer, free-shipping bar, upsell and sticky bar exercised; checked at 375 / 390 px and about 800 px
+- **Not run:** 360 / 768 / 1280 px, Lighthouse, real Shopify cart and selling plans (need a development store)

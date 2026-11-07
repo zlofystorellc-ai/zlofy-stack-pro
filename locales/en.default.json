@@ -9,12 +9,20 @@
     "announcement": {
       "label": "Announcements",
       "pause": "Pause announcements",
-      "play": "Play announcements"
+      "play": "Play announcements",
+      "countdown_label": "Offer ends in",
+      "days": "Days",
+      "hours": "Hrs",
+      "mins": "Mins",
+      "secs": "Secs",
+      "country": "Country or region"
     },
     "header": {
       "primary_nav": "Primary",
       "secondary_nav": "Secondary",
       "cart": "Cart",
+      "menu": "Menu",
+      "account": "Account",
       "cart_count_one": "Cart, {{ num }} item",
       "cart_count_other": "Cart, {{ num }} items"
     },

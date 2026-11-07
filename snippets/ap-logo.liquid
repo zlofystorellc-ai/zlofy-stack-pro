@@ -1,0 +1,12 @@
+{%- comment -%}
+  ZLOFY wordmark: an original mark (a patch-shaped rounded square with a Z and a small dot) drawn for this theme,
+  followed by the brand name as real text. Used when no logo image is uploaded in Theme settings.
+{%- endcomment -%}
+<span class="apx-logo">
+  <svg class="apx-logo__mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true" focusable="false">
+    <rect x="1" y="1" width="32" height="32" rx="10" fill="var(--ap-teal-dark)"/>
+    <path d="M10.5 11.5h13l-13 11h13" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="26" cy="9" r="2.6" fill="var(--ap-apricot)"/>
+  </svg>
+  <span class="apx-logo__word">{{ settings.brand_name }}</span>
+</span>

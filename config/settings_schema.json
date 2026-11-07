@@ -10,7 +10,7 @@
   {
     "name": "Brand",
     "settings": [
-      { "type": "text", "id": "brand_name", "label": "Brand name", "default": "BRAND_NAME" },
+      { "type": "text", "id": "brand_name", "label": "Brand name", "default": "ZLOFY" },
       { "type": "text", "id": "day_product_name", "label": "Day product name", "default": "Day Patch" },
       { "type": "text", "id": "night_product_name", "label": "Night product name", "default": "Night Patch" },
       {

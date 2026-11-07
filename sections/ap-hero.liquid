@@ -32,6 +32,7 @@
 {% render 'ap-tokens' %}
 {% render 'ap-product-jsonld', product: product %}
 
+<div class="apx-band">
 <div
   class="apx-pdp apx-wrap"
   data-ap-product
@@ -138,7 +139,9 @@
           {%- assign opt_index = forloop.index0 -%}
           <fieldset class="apx-options" data-ap-option-group>
             <legend>{{ option.name }}</legend>
-            <div class="apx-options__grid">
+            {%- assign swatch_mode = false -%}
+            {%- if section.settings.option_style == 'swatches' and product.options.size == 1 -%}{%- assign swatch_mode = true -%}{%- endif -%}
+            <div class="apx-options__grid{% if swatch_mode %} apx-options__grid--swatch{% endif %}">
               {%- for value in option.values -%}
                 {%- assign input_id = form_id | append: '-' | append: opt_index | append: '-' | append: forloop.index -%}
                 {%- assign card_variant = nil -%}
@@ -148,6 +151,15 @@
                 <div class="apx-card">
                   <input type="radio" id="{{ input_id }}" name="option_{{ opt_index }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
                   <label for="{{ input_id }}">
+                    {%- if swatch_mode -%}
+                      <span class="apx-swatch" aria-hidden="true">
+                        {%- if card_variant.featured_media.preview_image != blank -%}
+                          {{- card_variant.featured_media.preview_image | image_url: width: 160 | image_tag: width: 80, height: 80, loading: 'lazy', alt: '' -}}
+                        {%- else -%}
+                          <span class="apx-swatch__ph">{{ value | slice: 0 }}</span>
+                        {%- endif -%}
+                      </span>
+                    {%- endif -%}
                     <span class="apx-card__name">{{ value }}</span>
                     {%- if card_variant -%}
                       {%- assign card_count = card_variant.metafields.custom.patch_count.value | default: product_patch_count -%}
@@ -185,6 +197,7 @@
             <div class="apx-card apx-card--plan">
               <input type="radio" id="{{ form_id }}-sub" name="ap_purchase" value="sub"{% if sub_default %} checked{% endif %}>
               <label for="{{ form_id }}-sub">
+                {%- if section.settings.plan_badge != blank -%}<span class="apx-card__tag">{{ section.settings.plan_badge }}</span>{%- endif -%}
                 <span class="apx-card__name">{{ 'ap.product.subscribe' | t }}</span>
                 <span class="apx-price__save" data-ap-out="save"{% unless first_save > 0 %} hidden{% endunless %}>{% if first_save > 0 %}{{ 'ap.product.save_percent' | t: percent: first_save }}{% endif %}</span>
                 <span class="apx-card__price" data-ap-out="sub-price"{% unless first_alloc %} hidden{% endunless %}>{% if first_alloc %}{{ first_alloc.price | money }}{% endif %}</span>
@@ -373,6 +386,7 @@
     ]
   </script>
 </div>
+</div>
 
 {% render 'ap-cart-drawer' %}
 
@@ -471,6 +485,21 @@
   .apx-vids__row video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--ap-radius);background:var(--ap-ink)}
   .apx-vids__row figcaption{margin-top:6px;font-size:.8125rem;color:var(--ap-ink-soft)}
   .apx-editor-note{margin:8px 0;padding:8px 12px;border:2px dashed var(--ap-ink);border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.8125rem;font-weight:600}
+  /* IM8-style structure: soft gradient band, divider, round swatches, corner tag, bigger thumbs */
+  .apx-band{background:linear-gradient(180deg,var(--ap-sand) 0,var(--ap-white) 420px)}
+  .apx-options legend{font-size:.8125rem;letter-spacing:.1em;text-transform:uppercase}
+  .apx-options__grid--swatch{display:flex;flex-wrap:wrap;gap:14px}
+  .apx-options__grid--swatch .apx-card{flex:0 0 auto;width:96px}
+  .apx-options__grid--swatch .apx-card label{align-items:center;gap:4px;min-height:0;padding:0;border:0;background:transparent;text-align:center;box-shadow:none}
+  .apx-swatch{display:block;width:84px;height:84px;border:3px solid transparent;border-radius:50%;padding:3px;background-clip:content-box}
+  .apx-swatch img,.apx-swatch__ph{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;background:var(--ap-lilac)}
+  .apx-swatch__ph{display:grid;place-items:center;font-weight:800;font-size:1.5rem;color:var(--ap-ink)}
+  .apx-options__grid--swatch .apx-card input:checked + label{background:transparent;box-shadow:none}
+  .apx-options__grid--swatch .apx-card input:checked + label .apx-swatch{border-color:var(--ap-ink)}
+  .apx-options__grid--swatch .apx-card input:focus-visible + label .apx-swatch{outline:3px solid var(--ap-ink);outline-offset:2px}
+  .apx-options__grid--swatch .apx-card__name{font-size:.875rem;line-height:1.2}
+  .apx-card--plan:has(.apx-card__tag) label{padding-top:26px}
+  .apx-card__tag{position:absolute;top:-1px;right:14px;padding:.15rem .6rem;border-radius:0 0 6px 6px;background:var(--ap-ink);color:var(--ap-white);font-size:.6875rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
   /* Mobile: pills move below the buy button so price, options and the button come first */
   @media (max-width:989px){
     .apx-info form{order:3}
@@ -483,6 +512,8 @@
     .apx-pdp{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:start;padding-block:32px 72px}
     .apx-gallery{position:sticky;top:16px}
     .apx-gallery__slide{aspect-ratio:1/1}
+    .apx-gallery__thumbs button{width:88px;height:88px}
+    .apx-info{padding-left:48px;border-left:1px solid var(--ap-line)}
   }
 {% endstylesheet %}
 
@@ -526,6 +557,18 @@
       "default": "30-day happiness promise",
       "info": "Must match your real return policy."
     },
+    {
+      "type": "select",
+      "id": "option_style",
+      "label": "Kit chooser style",
+      "options": [
+        { "value": "swatches", "label": "Round swatches (uses each variant image)" },
+        { "value": "cards", "label": "Cards with price" }
+      ],
+      "default": "swatches",
+      "info": "Swatches apply when the product has one option."
+    },
+    { "type": "text", "id": "plan_badge", "label": "Subscribe card tag", "default": "Best value", "info": "Leave empty to hide. Only keep it if Subscribe really is the best price." },
     { "type": "text", "id": "gifts_heading", "label": "Welcome gifts heading", "default": "Your welcome gifts" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
   ],

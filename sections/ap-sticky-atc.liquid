@@ -17,6 +17,8 @@
     </div>
     <button type="button" class="apx-btn apx-sticky__btn" data-ap-sticky-atc{% unless current.available %} disabled{% endunless %}>
       <span data-ap-out="atc-label">{% if current.available %}{{ 'ap.product.add_to_cart' | t }}{% else %}{{ 'ap.cart.sold_out' | t }}{% endif %}</span>
+      <span aria-hidden="true">·</span>
+      <span data-ap-out="price">{{ current.price | money }}</span>
     </button>
   </div>
 </div>

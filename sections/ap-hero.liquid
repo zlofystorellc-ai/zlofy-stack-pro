@@ -407,25 +407,26 @@
   .apx-gallery__thumbs button[aria-current="true"]{border-color:var(--ap-ink)}
   .apx-gallery__thumbs img{width:100%;height:100%;object-fit:cover}
   .apx-info{display:flex;flex-direction:column;min-width:0}
-  .apx-info__title{font-size:clamp(1.75rem,5vw,2.75rem);margin-bottom:.3em}
-  .apx-info__lead{margin:0 0 1rem;font-size:1.0625rem;color:var(--ap-ink-soft)}
-  .apx-rating{display:flex;align-items:center;gap:.5rem;margin:0 0 .75rem;font-size:.9375rem}
+  .apx-info__title{font-size:clamp(2.125rem,4.4vw,3.25rem);line-height:1.08;letter-spacing:-.025em;margin-bottom:.35em}
+  .apx-info__lead{margin:0 0 1.5rem;font-size:1.125rem;line-height:1.55;color:var(--ap-ink-soft)}
+  .apx-rating{display:flex;align-items:center;gap:.5rem;margin:0 0 1rem;font-size:.9375rem}
   .apx-stars{position:relative;display:inline-block;line-height:0;color:#757E94}
   .apx-stars__row{display:inline-flex}
   .apx-stars__row--fill{position:absolute;inset:0 auto 0 0;overflow:hidden;color:var(--ap-ink)}
   .apx-stars__row--fill .apx-icon{flex:none}
   .apx-price{margin-bottom:1rem}
   .apx-price__row{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem;margin:0}
-  .apx-price__now{font-size:1.75rem;font-weight:800}
+  .apx-price__now{font-size:2rem;font-weight:600;letter-spacing:-.01em}
   .apx-price__was{color:var(--ap-ink-soft)}
   .apx-price__save{padding:.15rem .6rem;border-radius:999px;background:var(--ap-apricot);color:var(--ap-ink);font-size:.8125rem;font-weight:800}
   .apx-price__ppp,.apx-price__delivery{margin:.15rem 0 0;font-size:.9375rem;color:var(--ap-ink-soft)}
   /* benefit pills (same idea as the earlier prototype's check pills) */
-  .apx-bullets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 1.25rem}
-  .apx-bullets li{display:flex;gap:.5rem;align-items:center;padding:8px 14px;border:1.5px solid var(--ap-line);border-radius:999px;background:var(--ap-white);font-size:.9375rem}
+  .apx-bullets{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 1.75rem;padding-bottom:1.75rem;border-bottom:1px solid var(--ap-line)}
+  .apx-bullets li{display:flex;gap:.5rem;align-items:center;padding:10px 16px;border:1.5px solid var(--ap-line);border-radius:999px;background:var(--ap-white);font-size:.9375rem;font-weight:500;line-height:1.35}
   .apx-bullets .apx-icon{color:var(--ap-blush-deep)}
-  .apx-options{margin:0 0 1.1rem;padding:0;border:0;min-width:0}
-  .apx-options legend{padding:0;margin-bottom:.5rem;font-weight:700}
+  .apx-options{margin:0 0 1.5rem;padding:0;border:0;min-width:0}
+  .apx-options[data-ap-option-group]{padding-bottom:1.5rem;border-bottom:1px solid var(--ap-line)}
+  .apx-options legend{padding:0;margin-bottom:.75rem;font-weight:700}
   .apx-options__grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
   .apx-purchase__grid{display:grid;gap:10px}
   .apx-card{position:relative}
@@ -442,7 +443,7 @@
   .apx-perks .apx-icon{margin-top:.1rem;color:var(--ap-blush-deep)}
   .apx-card input:checked + label{border-color:var(--ap-ink);background:var(--ap-sand);box-shadow:inset 0 0 0 1px var(--ap-ink)}
   .apx-card input:focus-visible + label{outline:3px solid var(--ap-ink);outline-offset:2px;box-shadow:0 0 0 6px var(--ap-white)}
-  .apx-card__name{font-weight:700}
+  .apx-card__name{font-weight:600}
   .apx-card__price{font-weight:700}
   .apx-card__ppp{font-size:.8125rem;color:var(--ap-ink-soft)}
   .apx-plan{margin-top:.75rem}
@@ -487,7 +488,7 @@
   .apx-editor-note{margin:8px 0;padding:8px 12px;border:2px dashed var(--ap-ink);border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.8125rem;font-weight:600}
   /* IM8-style structure: soft gradient band, divider, round swatches, corner tag, bigger thumbs */
   .apx-band{background:linear-gradient(180deg,var(--ap-sand) 0,var(--ap-white) 420px)}
-  .apx-options legend{font-size:.8125rem;letter-spacing:.1em;text-transform:uppercase}
+  .apx-options legend{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}
   .apx-options__grid--swatch{display:flex;flex-wrap:wrap;gap:14px}
   .apx-options__grid--swatch .apx-card{flex:0 0 auto;width:96px}
   .apx-options__grid--swatch .apx-card label{align-items:center;gap:4px;min-height:0;padding:0;border:0;background:transparent;text-align:center;box-shadow:none}

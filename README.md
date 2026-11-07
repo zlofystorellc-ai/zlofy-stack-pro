@@ -35,7 +35,7 @@ Sections, snippets, assets and one JSON template: `templates/product.acne-duo.js
 
 2. **Create the product options** so the value ladder works. One option (for example "Kit") with three values:
    `Day & Night Duo` (anchor) → `3-Month Stash` (best value) → `Refill Pouch`. Set `custom.patch_count` on each variant.
-3. **Upload images** in the theme editor (Product media, How it works, Real wear photos, Reviews videos).
+3. **Upload images and videos** in the theme editor (Product media, How it works, Real wear photos, Reviews videos, and the **Customer videos** under the accordions in the Product form: add "Customer video" blocks, each with a video, optional poster, caption and a .vtt captions URL).
    Upload only images you own or have licensed. No supplier or competitor photos. Before/after only from real, consenting customers, unedited.
 4. **Subscriptions:** install a Shopify selling-plan app (Shopify Subscriptions, Recharge, Appstle, Seal…) and attach a selling-plan group to the product.
    The purchase options appear automatically. No plans = the block hides itself. Tick "Select Subscribe by default" in the Product form section if you want that.

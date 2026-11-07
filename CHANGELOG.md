@@ -11,6 +11,7 @@ Same page flow and buy-box structure as the old static page, rebuilt with the th
 - Subscribe card now always shows the subscription price and "Save X%" when a selling plan covers the variant
 - Contrast check extended to 34 pairs (footer, pills): all pass
 - Not carried over on purpose: maroon / red palette and gradient bar, welcome-kit and quarterly mechanics, press ticker, social carousel, advisory board, all unsourced claims
+- **Customer videos** under "Shipping and returns": new `video` blocks in the Product form (merchant-uploaded video, poster, caption, captions file; swipeable row; never autoplay; hidden when empty; creator disclosure shown). The local preview shows 3 fake poster-only videos so the layout is visible
 - The sticky add-to-cart stays a bottom bar on every screen (the old page used a top bar) because it works better on phones
 
 ## 0.1.0 — 2026-11-07 — Acne Duo product page (branch `shopify-acne-duo-theme`)

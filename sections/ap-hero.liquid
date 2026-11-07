@@ -291,6 +291,47 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+
+    {%- comment -%}
+      Customer videos under the accordions. Merchant-uploaded only, never autoplay, captions track supported.
+      Hidden when no video is set.
+    {%- endcomment -%}
+    {%- assign vid_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'video' and block.settings.video != blank -%}{%- assign vid_count = vid_count | plus: 1 -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if vid_count > 0 -%}
+      <section class="apx-vids" aria-labelledby="{{ form_id }}-vids">
+        <h2 id="{{ form_id }}-vids" class="apx-vids__title">{{ section.settings.videos_heading }}</h2>
+        <ul class="apx-vids__row" tabindex="0" role="region" aria-labelledby="{{ form_id }}-vids">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'video' and block.settings.video != blank -%}
+              {%- assign vid = block.settings.video -%}
+              {%- assign vid_label = block.settings.caption -%}
+              {%- if vid_label == blank -%}{%- assign vid_label = 'ap.reviews.video_label' | t -%}{%- endif -%}
+              {%- assign vid_poster = block.settings.poster | default: vid.preview_image -%}
+              <li {{ block.shopify_attributes }}>
+                <figure>
+                  <video controls muted playsinline preload="none" poster="{{ vid_poster | image_url: width: 480 }}" aria-label="{{ vid_label | escape }}">
+                    {%- for source in vid.sources -%}
+                      <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                    {%- endfor -%}
+                    {%- if block.settings.captions_vtt != blank -%}
+                      <track kind="captions" src="{{ block.settings.captions_vtt }}" srclang="{{ request.locale.iso_code }}" label="{{ 'ap.reviews.captions' | t }}" default>
+                    {%- endif -%}
+                  </video>
+                  {%- if block.settings.caption != blank -%}<figcaption>{{ block.settings.caption }}</figcaption>{%- endif -%}
+                  {%- if block.settings.captions_vtt == blank and request.design_mode -%}
+                    <p class="apx-editor-note" role="note">{{ 'ap.reviews.captions_missing' | t }}</p>
+                  {%- endif -%}
+                </figure>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        {% render 'ap-disclosure' %}
+      </section>
+    {%- endif -%}
   </div>
 
   <script type="application/json" data-ap-variants>
@@ -398,12 +439,22 @@
   .apx-acc__item[open] summary .apx-icon{transform:rotate(180deg)}
   .apx-acc__body{padding-bottom:14px;color:var(--ap-ink-soft)}
   .apx-acc__body p:last-child{margin-bottom:0}
+  /* customer videos: swipeable row under the accordions */
+  .apx-vids{margin-top:1.5rem}
+  .apx-vids__title{margin:0 0 .75rem;font-size:1.25rem}
+  .apx-vids__row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .apx-vids__row > li{flex:0 0 150px;scroll-snap-align:start}
+  .apx-vids__row figure{margin:0}
+  .apx-vids__row video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--ap-radius);background:var(--ap-ink)}
+  .apx-vids__row figcaption{margin-top:6px;font-size:.8125rem;color:var(--ap-ink-soft)}
+  .apx-editor-note{margin:8px 0;padding:8px 12px;border:2px dashed var(--ap-ink);border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.8125rem;font-weight:600}
   /* Mobile: pills move below the buy button so price, options and the button come first */
   @media (max-width:989px){
     .apx-info form{order:3}
     .apx-bullets{order:5}
     .apx-assure,.apx-pay,.apx-label{order:6}
     .apx-acc{order:7}
+    .apx-vids{order:8}
   }
   @media (min-width:990px){
     .apx-pdp{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:start;padding-block:32px 72px}
@@ -424,6 +475,13 @@
       "id": "eyebrow",
       "label": "Eyebrow",
       "default": "Day + night pimple patches"
+    },
+    {
+      "type": "text",
+      "id": "videos_heading",
+      "label": "Customer videos heading",
+      "default": "Customer videos",
+      "info": "The videos block shows under \"Shipping and returns\" only when at least one video is added."
     },
     {
       "type": "textarea",
@@ -462,6 +520,22 @@
       "limit": 4,
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Cancel or skip any time", "info": "Shown under the Subscribe card. List only perks you really offer." }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "Customer video",
+      "limit": 6,
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video", "info": "Upload only videos you own or have licensed, from real, consenting customers. Never autoplays." },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Poster image (optional)",
+          "info": "Upload only images you own or have licensed. No supplier/competitor photos. Before/after only from real, consenting customers, unedited."
+        },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "text", "id": "captions_vtt", "label": "Captions file URL (.vtt)", "info": "Upload the .vtt in Content > Files and paste its URL." }
       ]
     },
     {

@@ -1,12 +1,21 @@
 {%- comment -%}
-  ZLOFY wordmark: an original mark (a patch-shaped rounded square with a Z and a small dot) drawn for this theme,
-  followed by the brand name as real text. Used when no logo image is uploaded in Theme settings.
+  ZLOFY wordmark with a patch "O": the O is a round hydrocolloid patch (the product itself) with a small clear centre.
+  The name stays real text (letters are text, only the O is drawn). Used when no logo image is uploaded in Theme settings.
+  Letters ZL + FY are generated from the brand name only when it is exactly "ZLOFY"; any other brand name is shown as plain text.
 {%- endcomment -%}
+{%- assign brand = settings.brand_name | strip -%}
+{%- assign up = brand | upcase -%}
 <span class="apx-logo">
-  <svg class="apx-logo__mark" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true" focusable="false">
-    <rect x="1" y="1" width="32" height="32" rx="10" fill="var(--ap-blush-deep)"/>
-    <path d="M10.5 11.5h13l-13 11h13" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="26" cy="9" r="2.6" fill="var(--ap-apricot)"/>
-  </svg>
-  <span class="apx-logo__word">{{ settings.brand_name }}</span>
+  <span class="apx-sr">{{ brand }}</span>
+  {%- if up == 'ZLOFY' -%}
+    <span class="apx-logo__w" aria-hidden="true">ZL</span>
+    <svg class="apx-logo__o" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <circle cx="16" cy="16" r="15" fill="var(--ap-blush-deep)"/>
+      <circle cx="16" cy="16" r="9.5" fill="none" stroke="var(--ap-white)" stroke-opacity=".45" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="3.4" fill="var(--ap-white)"/>
+    </svg>
+    <span class="apx-logo__w" aria-hidden="true">FY</span>
+  {%- else -%}
+    <span class="apx-logo__w" aria-hidden="true">{{ brand }}</span>
+  {%- endif -%}
 </span>

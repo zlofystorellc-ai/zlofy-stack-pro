@@ -57,9 +57,8 @@ main:focus{outline:none}
 .apx-header__right{grid-column:3}
 .apx-header__burger{margin-left:-10px}
 .apx-header__brand{display:inline-flex;align-items:center;min-height:44px;color:var(--ap-ink);text-decoration:none;white-space:nowrap}
-.apx-logo{display:inline-flex;align-items:center;gap:.6rem}
-.apx-logo__mark{flex:none}
-.apx-logo__word{font-family:var(--ap-font-display);font-size:1.5rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.apx-logo{display:inline-flex;align-items:center;font-family:var(--ap-font-display);font-size:1.75rem;font-weight:700;line-height:1;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-ink)}
+.apx-logo__o{flex:none;width:.86em;height:.86em;margin-inline:.06em .18em}
 .apx-header__brand img{display:block}
 .apx-header__right{display:flex;align-items:center;justify-content:flex-end;gap:1.25rem}
 .apx-header__nav ul{display:flex;gap:1.5rem;flex-wrap:wrap}

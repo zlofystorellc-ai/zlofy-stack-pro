@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.3 — 2026-11-07 — Logo: wordmark with a patch "O"
+
+- `snippets/ap-logo.liquid`: ZL + a round patch as the O + FY. The O is drawn as a hydrocolloid patch (solid disc, soft inner ring, clear centre), so the logo shows the product. Letters are real text; screen readers get the brand name.
+- Only the exact name "ZLOFY" gets the patch O; any other brand name falls back to plain text. Uploading a logo image in Theme settings still replaces it.
+
 ## 0.3.2 — 2026-11-07 — Cream backgrounds now blush-tinted
 
 - Sand/cream backgrounds `#F4EDE4` → blush cream `#FBEBED`; borders `#D8CDBF` → `#EBCDD2`; Day/night cell tints and the comparison highlight follow

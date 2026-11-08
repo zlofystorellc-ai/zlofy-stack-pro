@@ -7,8 +7,8 @@
  * Usage: node scripts/contrast-check.mjs   (exit 1 if any pair fails)
  */
 const C = {
-  ink: '#1F2A44', blush: '#E5707F', blushDeep: '#B3384B', lilac: '#C8B6E2', sand: '#FBEBED',
-  apricot: '#F4A261', white: '#FFFFFF', inkSoft: '#44506B',
+  ink: '#1B1B3A', blush: '#F95D75', blushDeep: '#CF2749', lilac: '#CDB8FF', sand: '#FFF0F2',
+  apricot: '#FFB270', white: '#FFFFFF', inkSoft: '#4A4A6A',
   cmpUs: '#FCDDE2', dayCell: '#FFF7F7', nightCell: '#ECE7F5', star: '#757E94', ledeOnInk: '#E6E9F2'
 };
 
@@ -42,6 +42,11 @@ const PAIRS = [
   ['Announcement bar: white on ink', C.white, C.ink, 4.5],
   ['Dark sections: light lede on ink', C.ledeOnInk, C.ink, 4.5],
   ['Dark sections: eyebrow lilac on ink', C.lilac, C.ink, 4.5],
+  ['Dark section: butter on ink (stats, highlights)', '#FFE066', C.ink, 4.5],
+  ['Guarantee band: blush-deep on butter cream', C.blushDeep, '#FFF3BC', 4.5],
+  ['Guarantee band: ink on butter cream', C.ink, '#FFF3BC', 4.5],
+  ['Guarantee pill: butter on ink', '#FFE066', C.ink, 4.5],
+  ['Video cards pill: ink on butter', C.ink, '#FFE066', 4.5],
   ['Badge: ink on apricot', C.ink, C.apricot, 4.5],
   ['Guarantee badge: ink on lilac', C.ink, C.lilac, 4.5],
   ['Cart count: white on ink', C.white, C.ink, 4.5],

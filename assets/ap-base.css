@@ -1,3 +1,5 @@
+/* Plus Jakarta Sans (SIL Open Font License 1.1), latin subset, self-hosted. */
+@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:200 800;font-display:swap;src:url("ap-font.woff2") format("woff2")}
 /* ap-base.css — shared tokens usage, layout helpers, buttons, header/footer, cart drawer.
    Section-specific CSS lives in each section's {% stylesheet %}. Tokens come from snippets/ap-tokens.liquid. */
 
@@ -5,7 +7,7 @@
 html{-webkit-text-size-adjust:100%}
 body.apx-body{margin:0;font-family:var(--ap-font);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased;color:var(--ap-ink);background:var(--ap-white)}
 img,video,svg{max-width:100%;height:auto}
-h1,h2,h3,h4{font-family:var(--ap-font-display);font-weight:500;line-height:1.12;letter-spacing:-.02em;margin:0 0 .5em;color:var(--ap-ink)}
+h1,h2,h3,h4{font-family:var(--ap-font-display);font-weight:800;line-height:1.08;letter-spacing:-.035em;margin:0 0 .5em;color:var(--ap-ink)}
 p{margin:0 0 1em}
 a{color:var(--ap-blush-deep);text-underline-offset:.18em}
 ul,ol{margin:0;padding:0;list-style:none}
@@ -25,9 +27,9 @@ main:focus{outline:none}
 .apx-section--sand{background:var(--ap-sand)}
 .apx-section--ink{background:var(--ap-ink);color:var(--ap-white)}
 .apx-section--ink h2,.apx-section--ink h3{color:var(--ap-white)}
-.apx-eyebrow{display:inline-block;margin:0 0 .75rem;padding:.3rem .8rem;border:1.5px solid currentColor;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ap-blush-deep)}
+.apx-eyebrow{display:inline-block;margin:0 0 .85rem;padding:.4rem .95rem;border:1.5px solid currentColor;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ap-blush-deep)}
 .apx-section--ink .apx-eyebrow{color:var(--ap-lilac)}
-.apx-h2{font-size:clamp(1.875rem,4vw,3rem)}
+.apx-h2{font-size:clamp(2.125rem,5vw,3.75rem)}
 .apx-lede{max-width:62ch;font-size:1.125rem;line-height:1.6;color:var(--ap-ink-soft)}
 .apx-section--ink .apx-lede{color:#E6E9F2}
 .apx-center{text-align:center}
@@ -150,7 +152,19 @@ html [data-ap-in="1"]{opacity:1;transform:none}
 .apx-btn::after,.apx-kit__btn::after,.apx-prob__btn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);transform:translateX(-120%);pointer-events:none}
 @media (hover:hover){.apx-btn:hover::after,.apx-kit__btn:hover::after,.apx-prob__btn:hover::after{transform:translateX(120%);transition:transform .7s}}
 
+/* Bold-look layer: scroll progress, word-by-word headings, drifting background glow, guarantee ring. */
+.apx-progress{position:fixed;left:0;top:0;z-index:200;width:100%;height:4px;background:linear-gradient(90deg,var(--ap-blush),var(--ap-butter));transform:scaleX(0);transform-origin:left;pointer-events:none}
+.apx-w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.apx-w>span{display:inline-block;transition:transform .8s cubic-bezier(.2,.8,.2,1) calc(var(--wi,0) * 60ms),opacity .6s calc(var(--wi,0) * 60ms)}
+.apx-h2.is-split:not(.is-in) .apx-w>span{transform:translateY(110%);opacity:0}
+.apx-band{position:relative;isolation:isolate;overflow-x:clip}
+.apx-band::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(520px 360px at 12% 18%,rgba(255,107,129,.22),transparent 70%),radial-gradient(480px 340px at 88% 12%,rgba(205,184,255,.32),transparent 70%),radial-gradient(420px 300px at 70% 85%,rgba(255,224,102,.22),transparent 70%);animation:apx-drift 16s ease-in-out infinite alternate}
+@keyframes apx-drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-2%,3%,0) scale(1.08)}}
+@keyframes apx-ring{0%{transform:scale(.9);opacity:.55}100%{transform:scale(1.9);opacity:0}}
+
 @media (prefers-reduced-motion:reduce){
   html [data-ap-in]{opacity:1!important;transform:none!important}
+  .apx-h2.is-split .apx-w>span{transform:none!important;opacity:1!important}
+  .apx-band::before,.apx-progress{animation:none}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }

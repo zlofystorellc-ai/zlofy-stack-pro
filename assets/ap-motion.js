@@ -102,7 +102,57 @@ function counts() {
   els.forEach((el) => io.observe(el));
 }
 
+/* Headline words rise one by one (below-the-fold h2 only). */
+function headlines() {
+  if (reduce || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('is-in');
+      io.unobserve(en.target);
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('main .apx-h2').forEach((h) => {
+    if (h.dataset.apSplit || h.children.length || h.getBoundingClientRect().top < innerHeight * 0.8) return;
+    h.dataset.apSplit = '1';
+    const words = (h.textContent || '').trim().split(/\s+/);
+    h.textContent = '';
+    words.forEach((w, i) => {
+      const outer = document.createElement('span');
+      outer.className = 'apx-w';
+      const inner = document.createElement('span');
+      inner.style.setProperty('--wi', String(Math.min(i, 12)));
+      inner.textContent = w;
+      outer.appendChild(inner);
+      h.appendChild(outer);
+      if (i < words.length - 1) h.appendChild(document.createTextNode(' '));
+    });
+    h.classList.add('is-split');
+    io.observe(h);
+    setTimeout(() => h.classList.add('is-in'), 7000);
+  });
+}
+
+/* Thin scroll-progress bar at the very top. */
+function progress() {
+  if (reduce || document.querySelector('.apx-progress')) return;
+  const bar = document.createElement('div');
+  bar.className = 'apx-progress';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(bar);
+  let ticking = false;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(scrollY / max, 1) : 0})`;
+    ticking = false;
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+}
+
 reveal();
+headlines();
+progress();
 stacks();
 counts();
 media();

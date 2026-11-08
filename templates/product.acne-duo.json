@@ -208,33 +208,41 @@
         "point_1": {
           "type": "point",
           "settings": {
-            "icon": "hand",
-            "title": "The picking loop",
-            "text": "Hands find the spot before your brain catches up. A patch gives your fingers something else to find."
+            "icon": "sun",
+            "time": "Morning",
+            "title": "Before the big day",
+            "text": "Photos, dates, interviews. A spot likes to show up right before them.",
+            "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day."
           }
         },
         "point_2": {
           "type": "point",
           "settings": {
-            "icon": "clock",
-            "title": "Spots before big days",
-            "text": "Photos, dates, interviews. A discreet cover helps you get on with your day."
+            "icon": "hand",
+            "time": "Midday",
+            "title": "The picking loop",
+            "text": "Hands find the spot before your brain catches up.",
+            "fix": "A patch gives your fingers something else to find."
           }
         },
         "point_3": {
           "type": "point",
           "settings": {
-            "icon": "layers",
+            "icon": "moon",
+            "time": "Night",
             "title": "Patches that slide off",
-            "text": "Edges lift, patches curl, and by morning one is stuck to your pillow instead of your face."
+            "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.",
+            "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep."
           }
         },
         "point_4": {
           "type": "point",
           "settings": {
-            "icon": "sun",
-            "title": "Patches that shine in daylight",
-            "text": "Some patches are made for night and look obvious at lunch. Separate day and night formats let you pick the right one for the moment."
+            "icon": "clock",
+            "time": "Next morning",
+            "title": "Check, then swap",
+            "text": "A patch that has turned white has taken in as much fluid as it can hold.",
+            "fix": "Peel it, toss it, and add a fresh one if the spot is still there."
           }
         }
       },

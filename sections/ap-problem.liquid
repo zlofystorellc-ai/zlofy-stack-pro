@@ -1,30 +1,71 @@
-{%- comment -%} Relatable problem section: empathetic, not fear-based. {%- endcomment -%}
-<section class="apx-problem apx-section">
+{%- comment -%}
+  "A spot's day" timeline: each moment of the day shows the real annoyance and, right under it, what helps.
+  Empathetic, not fear-based. Cosmetic wording only; keep every line true for your product.
+{%- endcomment -%}
+<section class="apx-prob apx-prob--{{ section.settings.photo_shape }} apx-section" aria-labelledby="{{ section.id }}-title">
   <div class="apx-wrap">
-    <div class="apx-problem__head">
+    <div class="apx-center">
       {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
-      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-lede apx-prob__lede">{{ section.settings.text }}</p>{%- endif -%}
     </div>
-    <ul class="apx-problem__grid">
+
+    <ol class="apx-prob__steps" data-ap-dots style="--n: {{ section.blocks.size }}">
+      <li class="apx-prob__line" aria-hidden="true"></li>
       {%- for block in section.blocks -%}
-        <li class="apx-problem__card" {{ block.shopify_attributes }}>
-          <span class="apx-problem__icon">{% render 'ap-icon', name: block.settings.icon, size: 26 %}</span>
+        <li class="apx-prob__step" {{ block.shopify_attributes }}>
+          {%- if block.settings.time != blank -%}<p class="apx-prob__time">{{ block.settings.time }}</p>{%- endif -%}
+          <span class="apx-prob__node" aria-hidden="true">{% render 'ap-icon', name: block.settings.icon, size: 24 %}</span>
+          {%- if block.settings.image != blank -%}
+            <div class="apx-prob__photo">
+              {{ block.settings.image | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 900px) 24vw, 80vw', alt: block.settings.image.alt | default: block.settings.title }}
+            </div>
+          {%- endif -%}
           <h3>{{ block.settings.title }}</h3>
-          <p>{{ block.settings.text }}</p>
+          <p class="apx-prob__moment">{{ block.settings.text }}</p>
+          {%- if block.settings.fix != blank -%}
+            <p class="apx-prob__fix">{% render 'ap-icon', name: 'check', size: 18 %}<span>{{ block.settings.fix }}</span></p>
+          {%- endif -%}
         </li>
       {%- endfor -%}
-    </ul>
+    </ol>
+
+    {%- if section.settings.button_label != blank -%}
+      <p class="apx-center apx-prob__cta"><a class="apx-prob__btn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.button_label }}</a></p>
+    {%- endif -%}
   </div>
 </section>
 
 {% stylesheet %}
-  .apx-problem__head{margin-bottom:28px}
-  .apx-problem__grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-  .apx-problem__card{padding:22px;border-radius:var(--ap-radius);background:var(--ap-sand)}
-  .apx-problem__card h3{font-size:1.2rem;margin-bottom:.4em}
-  .apx-problem__card p{margin:0;color:var(--ap-ink-soft)}
-  .apx-problem__icon{display:inline-grid;place-items:center;width:48px;height:48px;margin-bottom:14px;border-radius:16px;background:var(--ap-white);color:var(--ap-blush-deep)}
+  .apx-prob__lede{margin-inline:auto}
+  .apx-prob__steps{position:relative;display:grid;gap:0;margin:clamp(32px,5vw,56px) 0 0;padding:0;list-style:none}
+  .apx-prob__line{position:absolute;left:23px;top:24px;bottom:24px;width:2px;background:linear-gradient(var(--ap-blush),var(--ap-lilac),var(--ap-apricot));border-radius:2px;transform-origin:top;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+  .is-folded .apx-prob__line{transform:scaleY(0)}
+  .apx-prob__step{position:relative;padding:0 0 32px 72px}
+  .apx-prob__step:last-child{padding-bottom:0}
+  .apx-prob__node{position:absolute;left:0;top:0;display:grid;place-items:center;width:48px;height:48px;border:2px solid var(--ap-blush);border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep)}
+  .apx-prob__time{margin:0 0 6px;color:var(--ap-blush-deep);font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding-top:2px}
+  .apx-prob__photo{overflow:hidden;margin:0 0 16px;border-radius:12px;background:var(--ap-sand);aspect-ratio:3/4;box-shadow:0 14px 30px rgba(31,42,68,.1)}
+  .apx-prob--landscape .apx-prob__photo{aspect-ratio:16/10}
+  .apx-prob--square .apx-prob__photo{aspect-ratio:1}
+  .apx-prob__photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  @media (hover:hover){.apx-prob__step:hover .apx-prob__photo img{transform:scale(1.05)}}
+  .apx-prob__step h3{margin:0 0 .35rem;font-size:1.25rem}
+  .apx-prob__moment{margin:0;color:var(--ap-ink-soft);line-height:1.6}
+  .apx-prob__fix{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:14px;background:var(--ap-sand);color:var(--ap-ink);font-weight:600;line-height:1.5}
+  .apx-prob__fix .apx-icon{flex:none;margin-top:2px;color:var(--ap-blush-deep)}
+  .apx-prob__cta{margin-top:clamp(28px,4vw,48px)}
+  .apx-prob__btn{display:inline-flex;align-items:center;min-height:56px;padding:0 2.25rem;border-radius:999px;background:var(--ap-blush-deep);color:var(--ap-white);font-weight:800;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .apx-prob__btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(179,56,75,.35)}
+  .apx-prob__btn:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
+  @media (min-width:900px){
+    .apx-prob__steps{grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:28px}
+    .apx-prob__line{left:24px;right:calc(100% / var(--n,4) - 24px);top:51px;bottom:auto;width:auto;height:2px;background:linear-gradient(90deg,var(--ap-blush),var(--ap-lilac),var(--ap-apricot));transform-origin:left}
+    .is-folded .apx-prob__line{transform:scaleX(0)}
+    .apx-prob__step{padding:92px 0 0}
+    .apx-prob__node{left:0;top:28px}
+    .apx-prob__time{position:absolute;left:0;top:0;margin:0}
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -32,14 +73,17 @@
   "name": "Problem",
   "tag": "div",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Sound familiar?" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A spot's day" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Spots happen. Picking shouldn't be your only plan." },
     {
       "type": "textarea",
       "id": "text",
       "label": "Intro",
       "default": "A spot shows up right before something big, and your fingers have opinions. You are not alone, and there is a gentler habit to try."
-    }
+    },
+    { "type": "select", "id": "photo_shape", "label": "Photo shape", "options": [ { "value": "portrait", "label": "Portrait rectangle (3:4)" }, { "value": "landscape", "label": "Landscape rectangle (16:10)" }, { "value": "square", "label": "Square" } ], "default": "portrait" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Find your kit" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll to the buy box." }
   ],
   "blocks": [
     {
@@ -60,8 +104,11 @@
           ],
           "default": "hand"
         },
-        { "type": "text", "id": "title", "label": "Title", "default": "The picking loop" },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "Hands find the spot before your brain catches up. A patch gives your fingers something else to find." }
+        { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Shown above the moment. Upload only photos you own or have licensed, ideally of real people who gave permission." },
+        { "type": "text", "id": "time", "label": "Time of day", "default": "Midday" },
+        { "type": "text", "id": "title", "label": "Moment", "default": "The picking loop" },
+        { "type": "textarea", "id": "text", "label": "The annoyance", "default": "Hands find the spot before your brain catches up." },
+        { "type": "textarea", "id": "fix", "label": "What helps", "default": "A patch gives your fingers something else to find.", "info": "Keep it true for your product. Cosmetic wording only." }
       ]
     }
   ],
@@ -69,10 +116,10 @@
     {
       "name": "Problem",
       "blocks": [
-        { "type": "point", "settings": { "icon": "hand", "title": "The picking loop", "text": "Hands find the spot before your brain catches up. A patch gives your fingers something else to find." } },
-        { "type": "point", "settings": { "icon": "clock", "title": "Spots before big days", "text": "Photos, dates, interviews. A discreet cover helps you get on with your day." } },
-        { "type": "point", "settings": { "icon": "layers", "title": "Patches that slide off", "text": "Edges lift, patches curl, and by morning one is stuck to your pillow instead of your face." } },
-        { "type": "point", "settings": { "icon": "sun", "title": "Patches that shine in daylight", "text": "Some patches are made for night and look obvious at lunch. Separate day and night formats let you pick the right one for the moment." } }
+        { "type": "point", "settings": { "icon": "sun", "time": "Morning", "title": "Before the big day", "text": "Photos, dates, interviews. A spot likes to show up right before them.", "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day." } },
+        { "type": "point", "settings": { "icon": "hand", "time": "Midday", "title": "The picking loop", "text": "Hands find the spot before your brain catches up.", "fix": "A patch gives your fingers something else to find." } },
+        { "type": "point", "settings": { "icon": "moon", "time": "Night", "title": "Patches that slide off", "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.", "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep." } },
+        { "type": "point", "settings": { "icon": "clock", "time": "Next morning", "title": "Check, then swap", "text": "A patch that has turned white has taken in as much fluid as it can hold.", "fix": "Peel it, toss it, and add a fresh one if the spot is still there." } }
       ]
     }
   ]

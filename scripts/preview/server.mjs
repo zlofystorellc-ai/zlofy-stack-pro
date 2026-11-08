@@ -137,7 +137,7 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
   }
   if (type === 'ap-hero') {
     // Preview only: fake customer videos (no video files, poster only) so the row's layout can be seen
-    [101, 102, 103].forEach((mid, i) => {
+    [101, 102, 103, 104, 101, 102].forEach((mid, i) => {
       section.blocks.push({
         id: `video_${i + 1}`, type: 'video', shopify_attributes: '',
         settings: { video: { sources: [], preview_image: { key: `v${mid}` } }, poster: null, caption: `Mock video ${i + 1}`, captions_vtt: '' }

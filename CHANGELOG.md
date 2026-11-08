@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.6
+- Hero gallery now plays product video/external-video media (controls, muted, never autoplay) instead of showing only the poster.
+- New hero blocks `Gallery photo` (up to 8) and `Gallery video` (up to 4) append your own media after the product's media, with thumbnails (video thumbs get a play badge).
+- Preview server: poster-only `video_tag` mock so video slides can be seen locally.
+
 ## 0.5.5
 - Hero "Customer videos" row: previous/next arrow buttons (shown only when the row overflows), up to 10 video blocks (was 6). Preview mock now has 6 fake videos so the scroll can be seen.
 

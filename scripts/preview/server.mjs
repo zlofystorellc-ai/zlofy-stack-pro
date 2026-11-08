@@ -109,6 +109,15 @@ function makeEngine(globals) {
     if (p.widths) srcset = ` srcset="${String(p.widths).split(',').map((x) => `${String(url).replace(/w=\d+/, `w=${x.trim()}`)} ${x.trim()}w`).join(', ')}"`;
     return `<img src="${esc(url)}"${srcset}${p.sizes ? ` sizes="${esc(p.sizes)}"` : ''} alt="${esc(p.alt || '')}" width="${w}" height="${h}"${p.loading ? ` loading="${p.loading}"` : ''}${p.fetchpriority ? ` fetchpriority="${p.fetchpriority}"` : ''}${p.class ? ` class="${esc(p.class)}"` : ''}>`;
   });
+  // Preview only: a poster-only <video> (the mock has no real video files).
+  engine.registerFilter('video_tag', (obj, ...args) => {
+    if (!obj) return '';
+    const p = named(args);
+    const poster = p.poster && p.poster.key ? p.poster : obj.preview_image;
+    const src = poster ? `/preview-img/${poster.key || poster.id || 'x'}.svg?w=1200` : '';
+    return `<video controls muted playsinline preload="none"${src ? ` poster="${esc(src)}"` : ''}${p.class ? ` class="${esc(p.class)}"` : ''}></video>`;
+  });
+  engine.registerFilter('external_video_tag', () => '');
   engine.registerFilter('placeholder_svg_tag', (_name, cls) => `<svg class="${esc(cls || '')}" viewBox="0 0 525 525" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"><rect width="525" height="525" fill="#FBEBED"/><rect x="170" y="170" width="185" height="185" rx="60" fill="#C8B6E2" stroke="#1F2A44" stroke-width="6"/></svg>`);
   engine.registerFilter('payment_type_svg_tag', (type, ...args) => {
     const p = named(args);
@@ -137,6 +146,8 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
   }
   if (type === 'ap-hero') {
     // Preview only: fake customer videos (no video files, poster only) so the row's layout can be seen
+    section.blocks.push({ id: 'gal_img_1', type: 'gallery_image', shopify_attributes: '', settings: { image: { key: 'v103', alt: 'Mock extra photo' } } });
+    section.blocks.push({ id: 'gal_vid_1', type: 'gallery_video', shopify_attributes: '', settings: { video: { sources: [], preview_image: { key: 'v102' } }, poster: null } });
     [101, 102, 103, 104, 101, 102].forEach((mid, i) => {
       section.blocks.push({
         id: `video_${i + 1}`, type: 'video', shopify_attributes: '',

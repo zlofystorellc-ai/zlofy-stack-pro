@@ -57,6 +57,7 @@ const productOrder = [
   ['founder', 'ap-founder-note'],
   ['guarantee', 'ap-guarantee'],
   ['upsell', 'ap-upsell'],
+  ['faqsplit', 'ap-faq-split'],
   ['sticky', 'ap-sticky-atc']
 ];
 

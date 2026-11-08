@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.2
+- New section `ap-faq-split` ("FAQ with image"): blush-red FAQ panel on the left, empty image space on the right (upload later in the Image setting). Placed above the footer. No JSON-LD (main FAQ already has it).
+
 ## 0.5.1 — 2026-11-07 — Ingredients section
 
 - New `ap-ingredients`: intro, ingredient cards (plain-language materials), a "Full ingredient list" disclosure and small print. Anchor `#ingredients`.

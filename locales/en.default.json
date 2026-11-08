@@ -56,7 +56,8 @@
       "default_warnings": "For external use. Do not use on broken, infected, or irritated skin. Stop use if irritation occurs. Not designed for deep or cystic bumps.",
       "wear_time": "Typical wear time:",
       "material": "Material",
-      "contact": "Questions or reactions? Contact {{ email }}"
+      "contact": "Questions or reactions? Contact {{ email }}",
+      "show_video": "Show video {{ number }} of {{ total }}"
     },
     "trust": {
       "label": "Product highlights",

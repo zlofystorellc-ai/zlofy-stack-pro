@@ -58,7 +58,11 @@
             endif
             assign alt_text = media.alt | default: product.title
           -%}
-          {%- if forloop.first -%}
+          {%- if media.media_type == 'video' -%}
+            {{- media | video_tag: image_size: '1200x', controls: true, muted: true, playsinline: true, preload: 'none', class: 'apx-gallery__video' -}}
+          {%- elsif media.media_type == 'external_video' -%}
+            {{- media | external_video_tag: class: 'apx-gallery__video', title: alt_text -}}
+          {%- elsif forloop.first -%}
             {{- img | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'eager', fetchpriority: 'high', preload: true, alt: alt_text -}}
           {%- else -%}
             {{- img | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: alt_text -}}
@@ -69,18 +73,58 @@
           {{ 'product-1' | placeholder_svg_tag: 'apx-placeholder' }}
         </li>
       {%- endfor -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
+          <li class="apx-gallery__slide" data-media-id="{{ block.id }}" {{ block.shopify_attributes }}>
+            {{- block.settings.image | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: block.settings.image.alt | default: product.title -}}
+          </li>
+        {%- elsif block.type == 'gallery_video' and block.settings.video != blank -%}
+          <li class="apx-gallery__slide" data-media-id="{{ block.id }}" {{ block.shopify_attributes }}>
+            {{- block.settings.video | video_tag: image_size: '1200x', controls: true, muted: true, playsinline: true, preload: 'none', class: 'apx-gallery__video', poster: block.settings.poster | default: block.settings.video.preview_image -}}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
     </ul>
 
-    {%- if product.media.size > 1 -%}
+    {%- liquid
+      assign gal_total = product.media.size
+      for block in section.blocks
+        if block.type == 'gallery_image' and block.settings.image != blank
+          assign gal_total = gal_total | plus: 1
+        elsif block.type == 'gallery_video' and block.settings.video != blank
+          assign gal_total = gal_total | plus: 1
+        endif
+      endfor
+    -%}
+    {%- if gal_total > 1 -%}
       <ul class="apx-gallery__thumbs">
         {%- for media in product.media -%}
           {%- assign thumb = media -%}
           {%- if media.media_type != 'image' -%}{%- assign thumb = media.preview_image -%}{%- endif -%}
           <li>
-            <button type="button" data-ap-thumb="{{ media.id }}" aria-label="{{ 'ap.product.show_image' | t: number: forloop.index, total: product.media.size }}"{% if forloop.first %} aria-current="true"{% endif %}>
+            <button type="button" class="{% if media.media_type == 'video' or media.media_type == 'external_video' %}apx-gallery__vthumb{% endif %}" data-ap-thumb="{{ media.id }}" aria-label="{{ 'ap.product.show_image' | t: number: forloop.index, total: gal_total }}"{% if forloop.first %} aria-current="true"{% endif %}>
               {{- thumb | image_url: width: 160 | image_tag: width: 64, height: 64, loading: 'lazy', alt: '' -}}
             </button>
           </li>
+        {%- endfor -%}
+        {%- assign gal_n = product.media.size -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'gallery_image' and block.settings.image != blank -%}
+            {%- assign gal_n = gal_n | plus: 1 -%}
+            <li>
+              <button type="button" data-ap-thumb="{{ block.id }}" aria-label="{{ 'ap.product.show_image' | t: number: gal_n, total: gal_total }}">
+                {{- block.settings.image | image_url: width: 160 | image_tag: width: 64, height: 64, loading: 'lazy', alt: '' -}}
+              </button>
+            </li>
+          {%- elsif block.type == 'gallery_video' and block.settings.video != blank -%}
+            {%- assign gal_n = gal_n | plus: 1 -%}
+            {%- assign vthumb = block.settings.poster | default: block.settings.video.preview_image -%}
+            <li>
+              <button type="button" class="apx-gallery__vthumb" data-ap-thumb="{{ block.id }}" aria-label="{{ 'ap.product.show_video' | t: number: gal_n, total: gal_total }}">
+                {{- vthumb | image_url: width: 160 | image_tag: width: 64, height: 64, loading: 'lazy', alt: '' -}}
+              </button>
+            </li>
+          {%- endif -%}
         {%- endfor -%}
       </ul>
     {%- endif -%}
@@ -412,6 +456,9 @@
   .apx-gallery__thumbs button{display:block;width:64px;height:64px;padding:0;border:2px solid transparent;border-radius:var(--ap-radius-sm);overflow:hidden;background:var(--ap-sand);cursor:pointer}
   .apx-gallery__thumbs button[aria-current="true"]{border-color:var(--ap-ink)}
   .apx-gallery__thumbs img{width:100%;height:100%;object-fit:cover}
+  .apx-gallery__vthumb{position:relative}
+  .apx-gallery__vthumb::after{content:"";position:absolute;left:50%;top:50%;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;background:rgba(255,255,255,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23B3384B' d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/16px no-repeat;pointer-events:none}
+  .apx-gallery__video,.apx-gallery__slide iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border:0;background:var(--ap-ink)}
   .apx-info{display:flex;flex-direction:column;min-width:0}
   .apx-info__title{font-size:clamp(2.125rem,4.4vw,3.25rem);line-height:1.08;letter-spacing:-.025em;margin-bottom:.35em}
   .apx-info__lead{margin:0 0 1.5rem;font-size:1.125rem;line-height:1.55;color:var(--ap-ink-soft)}
@@ -609,6 +656,23 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Gift", "default": "Travel pouch" },
         { "type": "text", "id": "note", "label": "Note (optional)", "default": "Added to your first subscription box", "info": "Only list gifts you really ship, with the real conditions." }
+      ]
+    },
+    {
+      "type": "gallery_image",
+      "name": "Gallery photo",
+      "limit": 8,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo", "info": "Added after the product's own media. Upload only photos you own or have licensed." }
+      ]
+    },
+    {
+      "type": "gallery_video",
+      "name": "Gallery video",
+      "limit": 4,
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video", "info": "Shopify-hosted. Added after the product's own media. Never autoplays; you can also upload videos to the product itself." },
+        { "type": "image_picker", "id": "poster", "label": "Poster image (optional)" }
       ]
     },
     {

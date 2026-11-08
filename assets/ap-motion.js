@@ -79,7 +79,31 @@ function stacks() {
   });
 }
 
+/* Count-up for [data-ap-count]: animates 0 to the real number once, when it scrolls into view. */
+function counts() {
+  const els = document.querySelectorAll('[data-ap-count]');
+  if (reduce || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      io.unobserve(el);
+      const to = parseInt(el.dataset.apCount, 10);
+      if (!(to > 0)) return;
+      const t0 = performance.now();
+      const tick = (t) => {
+        const p = Math.min((t - t0) / 1200, 1);
+        el.textContent = String(Math.round(to * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.6 });
+  els.forEach((el) => io.observe(el));
+}
+
 reveal();
 stacks();
+counts();
 media();
 document.addEventListener('shopify:section:load', () => { media(); stacks(); });

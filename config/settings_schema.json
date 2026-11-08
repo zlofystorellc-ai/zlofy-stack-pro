@@ -39,6 +39,7 @@
       { "type": "color", "id": "color_lilac", "label": "Lilac (night accents)", "default": "#C8B6E2" },
       { "type": "color", "id": "color_sand", "label": "Blush cream (backgrounds)", "default": "#FBEBED" },
       { "type": "color", "id": "color_apricot", "label": "Apricot (badges, use with ink text)", "default": "#F4A261" },
+      { "type": "color", "id": "color_butter", "label": "Butter yellow (highlights, use with ink text)", "default": "#FFE08A" },
       { "type": "color", "id": "color_white", "label": "White", "default": "#FFFFFF" }
     ]
   },

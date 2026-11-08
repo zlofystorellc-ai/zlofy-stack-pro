@@ -13,6 +13,10 @@
 
   {%- assign cards = section.blocks | where: 'type', 'card' -%}
   {%- if cards.size > 0 -%}
+    <div class="apx-vc__nav" data-ap-vc-nav hidden>
+      <button type="button" class="apx-vc__arrow" data-ap-vc-prev aria-label="{{ 'ap.video_cards.prev' | t }}"><span aria-hidden="true">&larr;</span></button>
+      <button type="button" class="apx-vc__arrow" data-ap-vc-next aria-label="{{ 'ap.video_cards.next' | t }}"><span aria-hidden="true">&rarr;</span></button>
+    </div>
     <div class="apx-vc__row" role="region" aria-label="{{ section.settings.heading | escape }}" tabindex="0">
       {%- for block in cards -%}
         <article class="apx-vc__card" {{ block.shopify_attributes }}>
@@ -50,7 +54,12 @@
   .apx-vc__pill{margin:0;padding:.55rem 1.4rem;border:1px solid var(--ap-line);border-radius:999px;background:var(--ap-sand);color:var(--ap-blush-deep);font-size:.8125rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
   .apx-vc__h{margin:20px 0 0;color:var(--ap-blush-deep);font-size:clamp(2rem,4.2vw,3.5rem);font-weight:500;line-height:1.15}
   .apx-vc__sub{margin:16px 0 0;color:var(--ap-ink-soft);font-size:.9375rem}
-  .apx-vc__row{display:flex;gap:14px;margin-top:clamp(28px,4vw,56px);padding-inline:var(--ap-gutter);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .apx-vc__nav{display:flex;justify-content:flex-end;gap:10px;max-width:1400px;margin:28px auto 0;padding-inline:var(--ap-gutter)}
+  .apx-vc__nav[hidden]{display:none}
+  .apx-vc__arrow{display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--ap-blush-deep);border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep);font-size:1.25rem;cursor:pointer}
+  .apx-vc__arrow:disabled{opacity:.35;cursor:default}
+  .apx-vc__arrow:focus-visible{outline:3px solid var(--ap-ink);outline-offset:2px}
+  .apx-vc__row{display:flex;gap:14px;margin-top:16px;padding-inline:var(--ap-gutter);overflow-x:auto;scroll-behavior:smooth;scroll-padding-inline:var(--ap-gutter);scroll-snap-type:x mandatory;scrollbar-width:none}
   .apx-vc__row::-webkit-scrollbar{display:none}
   .apx-vc__row:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:-3px}
   .apx-vc__card{position:relative;flex:none;width:min(78vw,340px);aspect-ratio:489/540;scroll-snap-align:start;overflow:hidden;border:1px solid var(--ap-line);border-radius:24px;background:linear-gradient(160deg,var(--ap-sand),#F6CBD3);color:var(--ap-white)}
@@ -67,7 +76,7 @@
   .apx-vc__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:24px;max-width:760px;margin:clamp(32px,5vw,64px) auto 0;padding:clamp(28px,4vw,48px) var(--ap-gutter) 0;border-top:1px solid var(--ap-line);list-style:none;text-align:center}
   .apx-vc__sn{display:block;color:var(--ap-blush-deep);font-family:var(--ap-font-display);font-size:clamp(2rem,4vw,3rem);font-weight:500;line-height:1.1}
   .apx-vc__sl{display:block;margin-top:8px;color:var(--ap-blush-deep);font-size:.75rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-  @media (min-width:990px){.apx-vc__card{width:max(280px,24vw)}}
+  @media (min-width:990px){.apx-vc__card{width:max(280px,26vw)}}
   @media (prefers-reduced-motion:reduce){.apx-vc__row{scroll-behavior:auto}}
 {% endstylesheet %}
 
@@ -108,10 +117,8 @@
     {
       "name": "Video cards",
       "blocks": [
-        { "type": "card" },
-        { "type": "card" },
-        { "type": "card" },
-        { "type": "card" },
+        { "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" },
+        { "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" },
         { "type": "stat", "settings": { "number": "2", "label": "Patch types" } },
         { "type": "stat", "settings": { "number": "30", "label": "Day guarantee" } },
         { "type": "stat", "settings": { "number": "6–8", "label": "Hours per patch" } }

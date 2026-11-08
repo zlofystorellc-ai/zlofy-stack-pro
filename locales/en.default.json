@@ -134,7 +134,9 @@
       "upsell_title": "Pairs well with this"
     },
     "video_cards": {
-      "play": "Play video"
+      "play": "Play video",
+      "prev": "Previous videos",
+      "next": "Next videos"
     }
   }
 }

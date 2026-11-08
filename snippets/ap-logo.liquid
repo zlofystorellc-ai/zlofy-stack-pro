@@ -1,14 +1,14 @@
 {%- comment -%}
-  ZLOFY wordmark: lowercase serif "zlofy" where the "o" is a round hydrocolloid patch (the product itself).
-  The name stays real text (only the o is drawn). Used when no logo image is uploaded in Theme settings.
-  The patch-o is generated only when the brand name is exactly "ZLOFY" (any case); any other name is shown as plain serif text.
+  ZLOFY logo mark: a single "Z" on a round, glossy blush patch (the shape of the product itself).
+  The brand name stays real text for screen readers. The Z is drawn as a path, so no font is needed (same artwork as the favicon).
+  Used when no logo image is uploaded in Theme settings. Any brand name other than ZLOFY is shown as plain serif text.
 {%- endcomment -%}
 {%- assign brand = settings.brand_name | strip -%}
 {%- assign low = brand | downcase -%}
 <span class="apx-logo">
   <span class="apx-sr">{{ brand }}</span>
   {%- if low == 'zlofy' -%}
-    <span class="apx-logo__w" aria-hidden="true">zl</span><svg class="apx-logo__o" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+    <svg class="apx-logo__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="apx-logo-g" x1="6" y1="3" x2="27" y2="30" gradientUnits="userSpaceOnUse">
           <stop offset="0" stop-color="var(--ap-blush)"/>
@@ -17,9 +17,9 @@
       </defs>
       <circle cx="16" cy="16" r="15" fill="url(#apx-logo-g)"/>
       <circle cx="16" cy="16" r="15" fill="none" stroke="var(--ap-white)" stroke-opacity=".5" stroke-width="1.2"/>
-      <path d="M7.4 12.6A9.6 9.6 0 0 1 16 6.4" fill="none" stroke="var(--ap-white)" stroke-opacity=".75" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="16" cy="17" r="2.7" fill="var(--ap-white)" fill-opacity=".92"/>
-    </svg><span class="apx-logo__w" aria-hidden="true">fy</span>
+      <path d="M7.4 12.2A9.8 9.8 0 0 1 16 5.8" fill="none" stroke="var(--ap-white)" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M9 8.5H23V11.2L13.3 20.5H23.2V23.5H9V20.8L18.7 11.5H9Z" fill="var(--ap-white)"/>
+    </svg>
   {%- else -%}
     <span class="apx-logo__w" aria-hidden="true">{{ brand }}</span>
   {%- endif -%}

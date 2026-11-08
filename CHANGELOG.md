@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1
+- Logo is now just the letter Z: a white Z on the round glossy blush patch, in the header (52 px, 44 px on phones) and footer (60 px). Drawn as a path, same artwork as the favicon. Brand name stays as screen-reader text.
+
 ## 1.1.0 (logo)
 - New logo: lowercase serif "zlofy" (DM Serif Display) with the o drawn as a glossy blush hydrocolloid patch (tilted, spins on hover). Same in the header and the footer (white). Still real text for screen readers; uploading a logo in Theme settings still overrides it.
 - Favicon: `assets/ap-favicon.svg` (the patch), linked in `layout/theme.liquid`.

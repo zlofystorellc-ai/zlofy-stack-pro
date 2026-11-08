@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 (logo)
+- New logo: lowercase serif "zlofy" (DM Serif Display) with the o drawn as a glossy blush hydrocolloid patch (tilted, spins on hover). Same in the header and the footer (white). Still real text for screen readers; uploading a logo in Theme settings still overrides it.
+- Favicon: `assets/ap-favicon.svg` (the patch), linked in `layout/theme.liquid`.
+
 ## 1.0.1
 - Font change: headings now use DM Serif Display (elegant serif) and body text uses DM Sans; both self-hosted (SIL OFL). Headings are regular weight, so the faux-bold is switched off (`font-synthesis:none`). Replaced Plus Jakarta Sans.
 

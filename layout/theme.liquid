@@ -29,6 +29,7 @@
     <meta property="og:image" content="https:{{ product.featured_image | image_url: width: 1200 }}">
   {%- endif %}
 
+  <link rel="icon" type="image/svg+xml" href="{{ 'ap-favicon.svg' | asset_url }}">
   {% render 'ap-tokens' %}
 
   {%- comment -%}

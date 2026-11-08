@@ -1,13 +1,14 @@
-/* Plus Jakarta Sans (SIL Open Font License 1.1), latin subset, self-hosted. */
-@font-face{font-family:"Plus Jakarta Sans";font-style:normal;font-weight:200 800;font-display:swap;src:url("ap-font.woff2") format("woff2")}
+/* DM Serif Display (headings) + DM Sans (body): SIL Open Font License 1.1, latin subset, self-hosted. */
+@font-face{font-family:"DM Serif Display";font-style:normal;font-weight:400;font-display:swap;src:url("ap-font-display.woff2") format("woff2")}
+@font-face{font-family:"DM Sans";font-style:normal;font-weight:400 800;font-display:swap;src:url("ap-font-body.woff2") format("woff2")}
 /* ap-base.css — shared tokens usage, layout helpers, buttons, header/footer, cart drawer.
    Section-specific CSS lives in each section's {% stylesheet %}. Tokens come from snippets/ap-tokens.liquid. */
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body.apx-body{margin:0;font-family:var(--ap-font);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased;color:var(--ap-ink);background:var(--ap-white)}
+body.apx-body{margin:0;font-family:var(--ap-font);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased;font-synthesis:none;color:var(--ap-ink);background:var(--ap-white)}
 img,video,svg{max-width:100%;height:auto}
-h1,h2,h3,h4{font-family:var(--ap-font-display);font-weight:800;line-height:1.08;letter-spacing:-.035em;margin:0 0 .5em;color:var(--ap-ink)}
+h1,h2,h3,h4{font-family:var(--ap-font-display);font-weight:400;line-height:1.1;letter-spacing:-.01em;margin:0 0 .5em;color:var(--ap-ink)}
 p{margin:0 0 1em}
 a{color:var(--ap-blush-deep);text-underline-offset:.18em}
 ul,ol{margin:0;padding:0;list-style:none}
@@ -29,7 +30,7 @@ main:focus{outline:none}
 .apx-section--ink h2,.apx-section--ink h3{color:var(--ap-white)}
 .apx-eyebrow{display:inline-block;margin:0 0 .85rem;padding:.4rem .95rem;border:1.5px solid currentColor;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ap-blush-deep)}
 .apx-section--ink .apx-eyebrow{color:var(--ap-lilac)}
-.apx-h2{font-size:clamp(2.125rem,5vw,3.75rem)}
+.apx-h2{font-size:clamp(2.375rem,5.4vw,4.25rem)}
 .apx-lede{max-width:62ch;font-size:1.125rem;line-height:1.6;color:var(--ap-ink-soft)}
 .apx-section--ink .apx-lede{color:#E6E9F2}
 .apx-center{text-align:center}

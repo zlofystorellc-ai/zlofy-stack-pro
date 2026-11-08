@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1
+- Font change: headings now use DM Serif Display (elegant serif) and body text uses DM Sans; both self-hosted (SIL OFL). Headings are regular weight, so the faux-bold is switched off (`font-synthesis:none`). Replaced Plus Jakarta Sans.
+
 ## 1.0.0 (bold look)
 - Palette refreshed to a brighter, more modern blush-red set (ink #1B1B3A, blush #F95D75, blush deep #CF2749, lilac #CDB8FF, blush cream #FFF0F2, apricot #FFB270, butter #FFE066). Contrast script updated: 40 pairs pass.
 - Typography: Plus Jakarta Sans (self-hosted, SIL OFL, no Google request), 800-weight tight headings, larger section titles.

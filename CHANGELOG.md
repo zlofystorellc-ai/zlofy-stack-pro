@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.1
+- `ap-problem` rebuilt as "A spot's day": a four-step timeline (morning, midday, night, next morning). Each step pairs the real annoyance with a "What helps" line, with a gradient line that draws in on scroll and a button to the buy box. Block settings gained `time` and `fix`; copy is cosmetic-only and must stay true for your product.
+
 ## 0.7.0
 - New section `ap-kit-contents` ("What is in your kit") replaces the stat tiles in the product template: each kit item is drawn as its real number of patches at relative size (dots pop in on scroll), plus a summary card with the total, price and approximate price per patch (calculated from your own counts) and a buy button that scrolls to the buy box (`#buy`). Replaces the visible "Example numbers" line with an editor-only note. `ap-stats-strip` stays in the repo but is no longer in the default template.
 

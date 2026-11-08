@@ -56,6 +56,7 @@ const productOrder = [
   ['faq', 'ap-faq'],
   ['founder', 'ap-founder-note'],
   ['upsell', 'ap-upsell'],
+  ['videos', 'ap-video-cards'],
   ['guarantee', 'ap-guarantee'],
   ['faqsplit', 'ap-faq-split'],
   ['sticky', 'ap-sticky-atc']

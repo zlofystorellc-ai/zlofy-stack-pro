@@ -132,6 +132,11 @@
       "bar_away": "{{ amount }} away from free shipping",
       "bar_reached": "You've unlocked free shipping",
       "upsell_title": "Pairs well with this"
+    },
+    "video_cards": {
+      "play": "Play video",
+      "prev": "Previous videos",
+      "next": "Next videos"
     }
   }
 }

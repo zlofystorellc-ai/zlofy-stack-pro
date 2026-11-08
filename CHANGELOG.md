@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.4
+- New section `ap-video-cards` ("Video cards") + `assets/ap-video-cards.js`: swipeable row of tall video/poster cards with name and label, a pill + heading, and a stats row below. Empty tinted slots until you add your own media. Placed above the guarantee band. Tap-to-play, muted, no autoplay.
+
 ## 0.5.3
 - `ap-guarantee` restyled as a centred "Risk-free" band (shield, pill, heading, subheading, big-number card, chips) on blush cream, and moved directly above the FAQ-with-image band. Chips are the existing `point` blocks; wording stays a placeholder that must match the real refund policy.
 

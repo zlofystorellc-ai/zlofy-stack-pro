@@ -144,6 +144,21 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
     // Preview only: a fake countdown (5 days from now) so the layout can be seen. Real stores enter a real end date.
     section.settings.countdown_end = new Date(Date.now() + 5 * 864e5).toISOString();
   }
+  if (type === 'ap-before-after') {
+    section.blocks.forEach((b, i) => {
+      b.settings.before = { key: `v${[101, 103, 104][i % 3]}`, alt: 'Mock before photo' };
+      b.settings.after = { key: `v${[102, 104, 101][i % 3]}`, alt: 'Mock after photo' };
+      b.settings.name = ['Customer A', 'Customer B', 'Customer C'][i % 3];
+      b.settings.caption = 'Mock caption';
+    });
+  }
+  if (type === 'ap-how-it-works') {
+    section.settings.video = { sources: [], preview_image: { key: 'v102' } };
+    section.settings.poster = null;
+  }
+  if (type === 'ap-ingredients') {
+    section.settings.image = { key: 'v101', alt: 'Mock ingredients photo' };
+  }
   if (type === 'ap-hero') {
     // Preview only: fake customer videos (no video files, poster only) so the row's layout can be seen
     section.blocks.push({ id: 'gal_img_1', type: 'gallery_image', shopify_attributes: '', settings: { image: { key: 'v103', alt: 'Mock extra photo' } } });

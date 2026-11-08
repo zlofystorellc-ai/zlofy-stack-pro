@@ -346,6 +346,25 @@
         "ingredient_3"
       ]
     },
+    "beforeafter": {
+      "type": "ap-before-after",
+      "blocks": {
+        "pair_1": {
+          "type": "pair"
+        },
+        "pair_2": {
+          "type": "pair"
+        },
+        "pair_3": {
+          "type": "pair"
+        }
+      },
+      "block_order": [
+        "pair_1",
+        "pair_2",
+        "pair_3"
+      ]
+    },
     "daynight": {
       "type": "ap-day-night",
       "blocks": {
@@ -829,6 +848,7 @@
     "how",
     "cards",
     "ingredients",
+    "beforeafter",
     "daynight",
     "when",
     "size",

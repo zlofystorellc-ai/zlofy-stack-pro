@@ -129,6 +129,17 @@ main:focus{outline:none}
 .apx-drawer__fine{margin:0 0 .75rem;font-size:.8125rem;color:var(--ap-ink-soft)}
 body.apx-lock{overflow:hidden}
 
+/* Motion: set by ap-motion.js only on below-the-fold elements. */
+html [data-ap-in]{transition:opacity .8s cubic-bezier(.2,.7,.2,1) calc(var(--ap-d,0) * 90ms),transform .8s cubic-bezier(.2,.7,.2,1) calc(var(--ap-d,0) * 90ms)}
+html [data-ap-in="0"]{opacity:0;transform:translateY(28px)}
+html [data-ap-in="1"]{opacity:1;transform:none}
+.apx-ing__card,.apx-how__step,.apx-vc__card{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+@media (hover:hover){
+  .apx-ing__card:hover,.apx-how__step:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(31,42,68,.08)}
+  .apx-vc__card:hover{transform:translateY(-4px)}
+}
+
 @media (prefers-reduced-motion:reduce){
+  html [data-ap-in]{opacity:1!important;transform:none!important}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }

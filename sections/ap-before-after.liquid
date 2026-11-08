@@ -1,0 +1,102 @@
+{%- comment -%}
+  Before / after slider. Use ONLY photos of real, consenting customers, unedited (no filters, retouching,
+  or different lighting between the two photos), and photos you own. The disclaimer below is shown under the sliders.
+  Renders nothing until at least one pair has both images. No outcome claims are written for you.
+{%- endcomment -%}
+{%- assign pair_count = 0 -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.before != blank and block.settings.after != blank -%}{%- assign pair_count = pair_count | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+{%- if pair_count > 0 -%}
+<section class="apx-ba apx-section" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+    <div class="apx-ba__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.before != blank and block.settings.after != blank -%}
+          {%- assign ba_label = block.settings.caption | default: block.settings.name | default: product.title -%}
+          <figure class="apx-ba__item" data-ap-ba {{ block.shopify_attributes }}>
+            <div class="apx-ba__stage">
+              {{ block.settings.after | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 33vw, 90vw', class: 'apx-ba__img apx-ba__img--after', alt: '' }}
+              <div class="apx-ba__clip">
+                {{ block.settings.before | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 33vw, 90vw', class: 'apx-ba__img', alt: '' }}
+              </div>
+              <span class="apx-ba__tag apx-ba__tag--b" aria-hidden="true">{{ 'ap.before_after.before' | t }}</span>
+              <span class="apx-ba__tag apx-ba__tag--a" aria-hidden="true">{{ 'ap.before_after.after' | t }}</span>
+              <span class="apx-ba__bar" aria-hidden="true"><i></i></span>
+              <input class="apx-ba__range" type="range" min="0" max="100" value="50" step="1" data-ap-ba-range aria-label="{{ 'ap.before_after.slider' | t }}: {{ ba_label | escape }}">
+            </div>
+            {%- if block.settings.name != blank or block.settings.caption != blank -%}
+              <figcaption>
+                {%- if block.settings.name != blank -%}<strong>{{ block.settings.name }}</strong>{%- endif -%}
+                {%- if block.settings.caption != blank -%}<span>{{ block.settings.caption }}</span>{%- endif -%}
+              </figcaption>
+            {%- endif -%}
+          </figure>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.disclaimer != blank -%}<p class="apx-fine apx-center apx-ba__fine">{{ section.settings.disclaimer }}</p>{%- endif -%}
+  </div>
+</section>
+<script src="{{ 'ap-before-after.js' | asset_url }}" type="module"></script>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-ba__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;margin-top:clamp(28px,4vw,48px)}
+  .apx-ba__item{margin:0}
+  .apx-ba__stage{--pos:50%;position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:24px;background:var(--ap-sand);box-shadow:0 18px 40px rgba(31,42,68,.1);touch-action:pan-y}
+  .apx-ba__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
+  .apx-ba__clip{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+  .apx-ba__tag{position:absolute;top:14px;padding:.35rem .8rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ap-ink);font-size:.6875rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
+  .apx-ba__tag--b{left:14px}
+  .apx-ba__tag--a{right:14px}
+  .apx-ba__bar{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:var(--ap-white);pointer-events:none;box-shadow:0 0 12px rgba(0,0,0,.25)}
+  .apx-ba__bar i{position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--ap-white);box-shadow:0 4px 14px rgba(31,42,68,.3)}
+  .apx-ba__bar i::before,.apx-ba__bar i::after{content:"";position:absolute;top:50%;margin-top:-5px;border:5px solid transparent}
+  .apx-ba__bar i::before{left:9px;border-right-color:var(--ap-blush-deep);border-left-width:0}
+  .apx-ba__bar i::after{right:9px;border-left-color:var(--ap-blush-deep);border-right-width:0}
+  .apx-ba__range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none}
+  .apx-ba__stage:has(.apx-ba__range:focus-visible){outline:3px solid var(--ap-blush-deep);outline-offset:3px}
+  .apx-ba__item figcaption{display:grid;gap:2px;margin-top:12px;text-align:center}
+  .apx-ba__item figcaption span{color:var(--ap-ink-soft);font-size:.9375rem}
+  .apx-ba__fine{margin-top:24px}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Before and after",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "paragraph", "content": "Use only photos of real, consenting customers, unedited and taken in the same light, and photos you own. Nothing shows until a pair has both images." },
+    { "type": "text", "id": "eyebrow", "label": "Pill label", "default": "Real photos" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Before and after, from real customers" },
+    { "type": "textarea", "id": "text", "label": "Intro (optional)", "default": "Drag the slider to compare." },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "Photos are from real customers, shared with permission and not retouched. Results vary from person to person." }
+  ],
+  "blocks": [
+    {
+      "type": "pair",
+      "name": "Photo pair",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "before", "label": "Before photo" },
+        { "type": "image_picker", "id": "after", "label": "After photo" },
+        { "type": "text", "id": "name", "label": "First name (optional)" },
+        { "type": "text", "id": "caption", "label": "Caption (optional)", "info": "For example how long the patch was worn. State only what actually happened." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before and after",
+      "blocks": [ { "type": "pair" }, { "type": "pair" }, { "type": "pair" } ]
+    }
+  ]
+}
+{% endschema %}

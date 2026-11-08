@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.2
+- `ap-problem` timeline: optional photo per step (hidden when empty), with a slow zoom on hover.
+
 ## 0.7.1
 - `ap-problem` rebuilt as "A spot's day": a four-step timeline (morning, midday, night, next morning). Each step pairs the real annoyance with a "What helps" line, with a gradient line that draws in on scroll and a button to the buy box. Block settings gained `time` and `fix`; copy is cosmetic-only and must stay true for your product.
 

@@ -16,6 +16,11 @@
         <li class="apx-prob__step" {{ block.shopify_attributes }}>
           {%- if block.settings.time != blank -%}<p class="apx-prob__time">{{ block.settings.time }}</p>{%- endif -%}
           <span class="apx-prob__node" aria-hidden="true">{% render 'ap-icon', name: block.settings.icon, size: 24 %}</span>
+          {%- if block.settings.image != blank -%}
+            <div class="apx-prob__photo">
+              {{ block.settings.image | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 900px) 24vw, 80vw', alt: block.settings.image.alt | default: block.settings.title }}
+            </div>
+          {%- endif -%}
           <h3>{{ block.settings.title }}</h3>
           <p class="apx-prob__moment">{{ block.settings.text }}</p>
           {%- if block.settings.fix != blank -%}
@@ -40,6 +45,9 @@
   .apx-prob__step:last-child{padding-bottom:0}
   .apx-prob__node{position:absolute;left:0;top:0;display:grid;place-items:center;width:48px;height:48px;border:2px solid var(--ap-blush);border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep)}
   .apx-prob__time{margin:0 0 6px;color:var(--ap-blush-deep);font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding-top:2px}
+  .apx-prob__photo{overflow:hidden;margin:0 0 16px;border-radius:20px;background:var(--ap-sand);aspect-ratio:4/3;box-shadow:0 14px 30px rgba(31,42,68,.1)}
+  .apx-prob__photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  @media (hover:hover){.apx-prob__step:hover .apx-prob__photo img{transform:scale(1.05)}}
   .apx-prob__step h3{margin:0 0 .35rem;font-size:1.25rem}
   .apx-prob__moment{margin:0;color:var(--ap-ink-soft);line-height:1.6}
   .apx-prob__fix{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:14px;background:var(--ap-sand);color:var(--ap-ink);font-weight:600;line-height:1.5}
@@ -93,6 +101,7 @@
           ],
           "default": "hand"
         },
+        { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Shown above the moment. Upload only photos you own or have licensed, ideally of real people who gave permission." },
         { "type": "text", "id": "time", "label": "Time of day", "default": "Midday" },
         { "type": "text", "id": "title", "label": "Moment", "default": "The picking loop" },
         { "type": "textarea", "id": "text", "label": "The annoyance", "default": "Hands find the spot before your brain catches up." },

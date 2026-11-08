@@ -706,6 +706,53 @@
     "upsell": {
       "type": "ap-upsell"
     },
+    "faqsplit": {
+      "type": "ap-faq-split",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "What is ZLOFY Stack Pro?",
+            "answer": "<p>A day and night set of drug-free hydrocolloid patches. Day patches are thin and low-shine, night patches are thicker and more cushioned. Both cover and protect surfaced spots.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "How long do I wear a patch?",
+            "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Is it okay for sensitive skin?",
+            "answer": "<p>Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "How do I skip or cancel a subscription?",
+            "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5"
+      ]
+    },
     "sticky": {
       "type": "ap-sticky-atc"
     }
@@ -730,6 +777,7 @@
     "founder",
     "guarantee",
     "upsell",
+    "faqsplit",
     "sticky"
   ]
 }

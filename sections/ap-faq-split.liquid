@@ -1,0 +1,97 @@
+{%- comment -%}
+  Split FAQ band: questions on a blush-red panel, image space on the right.
+  The image area is intentionally EMPTY until you upload your own photo (Image setting).
+  Upload only photos you own or have licensed. No FAQPage JSON-LD here: the main FAQ section already outputs it.
+{%- endcomment -%}
+<section class="apx-fs{% if section.settings.image == blank %} apx-fs--noimg{% endif %}" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-fs__panel">
+    <div class="apx-fs__inner">
+      <h2 class="apx-fs__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      <div class="apx-fs__list">
+        {%- for block in section.blocks -%}
+          <details class="apx-fs__item" {% if forloop.first and section.settings.first_open %}open{% endif %} {{ block.shopify_attributes }}>
+            <summary><span>{{ block.settings.question }}</span><i class="apx-fs__pm" aria-hidden="true"></i></summary>
+            <div class="apx-fs__a">{{ block.settings.answer }}</div>
+          </details>
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a class="apx-fs__btn" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="apx-fs__media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600, 900, 1200', sizes: '(min-width: 990px) 50vw, 100vw', alt: section.settings.image.alt | default: section.settings.heading }}
+    {%- elsif request.design_mode -%}
+      <div class="apx-fs__empty">Image space: upload a photo in this section's settings</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-fs{display:grid;background:var(--ap-blush-deep);color:var(--ap-white)}
+  .apx-fs__panel{padding:56px 0}
+  .apx-fs__inner{max-width:600px;margin-inline:auto;padding-inline:var(--ap-gutter,20px)}
+  .apx-fs__h{margin:0 0 40px;color:inherit;font-size:clamp(2.25rem,5vw,3.5rem);font-weight:500;line-height:1.05}
+  .apx-fs__item{border-top:1px solid rgba(255,255,255,.6)}
+  .apx-fs__item:last-child{border-bottom:1px solid rgba(255,255,255,.6)}
+  .apx-fs__item summary{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px;padding:14px 0;font-weight:600;font-size:1.0625rem;cursor:pointer;list-style:none}
+  .apx-fs__item summary::-webkit-details-marker{display:none}
+  .apx-fs__item summary:focus-visible,.apx-fs__btn:focus-visible{outline:3px solid var(--ap-white);outline-offset:3px}
+  .apx-fs__pm{position:relative;flex:none;width:16px;height:16px}
+  .apx-fs__pm::before,.apx-fs__pm::after{content:"";position:absolute;left:0;top:7px;width:16px;height:2px;background:currentColor}
+  .apx-fs__pm::after{transform:rotate(90deg);transition:transform .2s}
+  .apx-fs__item[open] .apx-fs__pm::after{transform:rotate(0)}
+  .apx-fs__a{padding:0 0 20px;line-height:1.6}
+  .apx-fs__a p{margin:0 0 .75rem}
+  .apx-fs__a p:last-child{margin-bottom:0}
+  .apx-fs__btn{display:inline-flex;align-items:center;margin-top:28px;min-height:52px;padding:0 2rem;border-radius:999px;background:var(--ap-ink);color:var(--ap-white);font-weight:700;letter-spacing:.02em;text-transform:uppercase;text-decoration:none}
+  .apx-fs__media{min-height:0;background:var(--ap-sand)}
+  .apx-fs__media img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-fs__empty{display:grid;place-items:center;min-height:320px;padding:24px;text-align:center;color:var(--ap-ink-soft)}
+  @media (min-width:990px){
+    .apx-fs{grid-template-columns:1fr 1fr;min-height:max(680px,51vw)}
+    .apx-fs__panel{display:flex;align-items:center;padding:96px 0}
+    .apx-fs__inner{margin-inline:auto 0;padding-inline:56px 48px}
+  }
+  @media (max-width:989px){.apx-fs--noimg .apx-fs__media{display:none}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FAQ with image",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "FAQs" },
+    { "type": "checkbox", "id": "first_open", "label": "Open the first question", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore all FAQs" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Left empty on purpose. Upload your own photo here later." }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How long do I wear a patch?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Describe the answer in your own words.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ with image",
+      "blocks": [
+        { "type": "question", "settings": { "question": "What is ZLOFY Stack Pro?", "answer": "<p>A day and night set of drug-free hydrocolloid patches. Day patches are thin and low-shine, night patches are thicker and more cushioned. Both cover and protect surfaced spots.</p>" } },
+        { "type": "question", "settings": { "question": "How long do I wear a patch?", "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>" } },
+        { "type": "question", "settings": { "question": "Is it okay for sensitive skin?", "answer": "<p>Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>" } },
+        { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>" } },
+        { "type": "question", "settings": { "question": "How do I skip or cancel a subscription?", "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -146,8 +146,8 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
   }
   if (type === 'ap-when-tabs') {
     section.blocks.forEach((b, i) => {
-      b.settings.video = { sources: [], preview_image: { key: `v${[101, 102, 103][i % 3]}` } };
-      b.settings.poster = null;
+      b.settings.video = null;
+      b.settings.poster = { key: `v${[101, 102, 103][i % 3]}`, alt: 'Mock photo' };
     });
   }
   if (type === 'ap-before-after') {

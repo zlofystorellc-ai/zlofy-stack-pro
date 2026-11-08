@@ -12,7 +12,7 @@
   endif
 -%}
 {%- if section.blocks.size > 0 or full_list != blank -%}
-<section class="apx-ing apx-section" id="ingredients" aria-labelledby="{{ section.id }}-title">
+<section class="apx-ing apx-section{% if section.settings.image != blank %} apx-ing--photo{% if section.settings.image_side == 'right' %} apx-ing--right{% endif %}{% endif %}" id="ingredients" aria-labelledby="{{ section.id }}-title">
   <div class="apx-wrap">
     <div class="apx-center">
       {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
@@ -20,16 +20,28 @@
       {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
     </div>
 
+    <div class="apx-ing__body">
+    {%- if section.settings.image != blank -%}
+      <div class="apx-ing__photo">
+        {{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000', sizes: '(min-width: 900px) 45vw, 90vw', alt: section.settings.image.alt | default: section.settings.heading }}
+      </div>
+    {%- endif -%}
     {%- if section.blocks.size > 0 -%}
       <ul class="apx-ing__grid">
         {%- for block in section.blocks -%}
           <li class="apx-ing__card" {{ block.shopify_attributes }}>
-            <h3>{{ block.settings.name }}</h3>
-            <p>{{ block.settings.note }}</p>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 160 | image_tag: loading: 'lazy', width: 64, height: 64, class: 'apx-ing__thumb', alt: '' }}
+            {%- endif -%}
+            <div>
+              <h3>{{ block.settings.name }}</h3>
+              <p>{{ block.settings.note }}</p>
+            </div>
           </li>
         {%- endfor -%}
       </ul>
     {%- endif -%}
+    </div>
 
     {%- if full_list != blank -%}
       <details class="apx-ing__full">
@@ -48,6 +60,18 @@
 {% stylesheet %}
   .apx-ing__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:28px}
   .apx-ing__card{padding:22px 22px;border:1px solid var(--ap-line);border-radius:var(--ap-radius);background:var(--ap-white)}
+  .apx-ing__card{display:flex;gap:16px;align-items:flex-start}
+  .apx-ing__thumb{flex:none;width:64px;height:64px;border-radius:18px;object-fit:cover}
+  .apx-ing__photo{overflow:hidden;border-radius:28px;background:var(--ap-sand);box-shadow:0 22px 50px rgba(31,42,68,.12)}
+  .apx-ing__photo img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-ing--photo .apx-ing__body{display:grid;gap:24px;margin-top:28px;align-items:center}
+  .apx-ing--photo .apx-ing__grid{grid-template-columns:1fr;margin-top:0}
+  .apx-ing--photo .apx-ing__photo{aspect-ratio:4/5;max-width:480px;margin-inline:auto;width:100%}
+  @media (min-width:900px){
+    .apx-ing--photo .apx-ing__body{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px}
+    .apx-ing--photo .apx-ing__photo{max-width:none}
+    .apx-ing--right .apx-ing__photo{order:2}
+  }
   .apx-ing__card h3{margin:0 0 .35rem;font-size:1.125rem}
   .apx-ing__card p{margin:0;color:var(--ap-ink-soft)}
   .apx-ing__full{max-width:820px;margin:20px auto 0;border-top:1px solid var(--ap-line);border-bottom:1px solid var(--ap-line)}
@@ -73,6 +97,8 @@
       "label": "Intro",
       "default": "A short, plain-language look at the materials. Example text: replace it with your real formula before publishing."
     },
+    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "A photo of your product or materials, shown beside the cards. Upload only images you own or have licensed." },
+    { "type": "select", "id": "image_side", "label": "Photo side", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "left" },
     { "type": "text", "id": "full_list_title", "label": "Full list title", "default": "Full ingredient list" },
     {
       "type": "textarea",
@@ -89,7 +115,8 @@
       "limit": 8,
       "settings": [
         { "type": "text", "id": "name", "label": "Name", "default": "Hydrocolloid layer" },
-        { "type": "textarea", "id": "note", "label": "What it is", "default": "A soft, flexible layer that sits on the skin and covers the spot." }
+        { "type": "textarea", "id": "note", "label": "What it is", "default": "A soft, flexible layer that sits on the skin and covers the spot." },
+        { "type": "image_picker", "id": "image", "label": "Small photo (optional)", "info": "Upload only images you own or have licensed." }
       ]
     }
   ],

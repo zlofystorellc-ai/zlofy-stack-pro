@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0
+- Motion: `assets/ap-motion.js` adds a soft scroll-reveal (fade + rise, staggered) to below-the-fold content only, plus gentle hover lift on cards. Respects `prefers-reduced-motion`; everything is visible without JavaScript; a 6 s safety net never leaves content hidden.
+- New section `ap-before-after` (+ `assets/ap-before-after.js`): drag/keyboard comparison sliders (native range input), up to 6 pairs, required-style disclaimer line. Renders nothing until a pair has both photos. Use only real, consenting customers' unedited photos.
+- `ap-how-it-works`: optional how-to video (tap to play, muted, never autoplay) or photo beside the steps, steps become a numbered list when media is present.
+- `ap-ingredients`: optional photo beside the cards (left/right) and a small photo per ingredient card.
+- Template order: before/after sits right after Ingredients.
+
 ## 0.5.6
 - Hero gallery now plays product video/external-video media (controls, muted, never autoplay) instead of showing only the poster.
 - New hero blocks `Gallery photo` (up to 8) and `Gallery video` (up to 4) append your own media after the product's media, with thumbnails (video thumbs get a play badge).

@@ -138,6 +138,11 @@
       "play": "Play video",
       "prev": "Previous videos",
       "next": "Next videos"
+    },
+    "before_after": {
+      "before": "Before",
+      "after": "After",
+      "slider": "Compare before and after"
     }
   }
 }

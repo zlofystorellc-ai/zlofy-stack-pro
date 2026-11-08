@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.1
+- `ap-when-tabs` ("Which patch, when"): each tab can have its own video (tap to play, muted, never autoplay) or photo beside the text. Panels without media look as before.
+
 ## 0.6.0
 - Motion: `assets/ap-motion.js` adds a soft scroll-reveal (fade + rise, staggered) to below-the-fold content only, plus gentle hover lift on cards. Respects `prefers-reduced-motion`; everything is visible without JavaScript; a 6 s safety net never leaves content hidden.
 - New section `ap-before-after` (+ `assets/ap-before-after.js`): drag/keyboard comparison sliders (native range input), up to 6 pairs, required-style disclaimer line. Renders nothing until a pair has both photos. Use only real, consenting customers' unedited photos.

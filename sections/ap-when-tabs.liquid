@@ -22,8 +22,24 @@
 
     {%- for block in section.blocks -%}
       <div class="apx-when__panel" role="tabpanel" id="{{ section.id }}-panel-{{ forloop.index }}" aria-labelledby="{{ section.id }}-tab-{{ forloop.index }}" data-ap-panel {{ block.shopify_attributes }}>
-        <h3 class="apx-when__ph">{{ block.settings.title }}</h3>
-        <div class="apx-when__body">{{ block.settings.text }}</div>
+        {%- assign has_media = false -%}
+        {%- if block.settings.video != blank or block.settings.poster != blank -%}{%- assign has_media = true -%}{%- endif -%}
+        <div class="apx-when__grid{% if has_media %} apx-when__grid--media{% endif %}">
+          {%- if has_media -%}
+            <div class="apx-when__media" data-ap-media>
+              {%- if block.settings.video != blank -%}
+                {{ block.settings.video | video_tag: image_size: '900x', controls: false, muted: true, playsinline: true, preload: 'none', loop: true, class: 'apx-when__video', poster: block.settings.poster | default: block.settings.video.preview_image }}
+                <button type="button" class="apx-when__play" data-ap-media-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ block.settings.title | escape }}"><span aria-hidden="true"></span></button>
+              {%- else -%}
+                {{ block.settings.poster | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 760px) 40vw, 90vw', class: 'apx-when__video', alt: block.settings.poster.alt | default: block.settings.title }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          <div class="apx-when__copy">
+            <h3 class="apx-when__ph">{{ block.settings.title }}</h3>
+            <div class="apx-when__body">{{ block.settings.text }}</div>
+          </div>
+        </div>
       </div>
     {%- endfor -%}
   </div>
@@ -36,6 +52,18 @@
   .apx-when__tab{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;padding:.5rem 1.25rem;border:2px solid var(--ap-blush-deep);border-radius:999px;background:var(--ap-white);color:var(--ap-blush-deep);font-weight:700;cursor:pointer}
   .apx-when__tab[aria-selected="true"]{background:var(--ap-blush-deep);color:var(--ap-white)}
   .apx-when__panel{max-width:720px;margin:16px auto 0;padding:22px 24px;border-radius:var(--ap-radius);background:var(--ap-white)}
+  .apx-when__grid--media{display:grid;gap:20px;align-items:center}
+  .apx-when__panel:has(.apx-when__grid--media){max-width:980px;padding:clamp(16px,3vw,28px)}
+  .apx-when__grid--media .apx-when__body{font-size:clamp(1.0625rem,1.6vw,1.25rem);line-height:1.65}
+  .apx-when__media{position:relative;overflow:hidden;border-radius:20px;background:var(--ap-sand);aspect-ratio:4/5;max-width:360px;width:100%;margin-inline:auto}
+  .apx-when__video{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-when__play{position:absolute;inset:0;display:grid;place-items:center;border:0;background:transparent;cursor:pointer}
+  .apx-when__play span{position:relative;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 8px 24px rgba(31,42,68,.3);transition:transform .25s,opacity .25s}
+  .apx-when__play span::before{content:"";position:absolute;left:26px;top:19px;border-left:18px solid var(--ap-blush-deep);border-block:12px solid transparent}
+  .apx-when__play:hover span{transform:scale(1.06)}
+  .apx-when__play[aria-pressed="true"] span{opacity:0}
+  .apx-when__play:focus-visible span{outline:3px solid var(--ap-white);box-shadow:0 0 0 6px var(--ap-ink)}
+  @media (min-width:760px){.apx-when__grid--media{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:40px}.apx-when__grid--media .apx-when__media{margin:0}}
   .apx-when__ph{margin:0 0 .5rem;font-size:1.25rem}
   .apx-when__body{color:var(--ap-ink-soft)}
   .apx-when__body p:last-child{margin-bottom:0}
@@ -71,7 +99,9 @@
           ],
           "default": "none"
         },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Describe when to use this patch.</p>" }
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Describe when to use this patch.</p>" },
+        { "type": "video", "id": "video", "label": "Video (optional)", "info": "Shopify-hosted. Shown beside the text, muted, tap to play, never autoplays. Upload only videos you own." },
+        { "type": "image_picker", "id": "poster", "label": "Video cover / photo (optional)", "info": "Used as the video cover, or as a photo if there is no video. Upload only images you own or have licensed." }
       ]
     }
   ],

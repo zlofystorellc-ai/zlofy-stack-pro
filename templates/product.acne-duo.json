@@ -116,39 +116,187 @@
         "accordion_10"
       ]
     },
-    "facts": {
-      "type": "ap-marquee",
+    "problem": {
+      "type": "ap-problem",
       "blocks": {
-        "fact_1": {
-          "type": "fact",
+        "point_1": {
+          "type": "point",
           "settings": {
-            "text": "Drug-free hydrocolloid"
+            "icon": "sun",
+            "time": "Morning",
+            "title": "Before the big day",
+            "text": "Photos, dates, interviews. A spot likes to show up right before them.",
+            "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day."
           }
         },
-        "fact_2": {
-          "type": "fact",
+        "point_2": {
+          "type": "point",
           "settings": {
-            "text": "Day and night patches"
+            "icon": "hand",
+            "time": "Midday",
+            "title": "The picking loop",
+            "text": "Hands find the spot before your brain catches up.",
+            "fix": "A patch gives your fingers something else to find."
           }
         },
-        "fact_3": {
-          "type": "fact",
+        "point_3": {
+          "type": "point",
           "settings": {
-            "text": "Three sizes"
+            "icon": "moon",
+            "time": "Night",
+            "title": "Patches that slide off",
+            "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.",
+            "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep."
           }
         },
-        "fact_4": {
-          "type": "fact",
+        "point_4": {
+          "type": "point",
           "settings": {
-            "text": "For external use"
+            "icon": "clock",
+            "time": "Next morning",
+            "title": "Check, then swap",
+            "text": "A patch that has turned white has taken in as much fluid as it can hold.",
+            "fix": "Peel it, toss it, and add a fresh one if the spot is still there."
           }
         }
       },
       "block_order": [
-        "fact_1",
-        "fact_2",
-        "fact_3",
-        "fact_4"
+        "point_1",
+        "point_2",
+        "point_3",
+        "point_4"
+      ]
+    },
+    "daynight": {
+      "type": "ap-day-night",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "label": "Finish",
+            "day": "Matte, low-shine",
+            "night": "Soft gloss"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "label": "Thickness",
+            "day": "Ultra-thin",
+            "night": "Thicker and cushioned"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "label": "Best for",
+            "day": "Out and about",
+            "night": "Overnight"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "label": "Wear time",
+            "day": "4–6 hours",
+            "night": "6–8 hours"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4"
+      ]
+    },
+    "how": {
+      "type": "ap-how-it-works",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Cleanse and dry",
+            "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Press for 10 seconds",
+            "text": "Place the patch over the spot and press from the center out so the edges seal."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Leave on 6–8 hours",
+            "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "title": "Peel and swap",
+            "text": "Peel from an edge, toss it, and add a fresh patch if the spot is still there."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4"
+      ]
+    },
+    "ingredients": {
+      "type": "ap-ingredients",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Hydrocolloid layer",
+            "note": "A soft, flexible layer that sits on the skin and covers the spot."
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Breathable film",
+            "note": "A thin outer film that keeps the patch smooth and in place."
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Skin-friendly adhesive",
+            "note": "Holds the patch on until you peel it off."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3"
+      ]
+    },
+    "beforeafter": {
+      "type": "ap-before-after",
+      "blocks": {
+        "pair_1": {
+          "type": "pair"
+        },
+        "pair_2": {
+          "type": "pair"
+        },
+        "pair_3": {
+          "type": "pair"
+        }
+      },
+      "block_order": [
+        "pair_1",
+        "pair_2",
+        "pair_3"
       ]
     },
     "kit": {
@@ -202,336 +350,6 @@
         "item_4"
       ]
     },
-    "problem": {
-      "type": "ap-problem",
-      "blocks": {
-        "point_1": {
-          "type": "point",
-          "settings": {
-            "icon": "sun",
-            "time": "Morning",
-            "title": "Before the big day",
-            "text": "Photos, dates, interviews. A spot likes to show up right before them.",
-            "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day."
-          }
-        },
-        "point_2": {
-          "type": "point",
-          "settings": {
-            "icon": "hand",
-            "time": "Midday",
-            "title": "The picking loop",
-            "text": "Hands find the spot before your brain catches up.",
-            "fix": "A patch gives your fingers something else to find."
-          }
-        },
-        "point_3": {
-          "type": "point",
-          "settings": {
-            "icon": "moon",
-            "time": "Night",
-            "title": "Patches that slide off",
-            "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.",
-            "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep."
-          }
-        },
-        "point_4": {
-          "type": "point",
-          "settings": {
-            "icon": "clock",
-            "time": "Next morning",
-            "title": "Check, then swap",
-            "text": "A patch that has turned white has taken in as much fluid as it can hold.",
-            "fix": "Peel it, toss it, and add a fresh one if the spot is still there."
-          }
-        }
-      },
-      "block_order": [
-        "point_1",
-        "point_2",
-        "point_3",
-        "point_4"
-      ]
-    },
-    "how": {
-      "type": "ap-how-it-works",
-      "blocks": {
-        "step_1": {
-          "type": "step",
-          "settings": {
-            "title": "Cleanse and dry",
-            "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin."
-          }
-        },
-        "step_2": {
-          "type": "step",
-          "settings": {
-            "title": "Press for 10 seconds",
-            "text": "Place the patch over the spot and press from the center out so the edges seal."
-          }
-        },
-        "step_3": {
-          "type": "step",
-          "settings": {
-            "title": "Leave on 6–8 hours",
-            "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold."
-          }
-        },
-        "step_4": {
-          "type": "step",
-          "settings": {
-            "title": "Peel and swap",
-            "text": "Peel from an edge, toss it, and add a fresh patch if the spot is still there."
-          }
-        }
-      },
-      "block_order": [
-        "step_1",
-        "step_2",
-        "step_3",
-        "step_4"
-      ]
-    },
-    "cards": {
-      "type": "ap-feature-cards",
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "icon": "shield",
-            "title": "Covers the spot",
-            "text": "A thin, drug-free patch that sits over a surfaced spot."
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "icon": "hand",
-            "title": "Less picking",
-            "text": "A patch gives your fingers something else to find."
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "icon": "sun",
-            "title": "Day patch",
-            "text": "Thin and low-shine, so it sits close to the skin."
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "icon": "moon",
-            "title": "Night patch",
-            "text": "Thicker and cushioned, so it stays put while you sleep."
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4"
-      ]
-    },
-    "ingredients": {
-      "type": "ap-ingredients",
-      "blocks": {
-        "ingredient_1": {
-          "type": "ingredient",
-          "settings": {
-            "name": "Hydrocolloid layer",
-            "note": "A soft, flexible layer that sits on the skin and covers the spot."
-          }
-        },
-        "ingredient_2": {
-          "type": "ingredient",
-          "settings": {
-            "name": "Breathable film",
-            "note": "A thin outer film that keeps the patch smooth and in place."
-          }
-        },
-        "ingredient_3": {
-          "type": "ingredient",
-          "settings": {
-            "name": "Skin-friendly adhesive",
-            "note": "Holds the patch on until you peel it off."
-          }
-        }
-      },
-      "block_order": [
-        "ingredient_1",
-        "ingredient_2",
-        "ingredient_3"
-      ]
-    },
-    "beforeafter": {
-      "type": "ap-before-after",
-      "blocks": {
-        "pair_1": {
-          "type": "pair"
-        },
-        "pair_2": {
-          "type": "pair"
-        },
-        "pair_3": {
-          "type": "pair"
-        }
-      },
-      "block_order": [
-        "pair_1",
-        "pair_2",
-        "pair_3"
-      ]
-    },
-    "daynight": {
-      "type": "ap-day-night",
-      "blocks": {
-        "row_1": {
-          "type": "row",
-          "settings": {
-            "label": "Finish",
-            "day": "Matte, low-shine",
-            "night": "Soft gloss"
-          }
-        },
-        "row_2": {
-          "type": "row",
-          "settings": {
-            "label": "Thickness",
-            "day": "Ultra-thin",
-            "night": "Thicker and cushioned"
-          }
-        },
-        "row_3": {
-          "type": "row",
-          "settings": {
-            "label": "Best for",
-            "day": "Out and about",
-            "night": "Overnight"
-          }
-        },
-        "row_4": {
-          "type": "row",
-          "settings": {
-            "label": "Wear time",
-            "day": "4–6 hours",
-            "night": "6–8 hours"
-          }
-        }
-      },
-      "block_order": [
-        "row_1",
-        "row_2",
-        "row_3",
-        "row_4"
-      ]
-    },
-    "when": {
-      "type": "ap-when-tabs",
-      "blocks": {
-        "tab_1": {
-          "type": "tab",
-          "settings": {
-            "title": "Daytime",
-            "icon": "sun",
-            "text": "<p>Reach for the day patch before school, work or errands. It is thin with a low-shine finish, so it sits close to the skin.</p>"
-          }
-        },
-        "tab_2": {
-          "type": "tab",
-          "settings": {
-            "title": "Bedtime",
-            "icon": "moon",
-            "text": "<p>Press a night patch on after cleansing. It is thicker and more cushioned, so it stays put while you sleep.</p>"
-          }
-        },
-        "tab_3": {
-          "type": "tab",
-          "settings": {
-            "title": "On the go",
-            "icon": "clock",
-            "text": "<p>Keep a few patches in a bag or pouch to swap when a patch has turned white or the edges lift.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "tab_1",
-        "tab_2",
-        "tab_3"
-      ]
-    },
-    "size": {
-      "type": "ap-size-guide",
-      "blocks": {
-        "size_1": {
-          "type": "size",
-          "settings": {
-            "label": "8 mm",
-            "width_mm": 8,
-            "height_mm": 8,
-            "use": "Small, single spots"
-          }
-        },
-        "size_2": {
-          "type": "size",
-          "settings": {
-            "label": "10 mm",
-            "width_mm": 10,
-            "height_mm": 10,
-            "use": "Most everyday spots"
-          }
-        },
-        "size_3": {
-          "type": "size",
-          "settings": {
-            "label": "12 mm",
-            "width_mm": 12,
-            "height_mm": 12,
-            "use": "Larger or closely grouped spots"
-          }
-        },
-        "size_4": {
-          "type": "size",
-          "settings": {
-            "label": "XL body strip",
-            "width_mm": 36,
-            "height_mm": 18,
-            "use": "Back, shoulders and chest"
-          }
-        }
-      },
-      "block_order": [
-        "size_1",
-        "size_2",
-        "size_3",
-        "size_4"
-      ]
-    },
-    "shade": {
-      "type": "ap-shade-proof",
-      "blocks": {
-        "photo_1": {
-          "type": "photo"
-        },
-        "photo_2": {
-          "type": "photo"
-        },
-        "photo_3": {
-          "type": "photo"
-        },
-        "photo_4": {
-          "type": "photo"
-        }
-      },
-      "block_order": [
-        "photo_1",
-        "photo_2",
-        "photo_3",
-        "photo_4"
-      ]
-    },
     "comparison": {
       "type": "ap-comparison",
       "blocks": {
@@ -582,134 +400,8 @@
         "price_per_patch_5"
       ]
     },
-    "bundles": {
-      "type": "ap-bundles",
-      "blocks": {
-        "bundle_1": {
-          "type": "bundle",
-          "settings": {
-            "badge": "",
-            "text": "Day and night patches together."
-          }
-        },
-        "bundle_2": {
-          "type": "bundle",
-          "settings": {
-            "badge": "Most popular",
-            "text": "Three months of patches at the lowest price per patch."
-          }
-        },
-        "bundle_3": {
-          "type": "bundle",
-          "settings": {
-            "badge": "",
-            "text": "Body add-on: larger patches for shoulders, back and chest."
-          }
-        },
-        "bundle_4": {
-          "type": "bundle",
-          "settings": {
-            "badge": "",
-            "text": "Travel compact: a small case for your bag."
-          }
-        }
-      },
-      "block_order": [
-        "bundle_1",
-        "bundle_2",
-        "bundle_3",
-        "bundle_4"
-      ]
-    },
     "reviews": {
       "type": "ap-reviews"
-    },
-    "faq": {
-      "type": "ap-faq",
-      "blocks": {
-        "question_1": {
-          "type": "question",
-          "settings": {
-            "question": "How long do I wear a patch?",
-            "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>"
-          }
-        },
-        "question_2": {
-          "type": "question",
-          "settings": {
-            "question": "What is the difference between day and night?",
-            "answer": "<p>The day patch is thinner with a low-shine finish so it can blend in during the day. The night patch is thicker and more cushioned so it stays put while you sleep. Use whichever suits the moment.</p>"
-          }
-        },
-        "question_3": {
-          "type": "question",
-          "settings": {
-            "question": "Can I wear makeup over the day patch?",
-            "answer": "<p>You can try it: press the patch flat, then dab a thin layer of your usual product around the edges. Avoid rubbing, which can lift the patch.</p>"
-          }
-        },
-        "question_4": {
-          "type": "question",
-          "settings": {
-            "question": "Does it work on deep or cystic bumps?",
-            "answer": "<p>No. These patches are made for surfaced spots, the kind with a visible head. They are not designed for deep, under-the-skin bumps. If a breakout is painful, large or keeps coming back, see a dermatologist.</p>"
-          }
-        },
-        "question_5": {
-          "type": "question",
-          "settings": {
-            "question": "Is it okay for sensitive skin?",
-            "answer": "<p>The patches are drug-free hydrocolloid with no active ingredients. Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>"
-          }
-        },
-        "question_6": {
-          "type": "question",
-          "settings": {
-            "question": "Is it drug-free?",
-            "answer": "<p>Yes. The patches are drug-free hydrocolloid. They cover and protect a spot and absorb fluid from surfaced spots. They do not contain medicated ingredients.</p>"
-          }
-        },
-        "question_7": {
-          "type": "question",
-          "settings": {
-            "question": "How many patches are in a box, and how long will it last?",
-            "answer": "<p>The patch count is shown on each option above, along with the price per patch so you can compare. How long a kit lasts depends on how often you use patches.</p>"
-          }
-        },
-        "question_8": {
-          "type": "question",
-          "settings": {
-            "question": "How long does shipping take?",
-            "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>"
-          }
-        },
-        "question_9": {
-          "type": "question",
-          "settings": {
-            "question": "How do I skip or cancel a subscription?",
-            "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page, or email us before your next delivery.</p>"
-          }
-        },
-        "question_10": {
-          "type": "question",
-          "settings": {
-            "question": "What if I am not happy with my order?",
-            "answer": "<p>Contact us within the guarantee window shown on this page and we will help. Full terms are in our refund policy.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "question_1",
-        "question_2",
-        "question_3",
-        "question_4",
-        "question_5",
-        "question_6",
-        "question_7",
-        "question_8",
-        "question_9",
-        "question_10"
-      ]
     },
     "founder": {
       "type": "ap-founder-note"
@@ -828,22 +520,43 @@
         "question_3": {
           "type": "question",
           "settings": {
-            "question": "Is it okay for sensitive skin?",
-            "answer": "<p>Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>"
+            "question": "Can I wear makeup over the day patch?",
+            "answer": "<p>You can try it: press the patch flat, then dab a thin layer of your usual product around the edges. Avoid rubbing, which can lift the patch.</p>"
           }
         },
         "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Does it work on deep or cystic bumps?",
+            "answer": "<p>No. These patches are made for surfaced spots, the kind with a visible head. They are not designed for deep, under-the-skin bumps. If a breakout is painful, large or keeps coming back, see a dermatologist.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "Is it okay for sensitive skin?",
+            "answer": "<p>The patches are drug-free hydrocolloid with no active ingredients. Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>"
+          }
+        },
+        "question_6": {
           "type": "question",
           "settings": {
             "question": "How long does shipping take?",
             "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>"
           }
         },
-        "question_5": {
+        "question_7": {
           "type": "question",
           "settings": {
             "question": "How do I skip or cancel a subscription?",
-            "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page.</p>"
+            "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page, or email us before your next delivery.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "What if I am not happy with my order?",
+            "answer": "<p>Contact us within the guarantee window shown on this page and we will help. Full terms are in our refund policy.</p>"
           }
         }
       },
@@ -852,7 +565,10 @@
         "question_2",
         "question_3",
         "question_4",
-        "question_5"
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8"
       ]
     },
     "sticky": {
@@ -862,21 +578,14 @@
   "order": [
     "trust",
     "main",
-    "facts",
-    "kit",
     "problem",
+    "daynight",
     "how",
-    "cards",
     "ingredients",
     "beforeafter",
-    "daynight",
-    "when",
-    "size",
-    "shade",
+    "kit",
     "comparison",
-    "bundles",
     "reviews",
-    "faq",
     "founder",
     "upsell",
     "videos",

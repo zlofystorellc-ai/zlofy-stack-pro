@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0 (bold look)
+- Palette refreshed to a brighter, more modern blush-red set (ink #1B1B3A, blush #F95D75, blush deep #CF2749, lilac #CDB8FF, blush cream #FFF0F2, apricot #FFB270, butter #FFE066). Contrast script updated: 40 pairs pass.
+- Typography: Plus Jakarta Sans (self-hosted, SIL OFL, no Google request), 800-weight tight headings, larger section titles.
+- Backgrounds now alternate for rhythm: white, cream, rose (how to use), navy (before/after, customer videos), butter (guarantee), red (FAQ).
+- Animation: headline words rise one by one, scroll-progress bar, slow drifting colour glow behind the buy box, pulsing ring on the guarantee shield (all off with reduced motion).
+- Guarantee band restyled (light butter, red heading, pill on navy).
+
 ## 0.9.0 (clean-up)
 - Removed from the default product template as repeats (files kept in `sections/`): facts ticker (repeats the trust strip), feature cards (repeat the hero bullets), which-patch-when tabs (repeat the spot's-day timeline and day vs night), size guide (sizes are in the kit section), real-wear photos (customer photos already covered by before/after and video cards), bundles (repeat the hero kit options), old FAQ.
 - The FAQ-with-image band now carries the FAQPage schema and 8 questions. Do not add the older FAQ section as well.

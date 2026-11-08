@@ -2,7 +2,7 @@
   "A spot's day" timeline: each moment of the day shows the real annoyance and, right under it, what helps.
   Empathetic, not fear-based. Cosmetic wording only; keep every line true for your product.
 {%- endcomment -%}
-<section class="apx-prob apx-section" aria-labelledby="{{ section.id }}-title">
+<section class="apx-prob apx-prob--{{ section.settings.photo_shape }} apx-section" aria-labelledby="{{ section.id }}-title">
   <div class="apx-wrap">
     <div class="apx-center">
       {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
@@ -45,7 +45,9 @@
   .apx-prob__step:last-child{padding-bottom:0}
   .apx-prob__node{position:absolute;left:0;top:0;display:grid;place-items:center;width:48px;height:48px;border:2px solid var(--ap-blush);border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep)}
   .apx-prob__time{margin:0 0 6px;color:var(--ap-blush-deep);font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding-top:2px}
-  .apx-prob__photo{overflow:hidden;margin:0 0 16px;border-radius:20px;background:var(--ap-sand);aspect-ratio:4/3;box-shadow:0 14px 30px rgba(31,42,68,.1)}
+  .apx-prob__photo{overflow:hidden;margin:0 0 16px;border-radius:12px;background:var(--ap-sand);aspect-ratio:3/4;box-shadow:0 14px 30px rgba(31,42,68,.1)}
+  .apx-prob--landscape .apx-prob__photo{aspect-ratio:16/10}
+  .apx-prob--square .apx-prob__photo{aspect-ratio:1}
   .apx-prob__photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
   @media (hover:hover){.apx-prob__step:hover .apx-prob__photo img{transform:scale(1.05)}}
   .apx-prob__step h3{margin:0 0 .35rem;font-size:1.25rem}
@@ -79,6 +81,7 @@
       "label": "Intro",
       "default": "A spot shows up right before something big, and your fingers have opinions. You are not alone, and there is a gentler habit to try."
     },
+    { "type": "select", "id": "photo_shape", "label": "Photo shape", "options": [ { "value": "portrait", "label": "Portrait rectangle (3:4)" }, { "value": "landscape", "label": "Landscape rectangle (16:10)" }, { "value": "square", "label": "Square" } ], "default": "portrait" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Find your kit" },
     { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll to the buy box." }
   ],

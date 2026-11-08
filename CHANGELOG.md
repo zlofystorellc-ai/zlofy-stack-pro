@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.3
+- `ap-problem` photos are now rectangles (portrait 3:4 by default, squarer corners); new `Photo shape` setting (portrait, landscape, square).
+
 ## 0.7.2
 - `ap-problem` timeline: optional photo per step (hidden when empty), with a slow zoom on hover.
 

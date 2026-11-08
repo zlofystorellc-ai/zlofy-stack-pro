@@ -42,7 +42,7 @@
 
       <aside class="apx-kit__sum" aria-label="{{ section.settings.sum_label | escape }}">
         <p class="apx-kit__sum-l">{{ section.settings.sum_label }}</p>
-        <p class="apx-kit__total">{{ total }}</p>
+        <p class="apx-kit__total" data-ap-count="{{ total }}">{{ total }}</p>
         <p class="apx-kit__sum-u">{{ section.settings.sum_unit }}</p>
         {%- if total > 0 and variant.price > 0 -%}
           {%- assign per = variant.price | times: 1.0 | divided_by: total | round -%}

@@ -41,25 +41,25 @@
         "bullet_1": {
           "type": "bullet",
           "settings": {
-            "text": "Day and night patches in one kit"
+            "text": "Day patch: thin and low-shine, so you can wear it anywhere"
           }
         },
         "bullet_2": {
           "type": "bullet",
           "settings": {
-            "text": "Drug-free hydrocolloid that covers and protects surfaced spots"
+            "text": "Night patch: cushioned, so it stays put while you sleep"
           }
         },
         "bullet_3": {
           "type": "bullet",
           "settings": {
-            "text": "The day patch blends in; the night patch stays put while you sleep"
+            "text": "Less picking: give your fingers something else to find"
           }
         },
         "bullet_4": {
           "type": "bullet",
           "settings": {
-            "text": "Three sizes, so the patch fits the spot"
+            "text": "Drug-free hydrocolloid in three sizes, so there is a patch for every spot"
           }
         },
         "plan_perk_5": {
@@ -299,16 +299,16 @@
           "type": "card",
           "settings": {
             "icon": "shield",
-            "title": "Covers",
-            "text": "A thin, drug-free patch that covers a surfaced spot."
+            "title": "Covers the spot",
+            "text": "A thin, drug-free patch that sits over a surfaced spot."
           }
         },
         "card_2": {
           "type": "card",
           "settings": {
-            "icon": "check",
-            "title": "Protects",
-            "text": "Keeps the spot covered, so it is harder to pick at."
+            "icon": "hand",
+            "title": "Less picking",
+            "text": "A patch gives your fingers something else to find."
           }
         },
         "card_3": {
@@ -316,7 +316,7 @@
           "settings": {
             "icon": "sun",
             "title": "Day patch",
-            "text": "Low-shine finish that sits close to the skin."
+            "text": "Thin and low-shine, so it sits close to the skin."
           }
         },
         "card_4": {
@@ -324,7 +324,7 @@
           "settings": {
             "icon": "moon",
             "title": "Night patch",
-            "text": "Thicker and more cushioned to stay put while you sleep."
+            "text": "Thicker and cushioned, so it stays put while you sleep."
           }
         }
       },

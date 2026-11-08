@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.0
+- Conversion copy pass: hero intro and bullets now lead with the benefit (wear the thin day patch anywhere, cushioned night patch for sleep, less picking, three sizes); feature cards rewritten the same way. All cosmetic wording, nothing to verify beyond your own product facts.
+- Animation pass: hero entrance (text rises in sequence), facts band is now a slow ticker (pauses on hover, static with reduced motion), section headings get a scroll-drawn accent bar (where the browser supports scroll-driven animation), kit total counts up, buttons get a shine on hover.
+- New optional colour: `Butter yellow` (`--ap-butter`, use with ink text), used for the heading accent bar.
+
 ## 0.7.3
 - `ap-problem` photos are now rectangles (portrait 3:4 by default, squarer corners); new `Photo shape` setting (portrait, landscape, square).
 

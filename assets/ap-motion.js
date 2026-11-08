@@ -61,6 +61,25 @@ function media() {
   });
 }
 
+/* Exploded layer stack: starts folded, spreads when it scrolls into view. */
+function stacks() {
+  document.querySelectorAll('[data-ap-stack]').forEach((el) => {
+    if (el.dataset.apBound) return;
+    el.dataset.apBound = '1';
+    if (reduce || !('IntersectionObserver' in window) || el.getBoundingClientRect().top < innerHeight * 0.6) return;
+    el.classList.add('is-folded');
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((en) => en.isIntersecting)) {
+        el.classList.remove('is-folded');
+        io.disconnect();
+      }
+    }, { threshold: 0.35 });
+    io.observe(el);
+    setTimeout(() => el.classList.remove('is-folded'), 6000);
+  });
+}
+
 reveal();
+stacks();
 media();
-document.addEventListener('shopify:section:load', media);
+document.addEventListener('shopify:section:load', () => { media(); stacks(); });

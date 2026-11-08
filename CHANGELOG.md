@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.0
+- New section `ap-kit-contents` ("What is in your kit") replaces the stat tiles in the product template: each kit item is drawn as its real number of patches at relative size (dots pop in on scroll), plus a summary card with the total, price and approximate price per patch (calculated from your own counts) and a buy button that scrolls to the buy box (`#buy`). Replaces the visible "Example numbers" line with an editor-only note. `ap-stats-strip` stays in the repo but is no longer in the default template.
+
 ## 0.6.2
 - `ap-ingredients` redesigned to feel like the real product: an exploded layer-stack drawing (or your own photo) beside numbered layers, and the full ingredient list printed openly in a pack-label box instead of a hidden dropdown. Optional "Free from" chips (empty by default). No visible "example text"; the placeholder warning is now an editor-only note. Layer 1 is the top layer.
 - Which-patch-when preview mock uses photos instead of video.

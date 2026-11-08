@@ -151,43 +151,55 @@
         "fact_4"
       ]
     },
-    "stats": {
-      "type": "ap-stats-strip",
+    "kit": {
+      "type": "ap-kit-contents",
       "blocks": {
-        "stat_1": {
-          "type": "stat",
+        "item_1": {
+          "type": "item",
           "settings": {
-            "value": "36",
-            "label": "patches in the kit"
+            "name": "Day patches",
+            "count": 12,
+            "size_mm": 10,
+            "tone": "day",
+            "note": "Thin, low-shine"
           }
         },
-        "stat_2": {
-          "type": "stat",
+        "item_2": {
+          "type": "item",
           "settings": {
-            "value": "2",
-            "label": "patch types: day and night"
+            "name": "Night patches",
+            "count": 12,
+            "size_mm": 12,
+            "tone": "night",
+            "note": "Thicker, cushioned"
           }
         },
-        "stat_3": {
-          "type": "stat",
+        "item_3": {
+          "type": "item",
           "settings": {
-            "value": "3",
-            "label": "sizes for different spots"
+            "name": "Small spot patches",
+            "count": 8,
+            "size_mm": 8,
+            "tone": "neutral",
+            "note": "Single spots"
           }
         },
-        "stat_4": {
-          "type": "stat",
+        "item_4": {
+          "type": "item",
           "settings": {
-            "value": "6–8h",
-            "label": "typical wear time"
+            "name": "XL body strips",
+            "count": 4,
+            "size_mm": 0,
+            "tone": "neutral",
+            "note": "Back, shoulders, chest"
           }
         }
       },
       "block_order": [
-        "stat_1",
-        "stat_2",
-        "stat_3",
-        "stat_4"
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
       ]
     },
     "problem": {
@@ -843,7 +855,7 @@
     "trust",
     "main",
     "facts",
-    "stats",
+    "kit",
     "problem",
     "how",
     "cards",

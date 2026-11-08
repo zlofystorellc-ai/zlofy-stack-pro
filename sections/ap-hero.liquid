@@ -131,7 +131,7 @@
   </div>
 
   {%- comment -%} ---------- Buy box ---------- {%- endcomment -%}
-  <div class="apx-info">
+  <div class="apx-info" id="buy">
     {%- comment -%} Order mirrors the earlier prototype: rating row, eyebrow, title, lead, then price and pills. {%- endcomment -%}
     {%- if rating != blank and rating_count > 0 -%}
       {%- assign pct = rating.rating | divided_by: rating.scale_max | times: 100 -%}

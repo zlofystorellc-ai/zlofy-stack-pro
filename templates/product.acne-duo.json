@@ -678,6 +678,53 @@
     "upsell": {
       "type": "ap-upsell"
     },
+    "videos": {
+      "type": "ap-video-cards",
+      "blocks": {
+        "card_1": {
+          "type": "card"
+        },
+        "card_2": {
+          "type": "card"
+        },
+        "card_3": {
+          "type": "card"
+        },
+        "card_4": {
+          "type": "card"
+        },
+        "stat_5": {
+          "type": "stat",
+          "settings": {
+            "number": "2",
+            "label": "Patch types"
+          }
+        },
+        "stat_6": {
+          "type": "stat",
+          "settings": {
+            "number": "30",
+            "label": "Day guarantee"
+          }
+        },
+        "stat_7": {
+          "type": "stat",
+          "settings": {
+            "number": "6–8",
+            "label": "Hours per patch"
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "stat_5",
+        "stat_6",
+        "stat_7"
+      ]
+    },
     "guarantee": {
       "type": "ap-guarantee",
       "blocks": {
@@ -776,6 +823,7 @@
     "faq",
     "founder",
     "upsell",
+    "videos",
     "guarantee",
     "faqsplit",
     "sticky"

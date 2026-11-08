@@ -38,23 +38,20 @@ function sectionFromPreset(type) {
 
 // Section order is editable in the theme editor; this is just the starting order.
 const productOrder = [
+  // Removed as repeats of other sections (files stay in /sections if you want them back):
+  // ap-marquee (repeats trust strip), ap-feature-cards (repeats hero bullets), ap-when-tabs (repeats the timeline and day vs night),
+  // ap-size-guide (sizes are in the kit section), ap-shade-proof (customer photos: before/after + video cards),
+  // ap-bundles (repeats the hero kit options), ap-faq (replaced by the FAQ-with-image band, which now carries the FAQ schema).
   ['trust', 'ap-trust-strip'],
   ['main', 'ap-hero'],
-  ['facts', 'ap-marquee'],
-  ['kit', 'ap-kit-contents'],
   ['problem', 'ap-problem'],
+  ['daynight', 'ap-day-night'],
   ['how', 'ap-how-it-works'],
-  ['cards', 'ap-feature-cards'],
   ['ingredients', 'ap-ingredients'],
   ['beforeafter', 'ap-before-after'],
-  ['daynight', 'ap-day-night'],
-  ['when', 'ap-when-tabs'],
-  ['size', 'ap-size-guide'],
-  ['shade', 'ap-shade-proof'],
+  ['kit', 'ap-kit-contents'],
   ['comparison', 'ap-comparison'],
-  ['bundles', 'ap-bundles'],
   ['reviews', 'ap-reviews'],
-  ['faq', 'ap-faq'],
   ['founder', 'ap-founder-note'],
   ['upsell', 'ap-upsell'],
   ['videos', 'ap-video-cards'],

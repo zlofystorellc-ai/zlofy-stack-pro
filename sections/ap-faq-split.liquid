@@ -29,6 +29,24 @@
   </div>
 </section>
 
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for block in section.blocks -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.question | strip_html | json }},
+          "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | strip_newlines | json }} }
+        }{% unless forloop.last %}, {% endunless %}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}
+
 {% stylesheet %}
   .apx-fs{display:grid;background:var(--ap-blush-deep);color:var(--ap-white)}
   .apx-fs__panel{padding:56px 0}
@@ -87,9 +105,12 @@
       "blocks": [
         { "type": "question", "settings": { "question": "What is ZLOFY Stack Pro?", "answer": "<p>A day and night set of drug-free hydrocolloid patches. Day patches are thin and low-shine, night patches are thicker and more cushioned. Both cover and protect surfaced spots.</p>" } },
         { "type": "question", "settings": { "question": "How long do I wear a patch?", "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>" } },
-        { "type": "question", "settings": { "question": "Is it okay for sensitive skin?", "answer": "<p>Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>" } },
+        { "type": "question", "settings": { "question": "Can I wear makeup over the day patch?", "answer": "<p>You can try it: press the patch flat, then dab a thin layer of your usual product around the edges. Avoid rubbing, which can lift the patch.</p>" } },
+        { "type": "question", "settings": { "question": "Does it work on deep or cystic bumps?", "answer": "<p>No. These patches are made for surfaced spots, the kind with a visible head. They are not designed for deep, under-the-skin bumps. If a breakout is painful, large or keeps coming back, see a dermatologist.</p>" } },
+        { "type": "question", "settings": { "question": "Is it okay for sensitive skin?", "answer": "<p>The patches are drug-free hydrocolloid with no active ingredients. Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>" } },
         { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>" } },
-        { "type": "question", "settings": { "question": "How do I skip or cancel a subscription?", "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page.</p>" } }
+        { "type": "question", "settings": { "question": "How do I skip or cancel a subscription?", "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page, or email us before your next delivery.</p>" } },
+        { "type": "question", "settings": { "question": "What if I am not happy with my order?", "answer": "<p>Contact us within the guarantee window shown on this page and we will help. Full terms are in our refund policy.</p>" } }
       ]
     }
   ]

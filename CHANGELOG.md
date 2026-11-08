@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.0 (clean-up)
+- Removed from the default product template as repeats (files kept in `sections/`): facts ticker (repeats the trust strip), feature cards (repeat the hero bullets), which-patch-when tabs (repeat the spot's-day timeline and day vs night), size guide (sizes are in the kit section), real-wear photos (customer photos already covered by before/after and video cards), bundles (repeat the hero kit options), old FAQ.
+- The FAQ-with-image band now carries the FAQPage schema and 8 questions. Do not add the older FAQ section as well.
+- Order is now: trust, buy box, problem timeline, day vs night, how to use, ingredients, before/after, kit contents, comparison, reviews, founder note, upsell, video cards, guarantee, FAQ, sticky bar.
+- Instruction-style default text ("edit every row…", "Example numbers…") no longer shows to customers; it is an editor-only note.
+
 ## 0.8.0
 - Conversion copy pass: hero intro and bullets now lead with the benefit (wear the thin day patch anywhere, cushioned night patch for sleep, less picking, three sizes); feature cards rewritten the same way. All cosmetic wording, nothing to verify beyond your own product facts.
 - Animation pass: hero entrance (text rises in sequence), facts band is now a slow ticker (pauses on hover, static with reduced motion), section headings get a scroll-drawn accent bar (where the browser supports scroll-driven animation), kit total counts up, buttons get a shine on hover.

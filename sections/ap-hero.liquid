@@ -332,8 +332,14 @@
     {%- endfor -%}
     {%- if vid_count > 0 -%}
       <section class="apx-vids" aria-labelledby="{{ form_id }}-vids">
-        <h2 id="{{ form_id }}-vids" class="apx-vids__title">{{ section.settings.videos_heading }}</h2>
-        <ul class="apx-vids__row" tabindex="0" role="region" aria-labelledby="{{ form_id }}-vids">
+        <div class="apx-vids__top">
+          <h2 id="{{ form_id }}-vids" class="apx-vids__title">{{ section.settings.videos_heading }}</h2>
+          <div class="apx-vids__nav" data-ap-scroll-nav hidden>
+            <button type="button" class="apx-vids__arrow" data-ap-scroll-prev aria-label="{{ 'ap.video_cards.prev' | t }}"><span aria-hidden="true">&larr;</span></button>
+            <button type="button" class="apx-vids__arrow" data-ap-scroll-next aria-label="{{ 'ap.video_cards.next' | t }}"><span aria-hidden="true">&rarr;</span></button>
+          </div>
+        </div>
+        <ul class="apx-vids__row" data-ap-scroll-row tabindex="0" role="region" aria-labelledby="{{ form_id }}-vids">
           {%- for block in section.blocks -%}
             {%- if block.type == 'video' and block.settings.video != blank -%}
               {%- assign vid = block.settings.video -%}
@@ -479,8 +485,14 @@
   .apx-acc__body p:last-child{margin-bottom:0}
   /* customer videos: swipeable row under the accordions */
   .apx-vids{margin-top:1.5rem}
-  .apx-vids__title{margin:0 0 .75rem;font-size:1.25rem}
-  .apx-vids__row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .apx-vids__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:.75rem}
+  .apx-vids__title{margin:0;font-size:1.25rem}
+  .apx-vids__nav{display:flex;gap:8px}
+  .apx-vids__nav[hidden]{display:none}
+  .apx-vids__arrow{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--ap-blush-deep);border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep);font-size:1.125rem;cursor:pointer}
+  .apx-vids__arrow:disabled{opacity:.35;cursor:default}
+  .apx-vids__arrow:focus-visible{outline:3px solid var(--ap-ink);outline-offset:2px}
+  .apx-vids__row{display:flex;gap:10px;margin:0;padding-inline:0;list-style:none;scroll-behavior:smooth;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
   .apx-vids__row > li{flex:0 0 150px;scroll-snap-align:start}
   .apx-vids__row figure{margin:0}
   .apx-vids__row video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--ap-radius);background:var(--ap-ink)}
@@ -602,7 +614,7 @@
     {
       "type": "video",
       "name": "Customer video",
-      "limit": 6,
+      "limit": 10,
       "settings": [
         { "type": "video", "id": "video", "label": "Video", "info": "Upload only videos you own or have licensed, from real, consenting customers. Never autoplays." },
         {

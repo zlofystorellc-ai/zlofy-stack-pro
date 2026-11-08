@@ -163,3 +163,27 @@ function init(root) {
 
   update(false);
 }
+
+/* Arrow buttons for horizontally scrolling rows (customer videos). Rows still swipe/scroll without them. */
+function initScrollRow(wrap) {
+  const row = wrap.querySelector('[data-ap-scroll-row]');
+  const nav = wrap.querySelector('[data-ap-scroll-nav]');
+  if (!row || !nav) return;
+  const prev = nav.querySelector('[data-ap-scroll-prev]');
+  const next = nav.querySelector('[data-ap-scroll-next]');
+  const step = () => (row.firstElementChild ? row.firstElementChild.offsetWidth + 10 : 160) * 2;
+  const sync = () => {
+    nav.hidden = row.scrollWidth <= row.clientWidth + 2;
+    prev.disabled = row.scrollLeft <= 2;
+    next.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 2;
+  };
+  prev.addEventListener('click', () => row.scrollBy({ left: -step() }));
+  next.addEventListener('click', () => row.scrollBy({ left: step() }));
+  row.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+}
+document.querySelectorAll('.apx-vids').forEach(initScrollRow);
+document.addEventListener('shopify:section:load', (e) => {
+  e.target.querySelectorAll?.('.apx-vids').forEach(initScrollRow);
+});

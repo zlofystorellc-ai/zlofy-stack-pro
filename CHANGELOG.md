@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.5
+- Hero "Customer videos" row: previous/next arrow buttons (shown only when the row overflows), up to 10 video blocks (was 6). Preview mock now has 6 fake videos so the scroll can be seen.
+
 ## 0.5.4
 - New section `ap-video-cards` ("Video cards") + `assets/ap-video-cards.js`: swipeable row of tall video/poster cards with name and label, a pill + heading, and a stats row below. Empty tinted slots until you add your own media. Placed above the guarantee band. Tap-to-play, muted, no autoplay.
 

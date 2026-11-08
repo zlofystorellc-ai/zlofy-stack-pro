@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.2
+- `ap-ingredients` redesigned to feel like the real product: an exploded layer-stack drawing (or your own photo) beside numbered layers, and the full ingredient list printed openly in a pack-label box instead of a hidden dropdown. Optional "Free from" chips (empty by default). No visible "example text"; the placeholder warning is now an editor-only note. Layer 1 is the top layer.
+- Which-patch-when preview mock uses photos instead of video.
+
 ## 0.6.1
 - `ap-when-tabs` ("Which patch, when"): each tab can have its own video (tap to play, muted, never autoplay) or photo beside the text. Panels without media look as before.
 

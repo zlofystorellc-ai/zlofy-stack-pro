@@ -162,9 +162,6 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
     section.settings.video = { sources: [], preview_image: { key: 'v102' } };
     section.settings.poster = null;
   }
-  if (type === 'ap-ingredients') {
-    section.settings.image = { key: 'v101', alt: 'Mock ingredients photo' };
-  }
   if (type === 'ap-hero') {
     // Preview only: fake customer videos (no video files, poster only) so the row's layout can be seen
     section.blocks.push({ id: 'gal_img_1', type: 'gallery_image', shopify_attributes: '', settings: { image: { key: 'v103', alt: 'Mock extra photo' } } });

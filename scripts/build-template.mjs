@@ -41,7 +41,7 @@ const productOrder = [
   ['trust', 'ap-trust-strip'],
   ['main', 'ap-hero'],
   ['facts', 'ap-marquee'],
-  ['stats', 'ap-stats-strip'],
+  ['kit', 'ap-kit-contents'],
   ['problem', 'ap-problem'],
   ['how', 'ap-how-it-works'],
   ['cards', 'ap-feature-cards'],

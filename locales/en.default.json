@@ -143,6 +143,11 @@
       "before": "Before",
       "after": "After",
       "slider": "Compare before and after"
+    },
+    "kit": {
+      "quantity": "Quantity:",
+      "price": "Price",
+      "per_patch": "About per patch"
     }
   }
 }

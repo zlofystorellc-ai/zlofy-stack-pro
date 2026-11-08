@@ -1,0 +1,136 @@
+{%- comment -%}
+  "What is in your kit": every item drawn as the real number of patches at relative size, plus a summary card with the
+  total, an approximate price per patch and a buy button. All numbers are entered by you: they MUST match the real box.
+  Price per patch = current variant price / total patches entered here.
+  No countdowns, no fake scarcity, no outcome claims.
+{%- endcomment -%}
+{%- liquid
+  assign total = 0
+  for block in section.blocks
+    assign total = total | plus: block.settings.count
+  endfor
+  assign variant = product.selected_or_first_available_variant
+-%}
+{%- if section.blocks.size > 0 -%}
+<section class="apx-kit apx-section" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="apx-kit__layout">
+      <ul class="apx-kit__grid" data-ap-dots>
+        {%- for block in section.blocks -%}
+          {%- assign n = block.settings.count | at_most: 60 -%}
+          <li class="apx-kit__tile apx-kit__tile--{{ block.settings.tone }}" {{ block.shopify_attributes }}>
+            <div class="apx-kit__top">
+              <h3>{{ block.settings.name }}</h3>
+              <p class="apx-kit__count"><span class="apx-sr">{{ 'ap.kit.quantity' | t }} </span>&times;{{ block.settings.count }}</p>
+            </div>
+            <div class="apx-kit__dots{% if block.settings.size_mm == 0 %} apx-kit__dots--strip{% endif %}" aria-hidden="true" style="--s: {{ block.settings.size_mm | default: 10 }}">
+              {%- for k in (1..n) -%}<i style="--k: {{ k }}"></i>{%- endfor -%}
+            </div>
+            <p class="apx-kit__meta">
+              {%- if block.settings.size_mm > 0 -%}<strong>{{ block.settings.size_mm }} mm</strong>{%- endif -%}
+              {%- if block.settings.note != blank -%}<span>{{ block.settings.note }}</span>{%- endif -%}
+            </p>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <aside class="apx-kit__sum" aria-label="{{ section.settings.sum_label | escape }}">
+        <p class="apx-kit__sum-l">{{ section.settings.sum_label }}</p>
+        <p class="apx-kit__total">{{ total }}</p>
+        <p class="apx-kit__sum-u">{{ section.settings.sum_unit }}</p>
+        {%- if total > 0 and variant.price > 0 -%}
+          {%- assign per = variant.price | times: 1.0 | divided_by: total | round -%}
+          <dl class="apx-kit__price">
+            <div><dt>{{ 'ap.kit.price' | t }}</dt><dd>{{ variant.price | money }}</dd></div>
+            <div><dt>{{ 'ap.kit.per_patch' | t }}</dt><dd>{{ per | money }}</dd></div>
+          </dl>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a class="apx-kit__btn" href="#buy">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.fine != blank -%}<p class="apx-kit__fine">{{ section.settings.fine }}</p>{%- endif -%}
+      </aside>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% stylesheet %}
+  .apx-kit__layout{display:grid;gap:20px;margin-top:clamp(28px,4vw,48px);align-items:start}
+  .apx-kit__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin:0;padding:0;list-style:none}
+  .apx-kit__tile{--dot:#F4B6BF;--ring:var(--ap-blush-deep);display:flex;flex-direction:column;gap:14px;padding:22px;border:1px solid var(--ap-line);border-radius:24px;background:var(--ap-white);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+  .apx-kit__tile--night{--dot:var(--ap-ink-soft);--ring:var(--ap-ink)}
+  .apx-kit__tile--neutral{--dot:var(--ap-lilac);--ring:var(--ap-ink-soft)}
+  .apx-kit__top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .apx-kit__top h3{margin:0;font-size:1.125rem}
+  .apx-kit__count{margin:0;color:var(--ap-blush-deep);font-family:var(--ap-font-display);font-size:1.75rem;font-weight:500;line-height:1}
+  .apx-kit__dots{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;min-height:84px}
+  .apx-kit__dots i{display:block;width:calc(var(--s) * 2px);height:calc(var(--s) * 2px);border-radius:50%;background:var(--dot);box-shadow:inset 0 0 0 1.5px var(--ring);opacity:.95}
+  .apx-kit__dots--strip i{width:56px;height:20px;border-radius:10px}
+  .apx-kit__meta{display:flex;flex-wrap:wrap;gap:6px 12px;margin:auto 0 0;color:var(--ap-ink-soft);font-size:.875rem}
+  .apx-kit__meta strong{color:var(--ap-ink)}
+  .is-folded .apx-kit__dots i{opacity:0;transform:scale(.3)}
+  .apx-kit__dots i{transition:opacity .4s,transform .5s cubic-bezier(.3,1.4,.5,1);transition-delay:calc(var(--k) * 16ms)}
+  .apx-kit__sum{padding:28px;border-radius:28px;background:var(--ap-ink);color:var(--ap-white);text-align:center}
+  .apx-kit__sum-l{margin:0;font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ap-lilac)}
+  .apx-kit__total{margin:8px 0 0;font-family:var(--ap-font-display);font-size:clamp(4rem,9vw,5.5rem);font-weight:500;line-height:1}
+  .apx-kit__sum-u{margin:4px 0 0;color:#E6E9F2}
+  .apx-kit__price{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 0;padding:16px 0;border-block:1px solid rgba(255,255,255,.22)}
+  .apx-kit__price dt{margin:0;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#E6E9F2}
+  .apx-kit__price dd{margin:4px 0 0;font-size:1.375rem;font-weight:700}
+  .apx-kit__btn{display:flex;align-items:center;justify-content:center;min-height:56px;margin-top:22px;border-radius:999px;background:var(--ap-white);color:var(--ap-ink);font-weight:800;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .apx-kit__btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.3)}
+  .apx-kit__btn:focus-visible{outline:3px solid var(--ap-white);outline-offset:3px}
+  .apx-kit__fine{margin:14px 0 0;font-size:.8125rem;color:#E6E9F2}
+  @media (hover:hover){.apx-kit__tile:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(31,42,68,.1)}}
+  @media (min-width:990px){.apx-kit__layout{grid-template-columns:minmax(0,7fr) minmax(0,4fr)}.apx-kit__sum{position:sticky;top:96px}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "What is in your kit",
+  "tag": "div",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "paragraph", "content": "Editor note: all counts and sizes are placeholders. Enter exactly what is in your box. The total and the price per patch are calculated from these numbers." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Your kit" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Every patch in the box" },
+    { "type": "textarea", "id": "text", "label": "Intro (optional)", "default": "Each dot is one patch, drawn at its real relative size." },
+    { "type": "text", "id": "sum_label", "label": "Summary label", "default": "In the box" },
+    { "type": "text", "id": "sum_unit", "label": "Summary unit", "default": "patches in total" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Choose your kit" },
+    { "type": "text", "id": "fine", "label": "Small line (optional)", "default": "Cosmetic patches for external use." }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Kit item",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Day patches" },
+        { "type": "number", "id": "count", "label": "How many in the box", "default": 12 },
+        { "type": "number", "id": "size_mm", "label": "Diameter in mm (0 = long strip)", "default": 10 },
+        { "type": "select", "id": "tone", "label": "Colour", "options": [ { "value": "day", "label": "Day (blush)" }, { "value": "night", "label": "Night (navy)" }, { "value": "neutral", "label": "Other (lilac)" } ], "default": "day" },
+        { "type": "text", "id": "note", "label": "Note (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "What is in your kit",
+      "blocks": [
+        { "type": "item", "settings": { "name": "Day patches", "count": 12, "size_mm": 10, "tone": "day", "note": "Thin, low-shine" } },
+        { "type": "item", "settings": { "name": "Night patches", "count": 12, "size_mm": 12, "tone": "night", "note": "Thicker, cushioned" } },
+        { "type": "item", "settings": { "name": "Small spot patches", "count": 8, "size_mm": 8, "tone": "neutral", "note": "Single spots" } },
+        { "type": "item", "settings": { "name": "XL body strips", "count": 4, "size_mm": 0, "tone": "neutral", "note": "Back, shoulders, chest" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

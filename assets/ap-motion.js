@@ -63,7 +63,7 @@ function media() {
 
 /* Exploded layer stack: starts folded, spreads when it scrolls into view. */
 function stacks() {
-  document.querySelectorAll('[data-ap-stack]').forEach((el) => {
+  document.querySelectorAll('[data-ap-stack], [data-ap-dots]').forEach((el) => {
     if (el.dataset.apBound) return;
     el.dataset.apBound = '1';
     if (reduce || !('IntersectionObserver' in window) || el.getBoundingClientRect().top < innerHeight * 0.6) return;

@@ -144,6 +144,12 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
     // Preview only: a fake countdown (5 days from now) so the layout can be seen. Real stores enter a real end date.
     section.settings.countdown_end = new Date(Date.now() + 5 * 864e5).toISOString();
   }
+  if (type === 'ap-when-tabs') {
+    section.blocks.forEach((b, i) => {
+      b.settings.video = null;
+      b.settings.poster = { key: `v${[101, 102, 103][i % 3]}`, alt: 'Mock photo' };
+    });
+  }
   if (type === 'ap-before-after') {
     section.blocks.forEach((b, i) => {
       b.settings.before = { key: `v${[101, 103, 104][i % 3]}`, alt: 'Mock before photo' };

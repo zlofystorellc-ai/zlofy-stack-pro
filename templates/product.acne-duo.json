@@ -675,25 +675,28 @@
     "founder": {
       "type": "ap-founder-note"
     },
+    "upsell": {
+      "type": "ap-upsell"
+    },
     "guarantee": {
       "type": "ap-guarantee",
       "blocks": {
         "point_1": {
           "type": "point",
           "settings": {
-            "text": "Questions answered by a real person"
+            "text": "30-day guarantee"
           }
         },
         "point_2": {
           "type": "point",
           "settings": {
-            "text": "A clear, easy-to-find refund policy"
+            "text": "Cancel anytime"
           }
         },
         "point_3": {
           "type": "point",
           "settings": {
-            "text": "No pressure, no guilt"
+            "text": "Support by email"
           }
         }
       },
@@ -702,9 +705,6 @@
         "point_2",
         "point_3"
       ]
-    },
-    "upsell": {
-      "type": "ap-upsell"
     },
     "faqsplit": {
       "type": "ap-faq-split",
@@ -775,8 +775,8 @@
     "reviews",
     "faq",
     "founder",
-    "guarantee",
     "upsell",
+    "guarantee",
     "faqsplit",
     "sticky"
   ]

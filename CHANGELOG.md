@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.3
+- `ap-guarantee` restyled as a centred "Risk-free" band (shield, pill, heading, subheading, big-number card, chips) on blush cream, and moved directly above the FAQ-with-image band. Chips are the existing `point` blocks; wording stays a placeholder that must match the real refund policy.
+
 ## 0.5.2
 - New section `ap-faq-split` ("FAQ with image"): blush-red FAQ panel on the left, empty image space on the right (upload later in the Image setting). Placed above the footer. No JSON-LD (main FAQ already has it).
 

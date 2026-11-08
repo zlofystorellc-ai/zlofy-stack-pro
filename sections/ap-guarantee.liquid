@@ -1,40 +1,47 @@
 {%- comment -%} Guarantee. The text is a placeholder: it MUST match your real return/refund policy. {%- endcomment -%}
-<section class="apx-guar apx-section apx-section--ink">
-  <div class="apx-wrap apx-guar__wrap">
-    <div class="apx-guar__badge" aria-hidden="true">
-      {% render 'ap-icon', name: 'shield', size: 36 %}
-      <span class="apx-guar__num">{{ section.settings.number }}</span>
-      <span class="apx-guar__unit">{{ section.settings.unit }}</span>
+<section class="apx-guar apx-section apx-section--sand" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-guar__wrap">
+    <span class="apx-guar__icon" aria-hidden="true">{% render 'ap-icon', name: 'shield', size: 56 %}</span>
+    {%- if section.settings.eyebrow != blank -%}<p class="apx-guar__pill">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="apx-guar__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.subheading != blank -%}<p class="apx-guar__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+
+    <div class="apx-guar__card">
+      <p class="apx-guar__big"><span class="apx-guar__num">{{ section.settings.number }}</span><span class="apx-guar__unit">{{ section.settings.unit }}</span></p>
+      {%- if section.settings.card_label != blank -%}<p class="apx-guar__label">{{ section.settings.card_label }}</p>{%- endif -%}
+      <p class="apx-guar__text">{{ section.settings.text }}</p>
     </div>
-    <div>
-      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
-      <p class="apx-lede">{{ section.settings.text }}</p>
-      {%- if section.blocks.size > 0 -%}
-        <ul class="apx-guar__list">
-          {%- for block in section.blocks -%}
-            <li {{ block.shopify_attributes }}>{% render 'ap-icon', name: 'check', size: 20 %}<span>{{ block.settings.text }}</span></li>
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
-      {%- if section.settings.policy_link != blank -%}
-        <p><a class="apx-guar__link" href="{{ section.settings.policy_link }}">{{ 'ap.guarantee.policy' | t }}</a></p>
-      {%- endif -%}
-    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="apx-guar__chips">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    {%- if section.settings.policy_link != blank -%}
+      <p><a class="apx-guar__link" href="{{ section.settings.policy_link }}">{{ 'ap.guarantee.policy' | t }}</a></p>
+    {%- endif -%}
   </div>
 </section>
 
 {% stylesheet %}
-  .apx-guar__wrap{display:grid;gap:28px;align-items:center}
-  .apx-guar__badge{display:flex;flex-direction:column;align-items:center;justify-content:center;width:160px;height:160px;border-radius:40px;background:var(--ap-lilac);color:var(--ap-ink);text-align:center}
-  .apx-guar__num{font-family:var(--ap-font-display);font-size:2.5rem;font-weight:700;line-height:1}
-  .apx-guar__unit{font-size:.875rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
-  .apx-guar__list{display:grid;gap:.4rem;margin:1rem 0}
-  .apx-guar__list li{display:flex;gap:.6rem;align-items:flex-start}
-  .apx-guar__list .apx-icon{margin-top:.1rem;color:var(--ap-lilac)}
-  .apx-guar__link{display:inline-flex;align-items:center;min-height:44px;color:var(--ap-white)}
-  .apx-guar :focus-visible{outline-color:var(--ap-white);box-shadow:0 0 0 5px var(--ap-ink)}
-  @media (min-width:760px){.apx-guar__wrap{grid-template-columns:auto 1fr;gap:56px}}
+  .apx-guar{padding-block:clamp(64px,9vw,140px)}
+  .apx-guar__wrap{display:flex;flex-direction:column;align-items:center;max-width:760px;margin-inline:auto;padding-inline:var(--ap-gutter);text-align:center}
+  .apx-guar__icon{display:block;color:var(--ap-blush)}
+  .apx-guar__pill{margin:20px 0 0;padding:.6rem 1.5rem;border-radius:999px;background:var(--ap-apricot);color:var(--ap-ink);font-size:.8125rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  .apx-guar__h{margin:24px 0 0;color:var(--ap-blush-deep);font-size:clamp(2.75rem,6vw,4.25rem);font-weight:500;line-height:1.05}
+  .apx-guar__sub{margin:12px 0 0;color:var(--ap-blush-deep);font-size:clamp(1.25rem,2.4vw,1.75rem)}
+  .apx-guar__card{width:100%;margin-top:clamp(32px,4vw,48px);padding:clamp(24px,4vw,40px);border:1px solid var(--ap-line);border-radius:28px;background:#FCDDE2;text-align:left}
+  .apx-guar__big{display:flex;align-items:baseline;gap:.6rem;margin:0;color:var(--ap-blush-deep)}
+  .apx-guar__num{font-family:var(--ap-font-display);font-size:clamp(4rem,9vw,6.5rem);font-weight:500;line-height:1}
+  .apx-guar__unit{font-size:1.125rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .apx-guar__label{margin:16px 0 0;color:var(--ap-blush-deep);font-size:.8125rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+  .apx-guar__text{margin:20px 0 0;color:var(--ap-ink-soft);font-size:1.0625rem;line-height:1.6}
+  .apx-guar__chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:32px 0 0;padding:0;list-style:none}
+  .apx-guar__chips li{display:inline-flex;align-items:center;gap:.6rem;min-height:48px;padding:0 1.25rem;border:1px solid var(--ap-line);border-radius:999px;background:var(--ap-white);color:var(--ap-blush-deep);font-size:.8125rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .apx-guar__chips li::before{content:"";width:7px;height:7px;background:var(--ap-apricot);transform:rotate(45deg)}
+  .apx-guar__link{display:inline-flex;align-items:center;min-height:44px;margin-top:12px;color:var(--ap-blush-deep)}
 {% endstylesheet %}
 
 {% schema %}
@@ -44,9 +51,11 @@
   "settings": [
     { "type": "paragraph", "content": "This is placeholder wording. It must match your real return and refund policy." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our promise" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "30-day happiness promise" },
-    { "type": "text", "id": "number", "label": "Badge number", "default": "30" },
-    { "type": "text", "id": "unit", "label": "Badge unit", "default": "days" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Risk-free" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Try it, and if it is not for you, tell us." },
+    { "type": "text", "id": "card_label", "label": "Card label", "default": "Guarantee" },
+    { "type": "text", "id": "number", "label": "Big number", "default": "30" },
+    { "type": "text", "id": "unit", "label": "Unit", "default": "day" },
     {
       "type": "textarea",
       "id": "text",
@@ -58,9 +67,9 @@
   "blocks": [
     {
       "type": "point",
-      "name": "Point",
+      "name": "Chip",
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Questions answered by a real person" }
+        { "type": "text", "id": "text", "label": "Text", "default": "Easy refunds" }
       ]
     }
   ],
@@ -68,9 +77,9 @@
     {
       "name": "Guarantee",
       "blocks": [
-        { "type": "point", "settings": { "text": "Questions answered by a real person" } },
-        { "type": "point", "settings": { "text": "A clear, easy-to-find refund policy" } },
-        { "type": "point", "settings": { "text": "No pressure, no guilt" } }
+        { "type": "point", "settings": { "text": "30-day guarantee" } },
+        { "type": "point", "settings": { "text": "Cancel anytime" } },
+        { "type": "point", "settings": { "text": "Support by email" } }
       ]
     }
   ]

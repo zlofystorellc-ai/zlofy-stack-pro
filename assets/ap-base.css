@@ -1,5 +1,6 @@
-/* DM Serif Display (headings) + DM Sans (body): SIL Open Font License 1.1, latin subset, self-hosted. */
+/* DM Serif Display (headings, regular + italic) + DM Sans (body): SIL Open Font License 1.1, latin subset, self-hosted. */
 @font-face{font-family:"DM Serif Display";font-style:normal;font-weight:400;font-display:swap;src:url("ap-font-display.woff2") format("woff2")}
+@font-face{font-family:"DM Serif Display";font-style:italic;font-weight:400;font-display:swap;src:url("ap-font-display-italic.woff2") format("woff2")}
 @font-face{font-family:"DM Sans";font-style:normal;font-weight:400 800;font-display:swap;src:url("ap-font-body.woff2") format("woff2")}
 /* ap-base.css — shared tokens usage, layout helpers, buttons, header/footer, cart drawer.
    Section-specific CSS lives in each section's {% stylesheet %}. Tokens come from snippets/ap-tokens.liquid. */
@@ -60,13 +61,15 @@ main:focus{outline:none}
 .apx-header__right{grid-column:3}
 .apx-header__burger{margin-left:-10px}
 .apx-header__brand{display:inline-flex;align-items:center;min-height:44px;color:var(--ap-ink);text-decoration:none;white-space:nowrap}
-.apx-logo{display:inline-block;font-family:var(--ap-font-display);font-size:2.625rem;font-weight:400;line-height:1;letter-spacing:-.02em;white-space:nowrap;color:var(--ap-ink)}
-.apx-logo__w{display:inline}
-.apx-logo__o{color:var(--ap-blush-deep);display:inline-block;transition:transform .5s cubic-bezier(.3,1.5,.5,1)}
-.apx-header__brand:hover .apx-logo__o{transform:scale(1.18) rotate(-8deg)}
-@media (max-width:759px){.apx-logo{font-size:2.125rem}}
+.apx-logo{position:relative;display:inline-block;padding-bottom:.28em;font-family:var(--ap-font-display);font-size:2.5rem;font-weight:400;line-height:1;white-space:nowrap;color:var(--ap-ink)}
+.apx-logo__w{display:inline;font-style:italic;letter-spacing:-.01em}
+.apx-logo__swash{position:absolute;left:.04em;right:.2em;bottom:.04em;width:auto;height:.3em;color:var(--ap-blush-deep);overflow:visible}
+.apx-logo__dot{position:absolute;right:.02em;bottom:.2em;width:.17em;height:.17em;border-radius:50%;background:var(--ap-blush-deep);transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.apx-header__brand:hover .apx-logo__dot{transform:translateY(-.1em) scale(1.35)}
+@media (max-width:759px){.apx-logo{font-size:2rem}}
 .apx-footer .apx-logo{color:var(--ap-white);font-size:2.75rem}
-.apx-footer .apx-logo__o{color:var(--ap-blush)}
+.apx-footer .apx-logo__swash{color:var(--ap-blush)}
+.apx-footer .apx-logo__dot{background:var(--ap-blush)}
 .apx-header__brand img{display:block}
 .apx-header__right{display:flex;align-items:center;justify-content:flex-end;gap:1.25rem}
 .apx-header__nav ul{display:flex;gap:2rem;flex-wrap:wrap}

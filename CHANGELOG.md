@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.3
+- Logo is now option 4, the script wordmark: italic serif "Zlofy" with a hand-drawn swash underneath ending in a red patch dot (the dot hops on hover). Real text plus a small SVG swash. Adds the italic of the heading font (`assets/ap-font-display-italic.woff2`, SIL OFL). Favicon is a matching red circle with a white swash and dot.
+
 ## 1.1.2
 - Logo is now option A, the classic serif wordmark: lowercase "zlofy" in the heading serif with the "o" in blush red (header 42 px, footer 44 px, white with a lighter red o). Real text, no image. Favicon is a matching red circle with a white ring (the o).
 

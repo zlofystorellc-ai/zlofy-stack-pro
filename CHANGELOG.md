@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 (responsive QA)
+- Tested at 360, 375, 390, 768 and 1440 px: no horizontal overflow at any width.
+- iPhone: `viewport-fit=cover` so the sticky bar and footer respect the home-indicator safe area; form fields are 16 px or larger (no zoom-on-focus); footer gets extra bottom space so the sticky bar never covers the copyright line.
+- Phones: sticky bar is one tidy line (title + button with price), comparison table fits 360 px without sideways scroll, before/after cards are square (shorter page), timeline photos landscape, kit tiles tighter, quantity box is a 44 px tap target, labels below 12 px raised to 12 px, spacing between the Add to bag row and benefit pills.
+- Tablets (600–899 px): spot's-day timeline is a 2 x 2 grid instead of a very long single column.
+- Not tested: a real iPhone/Safari (Xcode is not installed on this Mac, so the iOS Simulator cannot run) and real Android Chrome.
+
 ## 1.1.3
 - Logo is now option 4, the script wordmark: italic serif "Zlofy" with a hand-drawn swash underneath ending in a red patch dot (the dot hops on hover). Real text plus a small SVG swash. Adds the italic of the heading font (`assets/ap-font-display-italic.woff2`, SIL OFL). Favicon is a matching red circle with a white swash and dot.
 

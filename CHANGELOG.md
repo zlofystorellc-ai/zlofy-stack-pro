@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2
+- Logo is now option A, the classic serif wordmark: lowercase "zlofy" in the heading serif with the "o" in blush red (header 42 px, footer 44 px, white with a lighter red o). Real text, no image. Favicon is a matching red circle with a white ring (the o).
+
 ## 1.1.1
 - Logo is now just the letter Z: a white Z on the round glossy blush patch, in the header (52 px, 44 px on phones) and footer (60 px). Drawn as a path, same artwork as the favicon. Brand name stays as screen-reader text.
 

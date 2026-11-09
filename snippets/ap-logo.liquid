@@ -1,6 +1,6 @@
 {%- comment -%}
-  ZLOFY logo mark: a single "Z" on a round, glossy blush patch (the shape of the product itself).
-  The brand name stays real text for screen readers. The Z is drawn as a path, so no font is needed (same artwork as the favicon).
+  ZLOFY logo: classic lowercase serif wordmark "zlofy" with the "o" in blush red.
+  The name is real text (set in the theme's heading serif), so it is crisp at every size and needs no image.
   Used when no logo image is uploaded in Theme settings. Any brand name other than ZLOFY is shown as plain serif text.
 {%- endcomment -%}
 {%- assign brand = settings.brand_name | strip -%}
@@ -8,18 +8,7 @@
 <span class="apx-logo">
   <span class="apx-sr">{{ brand }}</span>
   {%- if low == 'zlofy' -%}
-    <svg class="apx-logo__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="apx-logo-g" x1="6" y1="3" x2="27" y2="30" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="var(--ap-blush)"/>
-          <stop offset="1" stop-color="var(--ap-blush-deep)"/>
-        </linearGradient>
-      </defs>
-      <circle cx="16" cy="16" r="15" fill="url(#apx-logo-g)"/>
-      <circle cx="16" cy="16" r="15" fill="none" stroke="var(--ap-white)" stroke-opacity=".5" stroke-width="1.2"/>
-      <path d="M7.4 12.2A9.8 9.8 0 0 1 16 5.8" fill="none" stroke="var(--ap-white)" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
-      <path d="M9 8.5H23V11.2L13.3 20.5H23.2V23.5H9V20.8L18.7 11.5H9Z" fill="var(--ap-white)"/>
-    </svg>
+    <span class="apx-logo__w" aria-hidden="true">zl<span class="apx-logo__o">o</span>fy</span>
   {%- else -%}
     <span class="apx-logo__w" aria-hidden="true">{{ brand }}</span>
   {%- endif -%}

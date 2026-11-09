@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.10.0
+- "A spot's day" rewritten around real pain points: new eyebrow, a "Sound familiar?" row of everyday annoyances, a time tag on each photo (7:30 AM, 1:00 PM, 10:30 PM, 7:00 AM), new titles and text that describe exactly what each photo shows, and small labels above "The problem" and "What helps". All wording is editable in the section settings. Keep every line true for your product (especially the night patch line).
+
 ## 1.9.5
 - "A spot's day": card 4 (Next morning) now shows a built-in demonstration photo of a used patch (turned white in the middle) beside a fresh one (`assets/ap-card-swap.jpg`). All four cards now have photos. AI-generated, not real customers.
 

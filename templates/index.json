@@ -50,10 +50,12 @@
           "settings": {
             "icon": "sun",
             "builtin_photo": "ap-card-morning.jpg",
+            "photo_alt": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin",
             "time": "Morning",
-            "title": "Before the big day",
-            "text": "Photos, dates, interviews. A spot likes to show up right before them.",
-            "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day."
+            "chip": "7:30 AM",
+            "title": "The spot that picked today",
+            "text": "You spot it in the mirror and suddenly it is all you can see.",
+            "fix": "Hold a thin, low-shine day patch over it. It sits close to the skin, so you can get on with your day."
           }
         },
         "point_2": {
@@ -63,9 +65,10 @@
             "builtin_photo": "ap-card-midday.jpg",
             "photo_alt": "A fingertip pressing a thin round patch onto a small spot on the chin",
             "time": "Midday",
-            "title": "The picking loop",
-            "text": "Hands find the spot before your brain catches up.",
-            "fix": "A patch gives your fingers something else to find."
+            "chip": "1:00 PM",
+            "title": "Fingers on autopilot",
+            "text": "Your hand finds the spot before your brain catches up. Picking is the habit to break.",
+            "fix": "Press a patch on once. It covers the spot, so there is nothing to touch or pick."
           }
         },
         "point_3": {
@@ -75,9 +78,10 @@
             "builtin_photo": "ap-card-night.jpg",
             "photo_alt": "An adult lying in bed at night with a thin round patch on a small spot on the chin",
             "time": "Night",
-            "title": "Patches that slide off",
-            "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.",
-            "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep."
+            "chip": "10:30 PM",
+            "title": "Will it stay on?",
+            "text": "Patches lift at the edges, curl up, and end up on the pillow instead of your face.",
+            "fix": "Our night patch is thicker and more cushioned, made to stay put while you sleep."
           }
         },
         "point_4": {
@@ -87,9 +91,10 @@
             "builtin_photo": "ap-card-swap.jpg",
             "photo_alt": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip",
             "time": "Next morning",
-            "title": "Check, then swap",
-            "text": "A patch that has turned white has taken in as much fluid as it can hold.",
-            "fix": "Peel it, toss it, and add a fresh one if the spot is still there."
+            "chip": "7:00 AM",
+            "title": "Is it done? Check the middle.",
+            "text": "Not sure when to peel it off, or whether to put on a fresh one?",
+            "fix": "When the middle turns white, the patch has taken in as much fluid as it can hold. Peel it off and add a fresh one if the spot is still there."
           }
         }
       },

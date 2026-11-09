@@ -10,6 +10,19 @@
       {%- if section.settings.text != blank -%}<p class="apx-lede apx-prob__lede">{{ section.settings.text }}</p>{%- endif -%}
     </div>
 
+    {%- if section.settings.pain_list != blank -%}
+      {%- assign pains = section.settings.pain_list | newline_to_br | split: '<br />' -%}
+      <div class="apx-prob__pains">
+        {%- if section.settings.pain_title != blank -%}<p class="apx-prob__pains-t">{{ section.settings.pain_title }}</p>{%- endif -%}
+        <ul class="apx-prob__pains-l">
+          {%- for pain in pains -%}
+            {%- assign pt = pain | strip -%}
+            {%- if pt != blank -%}<li>{% render 'ap-icon', name: 'x', size: 14 %}<span>{{ pt }}</span></li>{%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
     <ol class="apx-prob__steps" data-ap-dots style="--n: {{ section.blocks.size }}">
       <li class="apx-prob__line" aria-hidden="true"></li>
       {%- for block in section.blocks -%}
@@ -19,16 +32,18 @@
           {%- if block.settings.builtin_photo != blank -%}
             <div class="apx-prob__photo">
               <img src="{{ block.settings.builtin_photo | asset_url }}" alt="{{ block.settings.photo_alt | escape }}" width="738" height="1100" loading="lazy">
+              {%- if block.settings.chip != blank -%}<span class="apx-prob__chip">{{ block.settings.chip }}</span>{%- endif -%}
             </div>
           {%- elsif block.settings.image != blank -%}
             <div class="apx-prob__photo">
               {{ block.settings.image | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 900px) 24vw, 80vw', alt: block.settings.image.alt | default: block.settings.title }}
+              {%- if block.settings.chip != blank -%}<span class="apx-prob__chip">{{ block.settings.chip }}</span>{%- endif -%}
             </div>
           {%- endif -%}
           <h3>{{ block.settings.title }}</h3>
-          <p class="apx-prob__moment">{{ block.settings.text }}</p>
+          <p class="apx-prob__moment">{%- if section.settings.label_problem != blank -%}<span class="apx-prob__lab">{{ section.settings.label_problem }}</span>{%- endif -%}{{ block.settings.text }}</p>
           {%- if block.settings.fix != blank -%}
-            <p class="apx-prob__fix">{% render 'ap-icon', name: 'check', size: 18 %}<span>{{ block.settings.fix }}</span></p>
+            <p class="apx-prob__fix">{% render 'ap-icon', name: 'check', size: 18 %}<span>{%- if section.settings.label_fix != blank -%}<span class="apx-prob__lab apx-prob__lab--fix">{{ section.settings.label_fix }}</span>{%- endif -%}{{ block.settings.fix }}</span></p>
           {%- endif -%}
         </li>
       {%- endfor -%}
@@ -75,6 +90,17 @@
   .apx-prob__fix .apx-icon{flex:none;margin-top:2px;color:var(--ap-blush-deep)}
   .apx-prob__photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%}
   .apx-prob__note{margin:20px 0 0}
+  .apx-prob__pains{max-width:860px;margin:clamp(24px,3vw,36px) auto 0;text-align:center}
+  .apx-prob__pains-t{margin:0 0 12px;font-family:var(--ap-font-display);font-size:1.25rem;color:var(--ap-ink)}
+  .apx-prob__pains-l{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0;padding:0;list-style:none}
+  .apx-prob__pains-l li{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border:1px solid rgba(207,39,73,.22);border-radius:999px;background:var(--ap-white);color:var(--ap-ink);font-size:.9375rem;font-weight:600;box-shadow:0 6px 16px rgba(31,42,68,.05)}
+  .apx-prob__pains-l .apx-icon{flex:none;width:22px;height:22px;padding:4px;border-radius:50%;background:#FFE9ED;color:var(--ap-blush-deep)}
+  .apx-prob__photo{position:relative}
+  .apx-prob__photo img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+  @media (hover:hover){.apx-prob__step:hover .apx-prob__photo img{transform:scale(1.05)}}
+  .apx-prob__chip{position:absolute;left:12px;bottom:12px;padding:.35rem .8rem;border-radius:999px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ap-ink);font-size:.8125rem;font-weight:800;letter-spacing:.04em;box-shadow:0 6px 16px rgba(31,31,58,.2)}
+  .apx-prob__lab{display:block;margin:0 0 .15rem;font-size:.6875rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-blush-deep)}
+  .apx-prob__lab--fix{color:var(--ap-ink-soft)}
   .apx-prob__cta{margin-top:clamp(28px,4vw,48px)}
   .apx-prob__trust{max-width:920px;margin:clamp(24px,3vw,36px) auto 0}
   .apx-prob__trust-img{display:none;width:100%;height:auto;mix-blend-mode:multiply}
@@ -111,7 +137,7 @@
   "name": "Problem",
   "tag": "div",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A spot's day" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "From mirror to morning" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Spots happen. Picking shouldn't be your only plan." },
     {
       "type": "textarea",
@@ -122,6 +148,10 @@
     { "type": "select", "id": "photo_shape", "label": "Photo shape", "options": [ { "value": "portrait", "label": "Portrait rectangle (3:4)" }, { "value": "landscape", "label": "Landscape rectangle (16:10)" }, { "value": "square", "label": "Square" } ], "default": "portrait" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Find your kit" },
     { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll to the buy box." },
+    { "type": "text", "id": "pain_title", "label": "Pain points heading", "default": "Sound familiar?" },
+    { "type": "textarea", "id": "pain_list", "label": "Pain points (one per line)", "info": "Short everyday annoyances your customers recognise. Leave empty to hide.", "default": "Can't stop touching it\nPatches that curl up and slide off\nCover-ups that look obvious\nNot sure when to peel it off" },
+    { "type": "text", "id": "label_problem", "label": "Label above the problem", "default": "The problem" },
+    { "type": "text", "id": "label_fix", "label": "Label above what helps", "default": "What helps" },
     { "type": "text", "id": "photo_note", "label": "Photo note (small print)", "info": "Shown under the cards. Clear it once all photos are your own real photos.", "default": "Photos are illustrative demonstrations, not customer testimonials." },
     { "type": "header", "content": "Trust line under the button" },
     { "type": "checkbox", "id": "show_trust", "label": "Show the trust line", "default": true },
@@ -153,6 +183,7 @@
         { "type": "text", "id": "photo_alt", "label": "Built-in photo description", "default": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin" },
         { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Shown above the moment. Upload only photos you own or have licensed, ideally of real people who gave permission." },
         { "type": "text", "id": "time", "label": "Time of day", "default": "Midday" },
+        { "type": "text", "id": "chip", "label": "Time tag on the photo", "info": "A small tag on the photo, for example \"7:30 AM\".", "default": "" },
         { "type": "text", "id": "title", "label": "Moment", "default": "The picking loop" },
         { "type": "textarea", "id": "text", "label": "The annoyance", "default": "Hands find the spot before your brain catches up." },
         { "type": "textarea", "id": "fix", "label": "What helps", "default": "A patch gives your fingers something else to find.", "info": "Keep it true for your product. Cosmetic wording only." }
@@ -163,10 +194,10 @@
     {
       "name": "Problem",
       "blocks": [
-        { "type": "point", "settings": { "icon": "sun", "builtin_photo": "ap-card-morning.jpg", "time": "Morning", "title": "Before the big day", "text": "Photos, dates, interviews. A spot likes to show up right before them.", "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day." } },
-        { "type": "point", "settings": { "icon": "hand", "builtin_photo": "ap-card-midday.jpg", "photo_alt": "A fingertip pressing a thin round patch onto a small spot on the chin", "time": "Midday", "title": "The picking loop", "text": "Hands find the spot before your brain catches up.", "fix": "A patch gives your fingers something else to find." } },
-        { "type": "point", "settings": { "icon": "moon", "builtin_photo": "ap-card-night.jpg", "photo_alt": "An adult lying in bed at night with a thin round patch on a small spot on the chin", "time": "Night", "title": "Patches that slide off", "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.", "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep." } },
-        { "type": "point", "settings": { "icon": "clock", "builtin_photo": "ap-card-swap.jpg", "photo_alt": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip", "time": "Next morning", "title": "Check, then swap", "text": "A patch that has turned white has taken in as much fluid as it can hold.", "fix": "Peel it, toss it, and add a fresh one if the spot is still there." } }
+        { "type": "point", "settings": { "icon": "sun", "builtin_photo": "ap-card-morning.jpg", "photo_alt": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin", "time": "Morning", "chip": "7:30 AM", "title": "The spot that picked today", "text": "You spot it in the mirror and suddenly it is all you can see.", "fix": "Hold a thin, low-shine day patch over it. It sits close to the skin, so you can get on with your day." } },
+        { "type": "point", "settings": { "icon": "hand", "builtin_photo": "ap-card-midday.jpg", "photo_alt": "A fingertip pressing a thin round patch onto a small spot on the chin", "time": "Midday", "chip": "1:00 PM", "title": "Fingers on autopilot", "text": "Your hand finds the spot before your brain catches up. Picking is the habit to break.", "fix": "Press a patch on once. It covers the spot, so there is nothing to touch or pick." } },
+        { "type": "point", "settings": { "icon": "moon", "builtin_photo": "ap-card-night.jpg", "photo_alt": "An adult lying in bed at night with a thin round patch on a small spot on the chin", "time": "Night", "chip": "10:30 PM", "title": "Will it stay on?", "text": "Patches lift at the edges, curl up, and end up on the pillow instead of your face.", "fix": "Our night patch is thicker and more cushioned, made to stay put while you sleep." } },
+        { "type": "point", "settings": { "icon": "clock", "builtin_photo": "ap-card-swap.jpg", "photo_alt": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip", "time": "Next morning", "chip": "7:00 AM", "title": "Is it done? Check the middle.", "text": "Not sure when to peel it off, or whether to put on a fresh one?", "fix": "When the middle turns white, the patch has taken in as much fluid as it can hold. Peel it off and add a fresh one if the spot is still there." } }
       ]
     }
   ]

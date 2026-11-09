@@ -5,6 +5,11 @@
   Upload only photos and videos you own or have licensed. Cosmetic wording only; keep every line true for your product.
 {%- endcomment -%}
 <section class="apx-hh" aria-labelledby="{{ section.id }}-title" data-ap-hh>
+  {%- if section.settings.bg_image != blank -%}
+    <div class="apx-hh__bg" aria-hidden="true">{{ section.settings.bg_image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '800, 1200, 1600, 2000', sizes: '100vw', alt: '' }}</div>
+  {%- elsif section.settings.show_default_bg -%}
+    <div class="apx-hh__bg" aria-hidden="true"><img src="{{ 'ap-banner-bg.jpg' | asset_url }}" alt="" width="1600" height="1600" loading="eager" fetchpriority="high"></div>
+  {%- endif -%}
   <span class="apx-hh__blob apx-hh__blob--a" aria-hidden="true"></span>
   <span class="apx-hh__blob apx-hh__blob--b" aria-hidden="true"></span>
   <div class="apx-wrap apx-hh__grid">
@@ -57,6 +62,7 @@
               <source src="{{ 'ap-demo-banner.mp4' | asset_url }}" type="video/mp4">
             </video>
           {%- endif -%}
+          {%- if section.settings.video_label != blank -%}<span class="apx-hh__vlabel">{{ section.settings.video_label }}</span>{%- endif -%}
           <button type="button" class="apx-hh__pause" data-ap-banner-pause aria-pressed="false" aria-label="{{ 'ap.banner.pause' | t }}" data-label-pause="{{ 'ap.banner.pause' | t | escape }}" data-label-play="{{ 'ap.banner.play' | t | escape }}">
             <span data-pause>{% render 'ap-icon', name: 'pause', size: 20 %}</span>
             <span data-play hidden>{% render 'ap-icon', name: 'play', size: 20 %}</span>
@@ -110,6 +116,12 @@
 {% stylesheet %}
   .apx-hh{position:relative;isolation:isolate;overflow-x:clip;padding-block:clamp(36px,6vw,88px);background:linear-gradient(180deg,var(--ap-sand),var(--ap-white))}
   .apx-hh::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(560px 380px at 8% 12%,rgba(249,93,117,.2),transparent 70%),radial-gradient(520px 360px at 92% 8%,rgba(205,184,255,.34),transparent 70%),radial-gradient(460px 320px at 75% 95%,rgba(255,224,102,.26),transparent 70%);animation:apx-drift 16s ease-in-out infinite alternate}
+  .apx-hh__bg{position:absolute;inset:0;z-index:-1;overflow:hidden;background:#F8DCE1}
+  .apx-hh__bg img{position:absolute;left:50%;top:46%;display:block;width:min(900px,125vw);max-width:none;height:auto;aspect-ratio:1;translate:-50% -50%;-webkit-mask-image:radial-gradient(closest-side,#000 52%,transparent 100%);mask-image:radial-gradient(closest-side,#000 52%,transparent 100%);animation:apx-hh-bgzoom 26s ease-in-out infinite alternate}
+  .apx-hh__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,247,248,.35) 0%,rgba(255,244,246,.15) 55%,rgba(255,255,255,.9) 100%)}
+  @media (min-width:990px){.apx-hh__bg img{left:30%;top:50%;width:min(1000px,70vw)}.apx-hh__bg::after{background:linear-gradient(90deg,rgba(255,247,248,.55) 0%,rgba(255,245,247,.3) 45%,rgba(255,240,243,0) 80%),linear-gradient(180deg,rgba(255,255,255,0) 72%,rgba(255,255,255,.95) 100%)}}
+  @keyframes apx-hh-bgzoom{from{scale:1}to{scale:1.07}}
+  .apx-hh__vlabel{position:absolute;left:16px;bottom:16px;z-index:2;max-width:calc(100% - 92px);padding:.4rem .85rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ap-ink);font-size:.8125rem;font-weight:700;box-shadow:0 6px 18px rgba(31,31,58,.2)}
   .apx-hh__blob{position:absolute;z-index:-1;border-radius:50%;pointer-events:none;filter:blur(40px);opacity:.55}
   .apx-hh__blob--a{top:8%;left:-6%;width:340px;height:340px;background:#F95D75;opacity:.18;animation:apx-hh-blob 14s ease-in-out infinite alternate}
   .apx-hh__blob--b{bottom:-8%;right:6%;width:420px;height:420px;background:#CDB8FF;opacity:.4;animation:apx-hh-blob 18s -6s ease-in-out infinite alternate-reverse}
@@ -196,7 +208,7 @@
   @media (min-width:990px){.apx-hh__grid{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
   @media (max-width:560px){.apx-hh__badge--1{left:0}.apx-hh__badge--2{right:0}}
   @media (prefers-reduced-motion:reduce){
-    .apx-hh__w,.apx-hh__w--b,.apx-hh__photo,.apx-hh__art,.apx-hh__badge,.apx-hh__ring,.apx-hh__ring svg,.apx-hh__spark,.apx-hh__blob,.apx-hh__btn,.apx-hh__btn::after,.apx-hh__dot::after{animation:none}
+    .apx-hh__w,.apx-hh__w--b,.apx-hh__photo,.apx-hh__art,.apx-hh__badge,.apx-hh__ring,.apx-hh__ring svg,.apx-hh__spark,.apx-hh__blob,.apx-hh__bg img,.apx-hh__btn,.apx-hh__btn::after,.apx-hh__dot::after{animation:none}
     .apx-hh__track{animation:none;flex-wrap:wrap;width:auto;justify-content:center}
     .apx-hh__track .apx-hh__facts:nth-child(2){display:none}
     .apx-hh__marq::before,.apx-hh__marq::after{display:none}
@@ -220,9 +232,12 @@
     { "type": "video", "id": "video", "label": "Banner video (optional)", "info": "Shopify-hosted video you own. Plays muted on a loop, with a pause button. Leave empty to use the demo loop below." },
     { "type": "checkbox", "id": "show_demo_video", "label": "Show the built-in demo video until I add mine", "default": true, "info": "An original animation of the patches (no people, no claims). Turn it off once you have your own video or photo." },
     { "type": "image_picker", "id": "image", "label": "Photo or video cover (optional)", "info": "Used as the cover of your video, or on its own. Upload only photos you own or have licensed." },
+    { "type": "image_picker", "id": "bg_image", "label": "Background photo (optional)", "info": "A soft photo behind the whole banner, for example your patch on a pink surface. Upload only photos you own or have licensed." },
+    { "type": "checkbox", "id": "show_default_bg", "label": "Show the built-in background photo until I add mine", "default": true },
+    { "type": "text", "id": "video_label", "label": "Video label (optional)", "info": "Only for real customer videos, for example \"Real customer, A., Austin\". You need the customer's written permission, and the video must be unedited and show no results claims. Say so if the customer got a free product or payment." },
     { "type": "text", "id": "badge1", "label": "Badge 1", "default": "Day patch" },
     { "type": "text", "id": "badge2", "label": "Badge 2", "default": "Night patch" },
-    { "type": "text", "id": "ring_text", "label": "Spinning ring text", "info": "Short text that circles a badge. Leave empty to hide it.", "default": "Day and night kit • Drug-free • " },
+    { "type": "text", "id": "ring_text", "label": "Spinning ring text", "info": "Short text that circles a badge. Leave empty to hide it.", "default": "" },
     { "type": "textarea", "id": "marquee", "label": "Scrolling strip", "info": "Short true facts separated by | . Leave empty to hide the strip.", "default": "Drug-free hydrocolloid | Day and night patches | Free US shipping on kits | US-based support" }
   ],
   "blocks": [

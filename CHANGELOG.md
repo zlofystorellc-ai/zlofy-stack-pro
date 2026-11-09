@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.0
+- Home banner: a soft photo sits behind the banner (the patch on a pink surface, drifting slowly) and the video stays on the right. New editor settings: background photo (or built-in until you add yours), optional video label for real customer videos (needs the customer's written permission, unedited, no results claims). The spinning ring is now off by default.
+
 ## 1.7.1
 - Banner scrolling strip restyled: clean white band with fine borders, a round icon before each fact, small blush dots between facts and soft white edge fades (was a plain dark bar).
 

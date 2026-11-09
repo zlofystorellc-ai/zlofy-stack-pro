@@ -67,6 +67,7 @@ function preprocess(src) {
     .replace(/{%-?\s*stylesheet\s*-?%}/g, '<style>')
     .replace(/{%-?\s*endstylesheet\s*-?%}/g, '</style>')
     .replace(/{%-?\s*form\s+'localization'[\s\S]*?-?%}/g, '<form method="post" action="/localization">')
+    .replace(/{%-?\s*form\s+'customer'[\s\S]*?-?%}/g, '<form method="post" action="#" id="ap-newsletter-form" class="apx-nl__form">')
     .replace(/{%-?\s*form\s+'product'[\s\S]*?-?%}/g, '<form method="post" action="/cart/add" id="{{ form_id }}" novalidate="novalidate" data-ap-form="true">')
     .replace(/{%-?\s*endform\s*-?%}/g, '</form>')
     .replace(/{%-?\s*sections\s+'header-group'\s*-?%}/g, '{{ header_group }}');
@@ -147,6 +148,16 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
   if (type === 'ap-problem') {
     section.blocks.forEach((b, i) => { b.settings.image = { key: `v${[101, 102, 103, 104][i % 4]}`, alt: 'Mock photo' }; });
   }
+  if (type === 'ap-home-products') {
+    const pool = [product, ...others];
+    section.blocks.forEach((b, i) => {
+      const p = pool[i % pool.length];
+      p.price = p.price || (p.variants && p.variants[0] ? p.variants[0].price : 0);
+      p.url = p.url || '/products/' + (p.handle || 'day-night-duo');
+      b.settings.product = p;
+      b.settings.badge = i === 0 ? 'Most popular' : '';
+    });
+  }
   if (type === 'ap-when-tabs') {
     section.blocks.forEach((b, i) => {
       b.settings.video = null;
@@ -193,7 +204,7 @@ async function renderGroup(engine, scopeBase, file) {
   return out;
 }
 
-async function renderPage(query) {
+async function renderPage(query, pageName = 'product') {
   const design = query.get('design') === '1';
   const cart = cartObject();
   const globals = {
@@ -203,10 +214,10 @@ async function renderPage(query) {
     request: { locale: { iso_code: 'en' }, design_mode: design },
     routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', product_recommendations_url: '/recommendations/products' },
     linklists,
-    template: { name: 'product' },
-    canonical_url: 'http://localhost:' + PORT + '/products/day-night-duo',
-    page_title: product.title,
-    page_description: 'Local preview of the product page (mock data).',
+    template: { name: pageName === 'home' ? 'index' : 'product' },
+    canonical_url: 'http://localhost:' + PORT + (pageName === 'home' ? '/' : '/products/day-night-duo'),
+    page_title: pageName === 'home' ? 'Home' : product.title,
+    page_description: pageName === 'home' ? 'Local preview of the home page (mock data).' : 'Local preview of the product page (mock data).',
     current_page: 1,
     collection: null,
     product,
@@ -219,7 +230,7 @@ async function renderPage(query) {
   product.options_with_values[0].selected_value = product.selected_or_first_available_variant.title;
 
   const header_group = await renderGroup(engine, globals, 'sections/header-group.json');
-  const tpl = JSON.parse(read('templates/product.acne-duo.json'));
+  const tpl = JSON.parse(read(pageName === 'home' ? 'templates/index.json' : 'templates/product.acne-duo.json'));
   let content = '';
   for (const key of tpl.order) content += await renderSection(engine, globals, key, tpl.sections[key].type, tpl.sections[key]);
 
@@ -314,8 +325,8 @@ http.createServer(async (req, res) => {
       return json(res, 200, { products: others.map((p) => ({ id: p.id, title: p.title, handle: p.handle, available: true, featured_image: `/preview-img/${p.featured_image.key}.svg?w=300`, variants: [{ id: p.variants[0].id, price: (p.price / 100).toFixed(2), available: true }] })) });
     }
     if (url.pathname.startsWith('/recommendations/')) { res.writeHead(404); return res.end(); }
-    if (url.pathname === '/' || url.pathname.startsWith('/products/')) {
-      const html = await renderPage(url.searchParams);
+    if (url.pathname === '/home' || url.pathname === '/products/' || url.pathname === '/' || url.pathname.startsWith('/products/')) {
+      const html = await renderPage(url.searchParams, url.pathname === '/home' ? 'home' : 'product');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       return res.end(html);
     }

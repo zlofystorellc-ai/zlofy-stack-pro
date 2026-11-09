@@ -19,11 +19,11 @@ function readSchema(type) {
   return JSON.parse(m[1]);
 }
 
-function sectionFromPreset(type) {
+function sectionFromPreset(type, overrides = {}) {
   const schema = readSchema(type);
   const preset = (schema.presets && schema.presets[0]) || {};
   const out = { type };
-  if (preset.settings) out.settings = preset.settings;
+  if (preset.settings || overrides.settings) out.settings = { ...(preset.settings || {}), ...(overrides.settings || {}) };
   const blocks = {};
   const order = [];
   (preset.blocks || []).forEach((b, i) => {
@@ -67,6 +67,27 @@ for (const [key, type] of productOrder) {
 }
 writeFileSync(join(root, 'templates', 'product.acne-duo.json'), JSON.stringify(product, null, 2) + '\n');
 
+// Home page (templates/index.json). Product-only sections are not used here.
+const homeOrder = [
+  ['banner', 'ap-home-banner'],
+  ['products', 'ap-home-products'],
+  ['problem', 'ap-problem', { settings: { button_link: '/collections/all' } }],
+  ['split', 'ap-home-split'],
+  ['how', 'ap-how-it-works'],
+  ['beforeafter', 'ap-before-after'],
+  ['videos', 'ap-video-cards'],
+  ['founder', 'ap-founder-note'],
+  ['guarantee', 'ap-guarantee'],
+  ['faq', 'ap-faq-split'],
+  ['newsletter', 'ap-newsletter']
+];
+const home = { sections: {}, order: [] };
+for (const [key, type, overrides] of homeOrder) {
+  home.sections[key] = sectionFromPreset(type, overrides || {});
+  home.order.push(key);
+}
+writeFileSync(join(root, 'templates', 'index.json'), JSON.stringify(home, null, 2) + '\n');
+
 const header = {
   name: 'Header',
   type: 'header',
@@ -75,4 +96,4 @@ const header = {
 };
 writeFileSync(join(root, 'sections', 'header-group.json'), JSON.stringify(header, null, 2) + '\n');
 
-console.log(`Wrote templates/product.acne-duo.json (${product.order.length} sections) and sections/header-group.json`);
+console.log(`Wrote templates/product.acne-duo.json (${product.order.length} sections), templates/index.json (${home.order.length} sections) and sections/header-group.json`);

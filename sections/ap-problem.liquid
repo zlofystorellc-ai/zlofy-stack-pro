@@ -149,7 +149,7 @@
           ],
           "default": "hand"
         },
-        { "type": "select", "id": "builtin_photo", "label": "Built-in sample photo", "info": "An AI-generated demonstration photo. It is NOT a real customer. Set to None to use your own photo below.", "options": [ { "value": "", "label": "None" }, { "value": "ap-card-morning.jpg", "label": "Morning: holding a patch by a small spot" }, { "value": "ap-card-midday.jpg", "label": "Midday: pressing a patch onto a small spot" } ], "default": "" },
+        { "type": "select", "id": "builtin_photo", "label": "Built-in sample photo", "info": "An AI-generated demonstration photo. It is NOT a real customer. Set to None to use your own photo below.", "options": [ { "value": "", "label": "None" }, { "value": "ap-card-morning.jpg", "label": "Morning: holding a patch by a small spot" }, { "value": "ap-card-midday.jpg", "label": "Midday: pressing a patch onto a small spot" }, { "value": "ap-card-night.jpg", "label": "Night: a patch on the chin in bed" } ], "default": "" },
         { "type": "text", "id": "photo_alt", "label": "Built-in photo description", "default": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin" },
         { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Shown above the moment. Upload only photos you own or have licensed, ideally of real people who gave permission." },
         { "type": "text", "id": "time", "label": "Time of day", "default": "Midday" },
@@ -165,7 +165,7 @@
       "blocks": [
         { "type": "point", "settings": { "icon": "sun", "builtin_photo": "ap-card-morning.jpg", "time": "Morning", "title": "Before the big day", "text": "Photos, dates, interviews. A spot likes to show up right before them.", "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day." } },
         { "type": "point", "settings": { "icon": "hand", "builtin_photo": "ap-card-midday.jpg", "photo_alt": "A fingertip pressing a thin round patch onto a small spot on the chin", "time": "Midday", "title": "The picking loop", "text": "Hands find the spot before your brain catches up.", "fix": "A patch gives your fingers something else to find." } },
-        { "type": "point", "settings": { "icon": "moon", "time": "Night", "title": "Patches that slide off", "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.", "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep." } },
+        { "type": "point", "settings": { "icon": "moon", "builtin_photo": "ap-card-night.jpg", "photo_alt": "An adult lying in bed at night with a thin round patch on a small spot on the chin", "time": "Night", "title": "Patches that slide off", "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.", "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep." } },
         { "type": "point", "settings": { "icon": "clock", "time": "Next morning", "title": "Check, then swap", "text": "A patch that has turned white has taken in as much fluid as it can hold.", "fix": "Peel it, toss it, and add a fresh one if the spot is still there." } }
       ]
     }

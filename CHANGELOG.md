@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.4
+- "A spot's day": card 3 (Night) now shows a built-in demonstration photo of an adult in bed with a patch on a small spot (`assets/ap-card-night.jpg`). AI-generated, not a real customer.
+
 ## 1.9.3
 - "A spot's day": card 2 (Midday) now shows a built-in demonstration photo of a fingertip pressing a patch onto a small spot (`assets/ap-card-midday.jpg`). AI-generated, not a real customer.
 

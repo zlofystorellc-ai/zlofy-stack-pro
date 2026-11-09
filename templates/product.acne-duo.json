@@ -146,6 +146,8 @@
           "type": "point",
           "settings": {
             "icon": "moon",
+            "builtin_photo": "ap-card-night.jpg",
+            "photo_alt": "An adult lying in bed at night with a thin round patch on a small spot on the chin",
             "time": "Night",
             "title": "Patches that slide off",
             "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.",

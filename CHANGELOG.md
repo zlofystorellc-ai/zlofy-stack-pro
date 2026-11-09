@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.2
+- Home banner: built-in video swapped to the first Arcads draft (the 1 MB one), cropped to portrait around the face and chin, with a seamless cross-fade loop (1.7 MB). Still an AI-generated sample, not a real customer.
+
 ## 1.8.1
 - Home banner: the right side is now one plain video panel that fills the whole space (no arch, badges, sparkles or ring when a video or photo is shown). The built-in video is an AI-generated sample of an adult applying a patch (`assets/ap-banner-video.mp4`, 7 s, seamless loop with a cross-fade, 1.8 MB). It is NOT a real customer: replace it with your own video, and never label it as a customer.
 

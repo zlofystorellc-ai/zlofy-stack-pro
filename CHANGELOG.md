@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.3
+- "A spot's day": card 2 (Midday) now shows a built-in demonstration photo of a fingertip pressing a patch onto a small spot (`assets/ap-card-midday.jpg`). AI-generated, not a real customer.
+
 ## 1.9.2
 - "A spot's day": card 1 (Morning) now shows a built-in demonstration photo (an adult holding a patch next to a small spot, `assets/ap-card-morning.jpg`). Each card has a "Built-in sample photo" choice; set it to None to use your own photo. A small note under the cards says the photos are illustrative demonstrations, not customer testimonials (clear it once all photos are your own). The photo is AI-generated: do not call it a real customer.
 

@@ -60,6 +60,8 @@
           "type": "point",
           "settings": {
             "icon": "hand",
+            "builtin_photo": "ap-card-midday.jpg",
+            "photo_alt": "A fingertip pressing a thin round patch onto a small spot on the chin",
             "time": "Midday",
             "title": "The picking loop",
             "text": "Hands find the spot before your brain catches up.",

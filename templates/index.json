@@ -84,6 +84,8 @@
           "type": "point",
           "settings": {
             "icon": "clock",
+            "builtin_photo": "ap-card-swap.jpg",
+            "photo_alt": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip",
             "time": "Next morning",
             "title": "Check, then swap",
             "text": "A patch that has turned white has taken in as much fluid as it can hold.",

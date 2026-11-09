@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.5
+- "A spot's day": card 4 (Next morning) now shows a built-in demonstration photo of a used patch (turned white in the middle) beside a fresh one (`assets/ap-card-swap.jpg`). All four cards now have photos. AI-generated, not real customers.
+
 ## 1.9.4
 - "A spot's day": card 3 (Night) now shows a built-in demonstration photo of an adult in bed with a patch on a small spot (`assets/ap-card-night.jpg`). AI-generated, not a real customer.
 

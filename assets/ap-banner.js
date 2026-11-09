@@ -45,3 +45,21 @@ if (matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: 
     sec.addEventListener('pointerleave', () => set(0, 0));
   });
 }
+
+/* Scroll effects for the banner: as you scroll down, the video slowly zooms, the text and picture drift apart,
+   and the little background patches float up at different speeds. Skipped for visitors who prefer reduced motion. */
+if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+  document.querySelectorAll('[data-ap-hh]').forEach((sec) => {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = sec.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, -r.top / Math.max(r.height, 1)));
+      sec.style.setProperty('--hh-p', p.toFixed(3));
+    };
+    const queue = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue);
+    update();
+  });
+}

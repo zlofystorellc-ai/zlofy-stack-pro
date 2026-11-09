@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.0
+- Home banner: ten little glassy patches float in the background, a fine grain texture adds depth, and scrolling now moves the banner: the video slowly zooms, the text and picture drift apart and the patches rise at different speeds (`assets/ap-banner.js`). All of it stops for visitors who prefer reduced motion.
+
 ## 1.8.2
 - Home banner: built-in video swapped to the first Arcads draft (the 1 MB one), cropped to portrait around the face and chin, with a seamless cross-fade loop (1.7 MB). Still an AI-generated sample, not a real customer.
 

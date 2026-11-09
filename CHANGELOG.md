@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.1
+- Banner scrolling strip restyled: clean white band with fine borders, a round icon before each fact, small blush dots between facts and soft white edge fades (was a plain dark bar).
+
 ## 1.7.0 (one-ingredient section)
 - New home section "One ingredient" (`sections/ap-home-ingredient.liquid`), placed after the day/night split: the single ingredient in big type, a plain-words explanation, three editable facts, and an animated drawing of a patch taking in fluid and turning white (or your own photo). Placeholder wording: match it to your real label.
 

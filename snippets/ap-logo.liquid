@@ -1,14 +1,18 @@
 {%- comment -%}
-  ZLOFY logo: classic lowercase serif wordmark "zlofy" with the "o" in blush red.
-  The name is real text (set in the theme's heading serif), so it is crisp at every size and needs no image.
-  Used when no logo image is uploaded in Theme settings. Any brand name other than ZLOFY is shown as plain serif text.
+  ZLOFY logo: script-style wordmark "Zlofy" in the heading serif italic, with a hand-drawn swash underneath that ends in a patch dot.
+  The name is real text (crisp at every size); only the swash is drawn. Used when no logo image is uploaded in Theme settings.
+  Any brand name other than ZLOFY is shown as plain italic serif text without the swash.
 {%- endcomment -%}
 {%- assign brand = settings.brand_name | strip -%}
 {%- assign low = brand | downcase -%}
 <span class="apx-logo">
   <span class="apx-sr">{{ brand }}</span>
   {%- if low == 'zlofy' -%}
-    <span class="apx-logo__w" aria-hidden="true">zl<span class="apx-logo__o">o</span>fy</span>
+    <span class="apx-logo__w" aria-hidden="true">Zlofy</span>
+    <svg class="apx-logo__swash" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M3 5 C28 20 80 20 110 6" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <span class="apx-logo__dot" aria-hidden="true"></span>
   {%- else -%}
     <span class="apx-logo__w" aria-hidden="true">{{ brand }}</span>
   {%- endif -%}

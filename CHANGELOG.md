@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.8.1
+- Home banner: the right side is now one plain video panel that fills the whole space (no arch, badges, sparkles or ring when a video or photo is shown). The built-in video is an AI-generated sample of an adult applying a patch (`assets/ap-banner-video.mp4`, 7 s, seamless loop with a cross-fade, 1.8 MB). It is NOT a real customer: replace it with your own video, and never label it as a customer.
+
 ## 1.8.0
 - Home banner: a soft photo sits behind the banner (the patch on a pink surface, drifting slowly) and the video stays on the right. New editor settings: background photo (or built-in until you add yours), optional video label for real customer videos (needs the customer's written permission, unedited, no results claims). The spinning ring is now off by default.
 

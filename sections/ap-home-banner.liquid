@@ -44,22 +44,28 @@
     </div>
 
     <div class="apx-hh__visual">
-      <span class="apx-hh__spark apx-hh__spark--a" aria-hidden="true"></span>
-      <span class="apx-hh__spark apx-hh__spark--b" aria-hidden="true"></span>
-      <span class="apx-hh__spark apx-hh__spark--c" aria-hidden="true"></span>
       {%- liquid
         assign show_demo = false
         if section.settings.video == blank and section.settings.image == blank and section.settings.show_demo_video
           assign show_demo = true
         endif
+        assign has_media = false
+        if section.settings.video != blank or section.settings.image != blank or show_demo
+          assign has_media = true
+        endif
       -%}
+      {%- unless has_media -%}
+        <span class="apx-hh__spark apx-hh__spark--a" aria-hidden="true"></span>
+        <span class="apx-hh__spark apx-hh__spark--b" aria-hidden="true"></span>
+        <span class="apx-hh__spark apx-hh__spark--c" aria-hidden="true"></span>
+      {%- endunless -%}
       {%- if section.settings.video != blank or show_demo -%}
         <div class="apx-hh__photo apx-hh__frame" data-ap-banner>
           {%- if section.settings.video != blank -%}
             {{ section.settings.video | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'auto', class: 'apx-hh__video', poster: section.settings.image | default: section.settings.video.preview_image }}
           {%- else -%}
-            <video class="apx-hh__video" autoplay loop muted playsinline preload="auto" poster="{{ 'ap-demo-banner.jpg' | asset_url }}" aria-hidden="true" tabindex="-1">
-              <source src="{{ 'ap-demo-banner.mp4' | asset_url }}" type="video/mp4">
+            <video class="apx-hh__video" autoplay loop muted playsinline preload="auto" poster="{{ 'ap-banner-video.jpg' | asset_url }}" aria-hidden="true" tabindex="-1">
+              <source src="{{ 'ap-banner-video.mp4' | asset_url }}" type="video/mp4">
             </video>
           {%- endif -%}
           {%- if section.settings.video_label != blank -%}<span class="apx-hh__vlabel">{{ section.settings.video_label }}</span>{%- endif -%}
@@ -81,6 +87,7 @@
           <span class="apx-hh__mini apx-hh__mini--c"></span>
         </div>
       {%- endif -%}
+      {%- unless has_media -%}
       {%- if section.settings.badge1 != blank -%}<span class="apx-hh__badge apx-hh__badge--1">{% render 'ap-icon', name: 'sun', size: 18 %}{{ section.settings.badge1 }}</span>{%- endif -%}
       {%- if section.settings.badge2 != blank -%}<span class="apx-hh__badge apx-hh__badge--2">{% render 'ap-icon', name: 'moon', size: 18 %}{{ section.settings.badge2 }}</span>{%- endif -%}
       {%- if section.settings.ring_text != blank -%}
@@ -92,6 +99,7 @@
           <span class="apx-hh__ring-i">{% render 'ap-icon', name: 'sparkle', size: 26 %}</span>
         </div>
       {%- endif -%}
+      {%- endunless -%}
     </div>
   </div>
 </section>
@@ -151,15 +159,15 @@
   .apx-hh__perks .apx-icon{color:var(--ap-blush-deep)}
 
   .apx-hh__visual{position:relative;width:100%;max-width:560px;margin-inline:auto}
-  .apx-hh__photo{overflow:hidden;aspect-ratio:4/5;border-radius:48% 48% 28px 28px / 36% 36% 28px 28px;background:var(--ap-sand);box-shadow:0 30px 60px rgba(31,31,58,.18),0 0 0 8px rgba(255,255,255,.7);animation:apx-hh-reveal 1.3s .2s cubic-bezier(.2,.8,.2,1) both;translate:calc(var(--px,0) * -10px) calc(var(--py,0) * -10px);transition:translate .4s ease-out}
+  .apx-hh__photo{overflow:hidden;aspect-ratio:3/4;border-radius:28px;background:var(--ap-sand);box-shadow:0 30px 60px rgba(31,31,58,.22);animation:apx-hh-reveal 1.3s .2s cubic-bezier(.2,.8,.2,1) both}
   .apx-hh__photo img{display:block;width:100%;height:100%;object-fit:cover}
-  .apx-hh__video{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-hh__video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
   .apx-hh__frame{position:relative}
   .apx-hh__pause{position:absolute;right:16px;bottom:16px;z-index:2;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ap-ink);box-shadow:0 6px 18px rgba(31,31,58,.25);cursor:pointer}
   .apx-hh__pause:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
   @keyframes apx-hh-rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
   @keyframes apx-hh-pop{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
-  @keyframes apx-hh-reveal{from{opacity:0;clip-path:inset(14% 14% 14% 14% round 45%);transform:scale(.9)}to{opacity:1;clip-path:inset(0 round 0);transform:none}}
+  @keyframes apx-hh-reveal{from{opacity:0;clip-path:inset(10% 10% 10% 10% round 40px);transform:scale(.94)}to{opacity:1;clip-path:inset(0 round 28px);transform:none}}
   .apx-hh__copy>*{animation:apx-hh-rise .85s cubic-bezier(.2,.7,.2,1) both}
   .apx-hh__copy>.apx-hh__h{animation:none}
   .apx-hh__copy>*:nth-child(3){animation-delay:.5s}
@@ -230,7 +238,7 @@
     { "type": "text", "id": "button2_label", "label": "Second link", "default": "How it works" },
     { "type": "url", "id": "button2_link", "label": "Second link target", "info": "Leave empty to scroll to the how-to section." },
     { "type": "video", "id": "video", "label": "Banner video (optional)", "info": "Shopify-hosted video you own. Plays muted on a loop, with a pause button. Leave empty to use the demo loop below." },
-    { "type": "checkbox", "id": "show_demo_video", "label": "Show the built-in demo video until I add mine", "default": true, "info": "An original animation of the patches (no people, no claims). Turn it off once you have your own video or photo." },
+    { "type": "checkbox", "id": "show_demo_video", "label": "Show the built-in sample video until I add mine", "default": true, "info": "An AI-generated sample video of an adult applying a patch, no claims. It is NOT a real customer, so never describe it as one. Turn it off once you have your own video or photo." },
     { "type": "image_picker", "id": "image", "label": "Photo or video cover (optional)", "info": "Used as the cover of your video, or on its own. Upload only photos you own or have licensed." },
     { "type": "image_picker", "id": "bg_image", "label": "Background photo (optional)", "info": "A soft photo behind the whole banner, for example your patch on a pink surface. Upload only photos you own or have licensed." },
     { "type": "checkbox", "id": "show_default_bg", "label": "Show the built-in background photo until I add mine", "default": true },

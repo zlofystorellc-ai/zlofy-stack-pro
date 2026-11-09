@@ -90,6 +90,6 @@ export const bundleCompare = [
 export const settingsOverrides = {};
 
 export const linklists = {
-  'main-menu': { links: [{ title: 'Shop', url: '/products/day-night-duo' }, { title: 'How it works', url: '#how' }, { title: 'Reviews', url: '#reviews' }, { title: 'FAQ', url: '#faq' }] },
+  'main-menu': { links: [{ title: 'Shop', url: '/products/day-night-duo' }, { title: 'How it works', url: '/pages/how-it-works' }, { title: 'Reviews', url: '#reviews' }, { title: 'FAQ', url: '#faq' }] },
   footer: { links: [{ title: 'Refund policy', url: '/policies/refund-policy' }, { title: 'Shipping', url: '/policies/shipping-policy' }, { title: 'Contact', url: '/pages/contact' }] }
 };

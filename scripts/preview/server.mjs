@@ -145,6 +145,9 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
     // Preview only: a fake countdown (5 days from now) so the layout can be seen. Real stores enter a real end date.
     section.settings.countdown_end = new Date(Date.now() + 5 * 864e5).toISOString();
   }
+  if (type === 'ap-page-banner') {
+    section.settings.product = { ...product, url: '/products/day-night-duo' };
+  }
   if (type === 'ap-problem') {
     section.blocks.forEach((b, i) => { b.settings.image = { key: `v${[101, 102, 103, 104][i % 4]}`, alt: 'Mock photo' }; });
   }
@@ -214,9 +217,9 @@ async function renderPage(query, pageName = 'product') {
     request: { locale: { iso_code: 'en' }, design_mode: design },
     routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', product_recommendations_url: '/recommendations/products' },
     linklists,
-    template: { name: pageName === 'home' ? 'index' : 'product' },
+    template: { name: pageName === 'home' ? 'index' : (pageName.startsWith('page:') ? 'page' : 'product') },
     canonical_url: 'http://localhost:' + PORT + (pageName === 'home' ? '/' : '/products/day-night-duo'),
-    page_title: pageName === 'home' ? 'Home' : product.title,
+    page_title: pageName === 'home' ? 'Home' : (pageName.startsWith('page:') ? 'How it works' : product.title),
     page_description: pageName === 'home' ? 'Local preview of the home page (mock data).' : 'Local preview of the product page (mock data).',
     current_page: 1,
     collection: null,
@@ -230,7 +233,8 @@ async function renderPage(query, pageName = 'product') {
   product.options_with_values[0].selected_value = product.selected_or_first_available_variant.title;
 
   const header_group = await renderGroup(engine, globals, 'sections/header-group.json');
-  const tpl = JSON.parse(read(pageName === 'home' ? 'templates/index.json' : 'templates/product.acne-duo.json'));
+  const tplFile = pageName === 'home' ? 'templates/index.json' : (pageName.startsWith('page:') ? `templates/page.${pageName.slice(5)}.json` : 'templates/product.acne-duo.json');
+  const tpl = JSON.parse(read(tplFile));
   let content = '';
   for (const key of tpl.order) content += await renderSection(engine, globals, key, tpl.sections[key].type, tpl.sections[key]);
 
@@ -325,6 +329,11 @@ http.createServer(async (req, res) => {
       return json(res, 200, { products: others.map((p) => ({ id: p.id, title: p.title, handle: p.handle, available: true, featured_image: `/preview-img/${p.featured_image.key}.svg?w=300`, variants: [{ id: p.variants[0].id, price: (p.price / 100).toFixed(2), available: true }] })) });
     }
     if (url.pathname.startsWith('/recommendations/')) { res.writeHead(404); return res.end(); }
+    if (url.pathname.startsWith('/pages/')) {
+      const html = await renderPage(url.searchParams, `page:${url.pathname.slice(7)}`);
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
+      return res.end(html);
+    }
     if (url.pathname === '/home' || url.pathname === '/products/' || url.pathname === '/' || url.pathname.startsWith('/products/')) {
       const html = await renderPage(url.searchParams, (url.pathname === '/' || url.pathname === '/home') ? 'home' : 'product');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });

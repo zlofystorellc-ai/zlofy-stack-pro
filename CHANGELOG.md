@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.7.0 (one-ingredient section)
+- New home section "One ingredient" (`sections/ap-home-ingredient.liquid`), placed after the day/night split: the single ingredient in big type, a plain-words explanation, three editable facts, and an animated drawing of a patch taking in fluid and turning white (or your own photo). Placeholder wording: match it to your real label.
+
 ## 1.6.0 (premium animated banner)
 - Home banner: headline words fly in one by one and the second sentence shimmers; the video reveals from an arch; glass badges and a spinning text ring drift with the mouse; twinkling sparkles; the main button glows and sweeps with light; a scrolling strip of true brand facts sits under the banner (editable). Everything stops for visitors who prefer reduced motion. New editor settings: ring text, scrolling strip.
 

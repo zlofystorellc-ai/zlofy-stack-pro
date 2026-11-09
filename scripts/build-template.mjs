@@ -73,6 +73,7 @@ const homeOrder = [
   ['products', 'ap-home-products'],
   ['problem', 'ap-problem', { settings: { button_link: '/collections/all' } }],
   ['split', 'ap-home-split'],
+  ['ingredient', 'ap-home-ingredient'],
   ['how', 'ap-how-it-works'],
   ['beforeafter', 'ap-before-after'],
   ['videos', 'ap-video-cards'],

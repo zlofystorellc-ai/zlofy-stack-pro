@@ -1,0 +1,151 @@
+{%- comment -%}
+  Home page "one ingredient" section: the single ingredient in big type, a short plain-words explanation, three small facts,
+  and an animated drawing of a patch taking in fluid (or your own photo).
+  Everything is a PLACEHOLDER until it matches your real formula and pack label. Keep it true: say only what is documented for your product.
+  No benefit claims beyond covering and protecting a surfaced spot. No competitor names.
+{%- endcomment -%}
+<section class="apx-hi apx-section" id="ingredient" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap apx-hi__grid">
+    <div class="apx-hi__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-hi__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-hi__h" id="{{ section.id }}-title">{{ section.settings.ingredient }}</h2>
+      {%- if section.settings.tagline != blank -%}<p class="apx-hi__tag">{{ section.settings.tagline }}</p>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="apx-hi__text">{{ section.settings.text }}</p>{%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <ul class="apx-hi__facts">
+          {%- for block in section.blocks -%}
+            <li class="apx-hi__fact" {{ block.shopify_attributes }}>
+              <span class="apx-hi__ico" aria-hidden="true">{% render 'ap-icon', name: block.settings.icon, size: 22 %}</span>
+              <div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.text }}</p>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.note != blank -%}<p class="apx-hi__note">{{ section.settings.note }}</p>{%- endif -%}
+    </div>
+
+    <div class="apx-hi__visual">
+      {%- if section.settings.image != blank -%}
+        <div class="apx-hi__photo">
+          {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 42vw, 90vw', alt: section.settings.image.alt | default: section.settings.ingredient }}
+        </div>
+      {%- else -%}
+        <div class="apx-hi__stage" aria-hidden="true">
+          <span class="apx-hi__orbit apx-hi__orbit--a"></span>
+          <span class="apx-hi__orbit apx-hi__orbit--b"></span>
+          <span class="apx-hi__drop" style="--x:-150px;--y:-90px;--d:0s"></span>
+          <span class="apx-hi__drop" style="--x:140px;--y:-110px;--d:.9s"></span>
+          <span class="apx-hi__drop" style="--x:-120px;--y:120px;--d:1.8s"></span>
+          <span class="apx-hi__drop" style="--x:150px;--y:90px;--d:2.7s"></span>
+          <span class="apx-hi__drop" style="--x:0;--y:-160px;--d:3.6s"></span>
+          <span class="apx-hi__drop" style="--x:-40px;--y:150px;--d:4.5s"></span>
+          <span class="apx-hi__patch"><span class="apx-hi__fill"></span></span>
+          {%- if section.settings.chip1 != blank -%}<span class="apx-hi__chip apx-hi__chip--1">{{ section.settings.chip1 }}</span>{%- endif -%}
+          {%- if section.settings.chip2 != blank -%}<span class="apx-hi__chip apx-hi__chip--2">{{ section.settings.chip2 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-hi{position:relative;overflow:hidden;background:var(--ap-ink);color:var(--ap-white)}
+  .apx-hi::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(560px 420px at 85% 20%,rgba(249,93,117,.28),transparent 70%),radial-gradient(480px 380px at 5% 95%,rgba(205,184,255,.2),transparent 70%)}
+  .apx-hi__grid{position:relative;display:grid;gap:clamp(32px,6vw,72px);align-items:center}
+  .apx-hi__eyebrow{display:inline-block;margin:0 0 14px;padding:.4rem 1rem;border:1.5px solid rgba(255,255,255,.4);border-radius:999px;font-size:.8125rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ap-white)}
+  .apx-hi__h{margin:0;color:var(--ap-white);font-size:clamp(2.75rem,9vw,5.5rem);line-height:1;letter-spacing:-.02em;background:linear-gradient(100deg,#fff 0%,#FFB3C0 60%,#fff 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:apx-hi-shine 7s ease-in-out infinite}
+  @keyframes apx-hi-shine{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+  .apx-hi__tag{margin:10px 0 0;font-family:var(--ap-font-display);font-size:clamp(1.25rem,3vw,1.75rem);color:#FFB3C0}
+  .apx-hi__text{max-width:32em;margin:18px 0 0;font-size:1.0625rem;line-height:1.6;color:#E6E9F2}
+  .apx-hi__facts{display:grid;gap:12px;margin:28px 0 0;padding:0;list-style:none}
+  .apx-hi__fact{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(255,255,255,.06);transition:transform .3s,background .3s,border-color .3s}
+  .apx-hi__fact:hover{transform:translateX(6px);background:rgba(255,255,255,.1);border-color:rgba(249,93,117,.6)}
+  .apx-hi__ico{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--ap-blush-deep);color:var(--ap-white)}
+  .apx-hi__fact h3{margin:0 0 .15rem;font-size:1.0625rem;color:var(--ap-white)}
+  .apx-hi__fact p{margin:0;color:#D5DAE8;line-height:1.5;font-size:.9375rem}
+  .apx-hi__note{max-width:42em;margin:20px 0 0;font-size:.8125rem;color:#C9CFE0}
+
+  .apx-hi__visual{position:relative;width:100%;max-width:480px;margin-inline:auto}
+  .apx-hi__photo{overflow:hidden;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 10px rgba(255,255,255,.1),0 30px 70px rgba(0,0,0,.4)}
+  .apx-hi__photo img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-hi__stage{position:relative;display:grid;place-items:center;aspect-ratio:1}
+  .apx-hi__orbit{position:absolute;border-radius:50%;border:2px dashed rgba(255,255,255,.22)}
+  .apx-hi__orbit--a{inset:6%;animation:apx-hi-spin 40s linear infinite}
+  .apx-hi__orbit--b{inset:20%;border-color:rgba(249,93,117,.4);animation:apx-hi-spin 28s linear infinite reverse}
+  @keyframes apx-hi-spin{to{transform:rotate(360deg)}}
+  .apx-hi__patch{position:relative;display:block;width:44%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 35% 30%,#FFD2DA,#F4A6B4);box-shadow:inset 0 0 0 5px rgba(255,255,255,.45),0 24px 60px rgba(249,93,117,.45);animation:apx-hi-breathe 6s ease-in-out infinite}
+  .apx-hi__fill{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff 55%,rgba(255,255,255,0) 72%);transform:scale(0);animation:apx-hi-fill 6s ease-in-out infinite}
+  @keyframes apx-hi-fill{0%,10%{transform:scale(0);opacity:.2}75%{transform:scale(1.15);opacity:1}92%,100%{transform:scale(1.15);opacity:0}}
+  @keyframes apx-hi-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  .apx-hi__drop{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px;border-radius:50% 50% 50% 0;background:#9FD8FF;transform:rotate(-45deg);opacity:0;animation:apx-hi-drop 5.4s var(--d) ease-in infinite}
+  @keyframes apx-hi-drop{0%{opacity:0;translate:var(--x) var(--y);scale:1}15%{opacity:.95}75%{opacity:.9;translate:0 0;scale:.3}85%,100%{opacity:0;translate:0 0;scale:.1}}
+  .apx-hi__chip{position:absolute;z-index:2;padding:.5rem 1rem;border-radius:999px;background:var(--ap-white);color:var(--ap-ink);font-size:.875rem;font-weight:800;box-shadow:0 12px 26px rgba(0,0,0,.3);animation:apx-float 6s ease-in-out infinite}
+  .apx-hi__chip--1{left:0;top:16%}
+  .apx-hi__chip--2{right:0;bottom:14%;animation-delay:-3s}
+
+  @media (min-width:990px){.apx-hi__grid{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
+  @media (prefers-reduced-motion:reduce){
+    .apx-hi__h,.apx-hi__orbit,.apx-hi__patch,.apx-hi__drop,.apx-hi__chip{animation:none}
+    .apx-hi__fill{animation:none;transform:scale(.7);opacity:.9}
+    .apx-hi__drop{display:none}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "One ingredient",
+  "tag": "div",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "paragraph", "content": "Editor note: this text is a placeholder. Make sure every line matches your real formula and pack label. Say only what is true for your product." },
+    { "type": "text", "id": "eyebrow", "label": "Pill label", "default": "The only ingredient" },
+    { "type": "text", "id": "ingredient", "label": "Ingredient name", "default": "Hydrocolloid" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "One ingredient. Nothing else to guess." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Hydrocolloid is a soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered, so you can leave it alone." },
+    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Replaces the animated drawing. Upload only photos you own or have licensed." },
+    { "type": "text", "id": "chip1", "label": "Drawing chip 1", "default": "Takes in fluid" },
+    { "type": "text", "id": "chip2", "label": "Drawing chip 2", "default": "Turns white when full" },
+    { "type": "textarea", "id": "note", "label": "Small print (optional)", "default": "For surfaced spots only. See the pack for the full ingredient label." }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "drop",
+          "options": [
+            { "value": "drop", "label": "Drop" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "check", "label": "Check" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "layers", "label": "Layers" },
+            { "value": "hand", "label": "Hand" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Absorbs" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Draws fluid out of the surface of the spot into the patch." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "One ingredient",
+      "blocks": [
+        { "type": "fact", "settings": { "icon": "drop", "title": "Absorbs", "text": "Draws fluid out of the surface of the spot into the patch." } },
+        { "type": "fact", "settings": { "icon": "shield", "title": "Covers", "text": "Keeps the spot covered and protected from touching and picking." } },
+        { "type": "fact", "settings": { "icon": "leaf", "title": "Drug-free", "text": "No medicated actives. It works by covering, not by treating." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

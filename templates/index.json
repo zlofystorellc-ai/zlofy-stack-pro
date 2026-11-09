@@ -96,6 +96,40 @@
     "split": {
       "type": "ap-home-split"
     },
+    "ingredient": {
+      "type": "ap-home-ingredient",
+      "blocks": {
+        "fact_1": {
+          "type": "fact",
+          "settings": {
+            "icon": "drop",
+            "title": "Absorbs",
+            "text": "Draws fluid out of the surface of the spot into the patch."
+          }
+        },
+        "fact_2": {
+          "type": "fact",
+          "settings": {
+            "icon": "shield",
+            "title": "Covers",
+            "text": "Keeps the spot covered and protected from touching and picking."
+          }
+        },
+        "fact_3": {
+          "type": "fact",
+          "settings": {
+            "icon": "leaf",
+            "title": "Drug-free",
+            "text": "No medicated actives. It works by covering, not by treating."
+          }
+        }
+      },
+      "block_order": [
+        "fact_1",
+        "fact_2",
+        "fact_3"
+      ]
+    },
     "how": {
       "type": "ap-how-it-works",
       "blocks": {
@@ -334,6 +368,7 @@
     "products",
     "problem",
     "split",
+    "ingredient",
     "how",
     "beforeafter",
     "videos",

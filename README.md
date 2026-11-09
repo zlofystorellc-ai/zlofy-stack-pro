@@ -48,6 +48,12 @@ Sections, snippets, assets and one JSON template: `templates/product.acne-duo.js
 ### Merging into an existing theme
 This repo includes a minimal `layout/theme.liquid` so it works standalone. If you copy the files into another OS 2.0 theme: keep that theme's own layout, add `{% render 'ap-tokens' %}` inside its `<head>`, copy `sections/ap-*`, `snippets/ap-*`, `assets/ap-*`, merge the `ap` block of `locales/en.default.json`, and merge the settings groups from `config/settings_schema.json`. The cart drawer is rendered by the Product form section, so the cart link in your theme's header can carry `data-ap-cart-toggle` to open it.
 
+## Home page
+
+`templates/index.json` is the home page (11 sections): banner, product cards, the spot's-day timeline, day and night panels, how to use, before/after, customer videos, founder note, guarantee, FAQ, email sign-up. In Shopify it is used automatically as the Home page template. In the theme editor, open Home page and pick your products in the "Home products" blocks, then add your own photos and videos.
+Locally, open http://localhost:8766/home (the product page is at `/`). Sections that need a product (buy box, kit, comparison) are product-page only.
+The email sign-up posts to Shopify's customer form with the tag `newsletter`; change the consent line so it matches how you really use emails.
+
 ## Local preview (no Shopify store needed)
 
 ```bash

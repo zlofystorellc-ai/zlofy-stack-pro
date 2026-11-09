@@ -1,5 +1,69 @@
 # Changelog
 
+## 1.10.0
+- "A spot's day" rewritten around real pain points: new eyebrow, a "Sound familiar?" row of everyday annoyances, a time tag on each photo (7:30 AM, 1:00 PM, 10:30 PM, 7:00 AM), new titles and text that describe exactly what each photo shows, and small labels above "The problem" and "What helps". All wording is editable in the section settings. Keep every line true for your product (especially the night patch line).
+
+## 1.9.5
+- "A spot's day": card 4 (Next morning) now shows a built-in demonstration photo of a used patch (turned white in the middle) beside a fresh one (`assets/ap-card-swap.jpg`). All four cards now have photos. AI-generated, not real customers.
+
+## 1.9.4
+- "A spot's day": card 3 (Night) now shows a built-in demonstration photo of an adult in bed with a patch on a small spot (`assets/ap-card-night.jpg`). AI-generated, not a real customer.
+
+## 1.9.3
+- "A spot's day": card 2 (Midday) now shows a built-in demonstration photo of a fingertip pressing a patch onto a small spot (`assets/ap-card-midday.jpg`). AI-generated, not a real customer.
+
+## 1.9.2
+- "A spot's day": card 1 (Morning) now shows a built-in demonstration photo (an adult holding a patch next to a small spot, `assets/ap-card-morning.jpg`). Each card has a "Built-in sample photo" choice; set it to None to use your own photo. A small note under the cards says the photos are illustrative demonstrations, not customer testimonials (clear it once all photos are your own). The photo is AI-generated: do not call it a real customer.
+
+## 1.9.1
+- "A spot's day" section: a trust line under the button (Free US shipping on kits, US-based support, Secure checkout). Larger screens show the picture strip (`assets/ap-trust-strip.png`); phones show the same three points as readable text with icons. Editable in the section settings; untick the picture if you change the wording. Keep every point true for your store.
+
+## 1.9.0
+- Home banner: ten little glassy patches float in the background, a fine grain texture adds depth, and scrolling now moves the banner: the video slowly zooms, the text and picture drift apart and the patches rise at different speeds (`assets/ap-banner.js`). All of it stops for visitors who prefer reduced motion.
+
+## 1.8.2
+- Home banner: built-in video swapped to the first Arcads draft (the 1 MB one), cropped to portrait around the face and chin, with a seamless cross-fade loop (1.7 MB). Still an AI-generated sample, not a real customer.
+
+## 1.8.1
+- Home banner: the right side is now one plain video panel that fills the whole space (no arch, badges, sparkles or ring when a video or photo is shown). The built-in video is an AI-generated sample of an adult applying a patch (`assets/ap-banner-video.mp4`, 7 s, seamless loop with a cross-fade, 1.8 MB). It is NOT a real customer: replace it with your own video, and never label it as a customer.
+
+## 1.8.0
+- Home banner: a soft photo sits behind the banner (the patch on a pink surface, drifting slowly) and the video stays on the right. New editor settings: background photo (or built-in until you add yours), optional video label for real customer videos (needs the customer's written permission, unedited, no results claims). The spinning ring is now off by default.
+
+## 1.7.1
+- Banner scrolling strip restyled: clean white band with fine borders, a round icon before each fact, small blush dots between facts and soft white edge fades (was a plain dark bar).
+
+## 1.7.0 (one-ingredient section)
+- New home section "One ingredient" (`sections/ap-home-ingredient.liquid`), placed after the day/night split: the single ingredient in big type, a plain-words explanation, three editable facts, and an animated drawing of a patch taking in fluid and turning white (or your own photo). Placeholder wording: match it to your real label.
+
+## 1.6.0 (premium animated banner)
+- Home banner: headline words fly in one by one and the second sentence shimmers; the video reveals from an arch; glass badges and a spinning text ring drift with the mouse; twinkling sparkles; the main button glows and sweeps with light; a scrolling strip of true brand facts sits under the banner (editable). Everything stops for visitors who prefer reduced motion. New editor settings: ring text, scrolling strip.
+
+## 1.5.2
+- "How it works" section redesigned: subheading, soft glow background, framed video with a play button and caption, and a connected timeline of step cards (icon, optional time tag such as "10 sec") whose line fills and whose current step highlights as you scroll (`assets/ap-how.js`). New editor settings: subheading, video caption, per-step icon and time tag.
+
+## 1.5.1
+- Home "Shop the kit" section is now for ONE product: one block only, a wide card (image left, name, price and button right) on desktop, no "See all products" link by default.
+
+## 1.5.0 (animated banner with video)
+- Home banner: the copy rises in one line at a time, the visual pops in, the badges float. The visual can now be a video: your own Shopify-hosted video (muted loop), else your photo, else a built-in demo loop, else the drawn patch. The demo loop (`assets/ap-demo-banner.mp4`, 6 s, 1 MB, original animation, no people, no text, no claims) shows until you add your own.
+- Pause / play button on the video (WCAG 2.2.2); the video stays paused for visitors who prefer reduced motion and pauses while off-screen (`assets/ap-banner.js`).
+- Preview server: serves mp4 with Range requests.
+
+## 1.4.0 (How it works page)
+- New page template `templates/page.how-it-works.json` (generated by `npm run build:template`): page banner with Shop now button, the system (day and night patch cards), watch it work (video + 3 steps), what you can expect, spot by spot, size guide, comparison, FAQ, email sign-up. In Shopify: Online Store > Pages > Add page "How it works", template `page.how-it-works`.
+- New sections: `ap-page-banner`, `ap-system-parts`. The preview serves it at /pages/how-it-works and the header link points there.
+- Layout and structure follow the reference page; all copy is original and cosmetic only. Numbers and sizes are examples to be replaced with real ones.
+
+## 1.3.1
+- Header: "Shop" is now a plain link (no dropdown, no sub-categories). Sub-links in the menu are ignored on purpose, so a dropdown can never reappear. In the preview, Shop goes to the product page. Removed the dropdown CSS and JS. In Shopify, set the "Shop" link in Online Store > Navigation > Main menu to your product page.
+
+## 1.3.0 (home page)
+- New `templates/index.json` (generated by `scripts/build-template.mjs`): home banner, product cards, spot's-day timeline, day and night panels, how to use (`#how`), before/after, customer videos, founder note, guarantee, FAQ, email sign-up.
+- New sections: `ap-home-banner` (benefit headline, two CTAs, trust points, your photo or a drawn patch illustration with floating Day/Night badges), `ap-home-products` (up to 4 product cards from product pickers), `ap-home-split` (Day / Night panels, the hovered one grows), `ap-newsletter` (Shopify customer form tagged `newsletter`).
+- `ap-before-after`, `ap-video-cards`, `ap-founder-note`, `ap-faq-split` can now be used on the home page too; the how-to section got `id="how"`.
+- Organization JSON-LD on the home page; preview server renders it at `/home`.
+
 ## 1.2.0 (responsive QA)
 - Tested at 360, 375, 390, 768 and 1440 px: no horizontal overflow at any width.
 - iPhone: `viewport-fit=cover` so the sticky bar and footer respect the home-indicator safe area; form fields are 16 px or larger (no zoom-on-focus); footer gets extra bottom space so the sticky bar never covers the copyright line.

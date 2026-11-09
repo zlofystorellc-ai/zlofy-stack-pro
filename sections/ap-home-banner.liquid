@@ -1,0 +1,292 @@
+{%- comment -%}
+  Home page banner: animated headline, two buttons, trust points, a framed video (or photo, or drawn patch) with floating badges,
+  a spinning text ring, and a scrolling strip of true brand facts underneath.
+  The visual is your own video/photo when you add one; until then the built-in demo loop fills the space.
+  Upload only photos and videos you own or have licensed. Cosmetic wording only; keep every line true for your product.
+{%- endcomment -%}
+<section class="apx-hh" aria-labelledby="{{ section.id }}-title" data-ap-hh>
+  {%- if section.settings.bg_image != blank -%}
+    <div class="apx-hh__bg" aria-hidden="true">{{ section.settings.bg_image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '800, 1200, 1600, 2000', sizes: '100vw', alt: '' }}</div>
+  {%- elsif section.settings.show_default_bg -%}
+    <div class="apx-hh__bg" aria-hidden="true"><img src="{{ 'ap-banner-bg.jpg' | asset_url }}" alt="" width="1600" height="1600" loading="eager" fetchpriority="high"></div>
+  {%- endif -%}
+  <span class="apx-hh__blob apx-hh__blob--a" aria-hidden="true"></span>
+  <span class="apx-hh__blob apx-hh__blob--b" aria-hidden="true"></span>
+  <span class="apx-hh__grain" aria-hidden="true"></span>
+  {%- liquid
+    assign xs = '4,15,27,40,52,63,2,34,47,58' | split: ','
+    assign ys = '12,70,26,82,10,86,48,52,38,64' | split: ','
+    assign ss = '34,22,16,28,18,40,14,20,12,26' | split: ','
+    assign ks = '1.4,0.6,1.0,0.5,1.6,0.8,1.2,0.7,1.8,0.9' | split: ','
+    assign ds = '0,2,4,1,3,5,2,6,1,4' | split: ','
+  -%}
+  <div class="apx-hh__pts" aria-hidden="true">
+    {%- for i in (0..9) -%}
+      <span class="apx-hh__pt" style="--x:{{ xs[i] }}%;--y:{{ ys[i] }}%;--s:{{ ss[i] }}px;--k:{{ ks[i] }};--d:{{ ds[i] }}"></span>
+    {%- endfor -%}
+  </div>
+  <div class="apx-wrap apx-hh__grid">
+    <div class="apx-hh__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-hh__pill"><span class="apx-hh__dot" aria-hidden="true"></span>{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 class="apx-hh__h" id="{{ section.id }}-title">
+        {%- liquid
+          assign words = section.settings.heading | split: ' '
+          assign second = false
+        -%}
+        {%- for word in words -%}
+          <span class="apx-hh__w{% if second %} apx-hh__w--b{% endif %}" style="--i:{{ forloop.index0 }}">{{ word }}</span>
+          {%- assign last_char = word | slice: -1 -%}
+          {%- if last_char == '.' or last_char == '!' or last_char == '?' -%}{%- assign second = true -%}{%- endif %} {% endfor -%}
+      </h1>
+      {%- if section.settings.text != blank -%}<p class="apx-hh__text">{{ section.settings.text }}</p>{%- endif -%}
+      <div class="apx-hh__cta">
+        {%- if section.settings.button_label != blank -%}
+          <a class="apx-btn apx-hh__btn" href="{{ section.settings.button_link | default: '/collections/all' }}"><span>{{ section.settings.button_label }}</span><span class="apx-hh__arr" aria-hidden="true">&rarr;</span></a>
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank -%}
+          <a class="apx-hh__link" href="{{ section.settings.button2_link | default: '#how' }}">{{ section.settings.button2_label }} <span aria-hidden="true">&rarr;</span></a>
+        {%- endif -%}
+      </div>
+      {%- if section.blocks.size > 0 -%}
+        <ul class="apx-hh__perks">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>{% render 'ap-icon', name: 'check', size: 18 %}<span>{{ block.settings.text }}</span></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="apx-hh__visual">
+      {%- liquid
+        assign show_demo = false
+        if section.settings.video == blank and section.settings.image == blank and section.settings.show_demo_video
+          assign show_demo = true
+        endif
+        assign has_media = false
+        if section.settings.video != blank or section.settings.image != blank or show_demo
+          assign has_media = true
+        endif
+      -%}
+      {%- unless has_media -%}
+        <span class="apx-hh__spark apx-hh__spark--a" aria-hidden="true"></span>
+        <span class="apx-hh__spark apx-hh__spark--b" aria-hidden="true"></span>
+        <span class="apx-hh__spark apx-hh__spark--c" aria-hidden="true"></span>
+      {%- endunless -%}
+      {%- if section.settings.video != blank or show_demo -%}
+        <div class="apx-hh__photo apx-hh__frame" data-ap-banner>
+          {%- if section.settings.video != blank -%}
+            {{ section.settings.video | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'auto', class: 'apx-hh__video', poster: section.settings.image | default: section.settings.video.preview_image }}
+          {%- else -%}
+            <video class="apx-hh__video" autoplay loop muted playsinline preload="auto" poster="{{ 'ap-banner-video.jpg' | asset_url }}" aria-hidden="true" tabindex="-1">
+              <source src="{{ 'ap-banner-video.mp4' | asset_url }}" type="video/mp4">
+            </video>
+          {%- endif -%}
+          {%- if section.settings.video_label != blank -%}<span class="apx-hh__vlabel">{{ section.settings.video_label }}</span>{%- endif -%}
+          <button type="button" class="apx-hh__pause" data-ap-banner-pause aria-pressed="false" aria-label="{{ 'ap.banner.pause' | t }}" data-label-pause="{{ 'ap.banner.pause' | t | escape }}" data-label-play="{{ 'ap.banner.play' | t | escape }}">
+            <span data-pause>{% render 'ap-icon', name: 'pause', size: 20 %}</span>
+            <span data-play hidden>{% render 'ap-icon', name: 'play', size: 20 %}</span>
+          </button>
+        </div>
+      {%- elsif section.settings.image != blank -%}
+        <div class="apx-hh__photo">
+          {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '550, 800, 1100', sizes: '(min-width: 990px) 46vw, 92vw', alt: section.settings.image.alt | default: section.settings.heading }}
+        </div>
+      {%- else -%}
+        <div class="apx-hh__art" aria-hidden="true">
+          <span class="apx-hh__patch"></span>
+          <span class="apx-hh__half"></span>
+          <span class="apx-hh__mini apx-hh__mini--a"></span>
+          <span class="apx-hh__mini apx-hh__mini--b"></span>
+          <span class="apx-hh__mini apx-hh__mini--c"></span>
+        </div>
+      {%- endif -%}
+      {%- unless has_media -%}
+      {%- if section.settings.badge1 != blank -%}<span class="apx-hh__badge apx-hh__badge--1">{% render 'ap-icon', name: 'sun', size: 18 %}{{ section.settings.badge1 }}</span>{%- endif -%}
+      {%- if section.settings.badge2 != blank -%}<span class="apx-hh__badge apx-hh__badge--2">{% render 'ap-icon', name: 'moon', size: 18 %}{{ section.settings.badge2 }}</span>{%- endif -%}
+      {%- if section.settings.ring_text != blank -%}
+        <div class="apx-hh__ring" aria-hidden="true">
+          <svg viewBox="0 0 120 120" focusable="false">
+            <defs><path id="{{ section.id }}-ring" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs>
+            <text><textPath href="#{{ section.id }}-ring" textLength="280" lengthAdjust="spacing">{{ section.settings.ring_text | upcase | escape }}</textPath></text>
+          </svg>
+          <span class="apx-hh__ring-i">{% render 'ap-icon', name: 'sparkle', size: 26 %}</span>
+        </div>
+      {%- endif -%}
+      {%- endunless -%}
+    </div>
+  </div>
+</section>
+{%- if section.settings.marquee != blank -%}
+  {%- assign facts = section.settings.marquee | split: '|' -%}
+  <div class="apx-hh__marq" role="group" aria-label="{{ section.settings.marquee | replace: '|', ',' | escape }}">
+    <div class="apx-hh__track" aria-hidden="true">
+      {%- for round in (1..2) -%}
+        <ul class="apx-hh__facts">
+          {%- for fact in facts -%}
+            {%- assign icons = 'leaf,moon,truck,heart' | split: ',' -%}
+            {%- assign ic = forloop.index0 | modulo: 4 -%}
+            <li><span class="apx-hh__star">{% render 'ap-icon', name: icons[ic], size: 16 %}</span>{{ fact | strip }}<span class="apx-hh__sep" aria-hidden="true"></span></li>
+          {%- endfor -%}
+        </ul>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+<script src="{{ 'ap-banner.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .apx-hh{position:relative;isolation:isolate;overflow-x:clip;padding-block:clamp(36px,6vw,88px);background:linear-gradient(180deg,var(--ap-sand),var(--ap-white))}
+  .apx-hh::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(560px 380px at 8% 12%,rgba(249,93,117,.2),transparent 70%),radial-gradient(520px 360px at 92% 8%,rgba(205,184,255,.34),transparent 70%),radial-gradient(460px 320px at 75% 95%,rgba(255,224,102,.26),transparent 70%);animation:apx-drift 16s ease-in-out infinite alternate}
+  .apx-hh__bg{position:absolute;inset:0;z-index:-1;overflow:hidden;background:#F8DCE1}
+  .apx-hh__bg img{position:absolute;left:50%;top:46%;display:block;width:min(900px,125vw);max-width:none;height:auto;aspect-ratio:1;translate:-50% -50%;-webkit-mask-image:radial-gradient(closest-side,#000 52%,transparent 100%);mask-image:radial-gradient(closest-side,#000 52%,transparent 100%);animation:apx-hh-bgzoom 26s ease-in-out infinite alternate}
+  .apx-hh__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,247,248,.35) 0%,rgba(255,244,246,.15) 55%,rgba(255,255,255,.9) 100%)}
+  @media (min-width:990px){.apx-hh__bg img{left:30%;top:50%;width:min(1000px,70vw)}.apx-hh__bg::after{background:linear-gradient(90deg,rgba(255,247,248,.55) 0%,rgba(255,245,247,.3) 45%,rgba(255,240,243,0) 80%),linear-gradient(180deg,rgba(255,255,255,0) 72%,rgba(255,255,255,.95) 100%)}}
+  @keyframes apx-hh-bgzoom{from{scale:1}to{scale:1.07}}
+  .apx-hh__vlabel{position:absolute;left:16px;bottom:16px;z-index:2;max-width:calc(100% - 92px);padding:.4rem .85rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--ap-ink);font-size:.8125rem;font-weight:700;box-shadow:0 6px 18px rgba(31,31,58,.2)}
+  .apx-hh__grain{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .55 0 0 0 0 .3 0 0 0 0 .35 0 0 0 .2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  .apx-hh__pts{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+  .apx-hh__pt{position:absolute;left:var(--x);top:var(--y);width:var(--s);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.95),rgba(255,226,232,.6) 55%,rgba(255,196,210,.45));box-shadow:inset 0 0 0 2px rgba(255,255,255,.85),0 10px 22px rgba(207,39,73,.16);translate:0 calc(var(--hh-p,0) * var(--k) * -150px);animation:apx-hh-drift2 calc(7s + var(--d) * 1s) ease-in-out infinite alternate}
+  @keyframes apx-hh-drift2{from{transform:translate(0,0) rotate(0)}to{transform:translate(14px,-22px) rotate(20deg)}}
+  .apx-hh__copy{translate:0 calc(var(--hh-p,0) * -36px)}
+  .apx-hh__visual{translate:0 calc(var(--hh-p,0) * 26px)}
+  .apx-hh__photo .apx-hh__video{scale:calc(1 + var(--hh-p,0) * .14)}
+  .apx-hh__blob{position:absolute;z-index:-1;border-radius:50%;pointer-events:none;filter:blur(40px);opacity:.55}
+  .apx-hh__blob--a{top:8%;left:-6%;width:340px;height:340px;background:#F95D75;opacity:.18;animation:apx-hh-blob 14s ease-in-out infinite alternate}
+  .apx-hh__blob--b{bottom:-8%;right:6%;width:420px;height:420px;background:#CDB8FF;opacity:.4;animation:apx-hh-blob 18s -6s ease-in-out infinite alternate-reverse}
+  @keyframes apx-hh-blob{0%{transform:translate(0,0) scale(1)}100%{transform:translate(60px,-40px) scale(1.18)}}
+  .apx-hh__grid{display:grid;gap:clamp(28px,5vw,64px);align-items:center}
+  .apx-hh__pill{display:inline-flex;align-items:center;gap:.55rem;margin:0 0 18px;padding:.45rem 1rem;border:1.5px solid var(--ap-blush-deep);border-radius:999px;background:var(--ap-white);color:var(--ap-blush-deep);font-size:.8125rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+  .apx-hh__dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--ap-blush-deep)}
+  .apx-hh__dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ap-blush-deep);animation:apx-hh-ping 1.8s ease-out infinite}
+  @keyframes apx-hh-ping{from{transform:scale(1);opacity:.6}to{transform:scale(3.2);opacity:0}}
+  .apx-hh__h{margin:0;font-size:clamp(2.75rem,8vw,5.5rem);line-height:1.02;letter-spacing:-.02em}
+  .apx-hh__w{display:inline-block;animation:apx-hh-word .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 90ms + 120ms)}
+  @keyframes apx-hh-word{from{opacity:0;transform:translateY(.55em) rotate(3deg);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+  .apx-hh__w--b{background:linear-gradient(100deg,var(--ap-blush-deep) 0%,var(--ap-blush) 45%,var(--ap-blush-deep) 90%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:apx-hh-word .9s cubic-bezier(.2,.8,.2,1) both,apx-hh-shine 5s 1.6s ease-in-out infinite;animation-delay:calc(var(--i) * 90ms + 120ms),1.6s}
+  @keyframes apx-hh-shine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .apx-hh__text{max-width:34em;margin:20px 0 0;font-size:clamp(1.0625rem,2vw,1.3125rem);line-height:1.55;color:var(--ap-ink-soft)}
+  .apx-hh__cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;margin-top:28px}
+  .apx-hh__btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:.7rem;min-height:56px;padding-inline:2rem;font-size:1.0625rem;box-shadow:0 14px 30px rgba(207,39,73,.32);animation:apx-hh-glow 3.2s 2s ease-in-out infinite}
+  .apx-hh__btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:apx-hh-sweep 3.6s 2.2s ease-in-out infinite}
+  .apx-hh__arr{display:inline-block;transition:transform .25s}
+  .apx-hh__btn:hover .apx-hh__arr{transform:translateX(5px)}
+  @keyframes apx-hh-sweep{0%{left:-60%}35%,100%{left:140%}}
+  @keyframes apx-hh-glow{0%,100%{box-shadow:0 14px 30px rgba(207,39,73,.32)}50%{box-shadow:0 18px 44px rgba(207,39,73,.5)}}
+  .apx-hh__link{display:inline-flex;align-items:center;gap:.4rem;min-height:48px;color:var(--ap-ink);font-weight:700;text-decoration:none;border-bottom:2px solid var(--ap-blush)}
+  .apx-hh__link:hover{color:var(--ap-blush-deep)}
+  .apx-hh__perks{display:flex;flex-wrap:wrap;gap:10px 22px;margin:28px 0 0;padding:0;list-style:none}
+  .apx-hh__perks li{display:inline-flex;align-items:center;gap:.5rem;font-size:.9375rem;font-weight:600}
+  .apx-hh__perks .apx-icon{color:var(--ap-blush-deep)}
+
+  .apx-hh__visual{position:relative;width:100%;max-width:560px;margin-inline:auto}
+  .apx-hh__photo{overflow:hidden;aspect-ratio:3/4;border-radius:28px;background:var(--ap-sand);box-shadow:0 30px 60px rgba(31,31,58,.22);animation:apx-hh-reveal 1.3s .2s cubic-bezier(.2,.8,.2,1) both}
+  .apx-hh__photo img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-hh__video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+  .apx-hh__frame{position:relative}
+  .apx-hh__pause{position:absolute;right:16px;bottom:16px;z-index:2;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ap-ink);box-shadow:0 6px 18px rgba(31,31,58,.25);cursor:pointer}
+  .apx-hh__pause:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
+  @keyframes apx-hh-rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  @keyframes apx-hh-pop{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
+  @keyframes apx-hh-reveal{from{opacity:0;clip-path:inset(10% 10% 10% 10% round 40px);transform:scale(.94)}to{opacity:1;clip-path:inset(0 round 28px);transform:none}}
+  .apx-hh__copy>*{animation:apx-hh-rise .85s cubic-bezier(.2,.7,.2,1) both}
+  .apx-hh__copy>.apx-hh__h{animation:none}
+  .apx-hh__copy>*:nth-child(3){animation-delay:.5s}
+  .apx-hh__copy>*:nth-child(4){animation-delay:.65s}
+  .apx-hh__copy>*:nth-child(5){animation-delay:.8s}
+  .apx-hh__art{position:relative;aspect-ratio:1;animation:apx-hh-pop 1.1s .15s cubic-bezier(.2,.7,.2,1) both}
+  .apx-hh__patch{position:absolute;inset:9%;border-radius:50%;background:linear-gradient(145deg,var(--ap-blush),var(--ap-blush-deep));box-shadow:inset 0 0 0 4px rgba(255,255,255,.42),0 40px 70px rgba(207,39,73,.3);animation:apx-float 7s ease-in-out infinite}
+  .apx-hh__patch::before{content:"";position:absolute;left:14%;top:12%;width:46%;height:46%;border:6px solid rgba(255,255,255,.6);border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(-12deg)}
+  .apx-hh__patch::after{content:"";position:absolute;left:50%;top:54%;width:11%;height:11%;margin:-5.5%;border-radius:50%;background:rgba(255,255,255,.92)}
+  .apx-hh__half{position:absolute;left:2%;bottom:8%;width:27%;aspect-ratio:1;border-radius:50%;background:linear-gradient(90deg,var(--ap-butter) 50%,var(--ap-ink) 50%);box-shadow:0 0 0 4px var(--ap-white),0 18px 34px rgba(31,31,58,.25);animation:apx-float 6s -2s ease-in-out infinite}
+  .apx-hh__mini{position:absolute;border-radius:50%;background:var(--ap-lilac);box-shadow:inset 0 0 0 3px rgba(255,255,255,.55);animation:apx-float 5s ease-in-out infinite}
+  .apx-hh__mini--a{right:3%;top:10%;width:15%;aspect-ratio:1}
+  .apx-hh__mini--b{right:12%;bottom:6%;width:11%;aspect-ratio:1;background:var(--ap-apricot);animation-delay:-1.5s}
+  .apx-hh__mini--c{left:8%;top:18%;width:8%;aspect-ratio:1;background:var(--ap-butter);animation-delay:-3s}
+
+  .apx-hh__badge{position:absolute;z-index:2;display:inline-flex;align-items:center;gap:.45rem;padding:.6rem 1.1rem;border:1px solid rgba(255,255,255,.8);border-radius:999px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ap-ink);font-size:.9375rem;font-weight:800;box-shadow:0 14px 30px rgba(31,31,58,.18);translate:calc(var(--px,0) * 16px) calc(var(--py,0) * 16px);transition:translate .4s ease-out}
+  .apx-hh__badge .apx-icon{color:var(--ap-blush-deep)}
+  .apx-hh__badge--1{left:-2%;top:14%;animation:apx-hh-pop .7s 1.1s both,apx-float 6s 1.8s ease-in-out infinite}
+  .apx-hh__badge--2{right:-2%;bottom:22%;animation:apx-hh-pop .7s 1.3s both,apx-float 6.5s 2s ease-in-out infinite}
+  @keyframes apx-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+  .apx-hh__ring{position:absolute;z-index:3;right:2%;top:2%;display:grid;place-items:center;width:clamp(96px,22%,124px);aspect-ratio:1;border-radius:50%;background:var(--ap-ink);color:var(--ap-white);box-shadow:0 16px 34px rgba(31,31,58,.3);translate:calc(var(--px,0) * 22px) calc(var(--py,0) * 22px);transition:translate .4s ease-out;animation:apx-hh-pop .8s 1.4s both}
+  .apx-hh__ring svg{position:absolute;inset:0;width:100%;height:100%;animation:apx-hh-spin 22s linear infinite}
+  .apx-hh__ring text{fill:currentColor;font-size:10.5px;font-weight:700;letter-spacing:.06em}
+  .apx-hh__ring-i{position:relative;display:grid;place-items:center;color:var(--ap-butter)}
+  @keyframes apx-hh-spin{to{transform:rotate(360deg)}}
+
+  .apx-hh__spark{position:absolute;z-index:1;width:22px;height:22px;background:var(--ap-butter);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:apx-hh-twinkle 3.2s ease-in-out infinite}
+  .apx-hh__spark--a{left:-5%;bottom:30%}
+  .apx-hh__spark--b{right:6%;top:-3%;width:16px;height:16px;background:var(--ap-blush);animation-delay:-1.1s}
+  .apx-hh__spark--c{left:30%;bottom:-3%;width:18px;height:18px;background:var(--ap-lilac);animation-delay:-2.1s}
+  @keyframes apx-hh-twinkle{0%,100%{opacity:.25;transform:scale(.6) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(45deg)}}
+
+  .apx-hh__marq{position:relative;overflow:hidden;padding-block:18px;background:var(--ap-white);color:var(--ap-ink);border-block:1px solid rgba(31,42,68,.08);box-shadow:0 -12px 30px rgba(31,42,68,.04)}
+  .apx-hh__marq::before,.apx-hh__marq::after{content:"";position:absolute;top:0;bottom:0;z-index:1;width:clamp(40px,10vw,140px);pointer-events:none}
+  .apx-hh__marq::before{left:0;background:linear-gradient(90deg,var(--ap-white),rgba(255,255,255,0))}
+  .apx-hh__marq::after{right:0;background:linear-gradient(270deg,var(--ap-white),rgba(255,255,255,0))}
+  .apx-hh__track{display:flex;width:max-content;animation:apx-hh-marq 42s linear infinite}
+  .apx-hh__marq:hover .apx-hh__track{animation-play-state:paused}
+  .apx-hh__facts{display:flex;flex:none;align-items:center;margin:0;padding:0;list-style:none}
+  .apx-hh__facts li{display:inline-flex;align-items:center;gap:.7rem;font-size:.8125rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+  .apx-hh__star{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#FFE9ED;color:var(--ap-blush-deep)}
+  .apx-hh__sep{display:block;width:5px;height:5px;margin-inline:2.2rem;border-radius:50%;background:var(--ap-blush)}
+  @keyframes apx-hh-marq{to{transform:translateX(-50%)}}
+
+  @media (min-width:990px){.apx-hh__grid{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
+  @media (max-width:560px){.apx-hh__badge--1{left:0}.apx-hh__badge--2{right:0}}
+  @media (prefers-reduced-motion:reduce){
+    .apx-hh__w,.apx-hh__w--b,.apx-hh__photo,.apx-hh__art,.apx-hh__badge,.apx-hh__ring,.apx-hh__ring svg,.apx-hh__spark,.apx-hh__blob,.apx-hh__pt,.apx-hh__bg img,.apx-hh__btn,.apx-hh__btn::after,.apx-hh__dot::after{animation:none}
+    .apx-hh__track{animation:none;flex-wrap:wrap;width:auto;justify-content:center}
+    .apx-hh__track .apx-hh__facts:nth-child(2){display:none}
+    .apx-hh__marq::before,.apx-hh__marq::after{display:none}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Home banner",
+  "tag": "div",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "paragraph", "content": "Editor note: until you add a video or photo, a built-in demo loop is shown. Upload only photos and videos you own or have licensed." },
+    { "type": "text", "id": "eyebrow", "label": "Pill label", "default": "Drug-free hydrocolloid patches" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "The words after the first full stop get the shimmering colour.", "default": "Cover the spot. Keep your day." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Thin day patches for school and work. Cushioned night patches for sleep. One kit, a patch for every moment." },
+    { "type": "text", "id": "button_label", "label": "Main button", "default": "Shop the kit" },
+    { "type": "url", "id": "button_link", "label": "Main button link", "info": "Leave empty to open all products." },
+    { "type": "text", "id": "button2_label", "label": "Second link", "default": "How it works" },
+    { "type": "url", "id": "button2_link", "label": "Second link target", "info": "Leave empty to scroll to the how-to section." },
+    { "type": "video", "id": "video", "label": "Banner video (optional)", "info": "Shopify-hosted video you own. Plays muted on a loop, with a pause button. Leave empty to use the demo loop below." },
+    { "type": "checkbox", "id": "show_demo_video", "label": "Show the built-in sample video until I add mine", "default": true, "info": "An AI-generated sample video of an adult applying a patch, no claims. It is NOT a real customer, so never describe it as one. Turn it off once you have your own video or photo." },
+    { "type": "image_picker", "id": "image", "label": "Photo or video cover (optional)", "info": "Used as the cover of your video, or on its own. Upload only photos you own or have licensed." },
+    { "type": "image_picker", "id": "bg_image", "label": "Background photo (optional)", "info": "A soft photo behind the whole banner, for example your patch on a pink surface. Upload only photos you own or have licensed." },
+    { "type": "checkbox", "id": "show_default_bg", "label": "Show the built-in background photo until I add mine", "default": true },
+    { "type": "text", "id": "video_label", "label": "Video label (optional)", "info": "Only for real customer videos, for example \"Real customer, A., Austin\". You need the customer's written permission, and the video must be unedited and show no results claims. Say so if the customer got a free product or payment." },
+    { "type": "text", "id": "badge1", "label": "Badge 1", "default": "Day patch" },
+    { "type": "text", "id": "badge2", "label": "Badge 2", "default": "Night patch" },
+    { "type": "text", "id": "ring_text", "label": "Spinning ring text", "info": "Short text that circles a badge. Leave empty to hide it.", "default": "" },
+    { "type": "textarea", "id": "marquee", "label": "Scrolling strip", "info": "Short true facts separated by | . Leave empty to hide the strip.", "default": "Drug-free hydrocolloid | Day and night patches | Free US shipping on kits | US-based support" }
+  ],
+  "blocks": [
+    {
+      "type": "perk",
+      "name": "Trust point",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Drug-free hydrocolloid" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home banner",
+      "blocks": [
+        { "type": "perk", "settings": { "text": "Drug-free hydrocolloid" } },
+        { "type": "perk", "settings": { "text": "Day and night patches" } },
+        { "type": "perk", "settings": { "text": "US-based support" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

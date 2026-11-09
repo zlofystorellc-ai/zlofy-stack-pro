@@ -148,6 +148,16 @@
       "quantity": "Quantity:",
       "price": "Price",
       "per_patch": "About per patch"
+    },
+    "newsletter": {
+      "email": "Email address",
+      "placeholder": "Your email",
+      "thanks": "Thanks, you are on the list.",
+      "error": "Enter a valid email address."
+    },
+    "banner": {
+      "pause": "Pause banner video",
+      "play": "Play banner video"
     }
   }
 }

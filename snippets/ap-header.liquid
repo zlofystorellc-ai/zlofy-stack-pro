@@ -1,7 +1,7 @@
 {%- comment -%}
-  Header: nav left (links with sub-links become dropdowns), centered logo, nav right + account + cart.
+  Header: nav left (plain links, no dropdowns), centered logo, nav right + account + cart.
   Under 760px the nav collapses into a menu button. Cart link opens the drawer when it exists (JS), else goes to /cart.
-  Menu: Online Store > Navigation > "Main menu". Links with sub-links get a dropdown.
+  Menu: Online Store > Navigation > "Main menu". Sub-links are ignored: every item is a plain link.
 {%- endcomment -%}
 {%- liquid
   assign menu = linklists['main-menu']
@@ -54,13 +54,6 @@
       {%- for link in menu.links -%}
         <li>
           <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-          {%- if link.links.size > 0 -%}
-            <ul>
-              {%- for child in link.links -%}
-                <li><a href="{{ child.url }}">{{ child.title }}</a></li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
         </li>
       {%- endfor -%}
     </ul>

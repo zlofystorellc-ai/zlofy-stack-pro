@@ -67,6 +67,7 @@ function preprocess(src) {
     .replace(/{%-?\s*stylesheet\s*-?%}/g, '<style>')
     .replace(/{%-?\s*endstylesheet\s*-?%}/g, '</style>')
     .replace(/{%-?\s*form\s+'localization'[\s\S]*?-?%}/g, '<form method="post" action="/localization">')
+    .replace(/{%-?\s*form\s+'customer'[\s\S]*?-?%}/g, '<form method="post" action="#" id="ap-newsletter-form" class="apx-nl__form">')
     .replace(/{%-?\s*form\s+'product'[\s\S]*?-?%}/g, '<form method="post" action="/cart/add" id="{{ form_id }}" novalidate="novalidate" data-ap-form="true">')
     .replace(/{%-?\s*endform\s*-?%}/g, '</form>')
     .replace(/{%-?\s*sections\s+'header-group'\s*-?%}/g, '{{ header_group }}');
@@ -144,8 +145,21 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
     // Preview only: a fake countdown (5 days from now) so the layout can be seen. Real stores enter a real end date.
     section.settings.countdown_end = new Date(Date.now() + 5 * 864e5).toISOString();
   }
+  if (type === 'ap-page-banner') {
+    section.settings.product = { ...product, url: '/products/day-night-duo' };
+  }
   if (type === 'ap-problem') {
     section.blocks.forEach((b, i) => { b.settings.image = { key: `v${[101, 102, 103, 104][i % 4]}`, alt: 'Mock photo' }; });
+  }
+  if (type === 'ap-home-products') {
+    const pool = [product, ...others];
+    section.blocks.forEach((b, i) => {
+      const p = pool[i % pool.length];
+      p.price = p.price || (p.variants && p.variants[0] ? p.variants[0].price : 0);
+      p.url = p.url || '/products/' + (p.handle || 'day-night-duo');
+      b.settings.product = p;
+      b.settings.badge = i === 0 ? 'Most popular' : '';
+    });
   }
   if (type === 'ap-when-tabs') {
     section.blocks.forEach((b, i) => {
@@ -193,7 +207,7 @@ async function renderGroup(engine, scopeBase, file) {
   return out;
 }
 
-async function renderPage(query) {
+async function renderPage(query, pageName = 'product') {
   const design = query.get('design') === '1';
   const cart = cartObject();
   const globals = {
@@ -203,10 +217,10 @@ async function renderPage(query) {
     request: { locale: { iso_code: 'en' }, design_mode: design },
     routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', product_recommendations_url: '/recommendations/products' },
     linklists,
-    template: { name: 'product' },
-    canonical_url: 'http://localhost:' + PORT + '/products/day-night-duo',
-    page_title: product.title,
-    page_description: 'Local preview of the product page (mock data).',
+    template: { name: pageName === 'home' ? 'index' : (pageName.startsWith('page:') ? 'page' : 'product') },
+    canonical_url: 'http://localhost:' + PORT + (pageName === 'home' ? '/' : '/products/day-night-duo'),
+    page_title: pageName === 'home' ? 'Home' : (pageName.startsWith('page:') ? 'How it works' : product.title),
+    page_description: pageName === 'home' ? 'Local preview of the home page (mock data).' : 'Local preview of the product page (mock data).',
     current_page: 1,
     collection: null,
     product,
@@ -219,7 +233,8 @@ async function renderPage(query) {
   product.options_with_values[0].selected_value = product.selected_or_first_available_variant.title;
 
   const header_group = await renderGroup(engine, globals, 'sections/header-group.json');
-  const tpl = JSON.parse(read('templates/product.acne-duo.json'));
+  const tplFile = pageName === 'home' ? 'templates/index.json' : (pageName.startsWith('page:') ? `templates/page.${pageName.slice(5)}.json` : 'templates/product.acne-duo.json');
+  const tpl = JSON.parse(read(tplFile));
   let content = '';
   for (const key of tpl.order) content += await renderSection(engine, globals, key, tpl.sections[key].type, tpl.sections[key]);
 
@@ -274,7 +289,7 @@ function mockImage(key) {
 }
 
 /* ---------- http ---------- */
-const MIME = { '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json', '.woff2': 'font/woff2' };
+const MIME = { '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json', '.woff2': 'font/woff2', '.mp4': 'video/mp4', '.jpg': 'image/jpeg' };
 const json = (res, status, body) => { res.writeHead(status, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(body)); };
 const readBody = (req) => new Promise((r) => { const c = []; req.on('data', (d) => c.push(d)); req.on('end', () => r(Buffer.concat(c))); });
 
@@ -284,8 +299,17 @@ http.createServer(async (req, res) => {
     if (url.pathname.startsWith('/assets/')) {
       const file = normalize(join(root, 'assets', url.pathname.slice(8)));
       if (file.startsWith(join(root, 'assets')) && existsSync(file) && statSync(file).isFile()) {
-        res.writeHead(200, { 'Content-Type': MIME[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
-        return res.end(readFileSync(file));
+        const buf = readFileSync(file);
+        const type = MIME[extname(file)] || 'application/octet-stream';
+        const m = req.headers.range && /bytes=(\d*)-(\d*)/.exec(req.headers.range);
+        if (m) {
+          const start = m[1] ? Number(m[1]) : 0;
+          const end = m[2] ? Math.min(Number(m[2]), buf.length - 1) : buf.length - 1;
+          res.writeHead(206, { 'Content-Type': type, 'Content-Range': `bytes ${start}-${end}/${buf.length}`, 'Accept-Ranges': 'bytes', 'Content-Length': end - start + 1, 'Cache-Control': 'no-store' });
+          return res.end(buf.subarray(start, end + 1));
+        }
+        res.writeHead(200, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Length': buf.length, 'Cache-Control': 'no-store' });
+        return res.end(buf);
       }
       res.writeHead(404); return res.end('not found');
     }
@@ -314,8 +338,13 @@ http.createServer(async (req, res) => {
       return json(res, 200, { products: others.map((p) => ({ id: p.id, title: p.title, handle: p.handle, available: true, featured_image: `/preview-img/${p.featured_image.key}.svg?w=300`, variants: [{ id: p.variants[0].id, price: (p.price / 100).toFixed(2), available: true }] })) });
     }
     if (url.pathname.startsWith('/recommendations/')) { res.writeHead(404); return res.end(); }
-    if (url.pathname === '/' || url.pathname.startsWith('/products/')) {
-      const html = await renderPage(url.searchParams);
+    if (url.pathname.startsWith('/pages/')) {
+      const html = await renderPage(url.searchParams, `page:${url.pathname.slice(7)}`);
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
+      return res.end(html);
+    }
+    if (url.pathname === '/home' || url.pathname === '/products/' || url.pathname === '/' || url.pathname.startsWith('/products/')) {
+      const html = await renderPage(url.searchParams, (url.pathname === '/' || url.pathname === '/home') ? 'home' : 'product');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       return res.end(html);
     }

@@ -1,0 +1,369 @@
+{
+  "sections": {
+    "banner": {
+      "type": "ap-page-banner",
+      "settings": {
+        "eyebrow": "How it works",
+        "heading": "Two patches. One kit. Simple to use.",
+        "text": "Drug-free hydrocolloid patches that cover a surfaced spot and help absorb fluid: a thin one for the day and a cushioned one for the night.",
+        "button_label": "Shop now",
+        "note": ""
+      }
+    },
+    "system": {
+      "type": "ap-system-parts",
+      "settings": {
+        "eyebrow": "The system",
+        "heading": "Two patches. One kit.",
+        "text": "Both are the same soft hydrocolloid layer with a breathable film on top. What changes is how thin or how cushioned they are, so you can pick the right one for the moment."
+      },
+      "blocks": {
+        "part_1": {
+          "type": "part",
+          "settings": {
+            "tone": "day",
+            "tag": "Day",
+            "title": "Thin and low-shine",
+            "text": "Sits close to the skin, so you can wear it to school, work or errands.",
+            "point_1": "Matte, low-shine finish",
+            "point_2": "Thin, so it stays discreet",
+            "point_3": "Made for the daytime"
+          }
+        },
+        "part_2": {
+          "type": "part",
+          "settings": {
+            "tone": "night",
+            "tag": "Night",
+            "title": "Cushioned and steady",
+            "text": "A thicker patch that stays put while you sleep.",
+            "point_1": "Soft, cushioned feel",
+            "point_2": "Made to stay in place overnight",
+            "point_3": "Peel it off in the morning"
+          }
+        }
+      },
+      "block_order": [
+        "part_1",
+        "part_2"
+      ]
+    },
+    "watch": {
+      "type": "ap-how-it-works",
+      "settings": {
+        "eyebrow": "Watch it work",
+        "heading": "Press, wait, peel."
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Cleanse and dry",
+            "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Press on",
+            "text": "Place the patch over the spot and press from the center out so the edges seal."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Wear, then peel",
+            "text": "Leave it on for 6 to 8 hours, or until it turns white. Peel from an edge, toss it, and add a fresh one if the spot is still there."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ]
+    },
+    "built": {
+      "type": "ap-stats-strip",
+      "settings": {
+        "eyebrow": "Made for real days",
+        "heading": "What you can expect",
+        "note": ""
+      },
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "6–8h",
+            "label": "typical wear time"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "2",
+            "label": "patch types: day and night"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "3",
+            "label": "sizes for different spots"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ]
+    },
+    "spots": {
+      "type": "ap-feature-cards",
+      "settings": {
+        "eyebrow": "Spot by spot",
+        "heading": "Different spots, one simple routine",
+        "text": "Pick the size for the spot and the patch for the moment."
+      },
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "icon": "shield",
+            "title": "A single spot",
+            "text": "A small patch that sits right over one surfaced spot."
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "icon": "layers",
+            "title": "A few spots",
+            "text": "Use several small patches side by side, each covering its own spot."
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "icon": "check",
+            "title": "Back, shoulders, chest",
+            "text": "The larger body strip covers more area. Press it flat and keep it dry."
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "icon": "clock",
+            "title": "On the go",
+            "text": "Keep a few in a bag and swap one when it has turned white or the edges lift."
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ]
+    },
+    "sizes": {
+      "type": "ap-size-guide",
+      "blocks": {
+        "size_1": {
+          "type": "size",
+          "settings": {
+            "label": "8 mm",
+            "width_mm": 8,
+            "height_mm": 8,
+            "use": "Small, single spots"
+          }
+        },
+        "size_2": {
+          "type": "size",
+          "settings": {
+            "label": "10 mm",
+            "width_mm": 10,
+            "height_mm": 10,
+            "use": "Most everyday spots"
+          }
+        },
+        "size_3": {
+          "type": "size",
+          "settings": {
+            "label": "12 mm",
+            "width_mm": 12,
+            "height_mm": 12,
+            "use": "Larger or closely grouped spots"
+          }
+        },
+        "size_4": {
+          "type": "size",
+          "settings": {
+            "label": "XL body strip",
+            "width_mm": 36,
+            "height_mm": 18,
+            "use": "Back, shoulders and chest"
+          }
+        }
+      },
+      "block_order": [
+        "size_1",
+        "size_2",
+        "size_3",
+        "size_4"
+      ]
+    },
+    "compare": {
+      "type": "ap-comparison",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "feature": "Day and night formats in one kit",
+            "brand_value": "yes",
+            "other_value": "Varies"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "feature": "Several sizes in one kit",
+            "brand_value": "yes",
+            "other_value": "Varies"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "feature": "Refill pouch available",
+            "brand_value": "yes",
+            "other_value": "Varies"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "feature": "Subscribe and save",
+            "brand_value": "yes",
+            "other_value": "Varies"
+          }
+        },
+        "price_per_patch_5": {
+          "type": "price_per_patch",
+          "settings": {
+            "other_value": "Varies"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "price_per_patch_5"
+      ]
+    },
+    "faq": {
+      "type": "ap-faq",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "How long do I wear a patch?",
+            "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "What is the difference between day and night?",
+            "answer": "<p>The day patch is thinner with a low-shine finish so it can blend in during the day. The night patch is thicker and more cushioned so it stays put while you sleep. Use whichever suits the moment.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Can I wear makeup over the day patch?",
+            "answer": "<p>You can try it: press the patch flat, then dab a thin layer of your usual product around the edges. Avoid rubbing, which can lift the patch.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Does it work on deep or cystic bumps?",
+            "answer": "<p>No. These patches are made for surfaced spots, the kind with a visible head. They are not designed for deep, under-the-skin bumps. If a breakout is painful, large or keeps coming back, see a dermatologist.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "Is it okay for sensitive skin?",
+            "answer": "<p>The patches are drug-free hydrocolloid with no active ingredients. Everyone's skin is different, so try one on a small area first. Stop using it if you notice irritation, and contact us.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "Is it drug-free?",
+            "answer": "<p>Yes. The patches are drug-free hydrocolloid. They cover and protect a spot and absorb fluid from surfaced spots. They do not contain medicated ingredients.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "How many patches are in a box, and how long will it last?",
+            "answer": "<p>The patch count is shown on each option above, along with the price per patch so you can compare. How long a kit lasts depends on how often you use patches.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>"
+          }
+        },
+        "question_9": {
+          "type": "question",
+          "settings": {
+            "question": "How do I skip or cancel a subscription?",
+            "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page, or email us before your next delivery.</p>"
+          }
+        },
+        "question_10": {
+          "type": "question",
+          "settings": {
+            "question": "What if I am not happy with my order?",
+            "answer": "<p>Contact us within the guarantee window shown on this page and we will help. Full terms are in our refund policy.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6",
+        "question_7",
+        "question_8",
+        "question_9",
+        "question_10"
+      ]
+    },
+    "newsletter": {
+      "type": "ap-newsletter"
+    }
+  },
+  "order": [
+    "banner",
+    "system",
+    "watch",
+    "built",
+    "spots",
+    "sizes",
+    "compare",
+    "faq",
+    "newsletter"
+  ]
+}

@@ -1,65 +1,123 @@
-{%- comment -%} 4 steps + honest scope note. {%- endcomment -%}
-<section class="apx-how apx-section{% if section.settings.video != blank or section.settings.poster != blank %} apx-how--media{% endif %}" aria-labelledby="{{ section.id }}-title">
+{%- comment -%} 4 steps as a timeline + optional how-to video + honest scope note. {%- endcomment -%}
+<section id="how" class="apx-how apx-section{% if section.settings.video != blank or section.settings.poster != blank %} apx-how--media{% endif %}" aria-labelledby="{{ section.id }}-title" data-ap-how>
   <div class="apx-wrap">
-    <div class="apx-center">
+    <div class="apx-center apx-how__head">
       {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
       <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="apx-how__sub">{{ section.settings.subheading }}</p>{%- endif -%}
     </div>
     <div class="apx-how__body">
     {%- if section.settings.video != blank or section.settings.poster != blank -%}
-      <div class="apx-how__media" data-ap-media>
-        {%- if section.settings.video != blank -%}
-          {{ section.settings.video | video_tag: image_size: '900x', controls: false, muted: true, playsinline: true, preload: 'none', loop: true, class: 'apx-how__video', poster: section.settings.poster | default: section.settings.video.preview_image }}
-          <button type="button" class="apx-how__play" data-ap-media-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ section.settings.heading | escape }}"><span aria-hidden="true"></span></button>
-        {%- else -%}
-          {{ section.settings.poster | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 40vw, 90vw', class: 'apx-how__video', alt: section.settings.poster.alt | default: section.settings.heading }}
-        {%- endif -%}
+      <div class="apx-how__stage">
+        <div class="apx-how__media" data-ap-media>
+          {%- if section.settings.video != blank -%}
+            {{ section.settings.video | video_tag: image_size: '900x', controls: false, muted: true, playsinline: true, preload: 'none', loop: true, class: 'apx-how__video', poster: section.settings.poster | default: section.settings.video.preview_image }}
+            <button type="button" class="apx-how__play" data-ap-media-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ section.settings.heading | escape }}">
+              <span class="apx-how__disc" aria-hidden="true"></span>
+              {%- if section.settings.media_caption != blank -%}<span class="apx-how__cap" aria-hidden="true">{{ section.settings.media_caption }}</span>{%- endif -%}
+            </button>
+          {%- else -%}
+            {{ section.settings.poster | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 40vw, 90vw', class: 'apx-how__video', alt: section.settings.poster.alt | default: section.settings.heading }}
+          {%- endif -%}
+        </div>
       </div>
     {%- endif -%}
-    <ol class="apx-how__steps">
+    <ol class="apx-how__steps" data-ap-how-steps>
       {%- for block in section.blocks -%}
         <li class="apx-how__step" {{ block.shopify_attributes }}>
           <span class="apx-how__num" aria-hidden="true">{{ forloop.index }}</span>
-          {%- if block.settings.image != blank -%}
-            {{ block.settings.image | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '(min-width: 990px) 25vw, 90vw', loading: 'lazy', alt: block.settings.image.alt | default: block.settings.title, class: 'apx-how__img' }}
-          {%- endif -%}
-          <h3>{{ block.settings.title }}</h3>
-          <p>{{ block.settings.text }}</p>
+          <div class="apx-how__card">
+            <div class="apx-how__top">
+              <span class="apx-how__icon" aria-hidden="true">{% render 'ap-icon', name: block.settings.icon, size: 22 %}</span>
+              {%- if block.settings.chip != blank -%}<span class="apx-how__chip">{{ block.settings.chip }}</span>{%- endif -%}
+            </div>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '(min-width: 990px) 25vw, 90vw', loading: 'lazy', alt: block.settings.image.alt | default: block.settings.title, class: 'apx-how__img' }}
+            {%- endif -%}
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
         </li>
       {%- endfor -%}
     </ol>
     </div>
-    <p class="apx-how__note"><strong>{{ 'ap.how.note_label' | t }}</strong> {{ 'ap.how.note' | t }}</p>
+    <p class="apx-how__note"><span class="apx-how__note-i" aria-hidden="true">{% render 'ap-icon', name: 'heart', size: 18 %}</span><span><strong>{{ 'ap.how.note_label' | t }}</strong> {{ 'ap.how.note' | t }}</span></p>
   </div>
 </section>
+<script src="{{ 'ap-how.js' | asset_url }}" type="module"></script>
 
 {% stylesheet %}
-  .apx-how__steps{display:grid;gap:16px;margin:28px 0;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));counter-reset:none}
-  .apx-how__step{padding:22px;border-radius:var(--ap-radius);background:var(--ap-white)}
-  .apx-how__step h3{font-size:1.15rem}
-  .apx-how__step p{margin:0;color:var(--ap-ink-soft)}
-  .apx-how__num{display:inline-grid;place-items:center;width:40px;height:40px;margin-bottom:12px;border-radius:14px;background:var(--ap-ink);color:var(--ap-white);font-weight:800}
-  .apx-how__img{width:100%;height:auto;margin-bottom:12px;border-radius:var(--ap-radius-sm)}
-  .apx-how{background:#FFE2E8}
-  .apx-how__body{display:block}
-  .apx-how__media{position:relative;overflow:hidden;border-radius:28px;background:var(--ap-sand);box-shadow:0 22px 50px rgba(31,42,68,.14)}
+  .apx-how{position:relative;overflow:hidden;background:linear-gradient(180deg,#FFE9ED 0%,#FFDCE3 100%)}
+  .apx-how::before,.apx-how::after{content:"";position:absolute;z-index:0;border-radius:50%;pointer-events:none;filter:blur(8px)}
+  .apx-how::before{top:-120px;right:-100px;width:380px;height:380px;background:radial-gradient(circle,rgba(205,184,255,.55),rgba(205,184,255,0) 70%)}
+  .apx-how::after{bottom:-140px;left:-120px;width:420px;height:420px;background:radial-gradient(circle,rgba(255,224,102,.4),rgba(255,224,102,0) 70%)}
+  .apx-how .apx-wrap{position:relative;z-index:1}
+  .apx-how__sub{max-width:34em;margin:14px auto 0;color:var(--ap-ink-soft);font-size:1.0625rem;line-height:1.55}
+  .apx-how__body{margin-top:clamp(28px,4vw,48px)}
+
+  /* steps (no media): clean four-up cards */
+  .apx-how__steps{display:grid;gap:16px;margin:0;padding:0;list-style:none;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .apx-how__step{position:relative}
+  .apx-how__card{height:100%;padding:22px;border:1px solid rgba(31,42,68,.06);border-radius:22px;background:var(--ap-white);box-shadow:0 10px 30px rgba(31,42,68,.06);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
+  .apx-how__card h3{margin:.55rem 0 .3rem;font-size:1.2rem}
+  .apx-how__card p{margin:0;color:var(--ap-ink-soft);line-height:1.55}
+  .apx-how__top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .apx-how__icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#FFE9ED;color:var(--ap-blush-deep)}
+  .apx-how__chip{padding:5px 12px;border-radius:999px;background:var(--ap-ink);color:var(--ap-white);font-size:.8125rem;font-weight:700;letter-spacing:.02em}
+  .apx-how__num{display:none}
+  .apx-how__img{display:block;width:100%;height:auto;margin:14px 0 4px;border-radius:var(--ap-radius-sm)}
+
+  /* stage: video / photo */
+  .apx-how__stage{position:relative}
+  .apx-how__stage::before{content:"";position:absolute;inset:6% -6% -4% 8%;z-index:0;border-radius:36px;background:linear-gradient(150deg,#F95D75,#CDB8FF);opacity:.35;transform:rotate(3deg)}
+  .apx-how__media{position:relative;z-index:1;overflow:hidden;border:6px solid var(--ap-white);border-radius:32px;background:var(--ap-sand);box-shadow:0 28px 60px rgba(31,42,68,.2);aspect-ratio:4/5;max-width:440px;margin-inline:auto;width:100%}
   .apx-how__video{display:block;width:100%;height:100%;object-fit:cover}
-  .apx-how__play{position:absolute;inset:0;display:grid;place-items:center;border:0;background:transparent;cursor:pointer}
-  .apx-how__play span{position:relative;width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 8px 24px rgba(31,42,68,.3);transition:transform .25s,opacity .25s}
-  .apx-how__play span::before{content:"";position:absolute;left:29px;top:22px;border-left:20px solid var(--ap-blush-deep);border-block:13px solid transparent}
-  .apx-how__play:hover span{transform:scale(1.06)}
-  .apx-how__play[aria-pressed="true"] span{opacity:0}
-  .apx-how__play:focus-visible span{outline:3px solid var(--ap-white);box-shadow:0 0 0 6px var(--ap-ink)}
-  .apx-how--media .apx-how__body{display:grid;gap:28px;margin-top:28px;align-items:start}
-  .apx-how--media .apx-how__steps{display:grid;grid-template-columns:1fr;gap:14px;margin:0;counter-reset:none}
-  .apx-how--media .apx-how__step{display:grid;grid-template-columns:48px 1fr;column-gap:16px;align-items:start}
-  .apx-how--media .apx-how__num{grid-row:1/span 3;margin:0;width:48px;height:48px;border-radius:50%;background:var(--ap-blush-deep)}
-  .apx-how--media .apx-how__img{grid-column:2}
-  .apx-how--media .apx-how__step h3{margin:.2rem 0 .25rem}
-  .apx-how--media .apx-how__media{aspect-ratio:4/5;max-width:440px;margin-inline:auto;width:100%}
-  @media (min-width:900px){.apx-how--media .apx-how__body{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:64px;align-items:center}.apx-how--media .apx-how__media{position:sticky;top:96px;margin:0}}
-  .apx-how--media .apx-how__note{margin-top:40px}
-  .apx-how__note{max-width:70ch;margin:0 auto;padding:14px 18px;border-left:4px solid var(--ap-blush-deep);background:var(--ap-white);font-size:.9375rem}
+  video.apx-how__video::-webkit-media-controls{display:none!important}
+  .apx-how__play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border:0;background:linear-gradient(180deg,rgba(31,42,68,0) 45%,rgba(31,42,68,.35));cursor:pointer}
+  .apx-how__disc{position:relative;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.96);box-shadow:0 10px 28px rgba(31,42,68,.35);transition:transform .25s,opacity .25s;animation:apx-how-pulse 2.4s ease-out infinite}
+  .apx-how__disc::before{content:"";position:absolute;left:32px;top:24px;border-left:22px solid var(--ap-blush-deep);border-block:16px solid transparent}
+  .apx-how__cap{padding:7px 16px;border-radius:999px;background:rgba(255,255,255,.94);color:var(--ap-ink);font-size:.875rem;font-weight:700;transition:opacity .25s}
+  .apx-how__play:hover .apx-how__disc{transform:scale(1.07)}
+  .apx-how__play[aria-pressed="true"]{background:transparent}
+  .apx-how__play[aria-pressed="true"] .apx-how__disc,.apx-how__play[aria-pressed="true"] .apx-how__cap{opacity:0;animation:none}
+  .apx-how__play:focus-visible .apx-how__disc{outline:3px solid var(--ap-white);box-shadow:0 0 0 6px var(--ap-ink)}
+  @keyframes apx-how-pulse{0%{box-shadow:0 10px 28px rgba(31,42,68,.35),0 0 0 0 rgba(255,255,255,.55)}70%,100%{box-shadow:0 10px 28px rgba(31,42,68,.35),0 0 0 26px rgba(255,255,255,0)}}
+
+  /* with media: video beside a connected timeline */
+  .apx-how--media .apx-how__body{display:grid;gap:36px;align-items:center}
+  .apx-how--media .apx-how__steps{position:relative;grid-template-columns:1fr;gap:18px}
+  .apx-how--media .apx-how__steps::before,.apx-how--media .apx-how__steps::after{content:"";position:absolute;left:23px;top:24px;bottom:24px;width:3px;border-radius:3px}
+  .apx-how--media .apx-how__steps::before{background:rgba(207,39,73,.18)}
+  .apx-how--media .apx-how__steps::after{background:linear-gradient(180deg,#F95D75,#CF2749);transform-origin:top;transform:scaleY(var(--ap-how-p,0));transition:transform .25s linear}
+  .apx-how--media .apx-how__step{display:grid;grid-template-columns:48px minmax(0,1fr);column-gap:18px;align-items:start}
+  .apx-how--media .apx-how__num{position:relative;z-index:1;display:grid;place-items:center;width:48px;height:48px;border:3px solid #FFE3E8;border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep);font-weight:800;font-size:1.05rem;transition:background .35s,color .35s,transform .35s,border-color .35s}
+  .apx-how--media .apx-how__step.is-active .apx-how__num,.apx-how--media .apx-how__step.is-done .apx-how__num{background:var(--ap-blush-deep);border-color:var(--ap-blush-deep);color:var(--ap-white)}
+  .apx-how--media .apx-how__step.is-active .apx-how__num{transform:scale(1.12)}
+  .apx-how--media .apx-how__card{display:grid;grid-template-columns:auto 1fr;column-gap:16px;align-items:start;padding:18px 20px}
+  .apx-how--media .apx-how__card{position:relative}
+  .apx-how--media .apx-how__top{display:contents}
+  .apx-how--media .apx-how__icon{grid-column:1;grid-row:1 / span 3}
+  .apx-how--media .apx-how__chip{position:absolute;top:14px;right:16px}
+  .apx-how--media .apx-how__card:has(.apx-how__chip) h3{padding-right:78px}
+  .apx-how--media .apx-how__card h3{grid-column:2;margin:.1rem 0 .25rem}
+  .apx-how--media .apx-how__card p{grid-column:2}
+  .apx-how--media .apx-how__img{grid-column:1 / -1}
+  .apx-how--media .apx-how__step.is-active .apx-how__card{border-color:rgba(207,39,73,.35);box-shadow:0 18px 40px rgba(207,39,73,.16);transform:translateX(6px)}
+  @media (hover:hover){.apx-how__card:hover{box-shadow:0 18px 40px rgba(31,42,68,.12)}}
+  @media (max-width:520px){
+    .apx-how--media .apx-how__card{grid-template-columns:1fr}
+    .apx-how--media .apx-how__icon{grid-column:1;grid-row:auto;margin-bottom:10px}
+    .apx-how--media .apx-how__card h3,.apx-how--media .apx-how__card p{grid-column:1}
+    .apx-how--media .apx-how__step.is-active .apx-how__card{transform:none}
+  }
+  @media (min-width:900px){
+    .apx-how--media .apx-how__body{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:72px}
+    .apx-how--media .apx-how__stage{position:sticky;top:96px}
+  }
+  @media (prefers-reduced-motion:reduce){.apx-how__disc{animation:none}.apx-how--media .apx-how__steps::after{transition:none}.apx-how__card,.apx-how__num{transition:none}}
+
+  .apx-how__note{display:flex;gap:12px;align-items:flex-start;max-width:70ch;margin:clamp(32px,4vw,48px) auto 0;padding:16px 20px;border:1px solid rgba(31,42,68,.06);border-left:4px solid var(--ap-blush-deep);border-radius:0 16px 16px 0;background:var(--ap-white);font-size:.9375rem;line-height:1.55;box-shadow:0 8px 24px rgba(31,42,68,.05)}
+  .apx-how__note-i{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#FFE9ED;color:var(--ap-blush-deep)}
 {% endstylesheet %}
 
 {% schema %}
@@ -70,8 +128,10 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Press. Wait. Peel. Swap." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Four simple steps, a few seconds of effort, and the patch does the rest." },
     { "type": "video", "id": "video", "label": "How-to video (optional)", "info": "Shopify-hosted. Shown beside the steps, muted, tap to play, never autoplays. Upload only videos you own." },
-    { "type": "image_picker", "id": "poster", "label": "Video cover / photo (optional)", "info": "Used as the video cover, or as a photo if there is no video. Upload only images you own or have licensed." }
+    { "type": "image_picker", "id": "poster", "label": "Video cover / photo (optional)", "info": "Used as the video cover, or as a photo if there is no video. Upload only images you own or have licensed." },
+    { "type": "text", "id": "media_caption", "label": "Video button caption", "default": "Watch how it works" }
   ],
   "blocks": [
     {
@@ -80,6 +140,23 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Cleanse and dry" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Wash your face gently and pat dry. Patches stick best to clean, dry skin." },
+        { "type": "text", "id": "chip", "label": "Time tag (optional)", "info": "A short tag such as \"10 sec\"." },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "drop",
+          "options": [
+            { "value": "drop", "label": "Drop" },
+            { "value": "hand", "label": "Hand" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "check", "label": "Check" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" }
+          ]
+        },
         {
           "type": "image_picker",
           "id": "image",
@@ -93,10 +170,10 @@
     {
       "name": "How it works",
       "blocks": [
-        { "type": "step", "settings": { "title": "Cleanse and dry", "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin." } },
-        { "type": "step", "settings": { "title": "Press for 10 seconds", "text": "Place the patch over the spot and press from the center out so the edges seal." } },
-        { "type": "step", "settings": { "title": "Leave on 6–8 hours", "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold." } },
-        { "type": "step", "settings": { "title": "Peel and swap", "text": "Peel from an edge, toss it, and add a fresh patch if the spot is still there." } }
+        { "type": "step", "settings": { "icon": "drop", "title": "Cleanse and dry", "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin." } },
+        { "type": "step", "settings": { "icon": "hand", "chip": "10 sec", "title": "Press for 10 seconds", "text": "Place the patch over the spot and press from the center out so the edges seal." } },
+        { "type": "step", "settings": { "icon": "clock", "chip": "6–8 hrs", "title": "Leave on 6–8 hours", "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold." } },
+        { "type": "step", "settings": { "icon": "sparkle", "title": "Peel and swap", "text": "Peel from an edge, toss it, and add a fresh patch if the spot is still there." } }
       ]
     }
   ]

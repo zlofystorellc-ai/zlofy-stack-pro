@@ -1,0 +1,52 @@
+{%- comment -%}
+  Email sign-up (Shopify customer form, tagged "newsletter"). Change the consent line so it matches how you really use emails.
+  Do not promise discounts here unless you really send them.
+{%- endcomment -%}
+<section class="apx-nl apx-section" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap apx-nl__wrap">
+    {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    {%- form 'customer', id: 'ap-newsletter-form', class: 'apx-nl__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label class="apx-sr" for="ap-nl-email">{{ 'ap.newsletter.email' | t }}</label>
+      <input class="apx-nl__input" id="ap-nl-email" type="email" name="contact[email]" autocomplete="email" inputmode="email" required placeholder="{{ 'ap.newsletter.placeholder' | t }}"{% if form.errors %} aria-invalid="true" aria-describedby="ap-nl-msg"{% endif %}>
+      <button class="apx-btn apx-nl__btn" type="submit">{{ section.settings.button_label }}</button>
+      {%- if form.posted_successfully? -%}
+        <p class="apx-nl__msg" id="ap-nl-msg" role="status">{{ 'ap.newsletter.thanks' | t }}</p>
+      {%- elsif form.errors -%}
+        <p class="apx-nl__msg apx-nl__msg--err" id="ap-nl-msg" role="alert">{{ form.errors.messages['email'] | default: 'ap.newsletter.error' | t }}</p>
+      {%- endif -%}
+    {%- endform -%}
+    {%- if section.settings.fine != blank -%}<p class="apx-fine apx-nl__fine">{{ section.settings.fine }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-nl{background:#FFE2E8}
+  .apx-nl__wrap{max-width:720px;text-align:center}
+  .apx-nl .apx-lede{margin-inline:auto}
+  .apx-nl__form{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px}
+  .apx-nl__input{flex:1 1 260px;min-height:56px;padding:0 1.5rem;border:2px solid var(--ap-ink);border-radius:999px;background:var(--ap-white);font-size:1rem}
+  .apx-nl__input:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-nl__btn{min-height:56px;padding-inline:2rem}
+  .apx-nl__msg{flex-basis:100%;margin:6px 0 0;font-weight:700;color:var(--ap-ink)}
+  .apx-nl__msg--err{color:#8A1230}
+  .apx-nl__fine{margin-top:14px}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Email sign-up",
+  "tag": "div",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Stay in the loop" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Skin tips and new drops, now and then" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Short, useful emails. No spam, unsubscribe any time." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Sign me up" },
+    { "type": "textarea", "id": "fine", "label": "Consent line", "default": "By signing up you agree to receive marketing emails from us. You can unsubscribe at any time." }
+  ],
+  "presets": [ { "name": "Email sign-up" } ]
+}
+{% endschema %}

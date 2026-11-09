@@ -1,0 +1,94 @@
+{%- comment -%}
+  Day / Night split: two big panels side by side. On desktop the one you hover or focus grows a little.
+  Each panel takes an optional photo (upload only photos you own or have licensed). Cosmetic wording only.
+{%- endcomment -%}
+<section class="apx-hs apx-section" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="apx-hs__row">
+      <article class="apx-hs__panel apx-hs__panel--day" tabindex="0">
+        <div class="apx-hs__copy">
+          <span class="apx-hs__icon">{% render 'ap-icon', name: 'sun', size: 28 %}</span>
+          <h3>{{ section.settings.day_title }}</h3>
+          <p>{{ section.settings.day_text }}</p>
+          {%- if section.settings.day_link != blank and section.settings.day_link_label != blank -%}
+            <a class="apx-hs__a" href="{{ section.settings.day_link }}">{{ section.settings.day_link_label }} <span aria-hidden="true">&rarr;</span></a>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.day_image != blank -%}
+          <div class="apx-hs__img">{{ section.settings.day_image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 525, 700', sizes: '(min-width: 990px) 24vw, 80vw', alt: section.settings.day_image.alt | default: section.settings.day_title }}</div>
+        {%- else -%}
+          <span class="apx-hs__dot apx-hs__dot--day" aria-hidden="true"></span>
+        {%- endif -%}
+      </article>
+      <article class="apx-hs__panel apx-hs__panel--night" tabindex="0">
+        <div class="apx-hs__copy">
+          <span class="apx-hs__icon">{% render 'ap-icon', name: 'moon', size: 28 %}</span>
+          <h3>{{ section.settings.night_title }}</h3>
+          <p>{{ section.settings.night_text }}</p>
+          {%- if section.settings.night_link != blank and section.settings.night_link_label != blank -%}
+            <a class="apx-hs__a" href="{{ section.settings.night_link }}">{{ section.settings.night_link_label }} <span aria-hidden="true">&rarr;</span></a>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.night_image != blank -%}
+          <div class="apx-hs__img">{{ section.settings.night_image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 525, 700', sizes: '(min-width: 990px) 24vw, 80vw', alt: section.settings.night_image.alt | default: section.settings.night_title }}</div>
+        {%- else -%}
+          <span class="apx-hs__dot apx-hs__dot--night" aria-hidden="true"></span>
+        {%- endif -%}
+      </article>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-hs__row{display:flex;flex-direction:column;gap:16px;margin-top:clamp(28px,4vw,48px)}
+  .apx-hs__panel{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-height:340px;overflow:hidden;padding:clamp(24px,3.5vw,40px);border-radius:32px;transition:flex-grow .6s cubic-bezier(.2,.7,.2,1),transform .4s}
+  .apx-hs__panel--day{background:linear-gradient(160deg,#FFF3BF,#FFE066);color:var(--ap-ink)}
+  .apx-hs__panel--night{background:linear-gradient(160deg,#2A2A55,var(--ap-ink));color:var(--ap-white)}
+  .apx-hs__panel:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:3px;box-shadow:none}
+  .apx-hs__copy{position:relative;z-index:1;max-width:min(22rem,66%)}
+  .apx-hs__copy h3{margin:14px 0 8px;font-size:clamp(2rem,4vw,3rem);color:inherit}
+  .apx-hs__copy p{margin:0;font-size:1.0625rem;line-height:1.55}
+  .apx-hs__icon{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.75);color:var(--ap-blush-deep)}
+  .apx-hs__panel--night .apx-hs__icon{background:rgba(255,255,255,.14);color:var(--ap-butter)}
+  .apx-hs__a{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;margin-top:16px;color:inherit;font-weight:800;text-decoration:none;border-bottom:2px solid currentColor}
+  .apx-hs__img{position:absolute;right:-8%;bottom:-8%;width:min(44%,300px);aspect-ratio:1;overflow:hidden;border-radius:50%;box-shadow:0 20px 40px rgba(0,0,0,.25)}
+  .apx-hs__img img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-hs__dot{position:absolute;right:-8%;bottom:-14%;width:min(38%,240px);aspect-ratio:1;border-radius:50%;animation:apx-float 7s ease-in-out infinite}
+  .apx-hs__dot::after{content:"";position:absolute;left:50%;top:50%;width:14%;height:14%;margin:-7%;border-radius:50%;background:rgba(255,255,255,.9)}
+  .apx-hs__dot--day{background:var(--ap-white);box-shadow:inset 0 0 0 6px rgba(207,39,73,.18),0 24px 40px rgba(133,79,11,.2)}
+  .apx-hs__dot--night{background:var(--ap-blush-deep);box-shadow:inset 0 0 0 6px rgba(255,255,255,.3),0 24px 40px rgba(0,0,0,.35);animation-delay:-3s}
+  @media (min-width:900px){
+    .apx-hs__row{flex-direction:row}
+    .apx-hs__panel{flex:1 1 0;min-height:440px}
+    .apx-hs__row:hover .apx-hs__panel:hover,.apx-hs__row:focus-within .apx-hs__panel:focus-visible{flex-grow:1.35}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Day and night panels",
+  "tag": "div",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Two patches, two jobs" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One kit for the whole day" },
+    { "type": "header", "content": "Day panel" },
+    { "type": "text", "id": "day_title", "label": "Title", "default": "Day" },
+    { "type": "textarea", "id": "day_text", "label": "Text", "default": "Thin and low-shine, so it sits close to the skin on the way to school, work or errands." },
+    { "type": "image_picker", "id": "day_image", "label": "Photo (optional)" },
+    { "type": "text", "id": "day_link_label", "label": "Link text (optional)" },
+    { "type": "url", "id": "day_link", "label": "Link" },
+    { "type": "header", "content": "Night panel" },
+    { "type": "text", "id": "night_title", "label": "Title", "default": "Night" },
+    { "type": "textarea", "id": "night_text", "label": "Text", "default": "Thicker and cushioned, so it stays put while you sleep and you wake up without a patch on your pillow." },
+    { "type": "image_picker", "id": "night_image", "label": "Photo (optional)" },
+    { "type": "text", "id": "night_link_label", "label": "Link text (optional)" },
+    { "type": "url", "id": "night_link", "label": "Link" }
+  ],
+  "presets": [ { "name": "Day and night panels" } ]
+}
+{% endschema %}

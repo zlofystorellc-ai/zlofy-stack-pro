@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.1
+- "A spot's day" section: a trust line under the button (Free US shipping on kits, US-based support, Secure checkout). Larger screens show the picture strip (`assets/ap-trust-strip.png`); phones show the same three points as readable text with icons. Editable in the section settings; untick the picture if you change the wording. Keep every point true for your store.
+
 ## 1.9.0
 - Home banner: ten little glassy patches float in the background, a fine grain texture adds depth, and scrolling now moves the banner: the video slowly zooms, the text and picture drift apart and the patches rise at different speeds (`assets/ap-banner.js`). All of it stops for visitors who prefer reduced motion.
 

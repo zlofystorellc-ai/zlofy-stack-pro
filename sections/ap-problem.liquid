@@ -33,6 +33,19 @@
     {%- if section.settings.button_label != blank -%}
       <p class="apx-center apx-prob__cta"><a class="apx-prob__btn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.button_label }}</a></p>
     {%- endif -%}
+    {%- if section.settings.show_trust -%}
+      {%- assign trust_alt = section.settings.trust_1 | append: ', ' | append: section.settings.trust_2 | append: ', ' | append: section.settings.trust_3 -%}
+      <div class="apx-prob__trust{% if section.settings.trust_use_image %} apx-prob__trust--img{% endif %}">
+        {%- if section.settings.trust_use_image -%}
+          <img class="apx-prob__trust-img" src="{{ 'ap-trust-strip.png' | asset_url }}" alt="{{ trust_alt | escape }}" width="1860" height="216" loading="lazy">
+        {%- endif -%}
+        <ul class="apx-prob__trust-list">
+          <li>{% render 'ap-icon', name: 'truck', size: 20 %}<span>{{ section.settings.trust_1 }}</span></li>
+          <li>{% render 'ap-icon', name: 'heart', size: 20 %}<span>{{ section.settings.trust_2 }}</span></li>
+          <li>{% render 'ap-icon', name: 'shield', size: 20 %}<span>{{ section.settings.trust_3 }}</span></li>
+        </ul>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -56,6 +69,16 @@
   .apx-prob__fix{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:14px;background:var(--ap-sand);color:var(--ap-ink);font-weight:600;line-height:1.5}
   .apx-prob__fix .apx-icon{flex:none;margin-top:2px;color:var(--ap-blush-deep)}
   .apx-prob__cta{margin-top:clamp(28px,4vw,48px)}
+  .apx-prob__trust{max-width:920px;margin:clamp(24px,3vw,36px) auto 0}
+  .apx-prob__trust-img{display:none;width:100%;height:auto;mix-blend-mode:multiply}
+  .apx-prob__trust-list{display:grid;gap:12px;justify-content:center;margin:0;padding:0;list-style:none}
+  .apx-prob__trust-list li{display:flex;align-items:center;gap:.7rem;font-weight:700;color:var(--ap-ink)}
+  .apx-prob__trust-list .apx-icon{flex:none;width:36px;height:36px;padding:8px;border-radius:50%;background:#FFE9ED;color:var(--ap-blush-deep)}
+  @media (min-width:700px){
+    .apx-prob__trust-list{grid-auto-flow:column;gap:12px 32px}
+    .apx-prob__trust--img .apx-prob__trust-img{display:block}
+    .apx-prob__trust--img .apx-prob__trust-list{display:none}
+  }
   .apx-prob__btn{display:inline-flex;align-items:center;min-height:56px;padding:0 2.25rem;border-radius:999px;background:var(--ap-blush-deep);color:var(--ap-white);font-weight:800;text-decoration:none;transition:transform .25s,box-shadow .25s}
   .apx-prob__btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(179,56,75,.35)}
   .apx-prob__btn:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
@@ -91,7 +114,13 @@
     },
     { "type": "select", "id": "photo_shape", "label": "Photo shape", "options": [ { "value": "portrait", "label": "Portrait rectangle (3:4)" }, { "value": "landscape", "label": "Landscape rectangle (16:10)" }, { "value": "square", "label": "Square" } ], "default": "portrait" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Find your kit" },
-    { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll to the buy box." }
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll to the buy box." },
+    { "type": "header", "content": "Trust line under the button" },
+    { "type": "checkbox", "id": "show_trust", "label": "Show the trust line", "default": true },
+    { "type": "text", "id": "trust_1", "label": "Point 1", "default": "Free US shipping on kits" },
+    { "type": "text", "id": "trust_2", "label": "Point 2", "default": "US-based support" },
+    { "type": "text", "id": "trust_3", "label": "Point 3", "default": "Secure checkout" },
+    { "type": "checkbox", "id": "trust_use_image", "label": "Use the picture strip on larger screens", "default": true, "info": "The picture shows the default wording. If you change the points above, untick this so the text version is used on every screen. Say only what is true for your store." }
   ],
   "blocks": [
     {

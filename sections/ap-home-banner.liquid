@@ -28,7 +28,27 @@
     </div>
 
     <div class="apx-hh__visual">
-      {%- if section.settings.image != blank -%}
+      {%- liquid
+        assign show_demo = false
+        if section.settings.video == blank and section.settings.image == blank and section.settings.show_demo_video
+          assign show_demo = true
+        endif
+      -%}
+      {%- if section.settings.video != blank or show_demo -%}
+        <div class="apx-hh__photo apx-hh__frame" data-ap-banner>
+          {%- if section.settings.video != blank -%}
+            {{ section.settings.video | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'auto', class: 'apx-hh__video', poster: section.settings.image | default: section.settings.video.preview_image }}
+          {%- else -%}
+            <video class="apx-hh__video" autoplay loop muted playsinline preload="auto" poster="{{ 'ap-demo-banner.jpg' | asset_url }}" aria-hidden="true" tabindex="-1">
+              <source src="{{ 'ap-demo-banner.mp4' | asset_url }}" type="video/mp4">
+            </video>
+          {%- endif -%}
+          <button type="button" class="apx-hh__pause" data-ap-banner-pause aria-pressed="false" aria-label="{{ 'ap.banner.pause' | t }}" data-label-pause="{{ 'ap.banner.pause' | t | escape }}" data-label-play="{{ 'ap.banner.play' | t | escape }}">
+            <span data-pause>{% render 'ap-icon', name: 'pause', size: 20 %}</span>
+            <span data-play hidden>{% render 'ap-icon', name: 'play', size: 20 %}</span>
+          </button>
+        </div>
+      {%- elsif section.settings.image != blank -%}
         <div class="apx-hh__photo">
           {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '550, 800, 1100', sizes: '(min-width: 990px) 46vw, 92vw', alt: section.settings.image.alt | default: section.settings.heading }}
         </div>
@@ -46,6 +66,7 @@
     </div>
   </div>
 </section>
+<script src="{{ 'ap-banner.js' | asset_url }}" type="module"></script>
 
 {% stylesheet %}
   .apx-hh{position:relative;isolation:isolate;overflow-x:clip;padding-block:clamp(36px,6vw,88px);background:linear-gradient(180deg,var(--ap-sand),var(--ap-white))}
@@ -64,6 +85,18 @@
   .apx-hh__visual{position:relative;width:100%;max-width:560px;margin-inline:auto}
   .apx-hh__photo{overflow:hidden;aspect-ratio:4/5;border-radius:48% 48% 28px 28px / 36% 36% 28px 28px;background:var(--ap-sand);box-shadow:0 30px 60px rgba(31,31,58,.18)}
   .apx-hh__photo img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-hh__video{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-hh__frame{position:relative}
+  .apx-hh__pause{position:absolute;right:16px;bottom:16px;z-index:2;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ap-ink);box-shadow:0 6px 18px rgba(31,31,58,.25);cursor:pointer}
+  .apx-hh__pause:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
+  @keyframes apx-hh-rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  @keyframes apx-hh-pop{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
+  .apx-hh__copy>*{animation:apx-hh-rise .85s cubic-bezier(.2,.7,.2,1) both}
+  .apx-hh__copy>*:nth-child(2){animation-delay:.08s}
+  .apx-hh__copy>*:nth-child(3){animation-delay:.16s}
+  .apx-hh__copy>*:nth-child(4){animation-delay:.24s}
+  .apx-hh__copy>*:nth-child(5){animation-delay:.32s}
+  .apx-hh__visual{animation:apx-hh-pop 1.1s .15s cubic-bezier(.2,.7,.2,1) both}
   .apx-hh__art{position:relative;aspect-ratio:1}
   .apx-hh__patch{position:absolute;inset:9%;border-radius:50%;background:linear-gradient(145deg,var(--ap-blush),var(--ap-blush-deep));box-shadow:inset 0 0 0 4px rgba(255,255,255,.42),0 40px 70px rgba(207,39,73,.3);animation:apx-float 7s ease-in-out infinite}
   .apx-hh__patch::before{content:"";position:absolute;left:14%;top:12%;width:46%;height:46%;border:6px solid rgba(255,255,255,.6);border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(-12deg)}
@@ -75,7 +108,7 @@
   .apx-hh__mini--c{left:8%;top:18%;width:8%;aspect-ratio:1;background:var(--ap-butter);animation-delay:-3s}
   .apx-hh__badge{position:absolute;display:inline-flex;align-items:center;gap:.45rem;padding:.6rem 1.1rem;border-radius:999px;background:var(--ap-white);color:var(--ap-ink);font-size:.9375rem;font-weight:800;box-shadow:0 14px 30px rgba(31,31,58,.18)}
   .apx-hh__badge .apx-icon{color:var(--ap-blush-deep)}
-  .apx-hh__badge--1{left:-2%;top:14%;animation:apx-float 6s ease-in-out infinite}
+  .apx-hh__badge--1{left:-2%;top:14%;animation:apx-hh-pop .7s 1s both,apx-float 6s 1.7s ease-in-out infinite}
   .apx-hh__badge--2{right:-2%;bottom:18%;animation:apx-float 6.5s -3s ease-in-out infinite}
   @keyframes apx-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
   @media (min-width:990px){.apx-hh__grid{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
@@ -96,7 +129,9 @@
     { "type": "url", "id": "button_link", "label": "Main button link", "info": "Leave empty to open all products." },
     { "type": "text", "id": "button2_label", "label": "Second link", "default": "How it works" },
     { "type": "url", "id": "button2_link", "label": "Second link target", "info": "Leave empty to scroll to the how-to section." },
-    { "type": "image_picker", "id": "image", "label": "Photo (optional)" },
+    { "type": "video", "id": "video", "label": "Banner video (optional)", "info": "Shopify-hosted video you own. Plays muted on a loop, with a pause button. Leave empty to use the demo loop below." },
+    { "type": "checkbox", "id": "show_demo_video", "label": "Show the built-in demo video until I add mine", "default": true, "info": "An original animation of the patches (no people, no claims). Turn it off once you have your own video or photo." },
+    { "type": "image_picker", "id": "image", "label": "Photo or video cover (optional)", "info": "Used as the cover of your video, or on its own. Upload only photos you own or have licensed." },
     { "type": "text", "id": "badge1", "label": "Badge 1", "default": "Day patch" },
     { "type": "text", "id": "badge2", "label": "Badge 2", "default": "Night patch" }
   ],

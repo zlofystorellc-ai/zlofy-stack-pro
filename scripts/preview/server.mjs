@@ -289,7 +289,7 @@ function mockImage(key) {
 }
 
 /* ---------- http ---------- */
-const MIME = { '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json', '.woff2': 'font/woff2' };
+const MIME = { '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json', '.woff2': 'font/woff2', '.mp4': 'video/mp4', '.jpg': 'image/jpeg' };
 const json = (res, status, body) => { res.writeHead(status, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(body)); };
 const readBody = (req) => new Promise((r) => { const c = []; req.on('data', (d) => c.push(d)); req.on('end', () => r(Buffer.concat(c))); });
 
@@ -299,8 +299,17 @@ http.createServer(async (req, res) => {
     if (url.pathname.startsWith('/assets/')) {
       const file = normalize(join(root, 'assets', url.pathname.slice(8)));
       if (file.startsWith(join(root, 'assets')) && existsSync(file) && statSync(file).isFile()) {
-        res.writeHead(200, { 'Content-Type': MIME[extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
-        return res.end(readFileSync(file));
+        const buf = readFileSync(file);
+        const type = MIME[extname(file)] || 'application/octet-stream';
+        const m = req.headers.range && /bytes=(\d*)-(\d*)/.exec(req.headers.range);
+        if (m) {
+          const start = m[1] ? Number(m[1]) : 0;
+          const end = m[2] ? Math.min(Number(m[2]), buf.length - 1) : buf.length - 1;
+          res.writeHead(206, { 'Content-Type': type, 'Content-Range': `bytes ${start}-${end}/${buf.length}`, 'Accept-Ranges': 'bytes', 'Content-Length': end - start + 1, 'Cache-Control': 'no-store' });
+          return res.end(buf.subarray(start, end + 1));
+        }
+        res.writeHead(200, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Length': buf.length, 'Cache-Control': 'no-store' });
+        return res.end(buf);
       }
       res.writeHead(404); return res.end('not found');
     }

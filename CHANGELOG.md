@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.9.2
+- "A spot's day": card 1 (Morning) now shows a built-in demonstration photo (an adult holding a patch next to a small spot, `assets/ap-card-morning.jpg`). Each card has a "Built-in sample photo" choice; set it to None to use your own photo. A small note under the cards says the photos are illustrative demonstrations, not customer testimonials (clear it once all photos are your own). The photo is AI-generated: do not call it a real customer.
+
 ## 1.9.1
 - "A spot's day" section: a trust line under the button (Free US shipping on kits, US-based support, Secure checkout). Larger screens show the picture strip (`assets/ap-trust-strip.png`); phones show the same three points as readable text with icons. Editable in the section settings; untick the picture if you change the wording. Keep every point true for your store.
 

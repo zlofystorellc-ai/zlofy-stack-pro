@@ -16,7 +16,11 @@
         <li class="apx-prob__step" {{ block.shopify_attributes }}>
           {%- if block.settings.time != blank -%}<p class="apx-prob__time">{{ block.settings.time }}</p>{%- endif -%}
           <span class="apx-prob__node" aria-hidden="true">{% render 'ap-icon', name: block.settings.icon, size: 24 %}</span>
-          {%- if block.settings.image != blank -%}
+          {%- if block.settings.builtin_photo != blank -%}
+            <div class="apx-prob__photo">
+              <img src="{{ block.settings.builtin_photo | asset_url }}" alt="{{ block.settings.photo_alt | escape }}" width="738" height="1100" loading="lazy">
+            </div>
+          {%- elsif block.settings.image != blank -%}
             <div class="apx-prob__photo">
               {{ block.settings.image | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 900px) 24vw, 80vw', alt: block.settings.image.alt | default: block.settings.title }}
             </div>
@@ -30,6 +34,7 @@
       {%- endfor -%}
     </ol>
 
+    {%- if section.settings.photo_note != blank -%}<p class="apx-fine apx-center apx-prob__note">{{ section.settings.photo_note }}</p>{%- endif -%}
     {%- if section.settings.button_label != blank -%}
       <p class="apx-center apx-prob__cta"><a class="apx-prob__btn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.button_label }}</a></p>
     {%- endif -%}
@@ -68,6 +73,8 @@
   .apx-prob__moment{margin:0;color:var(--ap-ink-soft);line-height:1.6}
   .apx-prob__fix{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 14px;border-radius:14px;background:var(--ap-sand);color:var(--ap-ink);font-weight:600;line-height:1.5}
   .apx-prob__fix .apx-icon{flex:none;margin-top:2px;color:var(--ap-blush-deep)}
+  .apx-prob__photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+  .apx-prob__note{margin:20px 0 0}
   .apx-prob__cta{margin-top:clamp(28px,4vw,48px)}
   .apx-prob__trust{max-width:920px;margin:clamp(24px,3vw,36px) auto 0}
   .apx-prob__trust-img{display:none;width:100%;height:auto;mix-blend-mode:multiply}
@@ -115,6 +122,7 @@
     { "type": "select", "id": "photo_shape", "label": "Photo shape", "options": [ { "value": "portrait", "label": "Portrait rectangle (3:4)" }, { "value": "landscape", "label": "Landscape rectangle (16:10)" }, { "value": "square", "label": "Square" } ], "default": "portrait" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Find your kit" },
     { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll to the buy box." },
+    { "type": "text", "id": "photo_note", "label": "Photo note (small print)", "info": "Shown under the cards. Clear it once all photos are your own real photos.", "default": "Photos are illustrative demonstrations, not customer testimonials." },
     { "type": "header", "content": "Trust line under the button" },
     { "type": "checkbox", "id": "show_trust", "label": "Show the trust line", "default": true },
     { "type": "text", "id": "trust_1", "label": "Point 1", "default": "Free US shipping on kits" },
@@ -141,6 +149,8 @@
           ],
           "default": "hand"
         },
+        { "type": "select", "id": "builtin_photo", "label": "Built-in sample photo", "info": "An AI-generated demonstration photo. It is NOT a real customer. Set to None to use your own photo below.", "options": [ { "value": "", "label": "None" }, { "value": "ap-card-morning.jpg", "label": "Morning: holding a patch by a small spot" } ], "default": "" },
+        { "type": "text", "id": "photo_alt", "label": "Built-in photo description", "default": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin" },
         { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Shown above the moment. Upload only photos you own or have licensed, ideally of real people who gave permission." },
         { "type": "text", "id": "time", "label": "Time of day", "default": "Midday" },
         { "type": "text", "id": "title", "label": "Moment", "default": "The picking loop" },
@@ -153,7 +163,7 @@
     {
       "name": "Problem",
       "blocks": [
-        { "type": "point", "settings": { "icon": "sun", "time": "Morning", "title": "Before the big day", "text": "Photos, dates, interviews. A spot likes to show up right before them.", "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day." } },
+        { "type": "point", "settings": { "icon": "sun", "builtin_photo": "ap-card-morning.jpg", "time": "Morning", "title": "Before the big day", "text": "Photos, dates, interviews. A spot likes to show up right before them.", "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day." } },
         { "type": "point", "settings": { "icon": "hand", "time": "Midday", "title": "The picking loop", "text": "Hands find the spot before your brain catches up.", "fix": "A patch gives your fingers something else to find." } },
         { "type": "point", "settings": { "icon": "moon", "time": "Night", "title": "Patches that slide off", "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.", "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep." } },
         { "type": "point", "settings": { "icon": "clock", "time": "Next morning", "title": "Check, then swap", "text": "A patch that has turned white has taken in as much fluid as it can hold.", "fix": "Peel it, toss it, and add a fresh one if the spot is still there." } }

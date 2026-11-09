@@ -49,6 +49,7 @@
           "type": "point",
           "settings": {
             "icon": "sun",
+            "builtin_photo": "ap-card-morning.jpg",
             "time": "Morning",
             "title": "Before the big day",
             "text": "Photos, dates, interviews. A spot likes to show up right before them.",

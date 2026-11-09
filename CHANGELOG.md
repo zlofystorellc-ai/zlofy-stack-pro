@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.2
+- "How it works" section redesigned: subheading, soft glow background, framed video with a play button and caption, and a connected timeline of step cards (icon, optional time tag such as "10 sec") whose line fills and whose current step highlights as you scroll (`assets/ap-how.js`). New editor settings: subheading, video caption, per-step icon and time tag.
+
 ## 1.5.1
 - Home "Shop the kit" section is now for ONE product: one block only, a wide card (image left, name, price and button right) on desktop, no "See all products" link by default.
 

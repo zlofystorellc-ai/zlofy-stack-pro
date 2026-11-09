@@ -216,6 +216,7 @@
         "step_1": {
           "type": "step",
           "settings": {
+            "icon": "drop",
             "title": "Cleanse and dry",
             "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin."
           }
@@ -223,6 +224,8 @@
         "step_2": {
           "type": "step",
           "settings": {
+            "icon": "hand",
+            "chip": "10 sec",
             "title": "Press for 10 seconds",
             "text": "Place the patch over the spot and press from the center out so the edges seal."
           }
@@ -230,6 +233,8 @@
         "step_3": {
           "type": "step",
           "settings": {
+            "icon": "clock",
+            "chip": "6–8 hrs",
             "title": "Leave on 6–8 hours",
             "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold."
           }
@@ -237,6 +242,7 @@
         "step_4": {
           "type": "step",
           "settings": {
+            "icon": "sparkle",
             "title": "Peel and swap",
             "text": "Peel from an edge, toss it, and add a fresh patch if the spot is still there."
           }

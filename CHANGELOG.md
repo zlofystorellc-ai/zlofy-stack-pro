@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.0 (premium animated banner)
+- Home banner: headline words fly in one by one and the second sentence shimmers; the video reveals from an arch; glass badges and a spinning text ring drift with the mouse; twinkling sparkles; the main button glows and sweeps with light; a scrolling strip of true brand facts sits under the banner (editable). Everything stops for visitors who prefer reduced motion. New editor settings: ring text, scrolling strip.
+
 ## 1.5.2
 - "How it works" section redesigned: subheading, soft glow background, framed video with a play button and caption, and a connected timeline of step cards (icon, optional time tag such as "10 sec") whose line fills and whose current step highlights as you scroll (`assets/ap-how.js`). New editor settings: subheading, video caption, per-step icon and time tag.
 

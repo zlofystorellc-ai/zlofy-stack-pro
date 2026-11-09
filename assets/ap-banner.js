@@ -32,3 +32,16 @@ document.querySelectorAll('[data-ap-banner]').forEach((box) => {
   }
   paint();
 });
+
+/* Pointer parallax for the banner visual: the video, badges and ring drift a little as the mouse moves.
+   Mouse only (not touch), and never for visitors who prefer reduced motion. */
+if (matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+  document.querySelectorAll('[data-ap-hh]').forEach((sec) => {
+    const set = (x, y) => { sec.style.setProperty('--px', x.toFixed(3)); sec.style.setProperty('--py', y.toFixed(3)); };
+    sec.addEventListener('pointermove', (e) => {
+      const r = sec.getBoundingClientRect();
+      set((e.clientX - r.left) / r.width * 2 - 1, (e.clientY - r.top) / r.height * 2 - 1);
+    });
+    sec.addEventListener('pointerleave', () => set(0, 0));
+  });
+}

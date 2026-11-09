@@ -1,30 +1,56 @@
-/* ap-header.js — dropdown nav + mobile menu. Closes on Escape and outside click. Returns focus on Escape. */
+/* ap-header.js — day/night toggle, shrink-on-scroll header, scroll-padding for anchors, optional Reviews link.
+   The theme itself is set before first paint by the tiny inline script in layout/theme.liquid (data-theme on <html>);
+   this file only handles the toggle button. Only CSS custom properties change between themes, never the layout. */
+const root = document.documentElement;
 const header = document.querySelector('[data-ap-header]');
-if (header) {
-  const dds = [...header.querySelectorAll('[data-ap-dd]')];
-  const closeDd = (dd, refocus) => {
-    const b = dd.querySelector('[data-ap-dd-btn]');
-    b.setAttribute('aria-expanded', 'false');
-    dd.querySelector('.apx-dd__panel').hidden = true;
-    if (refocus) b.focus();
-  };
-  dds.forEach((dd) => {
-    const b = dd.querySelector('[data-ap-dd-btn]');
-    b.addEventListener('click', () => {
-      const open = b.getAttribute('aria-expanded') === 'true';
-      dds.forEach((o) => closeDd(o, false));
-      if (!open) { b.setAttribute('aria-expanded', 'true'); dd.querySelector('.apx-dd__panel').hidden = false; }
-    });
-    dd.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDd(dd, true); });
-  });
-  document.addEventListener('click', (e) => { dds.forEach((dd) => { if (!dd.contains(e.target)) closeDd(dd, false); }); });
 
-  const burger = header.querySelector('[data-ap-menu-toggle]');
-  const menu = header.querySelector('[data-ap-menu]');
-  if (burger && menu) {
-    const set = (open) => { burger.setAttribute('aria-expanded', String(open)); menu.hidden = !open; };
-    burger.addEventListener('click', () => set(menu.hidden));
-    menu.addEventListener('keydown', (e) => { if (e.key === 'Escape') { set(false); burger.focus(); } });
-    matchMedia('(min-width:760px)').addEventListener('change', (m) => { if (m.matches) set(false); });
-  }
+/* ---- theme toggle ---- */
+const toggle = document.querySelector('[data-ap-theme-toggle]');
+if (toggle) {
+  const sync = () => {
+    const night = root.getAttribute('data-theme') === 'night';
+    toggle.setAttribute('aria-pressed', String(night));
+    toggle.setAttribute('aria-label', night ? toggle.dataset.labelToDay : toggle.dataset.labelToNight);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', night ? '#1F2A44' : '#F4EDE4');
+  };
+  toggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'night' ? 'day' : 'night';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('ap-theme', next); } catch (e) { /* private mode: the choice just is not remembered */ }
+    sync();
+  });
+  sync();
+}
+
+if (header) {
+  /* ---- Reviews link only when a reviews section is on the page ---- */
+  const rev = header.querySelector('[data-ap-reviews-link]');
+  if (rev && document.getElementById('reviews')) rev.hidden = false;
+
+  /* ---- keep anchors and focused elements clear of the sticky header (WCAG 2.4.11) ---- */
+  const setOffset = () => {
+    const h = Math.round(header.getBoundingClientRect().height);
+    root.style.setProperty('--ap-header-h', `${h}px`);
+    root.style.scrollPaddingTop = `${h + 12}px`;
+  };
+
+  /* ---- shrink on scroll ---- */
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const small = window.scrollY > 40;
+      if (header.classList.contains('is-shrunk') !== small) {
+        header.classList.toggle('is-shrunk', small);
+        setOffset();
+      }
+      ticking = false;
+    });
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', setOffset);
+  setOffset();
+  onScroll();
 }

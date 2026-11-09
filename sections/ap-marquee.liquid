@@ -17,12 +17,12 @@
 {%- endif -%}
 
 {% stylesheet %}
-  .apx-band-text{overflow:hidden;background:var(--ap-ink);color:var(--ap-white)}
+  .apx-band-text{overflow:hidden;background:var(--ap-dark);color:var(--ap-on-dark)}
   .apx-band-text__track{display:flex;width:max-content;animation:apx-tick 34s linear infinite}
   .apx-band-text:hover .apx-band-text__track,.apx-band-text:focus-within .apx-band-text__track{animation-play-state:paused}
   .apx-band-text__list{display:flex;flex:none;margin:0;padding:14px 0;list-style:none;font-size:.8125rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
   .apx-band-text__list li{display:flex;align-items:center;gap:2rem;padding-right:2rem}
-  .apx-band-text__list li::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--ap-blush)}
+  .apx-band-text__list li::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--ap-accent)}
   @keyframes apx-tick{to{transform:translateX(-33.3333%)}}
   @media (prefers-reduced-motion:reduce){
     .apx-band-text__track{width:auto;justify-content:center;animation:none}

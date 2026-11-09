@@ -37,56 +37,38 @@ function sectionFromPreset(type, overrides = {}) {
 }
 
 // Section order is editable in the theme editor; this is just the starting order.
-const productOrder = [
-  // Removed as repeats of other sections (files stay in /sections if you want them back):
-  // ap-marquee (repeats trust strip), ap-feature-cards (repeats hero bullets), ap-when-tabs (repeats the timeline and day vs night),
-  // ap-size-guide (sizes are in the kit section), ap-shade-proof (customer photos: before/after + video cards),
-  // ap-bundles (repeats the hero kit options), ap-faq (replaced by the FAQ-with-image band, which now carries the FAQ schema).
-  ['trust', 'ap-trust-strip'],
-  ['main', 'ap-hero'],
-  ['problem', 'ap-problem'],
+// Brief order: announcement (section group) > header > buy box > what is in the box > day vs night > how to use >
+// match the patch > reviews > materials and not > FAQ > final CTA > footer.
+// Sections not built yet (match the patch, materials and not, final CTA) are added in a later phase.
+const landingOrder = [
+  ['buybox', 'ap-landing-buybox'],
+  ['box', 'ap-kit-contents'],
   ['daynight', 'ap-day-night'],
   ['how', 'ap-how-it-works'],
-  ['ingredients', 'ap-ingredients'],
-  ['beforeafter', 'ap-before-after'],
-  ['kit', 'ap-kit-contents'],
-  ['comparison', 'ap-comparison'],
   ['reviews', 'ap-reviews'],
-  ['founder', 'ap-founder-note'],
-  ['upsell', 'ap-upsell'],
-  ['videos', 'ap-video-cards'],
-  ['guarantee', 'ap-guarantee'],
-  ['faqsplit', 'ap-faq-split'],
+  ['faq', 'ap-faq'],
   ['sticky', 'ap-sticky-atc']
 ];
-
-const product = { sections: {}, order: [] };
-for (const [key, type] of productOrder) {
-  product.sections[key] = sectionFromPreset(type);
-  product.order.push(key);
+const landing = { sections: {}, order: [] };
+for (const [key, type] of landingOrder) {
+  landing.sections[key] = sectionFromPreset(type);
+  landing.order.push(key);
 }
-writeFileSync(join(root, 'templates', 'product.acne-duo.json'), JSON.stringify(product, null, 2) + '\n');
+const landingJson = JSON.stringify(landing, null, 2) + '\n';
+writeFileSync(join(root, 'templates', 'index.json'), landingJson);
+writeFileSync(join(root, 'templates', 'product.json'), landingJson);
 
-// Home page (templates/index.json). Product-only sections are not used here.
-const homeOrder = [
-  ['banner', 'ap-home-banner'],
-  ['products', 'ap-home-products'],
-  ['problem', 'ap-problem', { settings: { button_link: '/collections/all' } }],
-  ['split', 'ap-home-split'],
-  ['how', 'ap-how-it-works'],
-  ['beforeafter', 'ap-before-after'],
-  ['videos', 'ap-video-cards'],
-  ['founder', 'ap-founder-note'],
-  ['guarantee', 'ap-guarantee'],
-  ['faq', 'ap-faq-split'],
-  ['newsletter', 'ap-newsletter']
-];
-const home = { sections: {}, order: [] };
-for (const [key, type, overrides] of homeOrder) {
-  home.sections[key] = sectionFromPreset(type, overrides || {});
-  home.order.push(key);
+function routeTemplate(target) {
+  return JSON.stringify({
+    sections: { route: { type: 'ap-route-home', settings: { target } } },
+    order: ['route']
+  }, null, 2) + '\n';
 }
-writeFileSync(join(root, 'templates', 'index.json'), JSON.stringify(home, null, 2) + '\n');
+writeFileSync(join(root, 'templates', 'collection.json'), routeTemplate('/'));
+writeFileSync(join(root, 'templates', 'list-collections.json'), routeTemplate('/'));
+writeFileSync(join(root, 'templates', 'search.json'), routeTemplate('/'));
+writeFileSync(join(root, 'templates', 'product.addon.json'), routeTemplate('/#offers'));
+writeFileSync(join(root, 'templates', 'cart.json'), JSON.stringify({ sections: { cart: { type: 'ap-cart-page' } }, order: ['cart'] }, null, 2) + '\n');
 
 const header = {
   name: 'Header',
@@ -96,4 +78,4 @@ const header = {
 };
 writeFileSync(join(root, 'sections', 'header-group.json'), JSON.stringify(header, null, 2) + '\n');
 
-console.log(`Wrote templates/product.acne-duo.json (${product.order.length} sections), templates/index.json (${home.order.length} sections) and sections/header-group.json`);
+console.log(`Wrote index.json + product.json (${landing.order.length} sections), route templates, cart.json and sections/header-group.json`);

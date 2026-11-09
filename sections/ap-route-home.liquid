@@ -1,0 +1,26 @@
+{%- comment -%}
+  Route to the homepage. Used by collection, collection list, search and the add-on product template.
+  Shopify URL redirects only fire for 404 URLs, so they cannot override live /collections or /products pages.
+  This section does it at theme level: noindex meta, a JS redirect, and a visible link for no-JS visitors.
+  <meta name="robots"> is placed in the page body here; Google reads it there, and layout/theme.liquid also adds it in <head>.
+{%- endcomment -%}
+{%- assign target = section.settings.target | default: routes.root_url -%}
+<meta name="robots" content="noindex,follow">
+<section class="apx-section apx-route" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap apx-center">
+    <h1 class="apx-h2" id="{{ section.id }}-title">{{ 'ap.route_home.title' | t }}</h1>
+    <p><a class="apx-btn" href="{{ target }}">{{ 'ap.route_home.link' | t }}</a></p>
+  </div>
+</section>
+<script>location.replace({{ target | json }});</script>
+
+{% schema %}
+{
+  "name": "Route to homepage",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "target", "label": "Redirect target", "default": "/", "info": "Use / for the homepage, or /#offers to land on the pack chooser." }
+  ],
+  "presets": [ { "name": "Route to homepage" } ]
+}
+{% endschema %}

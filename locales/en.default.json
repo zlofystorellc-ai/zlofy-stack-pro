@@ -7,7 +7,7 @@
       "creator_disclosure": "Some creators received free product."
     },
     "announcement": {
-      "label": "Announcements",
+      "label": "Store announcement",
       "pause": "Pause announcements",
       "play": "Play announcements",
       "countdown_label": "Offer ends in",
@@ -24,7 +24,12 @@
       "menu": "Menu",
       "account": "Account",
       "cart_count_one": "Cart, {{ num }} item",
-      "cart_count_other": "Cart, {{ num }} items"
+      "cart_count_other": "Cart, {{ num }} items",
+      "how": "How it works",
+      "reviews": "Reviews",
+      "faq": "FAQ",
+      "to_night": "Switch to night look",
+      "to_day": "Switch to day look"
     },
     "footer": {
       "nav": "Footer",
@@ -154,6 +159,30 @@
       "placeholder": "Your email",
       "thanks": "Thanks, you are on the list.",
       "error": "Enter a valid email address."
+    },
+    "buybox": {
+      "pick_product": "Editor only: pick the hero product in Theme settings (or in this section) to show the buy box.",
+      "choose_pack": "Choose your pack",
+      "save": "Save {{ amount }} ({{ percent }}%)",
+      "inside": "What's inside:",
+      "free_shipping": "Free US shipping over {{ amount }}",
+      "arrives": "Order today → arrives {{ range }}",
+      "delivery_fallback": "Delivery estimate is shown at checkout.",
+      "renews": "Renews every {{ interval }} at {{ price }} until you cancel. Skip or cancel anytime in your account."
+    },
+    "route_home": {
+      "title": "Taking you to the shop",
+      "link": "Go to shop"
+    },
+    "cart_page": {
+      "title": "Your bag",
+      "empty": "Your bag is empty.",
+      "continue": "Continue shopping",
+      "remove": "Remove",
+      "subtotal": "Subtotal",
+      "note": "Shipping and taxes are calculated at checkout.",
+      "update": "Update bag",
+      "checkout": "Check out"
     }
   }
 }

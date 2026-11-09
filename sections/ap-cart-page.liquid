@@ -1,0 +1,63 @@
+{%- comment -%}
+  /cart page: the no-JavaScript fallback. Plain form, plain links, no scripts needed.
+  With JavaScript the cart link in the header opens the drawer instead.
+{%- endcomment -%}
+<section class="apx-section apx-cartpage" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap">
+    <h1 class="apx-h2" id="{{ section.id }}-title">{{ 'ap.cart_page.title' | t }}</h1>
+    {%- if cart.item_count == 0 -%}
+      <p>{{ 'ap.cart_page.empty' | t }}</p>
+      <p><a class="apx-btn" href="{{ routes.root_url }}">{{ 'ap.cart_page.continue' | t }}</a></p>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <ul class="apx-cartpage__list">
+          {%- for item in cart.items -%}
+            <li class="apx-cartpage__item">
+              {%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: width: 80, height: 80, loading: 'lazy', alt: item.image.alt | default: item.product.title }}{%- endif -%}
+              <div>
+                <p class="apx-cartpage__title">{{ item.product.title }}</p>
+                {%- unless item.product.has_only_default_variant -%}<p class="apx-cartpage__meta">{{ item.variant.title }}</p>{%- endunless -%}
+                {%- if item.selling_plan_allocation -%}<p class="apx-cartpage__meta">{{ item.selling_plan_allocation.selling_plan.name }}</p>{%- endif -%}
+                <p class="apx-cartpage__meta"><a href="{{ item.url_to_remove }}">{{ 'ap.cart_page.remove' | t }}</a></p>
+              </div>
+              <label class="apx-cartpage__qty">
+                <span class="apx-sr">{{ 'ap.product.quantity' | t }}</span>
+                <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" inputmode="numeric">
+              </label>
+              <p class="apx-cartpage__price">{{ item.final_line_price | money }}</p>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <p class="apx-cartpage__sub"><span>{{ 'ap.cart_page.subtotal' | t }}</span> <strong>{{ cart.total_price | money }}</strong></p>
+        <p class="apx-fine">{{ 'ap.cart_page.note' | t }}</p>
+        <div class="apx-cartpage__actions">
+          <button type="submit" name="update" class="apx-btn apx-btn--ghost">{{ 'ap.cart_page.update' | t }}</button>
+          <button type="submit" name="checkout" class="apx-btn">{{ 'ap.cart_page.checkout' | t }}</button>
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-cartpage{max-width:760px;margin-inline:auto}
+  .apx-cartpage__list{display:grid;gap:12px;margin:24px 0}
+  .apx-cartpage__item{display:grid;grid-template-columns:80px 1fr auto auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--ap-line);border-radius:var(--ap-radius);background:var(--ap-white)}
+  .apx-cartpage__item img{border-radius:var(--ap-radius-sm);object-fit:cover}
+  .apx-cartpage__title{margin:0;font-weight:700}
+  .apx-cartpage__meta{margin:0;font-size:.875rem;color:var(--ap-ink-soft)}
+  .apx-cartpage__qty input{width:64px;min-height:44px;padding:0 .5rem;border:2px solid var(--ap-line);border-radius:12px;background:var(--ap-white);text-align:center}
+  .apx-cartpage__price{margin:0;font-weight:700}
+  .apx-cartpage__sub{display:flex;justify-content:space-between;font-size:1.125rem}
+  .apx-cartpage__actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
+  @media (max-width:559px){.apx-cartpage__item{grid-template-columns:64px 1fr auto}.apx-cartpage__price{grid-column:2/-1}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Cart page",
+  "tag": "div",
+  "settings": [],
+  "presets": [ { "name": "Cart page" } ]
+}
+{% endschema %}

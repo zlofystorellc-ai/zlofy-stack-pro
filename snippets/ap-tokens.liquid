@@ -4,23 +4,51 @@
   so the product page still works when these files are merged into another theme's layout.
 {%- endcomment -%}
 <style>
+  :root, [data-theme="day"] {
+    --ink: {{ settings.color_ink | default: '#1F2A44' }};
+    --teal: {{ settings.color_teal | default: '#2A9D8F' }};
+    --teal-deep: {{ settings.color_teal_deep | default: '#1D6F66' }};
+    --lilac: {{ settings.color_lilac | default: '#C8B6E2' }};
+    --sand: {{ settings.color_sand | default: '#F4EDE4' }};
+    --apricot: {{ settings.color_apricot | default: '#F4A261' }};
+    --ap-dark: var(--ink);
+    --ap-on-dark: #FFFFFF;
+    --ap-lilac: var(--lilac);
+    --ap-apricot: var(--apricot);
+    --ap-butter: var(--apricot);
+    --ap-cta-bg: var(--apricot);
+    --ap-cta-text: var(--ink);
+    --ap-bg: var(--sand);
+    --ap-white: #FFFFFF;
+    --ap-sand: #EBE1D2;
+    --ap-ink: var(--ink);
+    --ap-ink-soft: #46506B;
+    --ap-line: #D6C9B4;
+    --ap-accent: var(--teal);
+    --ap-accent-text: var(--teal-deep);
+    --ap-on-accent: #FFFFFF;
+    color-scheme: light;
+  }
+  [data-theme="night"] {
+    --ap-bg: var(--ink);
+    --ap-white: #2A3658;
+    --ap-sand: #25304F;
+    --ap-ink: var(--sand);
+    --ap-ink-soft: #C9CEDB;
+    --ap-line: #44517A;
+    --ap-accent: var(--lilac);
+    --ap-accent-text: var(--lilac);
+    --ap-on-accent: var(--ink);
+    color-scheme: dark;
+  }
   :root {
-    --ap-ink: {{ settings.color_ink | default: '#1B1B3A' }};
-    --ap-blush: {{ settings.color_blush | default: '#F95D75' }};
-    --ap-blush-deep: {{ settings.color_blush_deep | default: '#CF2749' }};
-    --ap-lilac: {{ settings.color_lilac | default: '#CDB8FF' }};
-    --ap-sand: {{ settings.color_sand | default: '#FFF0F2' }};
-    --ap-butter: {{ settings.color_butter | default: '#FFE066' }};
-    --ap-apricot: {{ settings.color_apricot | default: '#FFB270' }};
-    --ap-white: {{ settings.color_white | default: '#FFFFFF' }};
-    --ap-ink-soft: #4A4A6A;
-    --ap-line: #F2D0D8;
     --ap-radius: 18px;
     --ap-radius-sm: 12px;
     --ap-gutter: 16px;
     --ap-max: 1200px;
     --ap-font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --ap-font-display: "DM Serif Display", Georgia, "Times New Roman", serif;
+    --ap-header-h: 64px;
     --ap-sticky-offset: 0px;
   }
 </style>

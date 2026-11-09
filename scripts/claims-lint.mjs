@@ -27,7 +27,7 @@ const FORBIDDEN = [
   'anti-inflammatory', 'medical grade', 'medical-grade',
   'FDA approved', 'FDA-approved', 'clinically proven', 'dermatologist approved', 'dermatologist-approved',
   'guaranteed results', 'instant results', 'removes scars',
-  'Mighty', 'Hero', 'Starface', 'Hydro-Star', 'Miracle Patch', 'The Original'
+  'Mighty Patch', 'Hero Cosmetics', 'Starface', 'Hydro-Star', 'Miracle Patch', 'The Original'
 ];
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

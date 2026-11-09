@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 /**
- * WCAG 2.2 contrast check for every text/background and UI-component pair used by the theme.
+ * WCAG 2.2 contrast check for the text / background and UI pairs used by the theme, in BOTH themes.
  * Text pairs need >= 4.5:1 (normal text) or 3:1 (large text). UI graphics and control borders need >= 3:1.
- * Palette values mirror config/settings_schema.json defaults and snippets/ap-tokens.liquid.
+ * Values mirror config/settings_schema.json defaults and snippets/ap-tokens.liquid (day and night token sets).
  *
  * Usage: node scripts/contrast-check.mjs   (exit 1 if any pair fails)
  */
 const C = {
-  ink: '#1B1B3A', blush: '#F95D75', blushDeep: '#CF2749', lilac: '#CDB8FF', sand: '#FFF0F2',
-  apricot: '#FFB270', white: '#FFFFFF', inkSoft: '#4A4A6A',
-  cmpUs: '#FCDDE2', dayCell: '#FFF7F7', nightCell: '#ECE7F5', star: '#757E94', ledeOnInk: '#E6E9F2'
+  ink: '#1F2A44', teal: '#2A9D8F', tealDeep: '#1D6F66', lilac: '#C8B6E2', sand: '#F4EDE4', apricot: '#F4A261', white: '#FFFFFF',
+  // day tokens
+  daySurface: '#FFFFFF', dayTint: '#EBE1D2', daySoft: '#46506B', dayLine: '#D6C9B4',
+  // night tokens
+  nightBg: '#1F2A44', nightSurface: '#2A3658', nightTint: '#25304F', nightSoft: '#C9CEDB', nightLine: '#44517A',
+  onDark: '#FFFFFF', lede: '#E6E9F2'
 };
 
 const lum = (hex) => {
@@ -24,45 +27,41 @@ const ratio = (a, b) => {
 
 // [label, foreground, background, minimum]
 const PAIRS = [
-  ['Body text: ink on white', C.ink, C.white, 4.5],
-  ['Body text: ink on sand', C.ink, C.sand, 4.5],
-  ['Secondary text: ink-soft on white', C.inkSoft, C.white, 4.5],
-  ['Secondary text: ink-soft on sand', C.inkSoft, C.sand, 4.5],
-  ['Primary button: white on blush-deep', C.white, C.blushDeep, 4.5],
-  ['Button hover: white on ink', C.white, C.ink, 4.5],
-  ['Link: blush-deep on white', C.blushDeep, C.white, 4.5],
-  ['Link: blush-deep on sand', C.blushDeep, C.sand, 4.5],
-  ['Eyebrow: blush-deep on sand', C.blushDeep, C.sand, 4.5],
-  ['Savings: blush-deep on white', C.blushDeep, C.white, 4.5],
-  ['Comparison "us" column: ink on tint', C.ink, C.cmpUs, 4.5],
-  ['Comparison "us" header: white on blush-deep', C.white, C.blushDeep, 4.5],
-  ['Day/night: ink on day cell', C.ink, C.dayCell, 4.5],
-  ['Day/night: ink on night cell', C.ink, C.nightCell, 4.5],
-  ['Night header: white on ink', C.white, C.ink, 4.5],
-  ['Announcement bar: white on ink', C.white, C.ink, 4.5],
-  ['Dark sections: light lede on ink', C.ledeOnInk, C.ink, 4.5],
-  ['Dark sections: eyebrow lilac on ink', C.lilac, C.ink, 4.5],
-  ['Dark section: butter on ink (stats, highlights)', '#FFE066', C.ink, 4.5],
-  ['Guarantee band: blush-deep on butter cream', C.blushDeep, '#FFF3BC', 4.5],
-  ['Guarantee band: ink on butter cream', C.ink, '#FFF3BC', 4.5],
-  ['Guarantee pill: butter on ink', '#FFE066', C.ink, 4.5],
-  ['Video cards pill: ink on butter', C.ink, '#FFE066', 4.5],
-  ['Badge: ink on apricot', C.ink, C.apricot, 4.5],
-  ['Guarantee badge: ink on lilac', C.ink, C.lilac, 4.5],
-  ['Cart count: white on ink', C.white, C.ink, 4.5],
-  ['Footer: white on ink', C.white, C.ink, 4.5],
-  ['Footer fine print: light grey on ink', '#C9CFDD', C.ink, 4.5],
-  ['Benefit pills: ink on white', C.ink, C.white, 4.5],
-  ['UI: control border ink-soft on white', C.inkSoft, C.white, 3],
-  ['UI: control border ink-soft on sand', C.inkSoft, C.sand, 3],
-  ['UI: selected card border ink on sand', C.ink, C.sand, 3],
-  ['UI: check/icon blush-deep on white', C.blushDeep, C.white, 3],
-  ['UI: check/icon blush-deep on sand', C.blushDeep, C.sand, 3],
-  ['UI: rating star (empty) on white', C.star, C.white, 3],
-  ['UI: lilac icon on ink', C.lilac, C.ink, 3],
-  ['UI: focus ring ink on white', C.ink, C.white, 3],
-  ['UI: focus ring white on ink', C.white, C.ink, 3],
-  ['Decorative only (not required): blush on white', C.blush, C.white, 3]
+  // ---- DAY ----
+  ['Day: body text ink on sand (page)', C.ink, C.sand, 4.5],
+  ['Day: body text ink on white (cards)', C.ink, C.daySurface, 4.5],
+  ['Day: body text ink on tint', C.ink, C.dayTint, 4.5],
+  ['Day: secondary text on sand', C.daySoft, C.sand, 4.5],
+  ['Day: secondary text on white', C.daySoft, C.daySurface, 4.5],
+  ['Day: secondary text on tint', C.daySoft, C.dayTint, 4.5],
+  ['Day: links / small accent text (teal deep) on sand', C.tealDeep, C.sand, 4.5],
+  ['Day: links / small accent text (teal deep) on white', C.tealDeep, C.daySurface, 4.5],
+  ['Day: links / small accent text (teal deep) on tint', C.tealDeep, C.dayTint, 4.5],
+  ['Day: white text on teal deep (selected chips)', C.white, C.tealDeep, 4.5],
+  ['Day: primary button ink on apricot', C.ink, C.apricot, 4.5],
+  ['Day: button hover white on ink', C.onDark, C.ink, 4.5],
+  ['Day: announcement and footer white on ink', C.onDark, C.ink, 4.5],
+  ['Day: light lede on ink', C.lede, C.ink, 4.5],
+  ['Day UI: control border ink-soft on sand', C.daySoft, C.sand, 3],
+  ['Day UI: control border ink-soft on white', C.daySoft, C.daySurface, 3],
+  ['Day UI: selected card border ink on sand', C.ink, C.sand, 3],
+  ['Day UI: icon teal deep on sand', C.tealDeep, C.sand, 3],
+  ['Day UI: focus ring ink on sand', C.ink, C.sand, 3],
+  ['Decorative only, never relied on: pure teal on sand (below 3:1 on purpose)', C.teal, C.sand, 2.5],
+  ['Day UI: teal on ink (logo swash, h2 bar on dark)', C.teal, C.ink, 3],
+  // ---- NIGHT ----
+  ['Night: body text sand on ink (page)', C.sand, C.nightBg, 4.5],
+  ['Night: body text sand on surface (cards)', C.sand, C.nightSurface, 4.5],
+  ['Night: body text sand on tint', C.sand, C.nightTint, 4.5],
+  ['Night: secondary text on page', C.nightSoft, C.nightBg, 4.5],
+  ['Night: secondary text on surface', C.nightSoft, C.nightSurface, 4.5],
+  ['Night: links / accent text lilac on page', C.lilac, C.nightBg, 4.5],
+  ['Night: links / accent text lilac on surface', C.lilac, C.nightSurface, 4.5],
+  ['Night: ink text on lilac (selected chips)', C.ink, C.lilac, 4.5],
+  ['Night: primary button ink on apricot', C.ink, C.apricot, 4.5],
+  ['Night UI: selected card border sand on surface', C.sand, C.nightSurface, 3],
+  ['Night UI: icon lilac on page', C.lilac, C.nightBg, 3],
+  ['Night UI: focus ring sand on page', C.sand, C.nightBg, 3]
 ];
 
 let fail = 0;

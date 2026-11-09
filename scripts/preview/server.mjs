@@ -32,6 +32,7 @@ const settingsSchema = JSON.parse(read('config/settings_schema.json'));
 const settings = {};
 for (const group of settingsSchema) for (const s of group.settings || []) if (s.id) settings[s.id] = s.default !== undefined ? s.default : null;
 settings.upsell_collection = null;
+settings.hero_product = null; // set per request below
 
 /* ---------- helpers ---------- */
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -93,6 +94,10 @@ function makeEngine(globals) {
 
   engine.registerFilter('t', (key, ...args) => translate(String(key), args));
   engine.registerFilter('money', (v) => money(v));
+  engine.registerFilter('money_without_currency', (v) => (Number(v && v.amount != null ? v.amount * 100 : v || 0) / 100).toFixed(2));
+  engine.registerFilter('money_without_trailing_zeros', (v) => { const n = Number(v || 0) / 100; return '$' + (Number.isInteger(n) ? String(n) : n.toFixed(2)); });
+  engine.registerFilter('metafield_tag', (v) => (v == null ? '' : (typeof v === 'object' ? String(v.value ?? '') : String(v))));
+  engine.registerFilter('payment_button', () => '<div class="shopify-payment-button" data-preview="accelerated"><button type="button" class="apx-btn apx-btn--ghost apx-btn--block" disabled>Shop Pay · Apple Pay · Google Pay (real store only)</button></div>');
   engine.registerFilter('money_with_currency', (v) => `${money(v)} USD`);
   engine.registerFilter('asset_url', (f) => `/assets/${f}`);
   engine.registerFilter('handleize', (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
@@ -216,11 +221,11 @@ async function renderPage(query, pageName = 'product') {
     linklists,
     template: { name: pageName === 'home' ? 'index' : 'product' },
     canonical_url: 'http://localhost:' + PORT + (pageName === 'home' ? '/' : '/products/day-night-duo'),
-    page_title: pageName === 'home' ? 'Home' : product.title,
-    page_description: pageName === 'home' ? 'Local preview of the home page (mock data).' : 'Local preview of the product page (mock data).',
+    page_title: pageName === 'home' ? product.title : product.title,
+    page_description: 'Local preview (mock data).',
     current_page: 1,
     collection: null,
-    product,
+    product: pageName === 'home' ? null : product,
     recommendations: { performed: false, products: others }
   };
   const engine = makeEngine(globals);
@@ -230,7 +235,8 @@ async function renderPage(query, pageName = 'product') {
   product.options_with_values[0].selected_value = product.selected_or_first_available_variant.title;
 
   const header_group = await renderGroup(engine, globals, 'sections/header-group.json');
-  const tpl = JSON.parse(read(pageName === 'home' ? 'templates/index.json' : 'templates/product.acne-duo.json'));
+  settings.hero_product = product;
+  const tpl = JSON.parse(read(pageName === 'home' ? 'templates/index.json' : 'templates/product.json'));
   let content = '';
   for (const key of tpl.order) content += await renderSection(engine, globals, key, tpl.sections[key].type, tpl.sections[key]);
 
@@ -275,7 +281,7 @@ function addToCart({ id, quantity = 1, selling_plan }) {
 }
 
 /* ---------- placeholder images (mock photos) ---------- */
-const PALETTE = [['#FBEBED', '#C8B6E2'], ['#FCDDE2', '#E5707F'], ['#ECE7F5', '#1F2A44'], ['#FDF1F2', '#F4A261'], ['#EEF2F8', '#44506B']];
+const PALETTE = [['#EFE6D8', '#C8B6E2'], ['#E3F1EE', '#2A9D8F'], ['#E9E4F2', '#1F2A44'], ['#F8EBDD', '#F4A261'], ['#E6EBF0', '#46506B']];
 function mockImage(key) {
   let n = 0; for (const c of String(key)) n = (n * 31 + c.charCodeAt(0)) % 997;
   const [bg, fg] = PALETTE[n % PALETTE.length];
@@ -325,8 +331,8 @@ http.createServer(async (req, res) => {
       return json(res, 200, { products: others.map((p) => ({ id: p.id, title: p.title, handle: p.handle, available: true, featured_image: `/preview-img/${p.featured_image.key}.svg?w=300`, variants: [{ id: p.variants[0].id, price: (p.price / 100).toFixed(2), available: true }] })) });
     }
     if (url.pathname.startsWith('/recommendations/')) { res.writeHead(404); return res.end(); }
-    if (url.pathname === '/home' || url.pathname === '/products/' || url.pathname === '/' || url.pathname.startsWith('/products/')) {
-      const html = await renderPage(url.searchParams, url.pathname === '/home' ? 'home' : 'product');
+    if (url.pathname === '/' || url.pathname.startsWith('/products/')) {
+      const html = await renderPage(url.searchParams, url.pathname === '/' ? 'home' : 'product');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
       return res.end(html);
     }

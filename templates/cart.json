@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "cart": {
+      "type": "ap-cart-page"
+    }
+  },
+  "order": [
+    "cart"
+  ]
+}

@@ -3,26 +3,7 @@
   "type": "header",
   "sections": {
     "announcement": {
-      "type": "ap-announcement",
-      "blocks": {
-        "message_1": {
-          "type": "message",
-          "settings": {
-            "text": "Free US shipping on kits",
-            "subtext": "Day and night patches in one kit"
-          }
-        },
-        "message_2": {
-          "type": "message",
-          "settings": {
-            "text": "Subscribe & save 15%"
-          }
-        }
-      },
-      "block_order": [
-        "message_1",
-        "message_2"
-      ]
+      "type": "ap-announcement"
     }
   },
   "order": [

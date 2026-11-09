@@ -72,6 +72,10 @@ function init(root) {
     setOut('sub-price', alloc ? money(alloc.price) : '', !alloc);
     setOut('save', save, !save);
     setOut('delivery', sub ? fmt(L.labelDelivery, { price: money(price) }) : '', !sub);
+    // Subscription disclosure, directly under the plan picker
+    const planEl = planSelect ? (planSelect.selectedOptions ? planSelect.selectedOptions[0] : planSelect) : null;
+    const interval = planEl && planEl.dataset ? planEl.dataset.interval : '';
+    setOut('renew', sub && L.labelRenews ? fmt(L.labelRenews, { interval: interval || '', price: money(price) }) : '', !sub);
 
     // price per patch (custom.patch_count on the variant, else on the product)
     const count = v && v.patch_count ? Number(v.patch_count) : 0;
@@ -161,7 +165,52 @@ function init(root) {
     live.textContent = msg;
   }
 
+  // ?variant=ID preselects an offer (works on the homepage and on /products/...)
+  try {
+    const wanted = new URLSearchParams(location.search).get('variant');
+    const pick = wanted && variants.find((v) => String(v.id) === wanted);
+    if (pick) {
+      $$('[data-ap-option-group]').forEach((g, i) => {
+        const inp = Array.from(g.querySelectorAll('input')).find((x) => x.value === pick.options[i]);
+        if (inp && !inp.disabled) inp.checked = true;
+      });
+    }
+  } catch (e) { /* ignore a malformed URL */ }
+
   update(false);
+  initDelivery();
+}
+
+/* Delivery estimate as a DATE RANGE: today + processing + transit, counted in business days (Mon-Fri). */
+function initDelivery() {
+  document.querySelectorAll('[data-ap-delivery]').forEach((li) => {
+    const out = li.querySelector('[data-ap-delivery-text]');
+    const n = (k, d) => { const v = parseInt(li.dataset[k], 10); return Number.isFinite(v) ? v : d; };
+    const pmin = n('pmin', 1);
+    const pmax = Math.max(n('pmax', 3), pmin);
+    const tmin = n('tmin', 6);
+    const tmax = Math.max(n('tmax', 8), tmin);
+    const add = (days) => {
+      const d = new Date();
+      d.setHours(12, 0, 0, 0);
+      let left = days;
+      while (left > 0) {
+        d.setDate(d.getDate() + 1);
+        const w = d.getDay();
+        if (w !== 0 && w !== 6) left -= 1;
+      }
+      return d;
+    };
+    const a = add(pmin + tmin);
+    const b = add(pmax + tmax);
+    const loc = document.documentElement.lang || undefined;
+    const mon = new Intl.DateTimeFormat(loc, { month: 'short' });
+    const day = new Intl.DateTimeFormat(loc, { day: 'numeric' });
+    const range = a.getMonth() === b.getMonth()
+      ? `${mon.format(a)} ${day.format(a)}\u2013${day.format(b)}`
+      : `${mon.format(a)} ${day.format(a)} \u2013 ${mon.format(b)} ${day.format(b)}`;
+    if (out && li.dataset.label) out.textContent = li.dataset.label.replace('__range__', range);
+  });
 }
 
 /* Arrow buttons for horizontally scrolling rows (customer videos). Rows still swipe/scroll without them. */

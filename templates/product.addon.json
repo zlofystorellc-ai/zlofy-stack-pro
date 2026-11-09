@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "route": {
+      "type": "ap-route-home",
+      "settings": {
+        "target": "/#offers"
+      }
+    }
+  },
+  "order": [
+    "route"
+  ]
+}

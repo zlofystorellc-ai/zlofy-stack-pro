@@ -49,8 +49,8 @@
 
 {% stylesheet %}
   .apx-when__list{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:28px 0 20px}
-  .apx-when__tab{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;padding:.5rem 1.25rem;border:2px solid var(--ap-blush-deep);border-radius:999px;background:var(--ap-white);color:var(--ap-blush-deep);font-weight:700;cursor:pointer}
-  .apx-when__tab[aria-selected="true"]{background:var(--ap-blush-deep);color:var(--ap-white)}
+  .apx-when__tab{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;padding:.5rem 1.25rem;border:2px solid var(--ap-accent-text);border-radius:999px;background:var(--ap-white);color:var(--ap-accent-text);font-weight:700;cursor:pointer}
+  .apx-when__tab[aria-selected="true"]{background:var(--ap-accent-text);color:var(--ap-on-dark)}
   .apx-when__panel{max-width:720px;margin:16px auto 0;padding:22px 24px;border-radius:var(--ap-radius);background:var(--ap-white)}
   .apx-when__grid--media{display:grid;gap:20px;align-items:center}
   .apx-when__panel:has(.apx-when__grid--media){max-width:980px;padding:clamp(16px,3vw,28px)}
@@ -59,7 +59,7 @@
   .apx-when__video{display:block;width:100%;height:100%;object-fit:cover}
   .apx-when__play{position:absolute;inset:0;display:grid;place-items:center;border:0;background:transparent;cursor:pointer}
   .apx-when__play span{position:relative;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 8px 24px rgba(31,42,68,.3);transition:transform .25s,opacity .25s}
-  .apx-when__play span::before{content:"";position:absolute;left:26px;top:19px;border-left:18px solid var(--ap-blush-deep);border-block:12px solid transparent}
+  .apx-when__play span::before{content:"";position:absolute;left:26px;top:19px;border-left:18px solid var(--ap-accent-text);border-block:12px solid transparent}
   .apx-when__play:hover span{transform:scale(1.06)}
   .apx-when__play[aria-pressed="true"] span{opacity:0}
   .apx-when__play:focus-visible span{outline:3px solid var(--ap-white);box-shadow:0 0 0 6px var(--ap-ink)}

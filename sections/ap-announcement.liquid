@@ -1,116 +1,34 @@
 {%- comment -%}
-  Announcement bar: rotating messages with an optional second line, an optional countdown and a country/currency picker.
-  The countdown shows ONLY when you enter a real end date, and it disappears by itself when that moment passes
-  (no evergreen or restarting timers). Pause/play button + reduced-motion handling in assets/ap-announcement.js.
+  Announcement bar: ONE static line, no carousel, no countdown.
+  Leave the text empty to show the free-shipping line from Theme settings (Landing page / Purchase and cart).
 {%- endcomment -%}
-{%- if section.blocks.size > 0 -%}
-  <div class="apx-announce" role="region" aria-label="{{ 'ap.announcement.label' | t }}" data-ap-announce>
-    <div class="apx-wrap apx-announce__row">
-      <div class="apx-announce__msgs">
-        {%- for block in section.blocks -%}
-          <p class="apx-announce__msg" data-ap-msg {{ block.shopify_attributes }}{% unless forloop.first %} hidden{% endunless %}>
-            {%- if block.settings.link != blank -%}
-              <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
-            {%- else -%}
-              {{ block.settings.text }}
-            {%- endif -%}
-            {%- if block.settings.subtext != blank -%}<span class="apx-announce__sub">{{ block.settings.subtext }}</span>{%- endif -%}
-          </p>
-        {%- endfor -%}
-      </div>
-      {%- if section.settings.countdown_end != blank -%}
-        <div class="apx-count" data-ap-count="{{ section.settings.countdown_end | escape }}" hidden>
-          <span class="apx-sr">{{ 'ap.announcement.countdown_label' | t }}</span>
-          <span class="apx-count__u"><b data-ap-d>00</b><i>{{ 'ap.announcement.days' | t }}</i></span>
-          <span class="apx-count__u"><b data-ap-h>00</b><i>{{ 'ap.announcement.hours' | t }}</i></span>
-          <span class="apx-count__u"><b data-ap-m>00</b><i>{{ 'ap.announcement.mins' | t }}</i></span>
-          <span class="apx-count__u"><b data-ap-s>00</b><i>{{ 'ap.announcement.secs' | t }}</i></span>
-        </div>
-      {%- endif -%}
-      {%- if section.blocks.size > 1 -%}
-        <button
-          type="button"
-          class="apx-iconbtn apx-announce__toggle"
-          data-ap-announce-toggle
-          aria-pressed="false"
-          aria-label="{{ 'ap.announcement.pause' | t }}"
-          data-label-pause="{{ 'ap.announcement.pause' | t | escape }}"
-          data-label-play="{{ 'ap.announcement.play' | t | escape }}"
-        >
-          <span data-pause>{% render 'ap-icon', name: 'pause', size: 18 %}</span>
-          <span data-play hidden>{% render 'ap-icon', name: 'play', size: 18 %}</span>
-        </button>
-      {%- endif -%}
-      {%- if section.settings.show_country_picker and localization.available_countries.size > 1 -%}
-        {%- form 'localization', id: 'ap-announce-localization', class: 'apx-announce__loc' -%}
-          <label class="apx-sr" for="ap-announce-country">{{ 'ap.announcement.country' | t }}</label>
-          <select id="ap-announce-country" name="country_code" data-ap-country>
-            {%- for country in localization.available_countries -%}
-              <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.currency.iso_code }}</option>
-            {%- endfor -%}
-          </select>
-        {%- endform -%}
-      {%- endif -%}
-    </div>
-  </div>
-  <script src="{{ 'ap-announcement.js' | asset_url }}" type="module"></script>
+{%- assign line = section.settings.text -%}
+{%- if line == blank and settings.free_shipping_threshold > 0 -%}
+  {%- assign thr_money = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros -%}
+  {%- assign line = 'ap.buybox.free_shipping' | t: amount: thr_money -%}
+{%- endif -%}
+{%- if line != blank -%}
+<div class="apx-announce" role="region" aria-label="{{ 'ap.announcement.label' | t }}">
+  <p class="apx-announce__line">
+    {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{{ line }}</a>{%- else -%}{{ line }}{%- endif -%}
+  </p>
+</div>
 {%- endif -%}
 
 {% stylesheet %}
-  .apx-announce{background:linear-gradient(90deg,var(--ap-ink),var(--ap-blush-deep));color:var(--ap-white)}
-  .apx-announce__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.25rem 1.25rem;min-height:44px;padding-block:6px}
-  .apx-announce__sub{display:block;font-size:.75rem;font-weight:400}
-  .apx-count{display:flex;gap:10px}
-  .apx-count__u{display:grid;justify-items:center;line-height:1.1}
-  .apx-count__u b{font-size:1.125rem;font-variant-numeric:tabular-nums}
-  .apx-count__u i{font-style:normal;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
-  .apx-announce__loc select{min-height:44px;padding:0 .5rem;border:0;background:transparent;color:var(--ap-white);font-weight:700;cursor:pointer}
-  .apx-announce__loc option{color:var(--ap-ink)}
-  .apx-announce__msgs{flex:0 1 auto;text-align:center;font-size:.875rem;font-weight:600}
-  .apx-announce__msg{margin:0}
-  .apx-announce a{color:var(--ap-white)}
-  .apx-announce__toggle{color:var(--ap-white);width:44px;height:44px}
-  .apx-announce__toggle:hover{background:rgba(255,255,255,.14)}
-  .apx-announce :focus-visible{outline-color:var(--ap-white);box-shadow:0 0 0 5px var(--ap-ink)}
+  .apx-announce{background:var(--ap-dark);color:var(--ap-on-dark)}
+  .apx-announce__line{margin:0;padding:10px var(--ap-gutter);text-align:center;font-size:.875rem;font-weight:600;letter-spacing:.02em}
+  .apx-announce a{color:var(--ap-on-dark)}
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "Announcement bar",
   "tag": "div",
-  "max_blocks": 5,
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "Only state offers that are true and live. The countdown appears only while the end date below is in the future."
-    },
-    {
-      "type": "text",
-      "id": "countdown_end",
-      "label": "Countdown end (optional)",
-      "info": "Real offer end, e.g. 2026-11-11T23:59:00-05:00. Leave empty for no countdown. It hides itself when the time passes; then also remove the offer wording."
-    },
-    { "type": "checkbox", "id": "show_country_picker", "label": "Show country / currency picker", "default": true, "info": "Only appears when your store sells in more than one country." }
+    { "type": "text", "id": "text", "label": "Text", "info": "One line. Leave empty to show the free-shipping line from Theme settings." },
+    { "type": "url", "id": "link", "label": "Link (optional)" }
   ],
-  "blocks": [
-    {
-      "type": "message",
-      "name": "Message",
-      "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Free US shipping on kits" },
-        { "type": "text", "id": "subtext", "label": "Second line (optional)" },
-        { "type": "url", "id": "link", "label": "Link (optional)" }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Announcement bar",
-      "blocks": [
-        { "type": "message", "settings": { "text": "Free US shipping on kits", "subtext": "Day and night patches in one kit" } },
-        { "type": "message", "settings": { "text": "Subscribe & save 15%" } }
-      ]
-    }
-  ]
+  "presets": [ { "name": "Announcement bar" } ]
 }
 {% endschema %}

@@ -1,3 +1,5 @@
+{%- comment -%} The page product is bound in this section (setting, theme hero product, or the page product), so `product` is intentionally read from the render context. {%- endcomment -%}
+{%- # theme-check-disable UndefinedObject -%}
 {%- comment -%}
   Sticky add-to-cart bar. Appears once the main add-to-cart button scrolls out of view
   (IntersectionObserver in assets/ap-sticky.js). It mirrors the selected variant and price and
@@ -5,7 +7,8 @@
   z-index is deliberately LOW (20) so cookie banners and chat widgets stay on top; use the
   "Bottom offset" setting to lift it above a chat bubble. It never shifts layout (position: fixed).
 {%- endcomment -%}
-{%- assign current = product.selected_or_first_available_variant -%}
+{%- assign product = section.settings.product | default: settings.hero_product | default: product -%}
+{%- assign current = product.variants[settings.default_offer | default: 2 | minus: 1] | default: product.selected_or_first_available_variant -%}
 <div class="apx-sticky" data-ap-sticky inert style="--ap-sticky-offset: {{ section.settings.bottom_offset }}px;">
   <div class="apx-wrap apx-sticky__row">
     <div class="apx-sticky__info">

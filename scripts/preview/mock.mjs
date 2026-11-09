@@ -1,14 +1,15 @@
 /* Mock Shopify objects for the local preview. ALL values here are fake and exist only so the
    layout and the interactions can be seen. Nothing in this file ships with the theme. */
 
-const variant = (id, title, price, patchCount, mediaId, compare = 0) => ({
+const variant = (id, title, price, patchCount, mediaId, compare = 0, extra = {}) => ({
   id, title, options: [title], option1: title, price, compare_at_price: compare, available: true,
   sku: `PREVIEW-${id}`, url: `/products/day-night-duo?variant=${id}`,
-  metafields: { custom: { patch_count: { value: patchCount } } },
+  metafields: { custom: { patch_count: { value: patchCount }, ...extra } },
   featured_media: { id: mediaId },
   selling_plan_allocations: [
     { selling_plan: { id: 11 }, price: Math.round(price * 0.85) },
-    { selling_plan: { id: 12 }, price: Math.round(price * 0.85) }
+    { selling_plan: { id: 12 }, price: Math.round(price * 0.85) },
+    { selling_plan: { id: 13 }, price: Math.round(price * 0.85) }
   ]
 });
 
@@ -22,9 +23,12 @@ const mediaList = [
 mediaList.forEach((m) => { m.preview_image = m; });
 
 export const variants = [
-  variant(1001, 'Day & Night Duo', 1800, 36, 101),
-  variant(1002, '3-Month Stash', 4200, 108, 102, 5400),
-  variant(1003, 'Refill Pouch', 1200, 36, 103)
+  variant(1001, 'Day & Night Duo', 2499, 36, 101, 0, { contents: { value: '18 day + 18 night patches in 3 sizes' } }),
+  variant(1002, '3-Month Stash', 4999, 108, 102, 0, {
+    contents: { value: '54 day + 54 night patches in 3 sizes' },
+    compare_bundle_price: { value: { amount: 74.97, currency_code: 'USD' } }
+  }),
+  variant(1003, 'Refill Pouch', 1499, 36, 103, 0, { contents: { value: '36 patches, no compact' } })
 ];
 
 export const product = {
@@ -42,7 +46,7 @@ export const product = {
   media: mediaList,
   images: mediaList,
   featured_image: mediaList[0],
-  selling_plan_groups: [{ selling_plans: [{ id: 11, name: 'Deliver every 4 weeks' }, { id: 12, name: 'Deliver every 8 weeks' }] }],
+  selling_plan_groups: [{ selling_plans: [{ id: 11, name: 'Delivery every 30 days', options: [{ value: '30 days' }] }, { id: 12, name: 'Delivery every 60 days', options: [{ value: '60 days' }] }, { id: 13, name: 'Delivery every 90 days', options: [{ value: '90 days' }] }] }],
   metafields: {
     custom: {
       patch_count: { value: 36 },

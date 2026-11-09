@@ -1,26 +1,12 @@
 {%- comment -%}
-  Header: nav left (links with sub-links become dropdowns), centered logo, nav right + account + cart.
-  Under 760px the nav collapses into a menu button. Cart link opens the drawer when it exists (JS), else goes to /cart.
-  Menu: Online Store > Navigation > "Main menu". Links with sub-links get a dropdown.
+  Minimal header (single-product store).
+  Left: logo (links to the homepage). Right: day/night toggle + cart.
+  Desktop (990px and up): three anchor links. Mobile: nothing else (no menu button, no search, no account).
+  The "Reviews" link stays hidden unless a reviews section exists on the page (assets/ap-header.js).
+  The cart link opens the drawer when JavaScript is available and goes to /cart otherwise.
 {%- endcomment -%}
-{%- liquid
-  assign menu = linklists['main-menu']
-  assign half = menu.links.size | divided_by: 2.0 | ceil
--%}
 <header class="apx-header" data-ap-header>
   <div class="apx-wrap apx-header__row">
-    <button type="button" class="apx-iconbtn apx-header__burger" data-ap-menu-toggle aria-expanded="false" aria-controls="ap-mobile-menu" aria-label="{{ 'ap.header.menu' | t }}">
-      {% render 'ap-icon', name: 'menu', size: 24 %}
-    </button>
-
-    <nav class="apx-header__nav apx-header__nav--l" aria-label="{{ 'ap.header.primary_nav' | t }}">
-      <ul>
-        {%- for link in menu.links limit: half -%}
-          {% render 'ap-nav-item', link: link %}
-        {%- endfor -%}
-      </ul>
-    </nav>
-
     <a class="apx-header__brand" href="{{ routes.root_url }}" aria-label="{{ settings.brand_name }}">
       {%- if settings.logo != blank -%}
         {{ settings.logo | image_url: width: 480 | image_tag: width: settings.logo_width, alt: settings.brand_name, loading: 'eager' }}
@@ -29,41 +15,30 @@
       {%- endif -%}
     </a>
 
+    <nav class="apx-header__nav" aria-label="{{ 'ap.header.primary_nav' | t }}">
+      <a href="#how">{{ 'ap.header.how' | t }}</a>
+      <a href="#reviews" data-ap-reviews-link hidden>{{ 'ap.header.reviews' | t }}</a>
+      <a href="#faq">{{ 'ap.header.faq' | t }}</a>
+    </nav>
+
     <div class="apx-header__right">
-      <nav class="apx-header__nav" aria-label="{{ 'ap.header.secondary_nav' | t }}">
-        <ul>
-          {%- for link in menu.links offset: half -%}
-            {% render 'ap-nav-item', link: link %}
-          {%- endfor -%}
-        </ul>
-      </nav>
-      {%- if shop.customer_accounts_enabled -%}
-        <a class="apx-header__cart" href="{{ routes.account_url }}" aria-label="{{ 'ap.header.account' | t }}">
-          {% render 'ap-icon', name: 'user', size: 24 %}
-        </a>
-      {%- endif -%}
+      <button
+        type="button"
+        class="apx-iconbtn apx-theme"
+        data-ap-theme-toggle
+        aria-pressed="false"
+        data-label-to-night="{{ 'ap.header.to_night' | t | escape }}"
+        data-label-to-day="{{ 'ap.header.to_day' | t | escape }}"
+        aria-label="{{ 'ap.header.to_night' | t }}"
+      >
+        <span class="apx-theme__sun">{% render 'ap-icon', name: 'sun', size: 24 %}</span>
+        <span class="apx-theme__moon">{% render 'ap-icon', name: 'moon', size: 24 %}</span>
+      </button>
       <a class="apx-header__cart" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">
         {% render 'ap-icon', name: 'bag', size: 24 %}
         <span class="apx-header__count" data-ap-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
   </div>
-
-  <nav class="apx-mobilemenu" id="ap-mobile-menu" data-ap-menu hidden aria-label="{{ 'ap.header.primary_nav' | t }}">
-    <ul class="apx-wrap">
-      {%- for link in menu.links -%}
-        <li>
-          <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-          {%- if link.links.size > 0 -%}
-            <ul>
-              {%- for child in link.links -%}
-                <li><a href="{{ child.url }}">{{ child.title }}</a></li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </li>
-      {%- endfor -%}
-    </ul>
-  </nav>
 </header>
 <script src="{{ 'ap-header.js' | asset_url }}" type="module"></script>

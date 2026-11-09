@@ -1,5 +1,8 @@
+{%- comment -%} The page product is bound in this section (setting, theme hero product, or the page product), so `product` is intentionally read from the render context. {%- endcomment -%}
+{%- # theme-check-disable UndefinedObject -%}
 {%- comment -%}
-  Product form (main product section) — gallery, title, real rating (only from the reviews app), benefit bullets,
+  LANDING BUY BOX (single-product store). Product = this section's Product setting, else theme setting hero_product, else the page product.
+  Gallery, title, real rating (only from the reviews app), benefit bullets,
   variant cards, one-time vs subscribe (selling plans), price + price per patch, quantity,
   AJAX add to cart, trust micro-copy and the label/warnings block.
 
@@ -9,7 +12,16 @@
     reviews app metafields: reviews.rating, reviews.rating_count
 {%- endcomment -%}
 {%- liquid
-  assign current = product.selected_or_first_available_variant
+  assign page_variant = product.selected_variant
+  assign product = section.settings.product | default: settings.hero_product | default: product
+  assign default_idx = settings.default_offer | default: 2 | minus: 1
+  assign current = product.variants[default_idx]
+  if current == blank
+    assign current = product.selected_or_first_available_variant
+  endif
+  if page_variant != blank
+    assign current = page_variant
+  endif
   assign form_id = 'ap-product-form-' | append: section.id
   assign product_patch_count = product.metafields.custom.patch_count.value
   assign rating = product.metafields.reviews.rating.value
@@ -22,6 +34,9 @@
   if has_plans and section.settings.default_subscribe
     assign sub_default = true
   endif
+  if product.requires_selling_plan
+    assign sub_default = true
+  endif
   assign cur_count = current.metafields.custom.patch_count.value | default: product_patch_count
   assign cur_ppp = ''
   if cur_count > 0
@@ -30,6 +45,9 @@
 -%}
 
 {% render 'ap-tokens' %}
+{%- if product == blank -%}
+  {%- if request.design_mode -%}<div class="apx-wrap apx-editor-note" role="note">{{ 'ap.buybox.pick_product' | t }}</div>{%- endif -%}
+{%- else -%}
 {% render 'ap-product-jsonld', product: product %}
 
 <div class="apx-band">
@@ -45,6 +63,7 @@
   data-label-delivery="{{ 'ap.product.per_delivery' | t: price: '__price__' | escape }}"
   data-label-ppp="{{ 'ap.product.per_patch' | t: price: '__price__' | escape }}"
   data-label-save="{{ 'ap.product.save_percent' | t: percent: '__percent__' | escape }}"
+  data-label-renews="{{ 'ap.buybox.renews' | t: interval: '__interval__', price: '__price__' | escape }}"
 >
   {%- comment -%} ---------- Gallery ---------- {%- endcomment -%}
   <div class="apx-gallery">
@@ -181,8 +200,8 @@
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           {%- assign opt_index = forloop.index0 -%}
-          <fieldset class="apx-options" data-ap-option-group>
-            <legend>{{ option.name }}</legend>
+          <fieldset class="apx-options" data-ap-option-group{% if product.options.size == 1 %} id="offers"{% endif %}>
+            <legend>{% if product.options.size == 1 %}{{ 'ap.buybox.choose_pack' | t }}{% else %}{{ option.name }}{% endif %}</legend>
             {%- assign swatch_mode = false -%}
             {%- if section.settings.option_style == 'swatches' and product.options.size == 1 -%}{%- assign swatch_mode = true -%}{%- endif -%}
             <div class="apx-options__grid{% if swatch_mode %} apx-options__grid--swatch{% endif %}">
@@ -193,7 +212,7 @@
                   {%- for v in product.variants -%}{%- if v.option1 == value -%}{%- assign card_variant = v -%}{%- endif -%}{%- endfor -%}
                 {%- endif -%}
                 <div class="apx-card">
-                  <input type="radio" id="{{ input_id }}" name="option_{{ opt_index }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
+                  <input type="radio" id="{{ input_id }}" name="option_{{ opt_index }}" value="{{ value | escape }}"{% if current.options[opt_index] == value %} checked{% endif %}{% if card_variant and card_variant.available == false %} disabled{% endif %}>
                   <label for="{{ input_id }}">
                     {%- if swatch_mode -%}
                       <span class="apx-swatch" aria-hidden="true">
@@ -204,6 +223,11 @@
                         {%- endif -%}
                       </span>
                     {%- endif -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.type == 'offer' and block.settings.option_value == value and block.settings.badge != blank -%}
+                        <span class="apx-card__tag">{{ block.settings.badge }}</span>
+                      {%- endif -%}
+                    {%- endfor -%}
                     <span class="apx-card__name">{{ value }}</span>
                     {%- if card_variant -%}
                       {%- assign card_count = card_variant.metafields.custom.patch_count.value | default: product_patch_count -%}
@@ -212,6 +236,25 @@
                         {%- assign card_ppp = card_variant.price | times: 1.0 | divided_by: card_count | round | money -%}
                         <span class="apx-card__ppp">{{ 'ap.product.per_patch' | t: price: card_ppp }}</span>
                       {%- endif -%}
+                      {%- assign bundle = card_variant.metafields.custom.compare_bundle_price.value -%}
+                      {%- if bundle != blank -%}
+                        {%- assign bundle_cents = bundle | money_without_currency | remove: ',' | times: 100 | round -%}
+                        {%- assign save_cents = bundle_cents | minus: card_variant.price -%}
+                        {%- if save_cents > 0 -%}
+                          {%- assign save_pct = save_cents | times: 100.0 | divided_by: bundle_cents | round -%}
+                          {%- assign save_money = save_cents | money -%}
+                          <span class="apx-card__save">{{ 'ap.buybox.save' | t: amount: save_money, percent: save_pct }}</span>
+                        {%- endif -%}
+                      {%- endif -%}
+                      {%- assign contents = card_variant.metafields.custom.contents -%}
+                      {%- if contents != blank -%}
+                        <span class="apx-card__inside"><b>{{ 'ap.buybox.inside' | t }}</b> {{ contents | metafield_tag }}</span>
+                      {%- endif -%}
+                      {%- for block in section.blocks -%}
+                        {%- if block.type == 'offer' and block.settings.option_value == value and block.settings.note != blank -%}
+                          <span class="apx-card__note">{{ block.settings.note }}</span>
+                        {%- endif -%}
+                      {%- endfor -%}
                       {%- unless card_variant.available -%}<span class="apx-card__ppp">{{ 'ap.cart.sold_out' | t }}</span>{%- endunless -%}
                     {%- endif -%}
                   </label>
@@ -231,6 +274,7 @@
             {%- assign first_save = current.price | minus: first_alloc.price | times: 100.0 | divided_by: current.price | round -%}
           {%- endif -%}
           <div class="apx-purchase__grid">
+            {%- unless product.requires_selling_plan -%}
             <div class="apx-card apx-card--plan">
               <input type="radio" id="{{ form_id }}-once" name="ap_purchase" value="once"{% unless sub_default %} checked{% endunless %}>
               <label for="{{ form_id }}-once">
@@ -238,6 +282,7 @@
                 <span class="apx-card__price" data-ap-out="once-price">{{ current.price | money }}</span>
               </label>
             </div>
+            {%- endunless -%}
             <div class="apx-card apx-card--plan">
               <input type="radio" id="{{ form_id }}-sub" name="ap_purchase" value="sub"{% if sub_default %} checked{% endif %}>
               <label for="{{ form_id }}-sub">
@@ -288,43 +333,47 @@
               <select id="{{ form_id }}-plan" data-ap-plan>
                 {%- for group in product.selling_plan_groups -%}
                   {%- for plan in group.selling_plans -%}
-                    <option value="{{ plan.id }}">{{ plan.name }}</option>
+                    <option value="{{ plan.id }}" data-interval="{{ plan.options[0].value | default: plan.name | escape }}">{{ plan.name }}</option>
                   {%- endfor -%}
                 {%- endfor -%}
               </select>
             {%- else -%}
               {%- for group in product.selling_plan_groups -%}
                 {%- for plan in group.selling_plans -%}
-                  <input type="hidden" data-ap-plan value="{{ plan.id }}">
+                  <input type="hidden" data-ap-plan value="{{ plan.id }}" data-interval="{{ plan.options[0].value | default: plan.name | escape }}">
                   <p class="apx-plan__single">{{ plan.name }}</p>
                 {%- endfor -%}
               {%- endfor -%}
             {%- endif -%}
+            <p class="apx-plan__disclosure" data-ap-out="renew"></p>
           </div>
         </fieldset>
       {%- endif -%}
 
       <div class="apx-buy">
-        <div class="apx-qty apx-buy__qty">
-          <button type="button" data-ap-qty="-1" aria-label="{{ 'ap.cart.decrease' | t }}">{% render 'ap-icon', name: 'minus', size: 18 %}</button>
-          <input type="number" name="quantity" value="1" min="1" inputmode="numeric" aria-label="{{ 'ap.product.quantity' | t }}">
-          <button type="button" data-ap-qty="1" aria-label="{{ 'ap.cart.increase' | t }}">{% render 'ap-icon', name: 'plus', size: 18 %}</button>
-        </div>
+        <input type="hidden" name="quantity" value="1">
         <button type="submit" class="apx-btn apx-buy__atc" data-ap-atc{% unless current.available %} disabled{% endunless %}>
           <span data-ap-out="atc-label">{% if current.available %}{{ 'ap.product.add_to_cart' | t }}{% else %}{{ 'ap.cart.sold_out' | t }}{% endif %}</span>
+          {%- if current.available -%}<span aria-hidden="true">&mdash;</span><span data-ap-out="price">{{ current.price | money }}</span>{%- endif -%}
         </button>
       </div>
+      {%- if section.settings.show_accelerated -%}
+        <div class="apx-accel">{{ form | payment_button }}</div>
+      {%- endif -%}
 
       <p class="apx-error" data-ap-error hidden></p>
       <p class="apx-sr" role="status" aria-live="polite" data-ap-live></p>
     {%- endform -%}
 
     <ul class="apx-assure">
-      {%- if settings.shipping_note != blank -%}
-        <li>{% render 'ap-icon', name: 'truck', size: 22 %}<span>{{ settings.shipping_note }}</span></li>
+      {%- if settings.free_shipping_threshold > 0 -%}
+        <li>{% render 'ap-icon', name: 'truck', size: 22 %}{%- assign thr_money = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros -%}<span>{{ 'ap.buybox.free_shipping' | t: amount: thr_money }}</span></li>
       {%- endif -%}
-      {%- if section.settings.guarantee_badge != blank -%}
-        <li>{% render 'ap-icon', name: 'shield', size: 22 %}<span>{{ section.settings.guarantee_badge }}</span></li>
+      <li data-ap-delivery data-pmin="{{ settings.processing_days_min | default: 1 }}" data-pmax="{{ settings.processing_days_max | default: 3 }}" data-tmin="{{ settings.transit_days_min | default: 6 }}" data-tmax="{{ settings.transit_days_max | default: 8 }}" data-label="{{ 'ap.buybox.arrives' | t: range: '__range__' | escape }}">
+        {% render 'ap-icon', name: 'clock', size: 22 %}<span data-ap-delivery-text>{{ 'ap.buybox.delivery_fallback' | t }}</span>
+      </li>
+      {%- if settings.guarantee_line != blank -%}
+        <li>{% render 'ap-icon', name: 'shield', size: 22 %}<span>{{ settings.guarantee_line }}</span></li>
       {%- endif -%}
     </ul>
 
@@ -443,6 +492,8 @@
 <script src="{{ 'ap-cart.js' | asset_url }}" type="module"></script>
 <script src="{{ 'ap-product.js' | asset_url }}" type="module"></script>
 
+{%- endif -%}
+
 {% stylesheet %}
   .apx-pdp{display:grid;gap:20px;padding-block:12px 40px}
   .apx-gallery{min-width:0}
@@ -458,7 +509,7 @@
   .apx-gallery__thumbs img{width:100%;height:100%;object-fit:cover}
   .apx-gallery__vthumb{position:relative}
   .apx-gallery__vthumb::after{content:"";position:absolute;left:50%;top:50%;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;background:rgba(255,255,255,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23B3384B' d='M9 6.5v11l9-5.5z'/%3E%3C/svg%3E") center/16px no-repeat;pointer-events:none}
-  .apx-gallery__video,.apx-gallery__slide iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border:0;background:var(--ap-ink)}
+  .apx-gallery__video,.apx-gallery__slide iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border:0;background:var(--ap-dark)}
   .apx-info{display:flex;flex-direction:column;min-width:0}
   .apx-info__title{font-size:clamp(2.5rem,5vw,3.75rem);line-height:1.06;letter-spacing:-.015em;margin-bottom:.35em}
   .apx-info>*{animation:apx-rise .8s cubic-bezier(.2,.7,.2,1) both}
@@ -478,9 +529,18 @@
   .apx-price__ppp,.apx-price__delivery{margin:.15rem 0 0;font-size:.9375rem;color:var(--ap-ink-soft)}
   /* benefit pills (same idea as the earlier prototype's check pills) */
   @media (max-width:989px){.apx-bullets{margin-top:1.25rem}}
+  .apx-card__save{display:block;margin-top:2px;font-size:.8125rem;font-weight:800;color:var(--ap-accent-text)}
+  .apx-card__inside{display:block;margin-top:6px;font-size:.8125rem;line-height:1.4;color:var(--ap-ink-soft)}
+  .apx-card__inside b{color:var(--ap-ink)}
+  .apx-card__inside p,.apx-card__inside ul{margin:0}
+  .apx-card__note{display:block;margin-top:4px;font-size:.8125rem;font-weight:700;color:var(--ap-ink-soft)}
+  .apx-card input:disabled + label{opacity:.55;cursor:not-allowed}
+  .apx-plan__disclosure{margin:10px 0 0;font-size:.8125rem;line-height:1.45;color:var(--ap-ink-soft)}
+  .apx-accel{margin-top:12px;--shopify-accelerated-checkout-button-border-radius:999px;--shopify-accelerated-checkout-button-block-size:48px}
+  .apx-accel:empty{display:none}
   .apx-bullets{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 1.75rem;padding-bottom:1.75rem;border-bottom:1px solid var(--ap-line)}
   .apx-bullets li{display:flex;gap:.5rem;align-items:center;padding:10px 16px;border:1.5px solid var(--ap-line);border-radius:999px;background:var(--ap-white);font-size:.9375rem;font-weight:500;line-height:1.35}
-  .apx-bullets .apx-icon{color:var(--ap-blush-deep)}
+  .apx-bullets .apx-icon{color:var(--ap-accent-text)}
   .apx-options{margin:0 0 1.5rem;padding:0;border:0;min-width:0}
   .apx-options[data-ap-option-group]{padding-bottom:1.5rem;border-bottom:1px solid var(--ap-line)}
   .apx-options legend{padding:0;margin-bottom:.75rem;font-weight:700}
@@ -497,7 +557,7 @@
   .apx-card--plan .apx-card__ppp{flex-basis:100%}
   .apx-perks{display:grid;gap:.4rem;margin:0 0 .75rem;padding:12px 14px;border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.9375rem}
   .apx-perks li{display:flex;gap:.5rem;align-items:flex-start}
-  .apx-perks .apx-icon{margin-top:.1rem;color:var(--ap-blush-deep)}
+  .apx-perks .apx-icon{margin-top:.1rem;color:var(--ap-accent-text)}
   .apx-card input:checked + label{border-color:var(--ap-ink);background:var(--ap-sand);box-shadow:inset 0 0 0 1px var(--ap-ink)}
   .apx-card input:focus-visible + label{outline:3px solid var(--ap-ink);outline-offset:2px;box-shadow:0 0 0 6px var(--ap-white)}
   .apx-card__name{font-weight:600}
@@ -510,15 +570,15 @@
   .apx-buy{display:flex;gap:10px;align-items:stretch}
   .apx-buy__atc{flex:1}
   .apx-error{margin:.6rem 0 0;padding:.6rem .8rem;border-left:4px solid var(--ap-ink);background:var(--ap-sand);font-weight:600}
-  .apx-gifts{margin:0 0 .75rem;padding:12px 14px;border:1.5px dashed var(--ap-blush-deep);border-radius:var(--ap-radius-sm);background:var(--ap-white)}
-  .apx-gifts__h{margin:0 0 .5rem;font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ap-blush-deep)}
+  .apx-gifts{margin:0 0 .75rem;padding:12px 14px;border:1.5px dashed var(--ap-accent-text);border-radius:var(--ap-radius-sm);background:var(--ap-white)}
+  .apx-gifts__h{margin:0 0 .5rem;font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ap-accent-text)}
   .apx-gifts ul{display:grid;gap:.5rem}
   .apx-gifts li{display:flex;gap:.6rem;align-items:flex-start;font-size:.9375rem}
-  .apx-gifts__tag{flex:none;padding:.1rem .5rem;border-radius:999px;background:var(--ap-ink);color:var(--ap-white);font-size:.75rem;font-weight:700;letter-spacing:.06em}
+  .apx-gifts__tag{flex:none;padding:.1rem .5rem;border-radius:999px;background:var(--ap-dark);color:var(--ap-on-dark);font-size:.75rem;font-weight:700;letter-spacing:.06em}
   .apx-gifts__t small{display:block;color:var(--ap-ink-soft);font-size:.8125rem}
   .apx-assure{display:grid;gap:.4rem;margin:1rem 0 .5rem;font-size:.9375rem}
   .apx-assure li{display:flex;align-items:center;gap:.6rem}
-  .apx-assure .apx-icon{color:var(--ap-blush-deep)}
+  .apx-assure .apx-icon{color:var(--ap-accent-text)}
   .apx-pay{display:flex;flex-wrap:wrap;gap:6px;margin:.5rem 0 1rem}
   .apx-pay__icon{width:38px;height:24px}
   .apx-label{margin-top:.75rem;padding:14px 16px;border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.875rem}
@@ -540,17 +600,17 @@
   .apx-vids__title{margin:0;font-size:1.25rem}
   .apx-vids__nav{display:flex;gap:8px}
   .apx-vids__nav[hidden]{display:none}
-  .apx-vids__arrow{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--ap-blush-deep);border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep);font-size:1.125rem;cursor:pointer}
+  .apx-vids__arrow{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--ap-accent-text);border-radius:50%;background:var(--ap-white);color:var(--ap-accent-text);font-size:1.125rem;cursor:pointer}
   .apx-vids__arrow:disabled{opacity:.35;cursor:default}
   .apx-vids__arrow:focus-visible{outline:3px solid var(--ap-ink);outline-offset:2px}
   .apx-vids__row{display:flex;gap:10px;margin:0;padding-inline:0;list-style:none;scroll-behavior:smooth;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
   .apx-vids__row > li{flex:0 0 150px;scroll-snap-align:start}
   .apx-vids__row figure{margin:0}
-  .apx-vids__row video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--ap-radius);background:var(--ap-ink)}
+  .apx-vids__row video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:var(--ap-radius);background:var(--ap-dark)}
   .apx-vids__row figcaption{margin-top:6px;font-size:.8125rem;color:var(--ap-ink-soft)}
   .apx-editor-note{margin:8px 0;padding:8px 12px;border:2px dashed var(--ap-ink);border-radius:var(--ap-radius-sm);background:var(--ap-sand);font-size:.8125rem;font-weight:600}
   /* IM8-style structure: soft gradient band, divider, round swatches, corner tag, bigger thumbs */
-  .apx-band{background:linear-gradient(180deg,var(--ap-sand) 0,var(--ap-white) 420px)}
+  .apx-band{background:linear-gradient(180deg,var(--ap-sand) 0,var(--ap-bg) 420px)}
   .apx-options legend{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}
   .apx-options__grid--swatch{display:flex;flex-wrap:wrap;gap:14px}
   .apx-options__grid--swatch .apx-card{flex:0 0 auto;width:96px}
@@ -562,8 +622,8 @@
   .apx-options__grid--swatch .apx-card input:checked + label .apx-swatch{border-color:var(--ap-ink)}
   .apx-options__grid--swatch .apx-card input:focus-visible + label .apx-swatch{outline:3px solid var(--ap-ink);outline-offset:2px}
   .apx-options__grid--swatch .apx-card__name{font-size:.875rem;line-height:1.2}
-  .apx-card--plan:has(.apx-card__tag) label{padding-top:26px}
-  .apx-card__tag{position:absolute;top:-1px;right:14px;padding:.15rem .6rem;border-radius:0 0 6px 6px;background:var(--ap-ink);color:var(--ap-white);font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .apx-card:has(.apx-card__tag) label{padding-top:30px}
+  .apx-card__tag{position:absolute;top:-1px;right:14px;padding:.15rem .6rem;border-radius:0 0 6px 6px;background:var(--ap-dark);color:var(--ap-on-dark);font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
   /* Mobile: pills move below the buy button so price, options and the button come first */
   @media (max-width:989px){
     .apx-info form{order:3}
@@ -583,11 +643,12 @@
 
 {% schema %}
 {
-  "name": "Product form",
+  "name": "Landing buy box",
   "tag": "section",
   "class": "apx-section-product",
   "enabled_on": { "templates": ["product"] },
   "settings": [
+    { "type": "product", "id": "product", "label": "Product", "info": "Leave empty to use the hero product from Theme settings." },
     {
       "type": "text",
       "id": "eyebrow",
@@ -615,13 +676,6 @@
       "info": "Only applies when the product has selling plans from a subscriptions app."
     },
     {
-      "type": "text",
-      "id": "guarantee_badge",
-      "label": "Guarantee badge text",
-      "default": "30-day happiness promise",
-      "info": "Must match your real return policy."
-    },
-    {
       "type": "select",
       "id": "option_style",
       "label": "Kit chooser style",
@@ -629,11 +683,12 @@
         { "value": "swatches", "label": "Round swatches (uses each variant image)" },
         { "value": "cards", "label": "Cards with price" }
       ],
-      "default": "swatches",
+      "default": "cards",
       "info": "Swatches apply when the product has one option."
     },
-    { "type": "text", "id": "plan_badge", "label": "Subscribe card tag", "default": "Best value", "info": "Leave empty to hide. Only keep it if Subscribe really is the best price." },
+    { "type": "text", "id": "plan_badge", "label": "Subscribe card tag", "default": "", "info": "Leave empty to hide. Only use it if Subscribe really is the best price." },
     { "type": "text", "id": "gifts_heading", "label": "Welcome gifts heading", "default": "Your welcome gifts" },
+    { "type": "checkbox", "id": "show_accelerated", "label": "Show accelerated checkout (Shop Pay, Apple Pay, Google Pay)", "default": true },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
   ],
   "blocks": [
@@ -643,6 +698,16 @@
       "limit": 6,
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Day and night patches in one kit" }
+      ]
+    },
+    {
+      "type": "offer",
+      "name": "Offer badge / note",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "option_value", "label": "Pack name (must match the variant option value)", "default": "3-Month Stash" },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Best value", "info": "Only use \"Most popular\" if your order data supports it." },
+        { "type": "text", "id": "note", "label": "Small note (optional)", "default": "" }
       ]
     },
     {
@@ -707,18 +772,15 @@
   ],
   "presets": [
     {
-      "name": "Product form",
+      "name": "Landing buy box",
       "blocks": [
         { "type": "bullet", "settings": { "text": "Day patch: thin and low-shine, so you can wear it anywhere" } },
         { "type": "bullet", "settings": { "text": "Night patch: cushioned, so it stays put while you sleep" } },
-        { "type": "bullet", "settings": { "text": "Less picking: give your fingers something else to find" } },
-        { "type": "bullet", "settings": { "text": "Drug-free hydrocolloid in three sizes, so there is a patch for every spot" } },
-        { "type": "plan_perk", "settings": { "text": "Cancel or skip any time" } },
-        { "type": "plan_perk", "settings": { "text": "A lower price on every delivery" } },
-        { "type": "gift", "settings": { "title": "Travel pouch", "note": "Added to your first subscription box" } },
-        { "type": "accordion", "settings": { "title": "How to use", "body": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, leave it on for 6–8 hours or until it turns white, then peel and swap.</p>" } },
-        { "type": "accordion", "settings": { "title": "What is in the kit", "body": "<p>Day and night patches in the sizes shown in the size guide below. The patch count is shown on each option above.</p>" } },
-        { "type": "accordion", "settings": { "title": "Shipping and returns", "body": "<p>Shipping times and costs are shown at checkout. See our refund policy for how returns work.</p>" } }
+        { "type": "bullet", "settings": { "text": "Keeps hands off: gives your fingers something else to find" } },
+        { "type": "offer", "settings": { "option_value": "3-Month Stash", "badge": "Best value" } },
+        { "type": "offer", "settings": { "option_value": "Refill Pouch", "badge": "", "note": "Refill only — no compact" } },
+        { "type": "plan_perk", "settings": { "text": "Skip or cancel any time" } },
+        { "type": "plan_perk", "settings": { "text": "A lower price on every delivery" } }
       ]
     }
   ]

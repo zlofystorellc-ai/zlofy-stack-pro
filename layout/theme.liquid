@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}" data-theme="day">
 <head>
   {%- comment -%}
     Minimal OS 2.0 shell for the ap-* product page.
@@ -8,7 +8,22 @@
   {%- endcomment -%}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="{{ settings.color_ink }}">
+  <meta name="theme-color" content="{{ settings.color_sand | default: '#F4EDE4' }}">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('ap-theme');
+        if (t !== 'day' && t !== 'night') {
+          var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var h = new Date().getHours();
+          t = dark ? 'night' : (h >= 6 && h < 18 ? 'day' : 'night');
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'day');
+      }
+    })();
+  </script>
   <title>
     {{- page_title -}}
     {%- if current_page != 1 %} – {{ 'ap.general.page' | t: number: current_page }}{% endif -%}
@@ -17,16 +32,26 @@
   {%- if page_description %}
     <meta name="description" content="{{ page_description | escape }}">
   {%- endif %}
-  <link rel="canonical" href="{{ canonical_url }}">
+  {%- liquid
+    assign canon = canonical_url
+    if template.name == 'product' and settings.hero_product != blank and product.id == settings.hero_product.id
+      assign canon = shop.url | append: routes.root_url
+    endif
+  -%}
+  <link rel="canonical" href="{{ canon }}">
+  {%- if template.name == 'collection' or template.name == 'list-collections' or template.name == 'search' or template.suffix == 'addon' %}
+    <meta name="robots" content="noindex,follow">
+  {%- endif %}
   <meta property="og:site_name" content="{{ shop.name | escape }}">
-  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:url" content="{{ canon }}">
   <meta property="og:title" content="{{ page_title | escape }}">
-  <meta property="og:type" content="{% if template.name == 'product' %}product{% else %}website{% endif %}">
+  <meta property="og:type" content="{% if template.name == 'product' or template.name == 'index' %}product{% else %}website{% endif %}">
   {%- if page_description %}
     <meta property="og:description" content="{{ page_description | escape }}">
   {%- endif %}
-  {%- if template.name == 'product' and product.featured_image %}
-    <meta property="og:image" content="https:{{ product.featured_image | image_url: width: 1200 }}">
+  {%- assign og_product = settings.hero_product | default: product -%}
+  {%- if og_product.featured_image %}
+    <meta property="og:image" content="https:{{ og_product.featured_image | image_url: width: 1200 }}">
   {%- endif %}
 
   <link rel="icon" type="image/svg+xml" href="{{ 'ap-favicon.svg' | asset_url }}">

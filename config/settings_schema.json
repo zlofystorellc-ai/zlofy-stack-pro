@@ -10,9 +10,24 @@
   {
     "name": "Brand",
     "settings": [
-      { "type": "text", "id": "brand_name", "label": "Brand name", "default": "ZLOFY" },
-      { "type": "text", "id": "day_product_name", "label": "Day product name", "default": "Day Patch" },
-      { "type": "text", "id": "night_product_name", "label": "Night product name", "default": "Night Patch" },
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Brand name",
+        "default": "ZLOFY"
+      },
+      {
+        "type": "text",
+        "id": "day_product_name",
+        "label": "Day product name",
+        "default": "Day Patch"
+      },
+      {
+        "type": "text",
+        "id": "night_product_name",
+        "label": "Night product name",
+        "default": "Night Patch"
+      },
       {
         "type": "text",
         "id": "support_email",
@@ -26,33 +41,136 @@
         "label": "Logo (optional)",
         "info": "Upload only images you own or have licensed. No supplier/competitor photos. Before/after only from real, consenting customers, unedited."
       },
-      { "type": "range", "id": "logo_width", "min": 60, "max": 240, "step": 10, "unit": "px", "label": "Logo width", "default": 120 }
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 60,
+        "max": 240,
+        "step": 10,
+        "unit": "px",
+        "label": "Logo width",
+        "default": 120
+      }
     ]
   },
   {
     "name": "Colors",
     "settings": [
-      { "type": "header", "content": "Palette tokens" },
-      { "type": "color", "id": "color_ink", "label": "Ink (text, dark surfaces)", "default": "#1B1B3A" },
-      { "type": "color", "id": "color_blush", "label": "Blush red (icons, large UI only)", "default": "#F95D75", "info": "White text on this blush red is about 3.3:1 and fails AA for body text. Use it for icons and large shapes only." },
-      { "type": "color", "id": "color_blush_deep", "label": "Blush red deep (text, buttons)", "default": "#CF2749", "info": "Used for text links and buttons with white text (about 6:1)." },
-      { "type": "color", "id": "color_lilac", "label": "Lilac (night accents)", "default": "#CDB8FF" },
-      { "type": "color", "id": "color_sand", "label": "Blush cream (backgrounds)", "default": "#FFF0F2" },
-      { "type": "color", "id": "color_apricot", "label": "Apricot (badges, use with ink text)", "default": "#FFB270" },
-      { "type": "color", "id": "color_butter", "label": "Butter yellow (highlights, use with ink text)", "default": "#FFE066" },
-      { "type": "color", "id": "color_white", "label": "White", "default": "#FFFFFF" }
+      {
+        "type": "header",
+        "content": "Palette (day look; the night look uses ink, sand and lilac automatically)"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Ink (text, dark surfaces)",
+        "default": "#1F2A44"
+      },
+      {
+        "type": "color",
+        "id": "color_teal",
+        "label": "Teal (icons, borders, large text only)",
+        "default": "#2A9D8F",
+        "info": "White text on this teal is about 3.3:1 and fails AA. Never use it for normal-size text."
+      },
+      {
+        "type": "color",
+        "id": "color_teal_deep",
+        "label": "Teal deep (links, small text, selected states)",
+        "default": "#1D6F66",
+        "info": "Passes AA for text on sand and white."
+      },
+      {
+        "type": "color",
+        "id": "color_lilac",
+        "label": "Lilac (night accents)",
+        "default": "#C8B6E2"
+      },
+      {
+        "type": "color",
+        "id": "color_sand",
+        "label": "Sand (day background)",
+        "default": "#F4EDE4"
+      },
+      {
+        "type": "color",
+        "id": "color_apricot",
+        "label": "Apricot (primary button; text on it is ink)",
+        "default": "#F4A261"
+      }
+    ]
+  },
+  {
+    "name": "Landing page",
+    "settings": [
+      {
+        "type": "product",
+        "id": "hero_product",
+        "label": "Hero product",
+        "info": "One change here rebinds the whole landing page. The product page for this product canonicalises to the homepage."
+      },
+      {
+        "type": "range",
+        "id": "default_offer",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "label": "Preselected pack (position in the variant list)",
+        "default": 2,
+        "info": "1 = first variant, 2 = second (the Stash), 3 = third. A ?variant=ID in the URL overrides it."
+      },
+      {
+        "type": "header",
+        "content": "Delivery estimate (business days, shown as a date range)"
+      },
+      {
+        "type": "range",
+        "id": "processing_days_min",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "label": "Processing days (min)",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "processing_days_max",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "label": "Processing days (max)",
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "transit_days_min",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "label": "Transit days (min)",
+        "default": 6
+      },
+      {
+        "type": "range",
+        "id": "transit_days_max",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "label": "Transit days (max)",
+        "default": 8
+      },
+      {
+        "type": "text",
+        "id": "guarantee_line",
+        "label": "Guarantee line",
+        "default": "30-day happiness promise",
+        "info": "Must match your real return policy."
+      }
     ]
   },
   {
     "name": "Purchase and cart",
     "settings": [
-      {
-        "type": "text",
-        "id": "shipping_note",
-        "label": "Shipping time note",
-        "default": "Ships in 7–10 business days",
-        "info": "Must match what you really deliver."
-      },
       {
         "type": "range",
         "id": "free_shipping_threshold",
@@ -60,9 +178,9 @@
         "max": 200,
         "step": 5,
         "unit": "$",
-        "label": "Free-shipping progress bar threshold",
-        "default": 35,
-        "info": "Set to 0 to hide the bar. The bar only reports progress; free shipping itself is configured in Shopify shipping settings."
+        "label": "Free-shipping threshold",
+        "default": 25,
+        "info": "Used for the free-shipping line, the cart progress bar and delivery copy. Set to 0 to hide. Free shipping itself is configured in Shopify shipping settings."
       },
       {
         "type": "collection",
@@ -79,9 +197,24 @@
         "type": "paragraph",
         "content": "Only switch these on if you hold the documentation. A badge shows only when this setting AND the product metafield are both on."
       },
-      { "type": "checkbox", "id": "vegan_documented", "label": "I have documentation that the product is vegan", "default": false },
-      { "type": "checkbox", "id": "cruelty_free_documented", "label": "I have documentation that the product is cruelty-free", "default": false },
-      { "type": "checkbox", "id": "show_creator_disclosure", "label": "Show \"Some creators received free product\" next to creator content", "default": true }
+      {
+        "type": "checkbox",
+        "id": "vegan_documented",
+        "label": "I have documentation that the product is vegan",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "cruelty_free_documented",
+        "label": "I have documentation that the product is cruelty-free",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_creator_disclosure",
+        "label": "Show \"Some creators received free product\" next to creator content",
+        "default": true
+      }
     ]
   }
 ]

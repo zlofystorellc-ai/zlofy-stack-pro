@@ -1,108 +1,157 @@
 {
   "sections": {
-    "banner": {
-      "type": "ap-home-banner",
+    "buybox": {
+      "type": "ap-landing-buybox",
       "blocks": {
-        "perk_1": {
-          "type": "perk",
+        "bullet_1": {
+          "type": "bullet",
           "settings": {
-            "text": "Drug-free hydrocolloid"
+            "text": "Day patch: thin and low-shine, so you can wear it anywhere"
           }
         },
-        "perk_2": {
-          "type": "perk",
+        "bullet_2": {
+          "type": "bullet",
           "settings": {
-            "text": "Day and night patches"
+            "text": "Night patch: cushioned, so it stays put while you sleep"
           }
         },
-        "perk_3": {
-          "type": "perk",
+        "bullet_3": {
+          "type": "bullet",
           "settings": {
-            "text": "US-based support"
+            "text": "Keeps hands off: gives your fingers something else to find"
+          }
+        },
+        "offer_4": {
+          "type": "offer",
+          "settings": {
+            "option_value": "3-Month Stash",
+            "badge": "Best value"
+          }
+        },
+        "offer_5": {
+          "type": "offer",
+          "settings": {
+            "option_value": "Refill Pouch",
+            "badge": "",
+            "note": "Refill only — no compact"
+          }
+        },
+        "plan_perk_6": {
+          "type": "plan_perk",
+          "settings": {
+            "text": "Skip or cancel any time"
+          }
+        },
+        "plan_perk_7": {
+          "type": "plan_perk",
+          "settings": {
+            "text": "A lower price on every delivery"
           }
         }
       },
       "block_order": [
-        "perk_1",
-        "perk_2",
-        "perk_3"
+        "bullet_1",
+        "bullet_2",
+        "bullet_3",
+        "offer_4",
+        "offer_5",
+        "plan_perk_6",
+        "plan_perk_7"
       ]
     },
-    "products": {
-      "type": "ap-home-products",
+    "box": {
+      "type": "ap-kit-contents",
       "blocks": {
-        "product_1": {
-          "type": "product"
-        },
-        "product_2": {
-          "type": "product"
-        },
-        "product_3": {
-          "type": "product"
-        }
-      },
-      "block_order": [
-        "product_1",
-        "product_2",
-        "product_3"
-      ]
-    },
-    "problem": {
-      "type": "ap-problem",
-      "settings": {
-        "button_link": "/collections/all"
-      },
-      "blocks": {
-        "point_1": {
-          "type": "point",
+        "item_1": {
+          "type": "item",
           "settings": {
-            "icon": "sun",
-            "time": "Morning",
-            "title": "Before the big day",
-            "text": "Photos, dates, interviews. A spot likes to show up right before them.",
-            "fix": "A thin, low-shine day patch sits close to the skin so you can get on with your day."
+            "name": "Day patches",
+            "count": 12,
+            "size_mm": 10,
+            "tone": "day",
+            "note": "Thin, low-shine"
           }
         },
-        "point_2": {
-          "type": "point",
+        "item_2": {
+          "type": "item",
           "settings": {
-            "icon": "hand",
-            "time": "Midday",
-            "title": "The picking loop",
-            "text": "Hands find the spot before your brain catches up.",
-            "fix": "A patch gives your fingers something else to find."
+            "name": "Night patches",
+            "count": 12,
+            "size_mm": 12,
+            "tone": "night",
+            "note": "Thicker, cushioned"
           }
         },
-        "point_3": {
-          "type": "point",
+        "item_3": {
+          "type": "item",
           "settings": {
-            "icon": "moon",
-            "time": "Night",
-            "title": "Patches that slide off",
-            "text": "Edges lift, patches curl, and one ends up on your pillow instead of your face.",
-            "fix": "The night patch is thicker and more cushioned, so it stays put while you sleep."
+            "name": "Small spot patches",
+            "count": 8,
+            "size_mm": 8,
+            "tone": "neutral",
+            "note": "Single spots"
           }
         },
-        "point_4": {
-          "type": "point",
+        "item_4": {
+          "type": "item",
           "settings": {
-            "icon": "clock",
-            "time": "Next morning",
-            "title": "Check, then swap",
-            "text": "A patch that has turned white has taken in as much fluid as it can hold.",
-            "fix": "Peel it, toss it, and add a fresh one if the spot is still there."
+            "name": "XL body strips",
+            "count": 4,
+            "size_mm": 0,
+            "tone": "neutral",
+            "note": "Back, shoulders, chest"
           }
         }
       },
       "block_order": [
-        "point_1",
-        "point_2",
-        "point_3",
-        "point_4"
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
       ]
     },
-    "split": {
-      "type": "ap-home-split"
+    "daynight": {
+      "type": "ap-day-night",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "label": "Finish",
+            "day": "Matte, low-shine",
+            "night": "Soft gloss"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "label": "Thickness",
+            "day": "Ultra-thin",
+            "night": "Thicker and cushioned"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "label": "Best for",
+            "day": "Out and about",
+            "night": "Overnight"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "label": "Wear time",
+            "day": "4–6 hours",
+            "night": "6–8 hours"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4"
+      ]
     },
     "how": {
       "type": "ap-how-it-works",
@@ -143,134 +192,24 @@
         "step_4"
       ]
     },
-    "beforeafter": {
-      "type": "ap-before-after",
-      "blocks": {
-        "pair_1": {
-          "type": "pair"
-        },
-        "pair_2": {
-          "type": "pair"
-        },
-        "pair_3": {
-          "type": "pair"
-        }
-      },
-      "block_order": [
-        "pair_1",
-        "pair_2",
-        "pair_3"
-      ]
-    },
-    "videos": {
-      "type": "ap-video-cards",
-      "blocks": {
-        "card_1": {
-          "type": "card"
-        },
-        "card_2": {
-          "type": "card"
-        },
-        "card_3": {
-          "type": "card"
-        },
-        "card_4": {
-          "type": "card"
-        },
-        "card_5": {
-          "type": "card"
-        },
-        "card_6": {
-          "type": "card"
-        },
-        "card_7": {
-          "type": "card"
-        },
-        "card_8": {
-          "type": "card"
-        },
-        "stat_9": {
-          "type": "stat",
-          "settings": {
-            "number": "2",
-            "label": "Patch types"
-          }
-        },
-        "stat_10": {
-          "type": "stat",
-          "settings": {
-            "number": "30",
-            "label": "Day guarantee"
-          }
-        },
-        "stat_11": {
-          "type": "stat",
-          "settings": {
-            "number": "6–8",
-            "label": "Hours per patch"
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4",
-        "card_5",
-        "card_6",
-        "card_7",
-        "card_8",
-        "stat_9",
-        "stat_10",
-        "stat_11"
-      ]
-    },
-    "founder": {
-      "type": "ap-founder-note"
-    },
-    "guarantee": {
-      "type": "ap-guarantee",
-      "blocks": {
-        "point_1": {
-          "type": "point",
-          "settings": {
-            "text": "30-day guarantee"
-          }
-        },
-        "point_2": {
-          "type": "point",
-          "settings": {
-            "text": "Cancel anytime"
-          }
-        },
-        "point_3": {
-          "type": "point",
-          "settings": {
-            "text": "Support by email"
-          }
-        }
-      },
-      "block_order": [
-        "point_1",
-        "point_2",
-        "point_3"
-      ]
+    "reviews": {
+      "type": "ap-reviews"
     },
     "faq": {
-      "type": "ap-faq-split",
+      "type": "ap-faq",
       "blocks": {
         "question_1": {
           "type": "question",
           "settings": {
-            "question": "What is ZLOFY Stack Pro?",
-            "answer": "<p>A day and night set of drug-free hydrocolloid patches. Day patches are thin and low-shine, night patches are thicker and more cushioned. Both cover and protect surfaced spots.</p>"
+            "question": "How long do I wear a patch?",
+            "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>"
           }
         },
         "question_2": {
           "type": "question",
           "settings": {
-            "question": "How long do I wear a patch?",
-            "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>"
+            "question": "What is the difference between day and night?",
+            "answer": "<p>The day patch is thinner with a low-shine finish so it can blend in during the day. The night patch is thicker and more cushioned so it stays put while you sleep. Use whichever suits the moment.</p>"
           }
         },
         "question_3": {
@@ -297,18 +236,32 @@
         "question_6": {
           "type": "question",
           "settings": {
+            "question": "Is it drug-free?",
+            "answer": "<p>Yes. The patches are drug-free hydrocolloid. They cover and protect a spot and absorb fluid from surfaced spots. They do not contain medicated ingredients.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "How many patches are in a box, and how long will it last?",
+            "answer": "<p>The patch count is shown on each option above, along with the price per patch so you can compare. How long a kit lasts depends on how often you use patches.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
             "question": "How long does shipping take?",
             "answer": "<p>The shipping time is shown on the product page and again at checkout. You will get a tracking email when your order ships.</p>"
           }
         },
-        "question_7": {
+        "question_9": {
           "type": "question",
           "settings": {
             "question": "How do I skip or cancel a subscription?",
             "answer": "<p>You can skip, change the delivery frequency or cancel any time from your account page, or email us before your next delivery.</p>"
           }
         },
-        "question_8": {
+        "question_10": {
           "type": "question",
           "settings": {
             "question": "What if I am not happy with my order?",
@@ -324,24 +277,22 @@
         "question_5",
         "question_6",
         "question_7",
-        "question_8"
+        "question_8",
+        "question_9",
+        "question_10"
       ]
     },
-    "newsletter": {
-      "type": "ap-newsletter"
+    "sticky": {
+      "type": "ap-sticky-atc"
     }
   },
   "order": [
-    "banner",
-    "products",
-    "problem",
-    "split",
+    "buybox",
+    "box",
+    "daynight",
     "how",
-    "beforeafter",
-    "videos",
-    "founder",
-    "guarantee",
+    "reviews",
     "faq",
-    "newsletter"
+    "sticky"
   ]
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.5.1
+- Home "Shop the kit" section is now for ONE product: one block only, a wide card (image left, name, price and button right) on desktop, no "See all products" link by default.
+
 ## 1.5.0 (animated banner with video)
 - Home banner: the copy rises in one line at a time, the visual pops in, the badges float. The visual can now be a video: your own Shopify-hosted video (muted loop), else your photo, else a built-in demo loop, else the drawn patch. The demo loop (`assets/ap-demo-banner.mp4`, 6 s, 1 MB, original animation, no people, no text, no claims) shows until you add your own.
 - Pause / play button on the video (WCAG 2.2.2); the video stays paused for visitors who prefer reduced motion and pauses while off-screen (`assets/ap-banner.js`).

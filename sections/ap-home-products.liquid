@@ -1,11 +1,11 @@
 {%- comment -%}
-  Home page product cards. Pick up to four products in the theme editor; each card shows the photo, name, price and a button.
+  Home page product cards. One product card (this is a one-product store): it shows the photo, name, price and a button.
   Cards for products that are not picked, or are unavailable, are skipped.
 {%- endcomment -%}
 {%- assign shown = 0 -%}
 {%- for block in section.blocks -%}{%- if block.settings.product != blank -%}{%- assign shown = shown | plus: 1 -%}{%- endif -%}{%- endfor -%}
 {%- if shown > 0 -%}
-<section class="apx-hp apx-section" id="shop" aria-labelledby="{{ section.id }}-title">
+<section class="apx-hp apx-section{% if shown == 1 %} apx-hp--single{% endif %}" id="shop" aria-labelledby="{{ section.id }}-title">
   <div class="apx-wrap">
     <div class="apx-center">
       {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
@@ -58,6 +58,17 @@
   .apx-hp__price{font-size:1.125rem;font-weight:800;color:var(--ap-blush-deep)}
   .apx-hp__price s{margin-right:.3rem;font-weight:500;color:var(--ap-ink-soft)}
   .apx-hp__btn{margin:auto 8px 0;width:calc(100% - 16px)}
+  .apx-hp--single .apx-hp__grid{grid-template-columns:minmax(0,1fr);max-width:420px;margin-inline:auto}
+  @media (min-width:760px){
+    .apx-hp--single .apx-hp__grid{max-width:900px}
+    .apx-hp--single .apx-hp__card{display:grid;grid-template-columns:1fr 1fr;gap:0 40px;align-items:center;padding:18px}
+    .apx-hp--single .apx-hp__link{display:contents}
+    .apx-hp--single .apx-hp__img{grid-row:1 / span 2;border-radius:24px}
+    .apx-hp--single .apx-hp__body{align-self:end;padding:0}
+    .apx-hp--single .apx-hp__title{font-size:clamp(1.75rem,3vw,2.5rem)}
+    .apx-hp--single .apx-hp__price{font-size:1.5rem}
+    .apx-hp--single .apx-hp__btn{align-self:start;margin:20px 0 0;width:auto;justify-self:start;min-width:220px}
+  }
   .apx-hp__all{margin-top:28px}
   .apx-hp__all a{font-weight:800}
   @media (hover:hover){.apx-hp__card:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(31,31,58,.12)}.apx-hp__card:hover .apx-hp__img img{transform:scale(1.06)}}
@@ -70,17 +81,17 @@
   "enabled_on": { "templates": ["index"] },
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Pick your kit" },
-    { "type": "textarea", "id": "text", "label": "Intro (optional)", "default": "Day and night patches, in the size of kit that suits you." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop the kit" },
+    { "type": "textarea", "id": "text", "label": "Intro (optional)", "default": "Day and night patches in one kit." },
     { "type": "text", "id": "button_label", "label": "Card button", "default": "Shop now" },
-    { "type": "text", "id": "all_label", "label": "See-all link text", "default": "See all products" },
+    { "type": "text", "id": "all_label", "label": "See-all link text (leave empty for a one-product store)", "default": "" },
     { "type": "url", "id": "all_link", "label": "See-all link", "info": "Leave empty to open all products." }
   ],
   "blocks": [
     {
       "type": "product",
       "name": "Product",
-      "limit": 4,
+      "limit": 1,
       "settings": [
         { "type": "product", "id": "product", "label": "Product" },
         { "type": "text", "id": "badge", "label": "Badge (optional)", "info": "For example Most popular. Only if it is true." },
@@ -91,7 +102,7 @@
   "presets": [
     {
       "name": "Home products",
-      "blocks": [ { "type": "product" }, { "type": "product" }, { "type": "product" } ]
+      "blocks": [ { "type": "product" } ]
     }
   ]
 }

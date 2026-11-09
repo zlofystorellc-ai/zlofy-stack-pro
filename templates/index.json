@@ -33,18 +33,10 @@
       "blocks": {
         "product_1": {
           "type": "product"
-        },
-        "product_2": {
-          "type": "product"
-        },
-        "product_3": {
-          "type": "product"
         }
       },
       "block_order": [
-        "product_1",
-        "product_2",
-        "product_3"
+        "product_1"
       ]
     },
     "problem": {

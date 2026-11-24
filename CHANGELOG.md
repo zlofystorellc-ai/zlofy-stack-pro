@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.12.2
+- Home "Before and after" section: starting copy is now honest for demonstration photos ("How a patch looks", labels "Patch ready" / "Patch worn", AI-generated disclaimer) and starts with one pair. Replace the pair with your own photos in the theme editor. Preview shows two demonstration photos.
+
 ## 1.12.1
 - "How it works" video: a 6-second clip showing a used patch being peeled off and a fresh one shown beside it is added to the end, so all four steps are now covered (26 s, audio removed, 5.5 MB). AI-generated demonstration, not a real customer.
 

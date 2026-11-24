@@ -169,10 +169,9 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
   }
   if (type === 'ap-before-after') {
     section.blocks.forEach((b, i) => {
-      b.settings.before = { key: `v${[101, 103, 104][i % 3]}`, alt: 'Mock before photo' };
-      b.settings.after = { key: `v${[102, 104, 101][i % 3]}`, alt: 'Mock after photo' };
-      b.settings.name = ['Customer A', 'Customer B', 'Customer C'][i % 3];
-      b.settings.caption = 'Mock caption';
+      b.settings.before = { key: i === 0 ? 'demo-ba-ready' : `v${[101, 103, 104][i % 3]}`, alt: 'Mock before photo' };
+      b.settings.after = { key: i === 0 ? 'demo-ba-worn' : `v${[102, 104, 101][i % 3]}`, alt: 'Mock after photo' };
+      if (!b.settings.caption) { b.settings.name = ['Customer A', 'Customer B', 'Customer C'][i % 3]; b.settings.caption = 'Mock caption'; }
     });
   }
   if (type === 'ap-how-it-works') {
@@ -315,6 +314,11 @@ http.createServer(async (req, res) => {
     }
     if (url.pathname.startsWith('/preview-img/')) {
       const key = url.pathname.slice(13).replace(/\.svg$/, '').replace(/_\d+x\d+$/, '');
+      const demo = key.match(/^demo-(ba-[a-z]+)/);
+      if (demo && existsSync(join(here, 'demo', demo[1] + '.jpg'))) {
+        res.writeHead(200, { 'Content-Type': 'image/jpeg', 'Cache-Control': 'no-store' });
+        return res.end(readFileSync(join(here, 'demo', demo[1] + '.jpg')));
+      }
       res.writeHead(200, { 'Content-Type': 'image/svg+xml', 'Cache-Control': 'max-age=60' });
       return res.end(mockImage(key));
     }

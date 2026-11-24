@@ -140,9 +140,9 @@
       "next": "Next videos"
     },
     "before_after": {
-      "before": "Before",
-      "after": "After",
-      "slider": "Compare before and after"
+      "before": "Patch ready",
+      "after": "Patch worn",
+      "slider": "Compare the patch before and after wearing"
     },
     "kit": {
       "quantity": "Quantity:",

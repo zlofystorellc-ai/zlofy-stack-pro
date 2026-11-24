@@ -75,7 +75,7 @@ const homeOrder = [
   ['split', 'ap-home-split'],
   ['ingredient', 'ap-home-ingredient'],
   ['how', 'ap-how-it-works'],
-  ['beforeafter', 'ap-before-after'],
+  ['beforeafter', 'ap-before-after', { settings: { eyebrow: 'Demonstration', heading: 'How a patch looks', text: 'Drag the slider to compare the patch before and after wearing it.', disclaimer: 'Demonstration photos, AI-generated, not real customers. Individual results vary.' }, blocks: [{ type: 'pair', settings: { caption: 'Illustrative demonstration' } }] }],
   ['videos', 'ap-video-cards'],
   ['founder', 'ap-founder-note'],
   ['guarantee', 'ap-guarantee'],

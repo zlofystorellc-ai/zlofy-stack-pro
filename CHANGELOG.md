@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.1
+- Home "One ingredient": the dark navy background is now the site's soft blush-to-lilac gradient with drifting colour glows and floating patch dots. The three facts are white cards that take turns lighting up (with a progress line); hover, tap or keyboard focus holds one, and the ring around the video changes colour to match. Everything rises in one after another, the video leans toward the mouse on laptops, and all of it stops for visitors who prefer reduced motion.
+
 ## 1.14.0
 - Home "One ingredient" section: a built-in close-up video of a thin patch on skin (`assets/ap-ingredient-video.mp4`, 10 s, 1.3 MB, audio removed) in a round window inside the orbit rings. Muted, loops, plays only while on screen, has a pause button, and does not autoplay for visitors who prefer reduced motion. A small "AI-generated illustration" note sits under it. Turn it off in the section to use your own photo or the old drawing.
 

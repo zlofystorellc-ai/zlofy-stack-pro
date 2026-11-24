@@ -201,10 +201,17 @@
           "settings": {
             "caption": "Illustrative demonstration"
           }
+        },
+        "pair_2": {
+          "type": "pair",
+          "settings": {
+            "caption": "Illustrative demonstration"
+          }
         }
       },
       "block_order": [
-        "pair_1"
+        "pair_1",
+        "pair_2"
       ]
     },
     "videos": {

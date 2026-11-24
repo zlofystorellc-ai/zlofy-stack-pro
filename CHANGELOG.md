@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.0
+- Home "One ingredient" section: a built-in close-up video of a thin patch on skin (`assets/ap-ingredient-video.mp4`, 10 s, 1.3 MB, audio removed) in a round window inside the orbit rings. Muted, loops, plays only while on screen, has a pause button, and does not autoplay for visitors who prefer reduced motion. A small "AI-generated illustration" note sits under it. Turn it off in the section to use your own photo or the old drawing.
+
 ## 1.13.1
 - "Before and after": the dark navy background is replaced with the site's soft blush-to-lilac gradient. It has slowly drifting colour glows and little translucent patch dots that float up, and the glows move a little as you scroll. The headline lines rise in one by one. On laptops each photo card leans toward the mouse in 3D with a soft light following the pointer. Everything stops for visitors who prefer reduced motion.
 

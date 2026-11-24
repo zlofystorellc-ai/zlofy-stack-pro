@@ -28,7 +28,25 @@
     </div>
 
     <div class="apx-hi__visual">
-      {%- if section.settings.image != blank -%}
+      {%- if section.settings.show_builtin_video -%}
+        <div class="apx-hi__stage apx-hi__stage--video" data-ap-hi>
+          <span class="apx-hi__orbit apx-hi__orbit--a" aria-hidden="true"></span>
+          <span class="apx-hi__orbit apx-hi__orbit--b" aria-hidden="true"></span>
+          <div class="apx-hi__vid">
+            <video muted playsinline loop preload="metadata" poster="{{ 'ap-ingredient-video.jpg' | asset_url }}" aria-label="{{ section.settings.builtin_alt | escape }}" data-ap-hi-video>
+              <source src="{{ 'ap-ingredient-video.mp4' | asset_url }}" type="video/mp4">
+            </video>
+          </div>
+          <button type="button" class="apx-hi__pause" data-ap-hi-pause aria-pressed="false" aria-label="{{ 'ap.ingredient.pause' | t }}">
+            <svg class="apx-hi__i-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <svg class="apx-hi__i-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+          </button>
+          {%- if section.settings.chip1 != blank -%}<span class="apx-hi__chip apx-hi__chip--1" aria-hidden="true">{{ section.settings.chip1 }}</span>{%- endif -%}
+          {%- if section.settings.chip2 != blank -%}<span class="apx-hi__chip apx-hi__chip--2" aria-hidden="true">{{ section.settings.chip2 }}</span>{%- endif -%}
+          {%- if section.settings.video_note != blank -%}<span class="apx-hi__vnote">{{ section.settings.video_note }}</span>{%- endif -%}
+        </div>
+        <script src="{{ 'ap-ingredient.js' | asset_url }}" type="module"></script>
+      {%- elsif section.settings.image != blank -%}
         <div class="apx-hi__photo">
           {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 42vw, 90vw', alt: section.settings.image.alt | default: section.settings.ingredient }}
         </div>
@@ -86,9 +104,20 @@
   .apx-hi__chip--1{left:0;top:16%}
   .apx-hi__chip--2{right:0;bottom:14%;animation-delay:-3s}
 
+  /* built-in macro video: a round window with the orbit rings around it */
+  .apx-hi__vid{position:relative;width:62%;aspect-ratio:1;overflow:hidden;border-radius:50%;background:#2a2147;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),0 0 0 8px rgba(255,255,255,.1),0 0 0 9px rgba(249,93,117,.45),0 30px 70px rgba(0,0,0,.5);animation:apx-hi-breathe 8s ease-in-out infinite}
+  .apx-hi__vid video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 52%;transform:scale(1.12)}
+  .apx-hi__vid::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.22),transparent 45%)}
+  .apx-hi__pause{position:absolute;left:50%;bottom:6%;z-index:3;display:grid;place-items:center;width:44px;height:44px;margin-left:-22px;padding:0;border:1.5px solid rgba(255,255,255,.5);border-radius:50%;background:rgba(27,27,58,.65);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;cursor:pointer}
+  .apx-hi__pause:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .apx-hi__pause .apx-hi__i-play{display:none}
+  .apx-hi__pause[aria-pressed="true"] .apx-hi__i-pause{display:none}
+  .apx-hi__pause[aria-pressed="true"] .apx-hi__i-play{display:block}
+  .apx-hi__vnote{position:absolute;left:50%;bottom:-2%;transform:translateX(-50%);z-index:3;white-space:nowrap;padding:.25rem .7rem;border-radius:8px;background:rgba(27,27,58,.7);color:#E6E9F2;font-size:.6875rem;letter-spacing:.04em}
+  @media (max-width:520px){.apx-hi__vid{width:70%}.apx-hi__chip--1{top:8%}.apx-hi__chip--2{bottom:12%}}
   @media (min-width:990px){.apx-hi__grid{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
   @media (prefers-reduced-motion:reduce){
-    .apx-hi__h,.apx-hi__orbit,.apx-hi__patch,.apx-hi__drop,.apx-hi__chip{animation:none}
+    .apx-hi__h,.apx-hi__orbit,.apx-hi__patch,.apx-hi__drop,.apx-hi__chip,.apx-hi__vid{animation:none}
     .apx-hi__fill{animation:none;transform:scale(.7);opacity:.9}
     .apx-hi__drop{display:none}
   }
@@ -105,7 +134,10 @@
     { "type": "text", "id": "ingredient", "label": "Ingredient name", "default": "Hydrocolloid" },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "One ingredient. Nothing else to guess." },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Hydrocolloid is a soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered, so you can leave it alone." },
-    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Replaces the animated drawing. Upload only photos you own or have licensed." },
+    { "type": "checkbox", "id": "show_builtin_video", "label": "Use the built-in close-up video", "default": true, "info": "A short AI-generated close-up of a thin patch on skin (muted, loops, can be paused). It is an illustration, not a real customer. Turn off to use your own photo or the drawing." },
+    { "type": "text", "id": "video_note", "label": "Note under the video", "default": "AI-generated illustration" },
+    { "type": "text", "id": "builtin_alt", "label": "Video description", "default": "A close-up of a thin, clear round patch resting on skin" },
+    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Used when the built-in video is off. Replaces the animated drawing. Upload only photos you own or have licensed." },
     { "type": "text", "id": "chip1", "label": "Drawing chip 1", "default": "Takes in fluid" },
     { "type": "text", "id": "chip2", "label": "Drawing chip 2", "default": "Turns white when full" },
     { "type": "textarea", "id": "note", "label": "Small print (optional)", "default": "For surfaced spots only. See the pack for the full ingredient label." }

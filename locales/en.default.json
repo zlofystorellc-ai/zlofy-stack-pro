@@ -159,6 +159,9 @@
     "banner": {
       "pause": "Pause banner video",
       "play": "Play banner video"
+    },
+    "ingredient": {
+      "pause": "Pause or play the close-up video"
     }
   }
 }

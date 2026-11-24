@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.11.0
+- "How it works": a 3D feel. The video leans toward the mouse with depth (mouse only), the step cards swing in from the side in 3D, and a little 3D patch beside the video acts out the step you are on: drops fall (cleanse), it gets pressed with a ripple (press), it slowly turns white (wait), it peels off and a fresh one appears (swap). Its label shows the current step title. Everything stops for visitors who prefer reduced motion.
+
 ## 1.10.1
 - "How it works": a built-in how-to video (`assets/ap-how-video.mp4`, 20 s, audio removed, tap to play, never autoplays) with a "Demonstration video" note. It is AI-generated, not a real customer. Turn off "Use the built-in how-to video" in the section to use your own video or photo.
 

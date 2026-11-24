@@ -6,6 +6,7 @@ document.querySelectorAll('[data-ap-how]').forEach((sec) => {
   if (!list || !sec.classList.contains('apx-how--media')) return;
   const steps = Array.from(list.children);
   if (!steps.length) return;
+  const label = sec.querySelector('[data-ap-how-label]');
   let ticking = false;
 
   const update = () => {
@@ -22,6 +23,10 @@ document.querySelectorAll('[data-ap-how]').forEach((sec) => {
       if (d < best) { best = d; active = i; }
     });
     const inView = box.top < innerHeight && box.bottom > 0;
+    if (active >= 0) {
+      sec.dataset.step = String(active + 1);
+      if (label) label.textContent = (steps[active].querySelector('h3') || {}).textContent || '';
+    }
     steps.forEach((s, i) => {
       s.classList.toggle('is-active', inView && i === active);
       s.classList.toggle('is-done', inView && i < active);
@@ -32,3 +37,17 @@ document.querySelectorAll('[data-ap-how]').forEach((sec) => {
   addEventListener('resize', queue);
   update();
 });
+
+/* 3D tilt for the how-it-works video: it leans toward the mouse. Mouse only, never with reduced motion. */
+if (matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+  document.querySelectorAll('[data-ap-how]').forEach((sec) => {
+    const stage = sec.querySelector('.apx-how__stage');
+    if (!stage) return;
+    const set = (x, y) => { stage.style.setProperty('--ry', x.toFixed(3)); stage.style.setProperty('--rx', y.toFixed(3)); };
+    stage.addEventListener('pointermove', (e) => {
+      const r = stage.getBoundingClientRect();
+      set((e.clientX - r.left) / r.width * 2 - 1, (e.clientY - r.top) / r.height * 2 - 1);
+    });
+    stage.addEventListener('pointerleave', () => set(0, 0));
+  });
+}

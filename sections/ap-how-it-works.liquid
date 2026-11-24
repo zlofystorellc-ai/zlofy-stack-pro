@@ -1,5 +1,11 @@
 {%- comment -%} 4 steps as a timeline + optional how-to video + honest scope note. {%- endcomment -%}
-<section id="how" class="apx-how apx-section{% if section.settings.video != blank or section.settings.poster != blank %} apx-how--media{% endif %}" aria-labelledby="{{ section.id }}-title" data-ap-how>
+{%- liquid
+  assign has_media = false
+  if section.settings.show_builtin_video or section.settings.video != blank or section.settings.poster != blank
+    assign has_media = true
+  endif
+-%}
+<section id="how" class="apx-how apx-section{% if has_media %} apx-how--media{% endif %}" aria-labelledby="{{ section.id }}-title" data-ap-how>
   <div class="apx-wrap">
     <div class="apx-center apx-how__head">
       {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
@@ -7,10 +13,18 @@
       {%- if section.settings.subheading != blank -%}<p class="apx-how__sub">{{ section.settings.subheading }}</p>{%- endif -%}
     </div>
     <div class="apx-how__body">
-    {%- if section.settings.video != blank or section.settings.poster != blank -%}
+    {%- if has_media -%}
       <div class="apx-how__stage">
         <div class="apx-how__media" data-ap-media>
-          {%- if section.settings.video != blank -%}
+          {%- if section.settings.show_builtin_video -%}
+            <video class="apx-how__video" muted playsinline loop preload="none" poster="{{ 'ap-how-video.jpg' | asset_url }}" aria-label="{{ section.settings.builtin_alt | escape }}">
+              <source src="{{ 'ap-how-video.mp4' | asset_url }}" type="video/mp4">
+            </video>
+            <button type="button" class="apx-how__play" data-ap-media-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ section.settings.heading | escape }}">
+              <span class="apx-how__disc" aria-hidden="true"></span>
+              {%- if section.settings.media_caption != blank -%}<span class="apx-how__cap" aria-hidden="true">{{ section.settings.media_caption }}</span>{%- endif -%}
+            </button>
+          {%- elsif section.settings.video != blank -%}
             {{ section.settings.video | video_tag: image_size: '900x', controls: false, muted: true, playsinline: true, preload: 'none', loop: true, class: 'apx-how__video', poster: section.settings.poster | default: section.settings.video.preview_image }}
             <button type="button" class="apx-how__play" data-ap-media-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ section.settings.heading | escape }}">
               <span class="apx-how__disc" aria-hidden="true"></span>
@@ -20,6 +34,7 @@
             {{ section.settings.poster | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 40vw, 90vw', class: 'apx-how__video', alt: section.settings.poster.alt | default: section.settings.heading }}
           {%- endif -%}
         </div>
+        {%- if section.settings.show_builtin_video and section.settings.demo_note != blank -%}<p class="apx-how__demo">{{ section.settings.demo_note }}</p>{%- endif -%}
       </div>
     {%- endif -%}
     <ol class="apx-how__steps" data-ap-how-steps>
@@ -116,6 +131,7 @@
   }
   @media (prefers-reduced-motion:reduce){.apx-how__disc{animation:none}.apx-how--media .apx-how__steps::after{transition:none}.apx-how__card,.apx-how__num{transition:none}}
 
+  .apx-how__demo{position:relative;z-index:1;margin:12px 0 0;text-align:center;color:var(--ap-ink-soft);font-size:.8125rem}
   .apx-how__note{display:flex;gap:12px;align-items:flex-start;max-width:70ch;margin:clamp(32px,4vw,48px) auto 0;padding:16px 20px;border:1px solid rgba(31,42,68,.06);border-left:4px solid var(--ap-blush-deep);border-radius:0 16px 16px 0;background:var(--ap-white);font-size:.9375rem;line-height:1.55;box-shadow:0 8px 24px rgba(31,42,68,.05)}
   .apx-how__note-i{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#FFE9ED;color:var(--ap-blush-deep)}
 {% endstylesheet %}
@@ -129,6 +145,9 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Press. Wait. Peel. Swap." },
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Four simple steps, a few seconds of effort, and the patch does the rest." },
+    { "type": "checkbox", "id": "show_builtin_video", "label": "Use the built-in how-to video", "default": true, "info": "An AI-generated demonstration video (muted, tap to play). It is NOT a real customer. Turn this off to use your own video or photo below." },
+    { "type": "text", "id": "demo_note", "label": "Note under the built-in video", "default": "Demonstration video" },
+    { "type": "text", "id": "builtin_alt", "label": "Built-in video description", "default": "A short demonstration of washing the face, drying it, and pressing a patch onto a small spot" },
     { "type": "video", "id": "video", "label": "How-to video (optional)", "info": "Shopify-hosted. Shown beside the steps, muted, tap to play, never autoplays. Upload only videos you own." },
     { "type": "image_picker", "id": "poster", "label": "Video cover / photo (optional)", "info": "Used as the video cover, or as a photo if there is no video. Upload only images you own or have licensed." },
     { "type": "text", "id": "media_caption", "label": "Video button caption", "default": "Watch how it works" }

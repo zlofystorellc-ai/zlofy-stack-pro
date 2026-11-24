@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.10.1
+- "How it works": a built-in how-to video (`assets/ap-how-video.mp4`, 20 s, audio removed, tap to play, never autoplays) with a "Demonstration video" note. It is AI-generated, not a real customer. Turn off "Use the built-in how-to video" in the section to use your own video or photo.
+
 ## 1.10.0
 - "A spot's day" rewritten around real pain points: new eyebrow, a "Sound familiar?" row of everyday annoyances, a time tag on each photo (7:30 AM, 1:00 PM, 10:30 PM, 7:00 AM), new titles and text that describe exactly what each photo shows, and small labels above "The problem" and "What helps". All wording is editable in the section settings. Keep every line true for your product (especially the night patch line).
 

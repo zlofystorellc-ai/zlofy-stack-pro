@@ -169,8 +169,8 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
   }
   if (type === 'ap-before-after') {
     section.blocks.forEach((b, i) => {
-      b.settings.before = { key: i < 2 ? 'demo-ba-ready' : `v${[101, 103, 104][i % 3]}`, alt: 'Mock before photo' };
-      b.settings.after = { key: i < 2 ? 'demo-ba-worn' : `v${[102, 104, 101][i % 3]}`, alt: 'Mock after photo' };
+      b.settings.before = { key: i === 0 ? 'demo-ba-ready' : i === 1 ? 'demo-ba-twoready' : `v${[101, 103, 104][i % 3]}`, alt: 'Mock before photo' };
+      b.settings.after = { key: i === 0 ? 'demo-ba-worn' : i === 1 ? 'demo-ba-twoworn' : `v${[102, 104, 101][i % 3]}`, alt: 'Mock after photo' };
       if (!b.settings.caption) { b.settings.name = ['Customer A', 'Customer B', 'Customer C'][i % 3]; b.settings.caption = 'Mock caption'; }
     });
   }

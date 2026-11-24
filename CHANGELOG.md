@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.12.4
+- Before and after: second pair added in the preview (cropped to remove the AI watermark). Disclaimer now says plainly: AI-generated illustrations, not real customers and not real results.
+
 ## 1.12.3
 - "Before and after": two photo pairs side by side on laptops (centred, max 920 px), stacked on phones, with portrait 4:5 photo frames so faces are not cropped. A single pair is centred at a narrower width. Starting template has two pairs.
 

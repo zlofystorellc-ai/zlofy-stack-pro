@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.14.2
+- Home banner: the built-in video is replaced by a new 15 s clip (a face with a spot, then a close-up of a patch on it). Audio removed, 3.2 MB, new cover image. It is an AI-generated illustration, not a real customer.
+
 ## 1.14.1
 - Home "One ingredient": the dark navy background is now the site's soft blush-to-lilac gradient with drifting colour glows and floating patch dots. The three facts are white cards that take turns lighting up (with a progress line); hover, tap or keyboard focus holds one, and the ring around the video changes colour to match. Everything rises in one after another, the video leans toward the mouse on laptops, and all of it stops for visitors who prefer reduced motion.
 

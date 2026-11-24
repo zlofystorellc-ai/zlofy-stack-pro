@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.13.1
+- "Before and after": the dark navy background is replaced with the site's soft blush-to-lilac gradient. It has slowly drifting colour glows and little translucent patch dots that float up, and the glows move a little as you scroll. The headline lines rise in one by one. On laptops each photo card leans toward the mouse in 3D with a soft light following the pointer. Everything stops for visitors who prefer reduced motion.
+
 ## 1.13.0
 - "Before and after" is now interactive and more polished. Tap "Patch ready" or "Patch worn" to glide to that side, or drag / use the arrow keys. A pulsing handle and a "Drag" hint show it moves (hint disappears after the first touch), and each slider gives one gentle nudge when it scrolls into view. Soft entrance, hover lift on laptops, frosted labels, and a small "AI-generated illustration" badge on each photo (editable, clear it only for your own real photos). All extra motion is off for visitors who prefer reduced motion.
 

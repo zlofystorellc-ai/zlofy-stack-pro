@@ -43,6 +43,20 @@ function init(root) {
     }));
     paint();
 
+    // 3D tilt + soft light that follows the mouse (mouse only)
+    if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      item.addEventListener('pointermove', (e) => {
+        const r = stage.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        stage.style.setProperty('--ry', `${((x - 0.5) * 5).toFixed(2)}deg`);
+        stage.style.setProperty('--rx', `${((0.5 - y) * 4).toFixed(2)}deg`);
+        stage.style.setProperty('--gx', `${(x * 100).toFixed(1)}%`);
+        stage.style.setProperty('--gy', `${(y * 100).toFixed(1)}%`);
+      });
+      item.addEventListener('pointerleave', () => { stage.style.setProperty('--rx', '0deg'); stage.style.setProperty('--ry', '0deg'); });
+    }
+
     // one gentle nudge when half of it is on screen, so people see it moves
     if (!reduce && 'IntersectionObserver' in window) {
       const io = new IntersectionObserver((es) => {
@@ -69,6 +83,16 @@ function init(root) {
     }, { threshold: 0.15 });
     io.observe(sec);
     setTimeout(() => sec.classList.add('is-in'), 5000);
+    // background drifts a little as you scroll
+    let tick = false;
+    const sp = () => {
+      tick = false;
+      const r = sec.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height)));
+      sec.style.setProperty('--sp', p.toFixed(3));
+    };
+    addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(sp); } }, { passive: true });
+    sp();
   });
 }
 init(document);

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.13.0
+- "Before and after" is now interactive and more polished. Tap "Patch ready" or "Patch worn" to glide to that side, or drag / use the arrow keys. A pulsing handle and a "Drag" hint show it moves (hint disappears after the first touch), and each slider gives one gentle nudge when it scrolls into view. Soft entrance, hover lift on laptops, frosted labels, and a small "AI-generated illustration" badge on each photo (editable, clear it only for your own real photos). All extra motion is off for visitors who prefer reduced motion.
+
 ## 1.12.4
 - Before and after: second pair added in the preview (cropped to remove the AI watermark). Disclaimer now says plainly: AI-generated illustrations, not real customers and not real results.
 

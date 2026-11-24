@@ -142,7 +142,8 @@
     "before_after": {
       "before": "Patch ready",
       "after": "Patch worn",
-      "slider": "Compare the patch before and after wearing"
+      "slider": "Compare the patch before and after wearing",
+      "drag": "Drag"
     },
     "kit": {
       "quantity": "Quantity:",

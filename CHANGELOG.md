@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.12.1
+- "How it works" video: a 6-second clip showing a used patch being peeled off and a fresh one shown beside it is added to the end, so all four steps are now covered (26 s, audio removed, 5.5 MB). AI-generated demonstration, not a real customer.
+
 ## 1.12.0
 - Product page "What the patch is made of" (Ingredients): defaults now match the one-ingredient story (Hydrocolloid only; no unverified "breathable film" or "skin-friendly adhesive" claims). New optional trust fields, all hidden until filled: facts at a glance (diameter, thickness, patches per kit, wear time), where it is made, a link to a real test report, and three short questions (patch test, what if it will not stick, where to see the full list). Built-in demonstration photo (used patch beside a fresh one) with a caption; AI-generated, not a real customer. The ingredient label must match your real pack.
 

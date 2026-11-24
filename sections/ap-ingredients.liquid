@@ -20,7 +20,12 @@
   <div class="apx-wrap">
     <div class="apx-ing__split">
       <div class="apx-ing__visual">
-        {%- if section.settings.image != blank -%}
+        {%- if section.settings.show_builtin_photo -%}
+          <figure class="apx-ing__fig">
+            <div class="apx-ing__photo"><img src="{{ 'ap-card-swap.jpg' | asset_url }}" alt="{{ section.settings.builtin_alt | escape }}" width="738" height="1100" loading="lazy"></div>
+            {%- if section.settings.photo_caption != blank -%}<figcaption class="apx-ing__cap">{{ section.settings.photo_caption }}</figcaption>{%- endif -%}
+          </figure>
+        {%- elsif section.settings.image != blank -%}
           <div class="apx-ing__photo">
             {{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000', sizes: '(min-width: 900px) 45vw, 90vw', alt: section.settings.image.alt | default: section.settings.heading }}
           </div>
@@ -60,6 +65,28 @@
       </div>
     </div>
 
+    {%- liquid
+      assign spec_keys = '1,2,3,4' | split: ','
+      assign has_specs = false
+      for k in spec_keys
+        assign vk = 'spec_' | append: k | append: '_value'
+        if section.settings[vk] != blank
+          assign has_specs = true
+        endif
+      endfor
+    -%}
+    {%- if has_specs -%}
+      <dl class="apx-ing__specs">
+        {%- for k in spec_keys -%}
+          {%- assign vk = 'spec_' | append: k | append: '_value' -%}
+          {%- assign lk = 'spec_' | append: k | append: '_label' -%}
+          {%- if section.settings[vk] != blank -%}
+            <div class="apx-ing__spec"><dd>{{ section.settings[vk] }}</dd><dt>{{ section.settings[lk] }}</dt></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </dl>
+    {%- endif -%}
+
     {%- if full_list != blank -%}
       <div class="apx-ing__label">
         <p class="apx-ing__label-t">{{ section.settings.full_list_title }}</p>
@@ -79,6 +106,36 @@
             {%- endfor -%}
           </ul>
         {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.made_in != blank or section.settings.report_link != blank -%}
+      <div class="apx-ing__proof">
+        {%- if section.settings.made_in != blank -%}<p class="apx-ing__made">{% render 'ap-icon', name: 'check', size: 18 %}<span>{{ section.settings.made_in }}</span></p>{%- endif -%}
+        {%- if section.settings.report_link != blank -%}<a class="apx-ing__report" href="{{ section.settings.report_link }}" target="_blank" rel="noopener">{{ section.settings.report_label | default: 'View the test report' }} <span aria-hidden="true">&rarr;</span></a>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- liquid
+      assign faq_keys = '1,2,3' | split: ','
+      assign has_faq = false
+      for k in faq_keys
+        assign qk = 'faq_' | append: k | append: '_q'
+        if section.settings[qk] != blank
+          assign has_faq = true
+        endif
+      endfor
+    -%}
+    {%- if has_faq -%}
+      <div class="apx-ing__faq">
+        {%- if section.settings.faq_title != blank -%}<h3 class="apx-ing__faq-t">{{ section.settings.faq_title }}</h3>{%- endif -%}
+        {%- for k in faq_keys -%}
+          {%- assign qk = 'faq_' | append: k | append: '_q' -%}
+          {%- assign ak = 'faq_' | append: k | append: '_a' -%}
+          {%- if section.settings[qk] != blank -%}
+            <details class="apx-ing__q"><summary>{{ section.settings[qk] }}</summary><p>{{ section.settings[ak] }}</p></details>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
     {%- endif -%}
 
@@ -128,6 +185,24 @@
   .apx-ing__label-b p{margin:0}
   .apx-ing__free{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none}
   .apx-ing__free li{padding:.35rem .8rem;border:1px solid var(--ap-line);border-radius:999px;background:var(--ap-sand);color:var(--ap-blush-deep);font-size:.8125rem;font-weight:700}
+  .apx-ing__fig{margin:0}
+  .apx-ing__cap{margin:10px 0 0;text-align:center;color:var(--ap-ink-soft);font-size:.8125rem}
+  .apx-ing__specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;max-width:860px;margin:clamp(28px,4vw,44px) auto 0}
+  .apx-ing__spec{padding:16px;border:1px solid var(--ap-line);border-radius:18px;background:var(--ap-white);text-align:center;box-shadow:0 8px 22px rgba(31,42,68,.05)}
+  .apx-ing__spec dd{margin:0;font-family:var(--ap-font-display);font-size:1.75rem;line-height:1.1;color:var(--ap-ink)}
+  .apx-ing__spec dt{margin:.25rem 0 0;color:var(--ap-ink-soft);font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .apx-ing__proof{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 28px;max-width:860px;margin:22px auto 0}
+  .apx-ing__made{display:inline-flex;align-items:center;gap:.5rem;margin:0;font-weight:700}
+  .apx-ing__made .apx-icon{color:var(--ap-blush-deep)}
+  .apx-ing__report{color:var(--ap-blush-deep);font-weight:800;text-decoration:none;border-bottom:2px solid var(--ap-blush)}
+  .apx-ing__faq{max-width:860px;margin:clamp(24px,3vw,40px) auto 0}
+  .apx-ing__faq-t{margin:0 0 10px;text-align:center;font-size:1.25rem}
+  .apx-ing__q{border-bottom:1px solid var(--ap-line)}
+  .apx-ing__q summary{cursor:pointer;padding:14px 4px;font-weight:700;list-style:none}
+  .apx-ing__q summary::-webkit-details-marker{display:none}
+  .apx-ing__q summary::after{content:"+";float:right;color:var(--ap-blush-deep);font-weight:800}
+  .apx-ing__q[open] summary::after{content:"\2212"}
+  .apx-ing__q p{margin:0 0 14px;padding:0 4px;color:var(--ap-ink-soft);line-height:1.6}
   .apx-ing__note{margin-top:14px}
   @media (min-width:900px){.apx-ing__split{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:72px}}
   @media (prefers-reduced-motion:reduce){.apx-stack__layer{transition:none}}
@@ -146,9 +221,12 @@
       "type": "textarea",
       "id": "text",
       "label": "Intro",
-      "default": "Three thin layers, each with one job: cover the spot, keep it protected and stay put."
+      "default": "What is in the patch, in plain words. The full label is below, exactly as printed on the pack."
     },
-    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Optional. When set, your photo replaces the layer drawing. Upload only images you own or have licensed." },
+    { "type": "checkbox", "id": "show_builtin_photo", "label": "Show the built-in demonstration photo", "default": true, "info": "An AI-generated photo of a used patch (white in the middle) beside a fresh one. It is NOT a real customer. Turn off to use your own photo or the layer drawing." },
+    { "type": "text", "id": "photo_caption", "label": "Photo caption", "default": "Demonstration photo" },
+    { "type": "text", "id": "builtin_alt", "label": "Built-in photo description", "default": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip" },
+    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Optional. When set (and the built-in photo is off), your photo replaces the layer drawing. Upload only images you own or have licensed." },
     { "type": "text", "id": "full_list_title", "label": "Label title", "default": "Ingredients" },
     { "type": "textarea", "id": "free_from", "label": "Free from (optional, one per line)", "info": "Only list what is true and documented for your formula. Leave empty to hide." },
     { "type": "text", "id": "free_title", "label": "Free-from label (screen readers)", "default": "Free from" },
@@ -158,6 +236,27 @@
       "label": "Full ingredient list",
       "info": "Used when the product metafield custom.ingredients is empty. Must match the label on your pack, in the same order."
     },
+    { "type": "header", "content": "Facts at a glance (hidden when empty)" },
+    { "type": "text", "id": "spec_1_value", "label": "Fact 1 value", "info": "Only numbers you measured or your supplier confirmed, for example \"6 mm\"." },
+    { "type": "text", "id": "spec_1_label", "label": "Fact 1 label", "default": "Diameter" },
+    { "type": "text", "id": "spec_2_value", "label": "Fact 2 value" },
+    { "type": "text", "id": "spec_2_label", "label": "Fact 2 label", "default": "Thickness" },
+    { "type": "text", "id": "spec_3_value", "label": "Fact 3 value" },
+    { "type": "text", "id": "spec_3_label", "label": "Fact 3 label", "default": "Patches per kit" },
+    { "type": "text", "id": "spec_4_value", "label": "Fact 4 value" },
+    { "type": "text", "id": "spec_4_label", "label": "Fact 4 label", "default": "Wear time" },
+    { "type": "header", "content": "Proof (hidden when empty)" },
+    { "type": "text", "id": "made_in", "label": "Where it is made and packed", "info": "Only if true, for example \"Made in ___, packed in the USA\"." },
+    { "type": "url", "id": "report_link", "label": "Test report or safety document link", "info": "Link to a real document from your supplier or lab. Leave empty to hide." },
+    { "type": "text", "id": "report_label", "label": "Link text", "default": "View the test report" },
+    { "type": "header", "content": "Questions (hidden when empty)" },
+    { "type": "text", "id": "faq_title", "label": "Questions heading", "default": "Good to know" },
+    { "type": "text", "id": "faq_1_q", "label": "Question 1", "default": "Should I patch test first?" },
+    { "type": "textarea", "id": "faq_1_a", "label": "Answer 1", "default": "If your skin is sensitive, try one patch on a small area first. Stop using it and ask a doctor if you notice irritation." },
+    { "type": "text", "id": "faq_2_q", "label": "Question 2", "default": "What if it will not stick?" },
+    { "type": "textarea", "id": "faq_2_a", "label": "Answer 2", "default": "Patches stick best to clean, dry skin. Wash and pat dry, then press the patch on from the center out. Skip creams or oils on the spot first." },
+    { "type": "text", "id": "faq_3_q", "label": "Question 3", "default": "Where can I see the full ingredient list?" },
+    { "type": "textarea", "id": "faq_3_a", "label": "Answer 3", "default": "It is printed on the pack and shown above. The two always match." },
     { "type": "text", "id": "note", "label": "Small print (optional)", "default": "For external use only. Check the label on your pack." }
   ],
   "blocks": [
@@ -176,9 +275,7 @@
     {
       "name": "Ingredients",
       "blocks": [
-        { "type": "ingredient", "settings": { "name": "Hydrocolloid layer", "note": "A soft, flexible layer that sits on the skin and covers the spot." } },
-        { "type": "ingredient", "settings": { "name": "Breathable film", "note": "A thin outer film that keeps the patch smooth and in place." } },
-        { "type": "ingredient", "settings": { "name": "Skin-friendly adhesive", "note": "Holds the patch on until you peel it off." } }
+        { "type": "ingredient", "settings": { "name": "Hydrocolloid", "note": "A soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered." } }
       ]
     }
   ]

@@ -388,56 +388,6 @@
         "pair_2"
       ]
     },
-    "comparison": {
-      "type": "ap-comparison",
-      "blocks": {
-        "row_1": {
-          "type": "row",
-          "settings": {
-            "feature": "Day and night formats in one kit",
-            "brand_value": "yes",
-            "other_value": "Varies"
-          }
-        },
-        "row_2": {
-          "type": "row",
-          "settings": {
-            "feature": "Several sizes in one kit",
-            "brand_value": "yes",
-            "other_value": "Varies"
-          }
-        },
-        "row_3": {
-          "type": "row",
-          "settings": {
-            "feature": "Refill pouch available",
-            "brand_value": "yes",
-            "other_value": "Varies"
-          }
-        },
-        "row_4": {
-          "type": "row",
-          "settings": {
-            "feature": "Subscribe and save",
-            "brand_value": "yes",
-            "other_value": "Varies"
-          }
-        },
-        "price_per_patch_5": {
-          "type": "price_per_patch",
-          "settings": {
-            "other_value": "Varies"
-          }
-        }
-      },
-      "block_order": [
-        "row_1",
-        "row_2",
-        "row_3",
-        "row_4",
-        "price_per_patch_5"
-      ]
-    },
     "globe": {
       "type": "ap-us-globe"
     },
@@ -633,7 +583,6 @@
     "how",
     "ingredients",
     "beforeafter",
-    "comparison",
     "globe",
     "reviews",
     "founder",

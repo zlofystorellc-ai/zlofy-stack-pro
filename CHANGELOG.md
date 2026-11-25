@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.3
+- Product page: the "ZLOFY vs typical single-type patches" comparison section is removed from the starting template (its file `sections/ap-comparison.liquid` is kept).
+
 ## 2.13.2
 - Product page photo card is now vertical (portrait 4:5) on laptops and phones instead of a square or wide box (520 x 650 px on a laptop). Photos fill the card; the "Day + Night Duo" chip and "+ Inspect" zoom stay on it.
 

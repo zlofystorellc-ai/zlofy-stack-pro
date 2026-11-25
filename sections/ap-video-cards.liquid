@@ -1,10 +1,11 @@
 {%- comment -%}
-  Video cards: a swipeable row of tall cards (poster or short video) with a name and a short label,
-  plus a stats row underneath. Cards render as empty tinted slots until you add your own media.
-  Use ONLY real customers/people who gave permission, and only videos and photos you own or have licensed.
-  Do not use celebrity or expert names, titles or quotes unless you have a signed agreement.
+  Video cards: a swipeable filmstrip of tall cards. The card in the middle plays by itself (muted, looping) and grows a little;
+  tap any card to play or pause it. Cards can use the built-in demonstration clips (AI-generated, labelled as such) or your own video / photo.
+  Use only your own media or media you have licensed. If you add clips of customers, you need their written permission, and only then
+  may you call them customers. Do not use celebrity or expert names, titles or quotes without a signed agreement.
 {%- endcomment -%}
 <section class="apx-vc apx-section" aria-labelledby="{{ section.id }}-title" data-ap-vc>
+  <div class="apx-vc__bg" aria-hidden="true"><i class="apx-vc__blob apx-vc__blob--1"></i><i class="apx-vc__blob apx-vc__blob--2"></i></div>
   <div class="apx-vc__head">
     {%- if section.settings.eyebrow != blank -%}<p class="apx-vc__pill">{{ section.settings.eyebrow }}</p>{%- endif -%}
     <h2 class="apx-vc__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
@@ -13,27 +14,59 @@
 
   {%- assign cards = section.blocks | where: 'type', 'card' -%}
   {%- if cards.size > 0 -%}
-    <div class="apx-vc__nav" data-ap-vc-nav hidden>
-      <button type="button" class="apx-vc__arrow" data-ap-vc-prev aria-label="{{ 'ap.video_cards.prev' | t }}"><span aria-hidden="true">&larr;</span></button>
-      <button type="button" class="apx-vc__arrow" data-ap-vc-next aria-label="{{ 'ap.video_cards.next' | t }}"><span aria-hidden="true">&rarr;</span></button>
-    </div>
-    <div class="apx-vc__row" role="region" aria-label="{{ section.settings.heading | escape }}" tabindex="0">
-      {%- for block in cards -%}
-        <article class="apx-vc__card" {{ block.shopify_attributes }}>
-          {%- if block.settings.video != blank -%}
-            {{ block.settings.video | video_tag: image_size: '720x', autoplay: false, loop: true, muted: true, controls: false, preload: 'none', playsinline: true, class: 'apx-vc__media', data-ap-vc-video: true }}
-          {%- elsif block.settings.poster != blank -%}
-            {{ block.settings.poster | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360, 540, 720', sizes: '(min-width: 990px) 25vw, 78vw', class: 'apx-vc__media', alt: block.settings.poster.alt | default: block.settings.name }}
-          {%- endif -%}
-          {%- if block.settings.video != blank -%}
-            <button type="button" class="apx-vc__play" data-ap-vc-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ block.settings.name | escape }}"><span aria-hidden="true"></span></button>
-          {%- endif -%}
-          <div class="apx-vc__cap">
-            {%- if block.settings.name != blank -%}<p class="apx-vc__name">{{ block.settings.name }}</p>{%- endif -%}
-            {%- if block.settings.role != blank -%}<p class="apx-vc__role">{{ block.settings.role }}</p>{%- endif -%}
-          </div>
-        </article>
-      {%- endfor -%}
+    <div class="apx-vc__stage">
+      <div class="apx-vc__row" role="region" aria-label="{{ section.settings.heading | escape }}" tabindex="0" data-ap-vc-row>
+        {%- for block in cards -%}
+          {%- liquid
+            assign src = ''
+            assign poster = ''
+            case block.settings.builtin
+              when 'how'
+                assign src = 'ap-how-video.mp4'
+                assign poster = 'ap-how-video.jpg'
+              when 'banner'
+                assign src = 'ap-banner-video.mp4'
+                assign poster = 'ap-banner-video.jpg'
+              when 'macro'
+                assign src = 'ap-ingredient-video.mp4'
+                assign poster = 'ap-ingredient-video.jpg'
+              when 'cutaway'
+                assign src = 'ap-ingredient-label-video.mp4'
+                assign poster = 'ap-ingredient-label-video.jpg'
+            endcase
+            assign has_video = false
+            if src != blank or block.settings.video != blank
+              assign has_video = true
+            endif
+          -%}
+          <article class="apx-vc__card" data-i="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            {%- if src != blank -%}
+              <img class="apx-vc__media apx-vc__poster" src="{{ poster | asset_url }}" alt="" loading="lazy" width="720" height="1280">
+              <video class="apx-vc__media" muted loop playsinline preload="none" poster="{{ poster | asset_url }}" aria-label="{{ block.settings.alt | default: block.settings.name | escape }}" data-ap-vc-video>
+                <source src="{{ src | asset_url }}" type="video/mp4">
+              </video>
+            {%- elsif block.settings.video != blank -%}
+              {{ block.settings.video | video_tag: image_size: '720x', autoplay: false, loop: true, muted: true, controls: false, preload: 'none', playsinline: true, class: 'apx-vc__media', data-ap-vc-video: true }}
+            {%- elsif block.settings.poster != blank -%}
+              {{ block.settings.poster | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360, 540, 720', sizes: '(min-width: 990px) 25vw, 78vw', class: 'apx-vc__media', alt: block.settings.poster.alt | default: block.settings.name }}
+            {%- endif -%}
+            <span class="apx-vc__tag"><b>{{ forloop.index | prepend: '0' }}</b>{%- if block.settings.tag != blank -%}<span>{{ block.settings.tag }}</span>{%- endif -%}</span>
+            {%- if has_video -%}
+              <button type="button" class="apx-vc__play" data-ap-vc-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ block.settings.name | escape }}"><span aria-hidden="true"></span></button>
+              <i class="apx-vc__bar" aria-hidden="true"><b></b></i>
+            {%- endif -%}
+            <div class="apx-vc__cap">
+              {%- if block.settings.name != blank -%}<p class="apx-vc__name">{{ block.settings.name }}</p>{%- endif -%}
+              {%- if block.settings.role != blank -%}<p class="apx-vc__role">{{ block.settings.role }}</p>{%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+      <div class="apx-vc__ctl">
+        <button type="button" class="apx-vc__arrow" data-ap-vc-prev aria-label="{{ 'ap.video_cards.prev' | t }}"><span aria-hidden="true">&larr;</span></button>
+        <div class="apx-vc__dots" data-ap-vc-dots aria-hidden="true"></div>
+        <button type="button" class="apx-vc__arrow" data-ap-vc-next aria-label="{{ 'ap.video_cards.next' | t }}"><span aria-hidden="true">&rarr;</span></button>
+      </div>
     </div>
   {%- endif -%}
 
@@ -49,35 +82,56 @@
 <script src="{{ 'ap-video-cards.js' | asset_url }}" type="module"></script>
 
 {% stylesheet %}
-  .apx-vc{padding-block:clamp(48px,6vw,88px);background:var(--ap-ink);color:var(--ap-white);overflow:hidden}
-  .apx-vc__head{display:flex;flex-direction:column;align-items:center;max-width:900px;margin-inline:auto;padding-inline:var(--ap-gutter);text-align:center}
-  .apx-vc__pill{margin:0;padding:.55rem 1.4rem;border:1px solid transparent;border-radius:999px;background:var(--ap-butter);color:var(--ap-ink);font-size:.8125rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-  .apx-vc__h{margin:20px 0 0;color:var(--ap-white);font-size:clamp(2rem,4.2vw,3.5rem);font-weight:500;line-height:1.15}
-  .apx-vc__sub{margin:16px 0 0;color:#F5E6E8;font-size:.9375rem}
-  .apx-vc__nav{display:flex;justify-content:flex-end;gap:10px;max-width:1400px;margin:28px auto 0;padding-inline:var(--ap-gutter)}
-  .apx-vc__nav[hidden]{display:none}
-  .apx-vc__arrow{display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--ap-white);border-radius:50%;background:transparent;color:var(--ap-white);font-size:1.25rem;cursor:pointer}
-  .apx-vc__arrow:disabled{opacity:.35;cursor:default}
-  .apx-vc__arrow:focus-visible{outline:3px solid var(--ap-white);outline-offset:2px}
-  .apx-vc__row{display:flex;gap:14px;margin-top:16px;padding-inline:var(--ap-gutter);overflow-x:auto;scroll-behavior:smooth;scroll-padding-inline:var(--ap-gutter);scroll-snap-type:x mandatory;scrollbar-width:none}
+  .apx-vc{position:relative;padding-block:clamp(52px,7vw,104px);background:linear-gradient(180deg,#2A0A11 0%,#3A0E18 55%,#2A0A11 100%);color:#fff;overflow:hidden}
+  .apx-vc__bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .apx-vc__blob{position:absolute;border-radius:50%;filter:blur(90px);animation:apx-vc-drift 20s ease-in-out infinite alternate}
+  .apx-vc__blob--1{width:520px;height:520px;left:-160px;top:6%;background:#B4566A;opacity:.3}
+  .apx-vc__blob--2{width:560px;height:560px;right:-180px;bottom:2%;background:#E9CED4;opacity:.16;animation-delay:-8s}
+  @keyframes apx-vc-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(50px,40px,0)}}
+  .apx-vc__head{position:relative;display:flex;flex-direction:column;align-items:center;max-width:900px;margin-inline:auto;padding-inline:var(--ap-gutter);text-align:center}
+  .apx-vc__pill{margin:0;padding:.55rem 1.4rem;border:1px solid rgba(233,201,165,.5);border-radius:999px;color:#E9C9A5;font-size:.8125rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+  .apx-vc__h{margin:22px 0 0;color:#fff;font-family:var(--ap-font-display);font-size:clamp(2.2rem,5vw,4rem);font-weight:400;line-height:1.08;letter-spacing:-.01em}
+  .apx-vc__sub{margin:16px 0 0;color:#E8D3D6;font-size:1rem}
+  .apx-vc__stage{position:relative;margin-top:clamp(28px,4vw,52px)}
+  .apx-vc__row{position:relative;display:flex;gap:18px;padding-block:28px;padding-inline:calc(50% - min(39vw,170px));overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;perspective:1200px}
   .apx-vc__row::-webkit-scrollbar{display:none}
-  .apx-vc__row:focus-visible{outline:3px solid var(--ap-white);outline-offset:-3px}
-  .apx-vc__card{position:relative;flex:none;width:min(78vw,340px);aspect-ratio:489/540;scroll-snap-align:start;overflow:hidden;border:1px solid var(--ap-line);border-radius:24px;background:linear-gradient(160deg,var(--ap-sand),#E4B6C0);color:var(--ap-white)}
+  .apx-vc__row:focus-visible{outline:3px solid #fff;outline-offset:-3px}
+  .apx-vc__card{position:relative;flex:none;width:min(78vw,340px);aspect-ratio:9/15;scroll-snap-align:center;overflow:hidden;border-radius:30px;background:linear-gradient(160deg,#5A1B28,#2A0A11);color:#fff;box-shadow:0 24px 50px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.14);transform:scale(.9) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));opacity:.62;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .5s ease,box-shadow .5s ease}
+  .apx-vc__card.is-active{transform:scale(1) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));opacity:1;box-shadow:0 34px 70px rgba(0,0,0,.55),0 0 0 1px rgba(233,201,165,.55),0 0 60px rgba(180,86,106,.35)}
   .apx-vc__media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .apx-vc__card::after{content:"";position:absolute;inset:auto 0 0;height:55%;background:linear-gradient(to top,rgba(59,10,20,.78),transparent);pointer-events:none}
-  .apx-vc__cap{position:absolute;inset:auto 0 0;z-index:2;padding:0 24px 24px}
-  .apx-vc__name{margin:0;font-size:1.375rem;font-weight:600;line-height:1.2}
-  .apx-vc__role{margin:4px 0 0;font-size:.9375rem}
-  .apx-vc__play{position:absolute;inset:0;z-index:1;display:grid;place-items:center;border:0;background:transparent;cursor:pointer}
-  .apx-vc__play span{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.92);position:relative}
-  .apx-vc__play span::before{content:"";position:absolute;left:24px;top:19px;border-left:17px solid var(--ap-blush-deep);border-block:11px solid transparent}
-  .apx-vc__play[aria-pressed="true"] span{opacity:0;transition:opacity .2s}
-  .apx-vc__play:focus-visible span{outline:3px solid var(--ap-white);box-shadow:0 0 0 6px var(--ap-ink)}
-  .apx-vc__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:24px;max-width:760px;margin:clamp(32px,5vw,64px) auto 0;padding:clamp(28px,4vw,48px) var(--ap-gutter) 0;border-top:1px solid rgba(255,255,255,.2);list-style:none;text-align:center}
-  .apx-vc__sn{display:block;color:var(--ap-butter);font-family:var(--ap-font-display);font-size:clamp(2rem,4vw,3rem);font-weight:500;line-height:1.1}
-  .apx-vc__sl{display:block;margin-top:8px;color:var(--ap-lilac);font-size:.75rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
-  @media (min-width:990px){.apx-vc__card{width:max(280px,26vw)}}
-  @media (prefers-reduced-motion:reduce){.apx-vc__row{scroll-behavior:auto}}
+  .apx-vc__poster{z-index:0}
+  video.apx-vc__media{z-index:0;opacity:0;transition:opacity .4s ease}
+  .apx-vc__card.is-playing video.apx-vc__media{opacity:1}
+  .apx-vc__card::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,rgba(42,10,17,.4),transparent 24%,transparent 52%,rgba(42,10,17,.88))}
+  .apx-vc__tag{position:absolute;left:16px;top:16px;z-index:3;display:inline-flex;align-items:center;gap:8px;padding:.4rem .8rem;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(42,10,17,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:.75rem;letter-spacing:.06em}
+  .apx-vc__tag b{font-weight:800;color:#E9C9A5}
+  .apx-vc__cap{position:absolute;inset:auto 0 0;z-index:3;padding:0 22px 26px;pointer-events:none}
+  .apx-vc__name{margin:0;font-family:var(--ap-font-display);font-size:1.75rem;font-weight:400;line-height:1.1}
+  .apx-vc__role{margin:8px 0 0;font-size:.9375rem;line-height:1.45;color:#E8D3D6}
+  .apx-vc__play{position:absolute;inset:0;z-index:2;display:grid;place-items:center;border:0;background:transparent;cursor:pointer}
+  .apx-vc__play span{position:relative;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 10px 26px rgba(0,0,0,.35);transition:opacity .25s,transform .25s}
+  .apx-vc__play span::before{content:"";position:absolute;left:25px;top:20px;border-left:18px solid #6E1423;border-block:12px solid transparent}
+  .apx-vc__play span::after{content:"";position:absolute;inset:-9px;border:1.5px solid rgba(255,255,255,.4);border-radius:50%;animation:apx-vc-ping 2.4s ease-out infinite}
+  @keyframes apx-vc-ping{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.35);opacity:0}}
+  .apx-vc__card.is-playing .apx-vc__play span{opacity:0;transform:scale(.8)}
+  .apx-vc__card.is-playing .apx-vc__play:hover span,.apx-vc__card.is-playing .apx-vc__play:focus-visible span{opacity:.9;transform:none}
+  .apx-vc__play:focus-visible span{outline:3px solid #fff;outline-offset:4px}
+  .apx-vc__bar{position:absolute;left:0;right:0;bottom:0;z-index:4;height:4px;background:rgba(255,255,255,.18)}
+  .apx-vc__bar b{display:block;height:100%;width:0;background:linear-gradient(90deg,#E4A3B1,#E9C9A5)}
+  .apx-vc__ctl{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px}
+  .apx-vc__arrow{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(255,255,255,.06);color:#fff;font-size:1.25rem;cursor:pointer;transition:background .2s}
+  .apx-vc__arrow:hover:not(:disabled){background:rgba(255,255,255,.18)}
+  .apx-vc__arrow:disabled{opacity:.35;cursor:default}
+  .apx-vc__arrow:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .apx-vc__dots{display:flex;gap:8px;align-items:center}
+  .apx-vc__dots i{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.35);transition:width .3s,background .3s}
+  .apx-vc__dots i.is-on{width:28px;background:#E9C9A5}
+  .apx-vc__stats{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;max-width:840px;margin:clamp(28px,4vw,56px) auto 0;padding:0 var(--ap-gutter);list-style:none;text-align:center}
+  .apx-vc__stats li{padding:22px 12px;border:1px solid rgba(255,255,255,.14);border-radius:20px;background:rgba(255,255,255,.05)}
+  .apx-vc__sn{display:block;color:#E9C9A5;font-family:var(--ap-font-display);font-size:clamp(2rem,4vw,2.9rem);font-weight:400;line-height:1.1}
+  .apx-vc__sl{display:block;margin-top:8px;color:#E8D3D6;font-size:.75rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+  @media (min-width:990px){.apx-vc__card{width:min(26vw,340px)}.apx-vc__row{padding-inline:calc(50% - min(13vw,170px))}}
+  @media (prefers-reduced-motion:reduce){.apx-vc__row{scroll-behavior:auto}.apx-vc__blob,.apx-vc__play span::after{animation:none}.apx-vc__card,video.apx-vc__media{transition:none}}
 {% endstylesheet %}
 
 {% schema %}
@@ -86,10 +140,10 @@
   "tag": "div",
   "enabled_on": { "templates": ["product", "index"] },
   "settings": [
-    { "type": "paragraph", "content": "Cards stay as empty tinted slots until you add your own poster or video. Use only real people who gave permission and media you own or have licensed." },
-    { "type": "text", "id": "eyebrow", "label": "Pill label", "default": "Real routines" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "See how people use their patches" },
-    { "type": "text", "id": "subtext", "label": "Small line", "default": "Add your own customer clips below." }
+    { "type": "paragraph", "content": "A filmstrip of video cards. The built-in clips are AI-generated demonstrations, not customers, and are labelled so. If you add clips of real customers you need their written permission." },
+    { "type": "text", "id": "eyebrow", "label": "Pill label", "default": "In motion" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "See it in action" },
+    { "type": "text", "id": "subtext", "label": "Small line", "default": "Short demonstration clips. AI-generated, not customers." }
   ],
   "blocks": [
     {
@@ -97,10 +151,15 @@
       "name": "Video card",
       "limit": 8,
       "settings": [
-        { "type": "video", "id": "video", "label": "Video (optional)", "info": "Shopify-hosted video. Plays on tap, muted." },
-        { "type": "image_picker", "id": "poster", "label": "Image (used when no video)" },
-        { "type": "text", "id": "name", "label": "Name", "default": "First name" },
-        { "type": "text", "id": "role", "label": "Short label", "default": "Customer" }
+        { "type": "select", "id": "builtin", "label": "Built-in demonstration clip", "default": "none", "info": "AI-generated clips that come with the theme. Choose None to use your own video or image below.", "options": [
+          { "value": "none", "label": "None (use my own)" }, { "value": "how", "label": "Press, wait, peel" }, { "value": "banner", "label": "Spot, then close-up" },
+          { "value": "macro", "label": "Patch close-up" }, { "value": "cutaway", "label": "Patch cutaway" } ] },
+        { "type": "text", "id": "alt", "label": "Video description (for screen readers)" },
+        { "type": "video", "id": "video", "label": "Your own video (optional)", "info": "Shopify-hosted video. Plays muted." },
+        { "type": "image_picker", "id": "poster", "label": "Your own image (used when no video)" },
+        { "type": "text", "id": "tag", "label": "Small tag", "default": "Demonstration" },
+        { "type": "text", "id": "name", "label": "Title", "default": "Title" },
+        { "type": "text", "id": "role", "label": "Short line", "default": "" }
       ]
     },
     {
@@ -117,11 +176,13 @@
     {
       "name": "Video cards",
       "blocks": [
-        { "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" },
-        { "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" },
+        { "type": "card", "settings": { "builtin": "how", "alt": "A short demonstration of washing the face, drying it, and pressing a patch onto a small spot", "tag": "Demonstration", "name": "Press, wait, peel", "role": "Clean, dry, press on, then peel and swap." } },
+        { "type": "card", "settings": { "builtin": "banner", "alt": "A face with a small spot, then a close-up of a thin patch covering it", "tag": "Demonstration", "name": "Cover the spot", "role": "A thin patch that sits close to the skin." } },
+        { "type": "card", "settings": { "builtin": "macro", "alt": "A close-up of a thin, clear round patch resting on skin", "tag": "Demonstration", "name": "Up close", "role": "A thin, clear hydrocolloid patch." } },
+        { "type": "card", "settings": { "builtin": "cutaway", "alt": "A close-up of a thin hydrocolloid patch on a white surface", "tag": "Illustration", "name": "Inside the patch", "role": "Soft gel layer, shown up close." } },
         { "type": "stat", "settings": { "number": "2", "label": "Patch types" } },
-        { "type": "stat", "settings": { "number": "30", "label": "Day guarantee" } },
-        { "type": "stat", "settings": { "number": "6–8", "label": "Hours per patch" } }
+        { "type": "stat", "settings": { "number": "1", "label": "Kit, day and night" } },
+        { "type": "stat", "settings": { "number": "30", "label": "Day guarantee" } }
       ]
     }
   ]

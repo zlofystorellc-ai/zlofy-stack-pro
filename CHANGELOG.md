@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.10.1
+- The "Find a store" button is removed from the US delivery globe section (the second button is now empty by default and stays hidden). The Store locator page template is kept for later.
+
 ## 2.10.0
 - New "Find a store" page: section `Store locator` (`sections/ap-store-locator.liquid`, `assets/ap-locator.js`) and template `page.find-us`. It has a search box (zip, city, state or name), filter chips, a list of places and a map of the lower 48 states (real outline from Natural Earth, Albers projection, made by `scripts/gen-us-outline.mjs`) with a pin per place. The list comes ONLY from "Place" blocks you add (name, type, address, zip, latitude, longitude, website). With no places it honestly says Zlofy is sold online for now and offers a Shop button; no store or hospital is invented. The US delivery globe now has a second button, "Find a store", linking to /pages/find-us (create a page called Find us in Shopify admin with the page.find-us template).
 

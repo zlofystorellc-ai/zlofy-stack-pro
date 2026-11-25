@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.12.0
+- New contact form page: section `Contact form` and template `page.contact`. Visitors fill in name, email, an optional order number and a message, and Shopify sends it to the store email, so it works even when the visitor's device has no email app. Under the form there is the support email (mailto) and a "Write in Gmail" link. Where the support email used to be the only way to reach you, there is now also a "send a message" link: in the product page "Good to know" note, the footer care card, the footer Contact us link and the FAQ card (the FAQ card now opens the contact page). The address is Theme settings > Support email > Contact page address (default /pages/contact); create a page called Contact in Shopify admin with the page.contact template. Removed old unused footer and payment CSS to stay under the 30 KB CSS budget (now 29.9 KB).
+
 ## 2.11.1
 - Footer colour now uses the site's own ink colour (the same oxblood as the buttons, banners and headings, `--ap-ink`, #3B0A14) instead of a separate darker brown, so it follows Theme settings > Colors. The US delivery globe and Video cards bands use the same ink colour (fading to a slightly warmer oxblood), so the dark bands on the page now match each other.
 

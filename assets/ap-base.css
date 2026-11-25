@@ -67,9 +67,6 @@ main:focus{outline:none}
 .apx-logo__dot{position:absolute;right:.02em;bottom:.2em;width:.17em;height:.17em;border-radius:50%;background:var(--ap-blush-deep);transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
 .apx-header__brand:hover .apx-logo__dot{transform:translateY(-.1em) scale(1.35)}
 @media (max-width:759px){.apx-logo{font-size:2rem}}
-.apx-footer .apx-logo{color:var(--ap-white);font-size:2.75rem}
-.apx-footer .apx-logo__swash{color:var(--ap-blush)}
-.apx-footer .apx-logo__dot{background:var(--ap-blush)}
 .apx-header__brand img{display:block}
 .apx-header__right{display:flex;align-items:center;justify-content:flex-end;gap:1.25rem}
 .apx-header__nav ul{display:flex;gap:2rem;flex-wrap:wrap}
@@ -98,15 +95,6 @@ main:focus{outline:none}
 }
 @media (min-width:760px) and (max-width:900px){.apx-header__nav ul{gap:1.1rem}.apx-header__nav a{font-size:.875rem}}
 
-.apx-footer{padding-block:48px 32px;background:var(--ap-ink);color:var(--ap-white);text-align:center}
-.apx-footer a{color:var(--ap-white)}
-.apx-footer__brand{margin:0 0 .5rem;font-family:var(--ap-font-display);font-size:1.5rem;font-weight:400;letter-spacing:0;text-transform:none}
-.apx-footer__links{display:flex;flex-wrap:wrap;justify-content:center;gap:.25rem 1.5rem;margin-bottom:.75rem}
-.apx-footer__links a{display:inline-flex;align-items:center;min-height:44px}
-.apx-footer__contact{margin:0 0 .5rem}
-.apx-footer__contact a{display:inline-flex;align-items:center;min-height:44px}
-.apx-footer__fine{margin:0 0 .35rem;font-size:.8125rem;color:#E8D3D6}
-.apx-footer :focus-visible{outline-color:var(--ap-white);box-shadow:0 0 0 5px var(--ap-ink)}
 
 /* Cart drawer */
 .apx-drawer{position:fixed;inset:0;z-index:1000}
@@ -180,4 +168,3 @@ html [data-ap-in="1"]{opacity:1;transform:none}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
-@media (max-width:759px){.apx-footer{padding-bottom:calc(32px + 76px + env(safe-area-inset-bottom))}}

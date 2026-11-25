@@ -77,6 +77,7 @@
         <h2 class="apx-ft__care-t">{{ settings.footer_care_title }}</h2>
         {%- if settings.footer_care_text != blank -%}<p class="apx-ft__care-p">{{ settings.footer_care_text }}</p>{%- endif -%}
         {%- if email != blank -%}<a class="apx-ft__care-a" href="mailto:{{ email }}">{{ email }}</a>{%- endif -%}
+        {%- if settings.contact_url != blank -%}<a class="apx-ft__care-m" href="{{ settings.contact_url }}">{{ 'ap.product.contact_form' | t | capitalize }} <span aria-hidden="true">&rarr;</span></a>{%- endif -%}
         {%- if settings.footer_care_note != blank -%}<p class="apx-ft__care-n">{{ settings.footer_care_note }}</p>{%- endif -%}
       </div>
     {%- endif -%}
@@ -135,6 +136,7 @@
   .apx-ft__care-p{margin:10px 0 16px;font-size:.9375rem;line-height:1.55;color:#D5BCC1}
   .apx-ft__care-a{display:block;padding:13px 14px;border-radius:12px;background:#fff;color:#3B0A14!important;font-size:.9375rem;font-weight:700;text-align:center;word-break:break-all}
   .apx-ft__care-a:hover{text-decoration:none!important;background:#F5E6E8}
+  .apx-ft__care-m{display:block;margin-top:12px;text-align:center;font-size:.9375rem;font-weight:700}
   .apx-ft__care-n{margin:12px 0 0;font-size:.8125rem;line-height:1.45;text-align:center;color:#D5BCC1}
   /* wordmark */
   .apx-ft__mark{overflow:hidden;padding:clamp(14px,3vw,32px) 0;border-block:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035);text-align:center;user-select:none}

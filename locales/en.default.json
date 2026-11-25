@@ -58,6 +58,7 @@
       "wear_time": "Typical wear time:",
       "material": "Material",
       "contact": "Questions or reactions? Contact",
+      "contact_form": "send a message",
       "show_video": "Show video {{ number }} of {{ total }}"
     },
     "trust": {

@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "form": {
+      "type": "ap-contact-form"
+    }
+  },
+  "order": [
+    "form"
+  ]
+}

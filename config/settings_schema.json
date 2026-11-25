@@ -21,6 +21,13 @@
         "info": "Shown on the page as the contact for questions and reactions (US cosmetic adverse-event contact). Use a monitored address."
       },
       {
+        "type": "text",
+        "id": "contact_url",
+        "label": "Contact page address",
+        "default": "/pages/contact",
+        "info": "Customers who click Send a message go here. Create a page called Contact in Shopify admin (Online Store > Pages) and choose the template page.contact. Leave empty to hide the Send a message links."
+      },
+      {
         "type": "image_picker",
         "id": "logo",
         "label": "Logo (optional)",
@@ -88,7 +95,7 @@
       { "type": "text", "id": "footer_2_title", "label": "Column 2 title", "default": "The science" },
       { "type": "textarea", "id": "footer_2_links", "label": "Column 2 links", "default": "Hydrocolloid science | /#ingredient\nHow it works | /#how\nFAQs | /#faq" },
       { "type": "text", "id": "footer_3_title", "label": "Column 3 title", "default": "Support" },
-      { "type": "textarea", "id": "footer_3_links", "label": "Column 3 links", "default": "Contact us | email\nShipping policy | /policies/shipping-policy\nRefund policy | /policies/refund-policy" },
+      { "type": "textarea", "id": "footer_3_links", "label": "Column 3 links", "default": "Contact us | /pages/contact\nShipping policy | /policies/shipping-policy\nRefund policy | /policies/refund-policy" },
       { "type": "text", "id": "footer_4_title", "label": "Column 4 title", "default": "" },
       { "type": "textarea", "id": "footer_4_links", "label": "Column 4 links", "default": "" },
       { "type": "header", "content": "Customer care card" },

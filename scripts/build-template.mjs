@@ -132,6 +132,10 @@ writeFileSync(join(root, 'templates', 'page.how-it-works.json'), JSON.stringify(
 const findPage = { sections: { locator: sectionFromPreset('ap-store-locator') }, order: ['locator'] };
 writeFileSync(join(root, 'templates', 'page.find-us.json'), JSON.stringify(findPage, null, 2) + '\n');
 
+// Contact page (templates/page.contact.json): create a page called Contact in Shopify admin and pick this template.
+const contactPage = { sections: { form: sectionFromPreset('ap-contact-form') }, order: ['form'] };
+writeFileSync(join(root, 'templates', 'page.contact.json'), JSON.stringify(contactPage, null, 2) + '\n');
+
 const header = {
   name: 'Header',
   type: 'header',

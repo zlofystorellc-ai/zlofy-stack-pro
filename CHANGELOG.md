@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.7
+- The support email in the product page "Good to know" note is now a clickable link (opens a new email to the support address). Every place the email shows (note, top trust line, FAQ card, footer card and footer Contact link) is a mailto link.
+
 ## 2.8.6
 - Support email set to contact@zlofy.com (Theme settings > Support email default). It now shows in the "Good to know" note, the top trust line, the footer's customer care card and the footer Contact link. The placeholder SUPPORT_EMAIL is gone.
 

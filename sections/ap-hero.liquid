@@ -398,7 +398,7 @@
           <p>{{ product.metafields.custom.material.value | escape | newline_to_br }}</p>
         </details>
       {%- endif -%}
-      <p class="apx-label__contact">{{ 'ap.product.contact' | t: email: settings.support_email }}</p>
+      <p class="apx-label__contact">{{ 'ap.product.contact' | t }}{%- if settings.support_email != blank %} <a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a>{%- endif -%}</p>
     </aside>
 
     <div class="apx-acc">

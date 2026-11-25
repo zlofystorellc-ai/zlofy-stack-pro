@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.5.0
+- New footer in the reference layout: dark oxblood, four link columns, a cream "Stay in the loop" sign-up card, a big soft ZLOFY wordmark, and a bottom bar with copyright and legal links. Links are edited in Theme settings > Footer links (one "Text | address" per line; "email" opens your support email). Starting links only point to things that exist: Shop all, Cart, Hydrocolloid science, How it works, FAQs, Shipping policy, Refund policy, Contact us (email), Privacy policy, Terms of service. The reference's other columns (Skincare, Press, Sustainability, Wholesale, Track Order) and "Formulated in California | Cruelty-Free" were not added because they do not exist or are not verified. The separate newsletter band on the home page is removed because the footer now has the sign-up.
+
 ## 2.4.1
 - Product page "Before and after" now starts with two demonstration pairs (the placeholder third card, "Customer C", is gone) and the same honest copy as the home page: "How a patch looks", an AI-generated disclaimer, no "real customers" wording. The section's preset also starts with two pairs.
 

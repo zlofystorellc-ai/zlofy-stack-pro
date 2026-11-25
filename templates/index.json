@@ -382,9 +382,6 @@
         "question_7",
         "question_8"
       ]
-    },
-    "newsletter": {
-      "type": "ap-newsletter"
     }
   },
   "order": [
@@ -398,7 +395,6 @@
     "videos",
     "founder",
     "guarantee",
-    "faq",
-    "newsletter"
+    "faq"
   ]
 }

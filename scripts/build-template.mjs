@@ -85,8 +85,7 @@ const homeOrder = [
   ['videos', 'ap-video-cards'],
   ['founder', 'ap-founder-note'],
   ['guarantee', 'ap-guarantee'],
-  ['faq', 'ap-faq-split'],
-  ['newsletter', 'ap-newsletter']
+  ['faq', 'ap-faq-split']
 ];
 const home = { sections: {}, order: [] };
 for (const [key, type, overrides] of homeOrder) {

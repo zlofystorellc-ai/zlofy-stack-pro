@@ -60,6 +60,26 @@
     ]
   },
   {
+    "name": "Footer links",
+    "settings": [
+      { "type": "paragraph", "content": "One link per line, written as: Text | address. Use the word email as the address to open an email to your support address. Leave a column title empty to hide that column. Only link pages that really exist." },
+      { "type": "text", "id": "footer_1_title", "label": "Column 1 title", "default": "Shop" },
+      { "type": "textarea", "id": "footer_1_links", "label": "Column 1 links", "default": "Shop all | /collections/all\nCart | /cart" },
+      { "type": "text", "id": "footer_2_title", "label": "Column 2 title", "default": "Learn" },
+      { "type": "textarea", "id": "footer_2_links", "label": "Column 2 links", "default": "Hydrocolloid science | /#ingredient\nHow it works | /#how\nFAQs | /#faq" },
+      { "type": "text", "id": "footer_3_title", "label": "Column 3 title", "default": "Support" },
+      { "type": "textarea", "id": "footer_3_links", "label": "Column 3 links", "default": "Shipping policy | /policies/shipping-policy\nRefund policy | /policies/refund-policy\nContact us | email" },
+      { "type": "text", "id": "footer_4_title", "label": "Column 4 title", "default": "" },
+      { "type": "textarea", "id": "footer_4_links", "label": "Column 4 links", "default": "" },
+      { "type": "header", "content": "Sign-up card" },
+      { "type": "text", "id": "footer_signup_title", "label": "Card title (empty hides the card)", "default": "Stay in the loop" },
+      { "type": "text", "id": "footer_signup_button", "label": "Button text", "default": "Sign up" },
+      { "type": "text", "id": "footer_signup_text", "label": "Text under the form", "default": "Be the first to hear about new products and news." },
+      { "type": "header", "content": "Bottom bar" },
+      { "type": "textarea", "id": "footer_legal_links", "label": "Legal links", "default": "Privacy policy | /policies/privacy-policy\nTerms of service | /policies/terms-of-service" }
+    ]
+  },
+  {
     "name": "Purchase and cart",
     "settings": [
       {

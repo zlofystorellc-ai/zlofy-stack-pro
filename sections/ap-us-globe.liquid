@@ -44,7 +44,7 @@
   .apx-gl__btn:focus-visible,.apx-gl__cv:focus-visible{outline:3px solid #fff;outline-offset:4px}
   .apx-gl__stage{position:relative;display:grid;justify-items:center}
   .apx-gl__glow{position:absolute;left:50%;top:46%;width:86%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(228,163,177,.2),transparent 68%);pointer-events:none}
-  .apx-gl__cv{position:relative;display:block;width:min(100%,520px);aspect-ratio:1;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent;--g-dim:rgba(245,230,232,.42);--g-us:#ffffff;--g-hot:#E4A3B1;--g-ring:rgba(228,163,177,.45)}
+  .apx-gl__cv{position:relative;display:block;width:min(100%,520px);aspect-ratio:1;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent;--g-dim:rgba(245,230,232,.5);--g-us:#ffffff;--g-hot:#E4A3B1;--g-ring:rgba(228,163,177,.45)}
   .apx-gl__cv.is-drag{cursor:grabbing}
   .apx-gl__hint{margin:6px 0 0;font-size:.875rem;color:#C9A9AE}
   @media (min-width:900px){.apx-gl__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px}}
@@ -57,7 +57,7 @@
   "tag": "div",
   "enabled_on": { "templates": ["product", "index"] },
   "settings": [
-    { "type": "paragraph", "content": "A dotted globe you can drag to spin, centred on the United States. Decoration only. Keep every line true for your store." },
+    { "type": "paragraph", "content": "A dotted world globe you can drag to spin, with the United States highlighted. Decoration only. Keep every line true for your store." },
     { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Delivery" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Delivered across the United States." },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Pick your kit and we ship it to your door in the US.", "info": "Say only what is true, for example where you really ship." },
@@ -66,8 +66,8 @@
     { "type": "text", "id": "point_3", "label": "Point 3 (empty hides it)", "default": "" },
     { "type": "text", "id": "button_label", "label": "Button text (empty hides it)", "default": "Shop the kit" },
     { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to go to all products." },
-    { "type": "text", "id": "hint", "label": "Hint under the globe", "default": "Drag to spin. Illustrative map." },
-    { "type": "text", "id": "map_alt", "label": "Globe description (for screen readers)", "default": "A dotted globe centred on North America with the United States highlighted. Illustration. Use the left and right arrow keys to spin it." }
+    { "type": "text", "id": "hint", "label": "Hint under the globe", "default": "Drag to spin the globe." },
+    { "type": "text", "id": "map_alt", "label": "Globe description (for screen readers)", "default": "A dotted world globe with the United States highlighted. Illustration. Use the left and right arrow keys to spin it." }
   ],
   "presets": [ { "name": "US delivery globe" } ]
 }

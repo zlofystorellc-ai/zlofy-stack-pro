@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.9.1
+- US delivery globe now shows the whole real world map: land is drawn from Natural Earth 1:110m country outlines (public domain), reduced to dots (about 3,000), with the United States, Alaska and Hawaii highlighted in white and a few softly twinkling dots. It starts facing the US and turns slowly on its own so every continent comes into view; drag or arrow keys spin it. Reduced motion keeps it still until dragged. The data is made by `scripts/gen-globe-data.mjs` and sits inside `assets/ap-globe.js` (8 KB). The hint now reads "Drag to spin the globe."
+
 ## 2.9.0
 - New section "US delivery globe" (`sections/ap-us-globe.liquid`, `assets/ap-globe.js`, 8 KB): a dotted globe you can drag or spin with the arrow keys, centred on the United States with a few softly twinkling dots, beside a short heading, two points and a button, on a deep oxblood background like the footer. Placed on the product page just above Reviews. Wording is deliberately factual and editable: "Delivered across the United States.", "Ships in 3 to 5 business days", "A tracking email when your order ships", "Shop the kit". The reference's invented numbers (providers, locations) and "recommended by professionals" were not used. The map is an illustration (hint says so). It idles with a gentle sway and eases back to the US; reduced motion draws it once and only moves when dragged. Pauses when off screen.
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.0
+- "A spot's day" timeline redone in the reference layout: four time labels over round icons joined by a line, four photo cards with a time tag, "Step 1: ... Step 4:" titles (numbering is automatic), and under each title a small line drawing (magnifier, thin day patch, cushioned night patch, round patch) above a soft caption box. Captions are aligned. The longer "annoyance" line is hidden by default (switch on in the section). Starting copy rewritten to say only what is safe: no "healing", no "less inflamed", no "stays put while you sleep".
+
 ## 2.3.0
 - FAQ with image: the empty right side is now an original panel: a soft rose background with a framed close-up patch video (muted, loops, pause button, "AI-generated illustration" note) and a "Still have a question?" card with an email link taken from Theme settings. Your own photo (Image setting) still replaces it. First question renamed to "What are Zlofy Day and Night patches?" (the old text used the theme's working name). No other brand's packaging or photos are used.
 

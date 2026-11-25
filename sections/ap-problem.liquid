@@ -2,7 +2,7 @@
   "A spot's day" timeline: each moment of the day shows the real annoyance and, right under it, what helps.
   Empathetic, not fear-based. Cosmetic wording only; keep every line true for your product.
 {%- endcomment -%}
-<section class="apx-prob apx-prob--{{ section.settings.photo_shape }} apx-section" aria-labelledby="{{ section.id }}-title">
+<section class="apx-prob apx-prob--{{ section.settings.photo_shape }}{% if section.settings.step_numbers %} apx-prob--numbered{% endif %} apx-section" aria-labelledby="{{ section.id }}-title">
   <div class="apx-wrap">
     <div class="apx-center">
       {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
@@ -40,10 +40,24 @@
               {%- if block.settings.chip != blank -%}<span class="apx-prob__chip">{{ block.settings.chip }}</span>{%- endif -%}
             </div>
           {%- endif -%}
-          <h3>{{ block.settings.title }}</h3>
-          <p class="apx-prob__moment">{%- if section.settings.label_problem != blank -%}<span class="apx-prob__lab">{{ section.settings.label_problem }}</span>{%- endif -%}{{ block.settings.text }}</p>
+          <h3 class="apx-prob__t">{{ block.settings.title }}</h3>
+          {%- if section.settings.show_text and block.settings.text != blank -%}
+            <p class="apx-prob__moment">{%- if section.settings.label_problem != blank -%}<span class="apx-prob__lab">{{ section.settings.label_problem }}</span>{%- endif -%}{{ block.settings.text }}</p>
+          {%- endif -%}
           {%- if block.settings.fix != blank -%}
-            <p class="apx-prob__fix">{% render 'ap-icon', name: 'check', size: 18 %}<span>{%- if section.settings.label_fix != blank -%}<span class="apx-prob__lab apx-prob__lab--fix">{{ section.settings.label_fix }}</span>{%- endif -%}{{ block.settings.fix }}</span></p>
+            <div class="apx-prob__cap">
+              {%- if block.settings.art != 'none' -%}
+                <span class="apx-prob__art" aria-hidden="true">
+                  {%- case block.settings.art -%}
+                    {%- when 'magnifier' -%}<svg viewBox="0 0 64 48" width="64" height="48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="27" cy="21" r="15"/><circle cx="27" cy="21" r="3.2" fill="currentColor" stroke="none" opacity=".55"/><path d="M38 32l13 12" stroke-width="4"/></svg>
+                    {%- when 'day' -%}<svg viewBox="0 0 64 48" width="64" height="48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30c8-12 40-14 52-2-12 12-42 12-52 2z"/><ellipse cx="32" cy="30" rx="12" ry="4.5" opacity=".6"/><path d="M12 36c10 6 32 6 42-2" opacity=".5"/></svg>
+                    {%- when 'night' -%}<svg viewBox="0 0 64 48" width="64" height="48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 30c4-14 30-18 44-6l-2 8c-14 8-34 8-42-2z"/><path d="M10 30c10 8 30 8 42 2" opacity=".6"/><path d="M12 36c10 6 28 6 38-2" opacity=".4"/></svg>
+                    {%- when 'patch' -%}<svg viewBox="0 0 64 48" width="64" height="48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="24" r="16"/><circle cx="32" cy="24" r="9" opacity=".5"/><circle cx="32" cy="24" r="3" fill="currentColor" stroke="none" opacity=".35"/></svg>
+                  {%- endcase -%}
+                </span>
+              {%- endif -%}
+              <p>{{ block.settings.fix }}</p>
+            </div>
           {%- endif -%}
         </li>
       {%- endfor -%}
@@ -130,6 +144,21 @@
     .apx-prob__node{left:0;top:28px}
     .apx-prob__time{position:absolute;left:0;top:0;margin:0}
   }
+
+  /* "Step N" cards: photo, step title, small drawing above a caption box */
+  .apx-prob__steps{counter-reset:apx-prob-step}
+  .apx-prob__step{counter-increment:apx-prob-step}
+  .apx-prob__t{margin:0 0 .6rem;font-size:1.3125rem;line-height:1.2}
+  .apx-prob--numbered .apx-prob__t::before{content:"Step " counter(apx-prob-step) ": "}
+  .apx-prob__cap{position:relative;margin-top:30px;padding:34px 16px 16px;border-radius:16px;background:#F6EDEB;box-shadow:0 10px 22px rgba(59,10,20,.06);text-align:center}
+  .apx-prob__cap p{margin:0;color:var(--ap-ink);font-size:1rem;line-height:1.5}
+  .apx-prob__art{position:absolute;left:50%;top:-28px;transform:translateX(-50%);display:block;color:var(--ap-blush-deep)}
+  .apx-prob__art svg{display:block}
+  .apx-prob__cap:not(:has(.apx-prob__art)){padding-top:16px}
+  .apx-prob__time{font-size:.6875rem;letter-spacing:.18em}
+  .apx-prob__node{border-color:var(--ap-ink);color:var(--ap-ink);width:44px;height:44px}
+  .apx-prob__chip{left:12px;bottom:12px}
+  @media (min-width:900px){.apx-prob__t{min-height:2.45em;margin-bottom:4px}.apx-prob__node{top:30px}.apx-prob__line{top:52px;background:linear-gradient(90deg,var(--ap-ink),var(--ap-apricot))}}
 {% endstylesheet %}
 
 {% schema %}
@@ -148,6 +177,8 @@
     { "type": "select", "id": "photo_shape", "label": "Photo shape", "options": [ { "value": "portrait", "label": "Portrait rectangle (3:4)" }, { "value": "landscape", "label": "Landscape rectangle (16:10)" }, { "value": "square", "label": "Square" } ], "default": "portrait" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Find your kit" },
     { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to scroll to the buy box." },
+    { "type": "checkbox", "id": "step_numbers", "label": "Number the steps (Step 1, Step 2...)", "default": true },
+    { "type": "checkbox", "id": "show_text", "label": "Show the longer line under each title", "default": false, "info": "The text under each moment's title. Off keeps the cards short." },
     { "type": "text", "id": "pain_title", "label": "Pain points heading", "default": "Sound familiar?" },
     { "type": "textarea", "id": "pain_list", "label": "Pain points (one per line)", "info": "Short everyday annoyances your customers recognise. Leave empty to hide.", "default": "Can't stop touching it\nPatches that curl up and slide off\nCover-ups that look obvious\nNot sure when to peel it off" },
     { "type": "text", "id": "label_problem", "label": "Label above the problem", "default": "The problem" },
@@ -182,6 +213,9 @@
         { "type": "select", "id": "builtin_photo", "label": "Built-in sample photo", "info": "An AI-generated demonstration photo. It is NOT a real customer. Set to None to use your own photo below.", "options": [ { "value": "", "label": "None" }, { "value": "ap-card-morning.jpg", "label": "Morning: holding a patch by a small spot" }, { "value": "ap-card-midday.jpg", "label": "Midday: pressing a patch onto a small spot" }, { "value": "ap-card-night.jpg", "label": "Night: a patch on the chin in bed" }, { "value": "ap-card-swap.jpg", "label": "Next morning: a used patch beside a fresh one" } ], "default": "" },
         { "type": "text", "id": "photo_alt", "label": "Built-in photo description", "default": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin" },
         { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Shown above the moment. Upload only photos you own or have licensed, ideally of real people who gave permission." },
+        { "type": "select", "id": "art", "label": "Small drawing above the caption", "default": "none", "options": [
+          { "value": "none", "label": "None" }, { "value": "magnifier", "label": "Magnifier on a spot" }, { "value": "day", "label": "Thin day patch" },
+          { "value": "night", "label": "Cushioned night patch" }, { "value": "patch", "label": "Round patch" } ] },
         { "type": "text", "id": "time", "label": "Time of day", "default": "Midday" },
         { "type": "text", "id": "chip", "label": "Time tag on the photo", "info": "A small tag on the photo, for example \"7:30 AM\".", "default": "" },
         { "type": "text", "id": "title", "label": "Moment", "default": "The picking loop" },
@@ -194,10 +228,10 @@
     {
       "name": "Problem",
       "blocks": [
-        { "type": "point", "settings": { "icon": "sun", "builtin_photo": "ap-card-morning.jpg", "photo_alt": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin", "time": "Morning", "chip": "7:30 AM", "title": "The spot that picked today", "text": "You spot it in the mirror and suddenly it is all you can see.", "fix": "Hold a thin, low-shine day patch over it. It sits close to the skin, so you can get on with your day." } },
-        { "type": "point", "settings": { "icon": "hand", "builtin_photo": "ap-card-midday.jpg", "photo_alt": "A fingertip pressing a thin round patch onto a small spot on the chin", "time": "Midday", "chip": "1:00 PM", "title": "Fingers on autopilot", "text": "Your hand finds the spot before your brain catches up. Picking is the habit to break.", "fix": "Press a patch on once. It covers the spot, so there is nothing to touch or pick." } },
-        { "type": "point", "settings": { "icon": "moon", "builtin_photo": "ap-card-night.jpg", "photo_alt": "An adult lying in bed at night with a thin round patch on a small spot on the chin", "time": "Night", "chip": "10:30 PM", "title": "Will it stay on?", "text": "Patches lift at the edges, curl up, and end up on the pillow instead of your face.", "fix": "Our night patch is thicker and more cushioned, made to stay put while you sleep." } },
-        { "type": "point", "settings": { "icon": "clock", "builtin_photo": "ap-card-swap.jpg", "photo_alt": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip", "time": "Next morning", "chip": "7:00 AM", "title": "Is it done? Check the middle.", "text": "Not sure when to peel it off, or whether to put on a fresh one?", "fix": "When the middle turns white, the patch has taken in as much fluid as it can hold. Peel it off and add a fresh one if the spot is still there." } }
+        { "type": "point", "settings": { "icon": "sun", "builtin_photo": "ap-card-morning.jpg", "photo_alt": "An adult in a bathroom mirror holding a thin round patch next to a small spot on the chin", "time": "Morning", "chip": "7:30 AM", "title": "Spot the spot.", "text": "You spot it in the mirror and suddenly it is all you can see.", "fix": "Put on a thin day patch.", "art": "magnifier" } },
+        { "type": "point", "settings": { "icon": "hand", "builtin_photo": "ap-card-midday.jpg", "photo_alt": "A fingertip pressing a thin round patch onto a small spot on the chin", "time": "Midday", "chip": "1:00 PM", "title": "Cover it, hands off.", "text": "Your hand finds the spot before your brain catches up. Picking is the habit to break.", "fix": "The patch covers the spot, so it is harder to pick.", "art": "day" } },
+        { "type": "point", "settings": { "icon": "moon", "builtin_photo": "ap-card-night.jpg", "photo_alt": "An adult lying in bed at night with a thin round patch on a small spot on the chin", "time": "Night", "chip": "10:30 PM", "title": "Cushioned for the night.", "text": "Patches lift at the edges, curl up, and end up on the pillow instead of your face.", "fix": "Switch to the cushioned night patch before bed.", "art": "night" } },
+        { "type": "point", "settings": { "icon": "clock", "builtin_photo": "ap-card-swap.jpg", "photo_alt": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip", "time": "Next morning", "chip": "7:00 AM", "title": "Peel, then check.", "text": "Not sure when to peel it off, or whether to put on a fresh one?", "fix": "If the middle has turned white, it has taken in fluid. Peel it off.", "art": "patch" } }
       ]
     }
   ]

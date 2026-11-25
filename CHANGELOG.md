@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.10.2
+- Header "Shop" link now opens the product page instead of the all-products list. Theme settings > Header links > Link 1 address is the word `product`, which means the first product in the store (works on the desktop menu and the phone menu); typing any address there still works.
+
 ## 2.10.1
 - The "Find a store" button is removed from the US delivery globe section (the second button is now empty by default and stays hidden). The Store locator page template is kept for later.
 

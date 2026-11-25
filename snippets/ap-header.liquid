@@ -33,7 +33,7 @@
           {%- for n in (1..5) -%}
             {%- assign lk = 'nav_' | append: n | append: '_label' -%}
             {%- assign uk = 'nav_' | append: n | append: '_url' -%}
-            {%- if settings[lk] != blank -%}<li><a href="{{ settings[uk] | default: '/' }}">{{ settings[lk] }}</a></li>{%- endif -%}
+            {%- if settings[lk] != blank -%}{%- assign nav_href = settings[uk] | default: '/' -%}{%- if nav_href == 'product' -%}{%- assign nav_href = collections.all.products.first.url | default: '/collections/all' -%}{%- endif -%}<li><a href="{{ nav_href }}">{{ settings[lk] }}</a></li>{%- endif -%}
           {%- endfor -%}
         {%- else -%}
           {%- for link in menu.links -%}{% render 'ap-nav-item', link: link %}{%- endfor -%}
@@ -60,7 +60,7 @@
         {%- for n in (1..5) -%}
           {%- assign lk = 'nav_' | append: n | append: '_label' -%}
           {%- assign uk = 'nav_' | append: n | append: '_url' -%}
-          {%- if settings[lk] != blank -%}<li><a href="{{ settings[uk] | default: '/' }}">{{ settings[lk] }}</a></li>{%- endif -%}
+          {%- if settings[lk] != blank -%}{%- assign nav_href = settings[uk] | default: '/' -%}{%- if nav_href == 'product' -%}{%- assign nav_href = collections.all.products.first.url | default: '/collections/all' -%}{%- endif -%}<li><a href="{{ nav_href }}">{{ settings[lk] }}</a></li>{%- endif -%}
         {%- endfor -%}
       {%- else -%}
         {%- for link in menu.links -%}

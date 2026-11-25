@@ -210,6 +210,7 @@ async function renderPage(query, pageName = 'product') {
     request: { locale: { iso_code: 'en' }, design_mode: design },
     routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', product_recommendations_url: '/recommendations/products' },
     linklists,
+    collections: { all: { products: [{ url: '/products/day-night-duo' }] } },
     template: { name: pageName === 'home' ? 'index' : (pageName.startsWith('page:') ? 'page' : 'product') },
     canonical_url: 'http://localhost:' + PORT + (pageName === 'home' ? '/' : '/products/day-night-duo'),
     page_title: pageName === 'home' ? 'Home' : (pageName.startsWith('page:') ? 'How it works' : product.title),

@@ -48,7 +48,7 @@
     "settings": [
       { "type": "paragraph", "content": "These links fill the header menu. Leave a label empty to hide that link. If every label is empty, the store's Main menu (Online Store > Navigation) is used instead. Home page anchors work from every page." },
       { "type": "text", "id": "nav_1_label", "label": "Link 1 text", "default": "Shop" },
-      { "type": "text", "id": "nav_1_url", "label": "Link 1 address", "default": "/collections/all" },
+      { "type": "text", "id": "nav_1_url", "label": "Link 1 address", "default": "product", "info": "The word product opens your product page (the first product in your store). You can also type any address, for example /collections/all." },
       { "type": "text", "id": "nav_2_label", "label": "Link 2 text", "default": "Hydrocolloid science" },
       { "type": "text", "id": "nav_2_url", "label": "Link 2 address", "default": "/#ingredient" },
       { "type": "text", "id": "nav_3_label", "label": "Link 3 text", "default": "How it works" },

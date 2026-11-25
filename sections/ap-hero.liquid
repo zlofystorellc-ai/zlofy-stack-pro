@@ -195,7 +195,7 @@
       {%- unless product.has_only_default_variant -%}
         {%- for option in product.options_with_values -%}
           {%- assign opt_index = forloop.index0 -%}
-          <fieldset class="apx-options" data-ap-option-group>
+          <fieldset class="apx-options" data-ap-option-group{% unless section.settings.show_option_cards %} hidden{% endunless %}>
             <legend>{{ option.name }}</legend>
             {%- assign swatch_mode = false -%}
             {%- if section.settings.option_style == 'swatches' and product.options.size == 1 -%}{%- assign swatch_mode = true -%}{%- endif -%}
@@ -820,6 +820,7 @@
       "default": "cards",
       "info": "Swatches apply when the product has one option."
     },
+    { "type": "checkbox", "id": "show_option_cards", "label": "Show the kit / formula cards (variant choice)", "default": false, "info": "Off hides the cards, and the first variant stays selected. Turn it on only if you sell more than one variant (for example different kits) and want customers to choose." },
     { "type": "header", "content": "Left column" },
     { "type": "text", "id": "banner_title", "label": "Top banner title (optional)", "info": "For example a bundle offer. Hidden when empty. Only state real offers and prices." },
     { "type": "text", "id": "banner_sub", "label": "Top banner second line" },

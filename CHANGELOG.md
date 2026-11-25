@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.1
+- Product page: the "1. Kit" cards (the four formula / kit cards) are removed from the buy box. New setting "Show the kit / formula cards (variant choice)" in the product section, off by default. While it is off, the product's first variant stays selected and Add to bag works as before; the step numbering now starts at "1. Purchase options". Turn the setting on if you add more variants that customers should choose from.
+
 ## 2.13.0
 - Phone layout reworked to feel like a shopping app. Checked at 375 to 390 px wide: no sideways scrolling and no overlaps. The product page is about 17 percent shorter (18,200 px to about 15,100 px) and the home page about 25 percent shorter (about 13,400 px).
   - Top: the announcement bar is one or two short lines (the pill is hidden), the trust line under the header is one swipeable row, and the offer banner is slimmer.

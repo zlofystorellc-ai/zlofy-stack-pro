@@ -17,7 +17,7 @@
         "type": "text",
         "id": "support_email",
         "label": "Support email",
-        "default": "SUPPORT_EMAIL",
+        "default": "contact@zlofy.com",
         "info": "Shown on the page as the contact for questions and reactions (US cosmetic adverse-event contact). Use a monitored address."
       },
       {

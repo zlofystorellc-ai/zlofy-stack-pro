@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.6
+- Support email set to contact@zlofy.com (Theme settings > Support email default). It now shows in the "Good to know" note, the top trust line, the footer's customer care card and the footer Contact link. The placeholder SUPPORT_EMAIL is gone.
+
 ## 2.8.5
 - Product page "Good to know" note and the accordions under it made compact and tidier: a small uppercase title with an icon, a thin rose accent line, smaller text, the wear time as a small pill, a one-line contact, and tighter gaps (12 px to the accordions, shorter accordion rows). The note is about 25 percent shorter.
 

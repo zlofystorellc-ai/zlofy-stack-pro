@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.2
+- Product page benefit pills: shorter starting text ("Thin, low-shine day patches", "Cushioned night patches", "Less picking", "Drug-free hydrocolloid") so they sit two to a row instead of stacking one per line. Removed the "stays put while you sleep" wording, which was not verified.
+
 ## 2.1.1
 - Product page buy box: formula cards can now carry an icon, a second line and a small tag (new "Formula card note" blocks, matched by option value), a 3-column trust strip (US dispatch, guarantee, clean formula; edit the text to match your real policy), the question panel is titled "Inside the patch · Hydrocolloid science", and the starting template fills the top banner and the photo chip. Preview product now uses the four formula names.
 

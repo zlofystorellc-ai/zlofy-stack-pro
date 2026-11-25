@@ -655,7 +655,9 @@
   .apx-options__grid:not(.apx-options__grid--swatch) .apx-card label{min-height:76px;justify-content:center}
   .apx-info .apx-eyebrow{display:inline-block;align-self:flex-start;padding:.4rem .9rem;border:1.5px solid var(--ap-blush-deep);border-radius:999px;background:#fff;color:var(--ap-blush-deep);font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
   .apx-bullets{border-bottom:0;padding-bottom:0;margin-bottom:1.5rem;gap:8px}
-  .apx-bullets li{padding:8px 14px;border:1px solid var(--ap-line);font-size:.8125rem}
+  .apx-bullets{flex-direction:row;align-items:center}
+  .apx-bullets li{display:inline-flex;flex:0 0 auto;width:auto;max-width:100%;padding:8px 14px;border:1px solid var(--ap-line);font-size:.8125rem;line-height:1.3;white-space:normal}
+  .apx-bullets .apx-icon{flex:none}
   .apx-info{counter-reset:apx-step}
   .apx-options[data-ap-option-group] legend,.apx-purchase legend{counter-increment:apx-step;display:block;width:100%;margin-bottom:.8rem;font-size:.6875rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-ink)}
   .apx-options[data-ap-option-group] legend::before,.apx-purchase legend::before{content:counter(apx-step) ". "}
@@ -869,10 +871,10 @@
     {
       "name": "Product form",
       "blocks": [
-        { "type": "bullet", "settings": { "text": "Day patch: thin and low-shine, so you can wear it anywhere" } },
-        { "type": "bullet", "settings": { "text": "Night patch: cushioned, so it stays put while you sleep" } },
-        { "type": "bullet", "settings": { "text": "Less picking: give your fingers something else to find" } },
-        { "type": "bullet", "settings": { "text": "Drug-free hydrocolloid in three sizes, so there is a patch for every spot" } },
+        { "type": "bullet", "settings": { "text": "Thin, low-shine day patches" } },
+        { "type": "bullet", "settings": { "text": "Cushioned night patches" } },
+        { "type": "bullet", "settings": { "text": "Less picking" } },
+        { "type": "bullet", "settings": { "text": "Drug-free hydrocolloid" } },
         { "type": "option_note", "settings": { "value": "Day + Night Duo", "subtitle": "Thin day patches and cushioned night patches", "tag": "Most popular", "icon": "layers" } },
         { "type": "option_note", "settings": { "value": "Ultra-Thin Day", "subtitle": "Thin, low-shine, for daytime", "icon": "sparkle" } },
         { "type": "option_note", "settings": { "value": "Cushioned Night", "subtitle": "Cushioned, for overnight", "icon": "drop" } },

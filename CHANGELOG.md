@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.0
+- Product page top section: proportions set like the reference on laptops. The frame is wider (up to 1440 px), the photo column and the buy column are equal width with a 56 px gap and no divider line, the photo card is a square, the photo tabs are tall tiles with a large preview (about 160 x 185 px), and the kit cards sit three to a row. Phones and tablets are unchanged.
+
 ## 2.7.3
 - Product page: the "Complete your routine" section (Add to your routine) is removed from the starting template. Its file (`sections/ap-upsell.liquid`) is kept. The bag drawer's own suggestions are not changed.
 

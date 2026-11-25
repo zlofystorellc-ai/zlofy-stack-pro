@@ -767,6 +767,12 @@
   }
   @media (max-width:759px){.apx-card--note label{justify-content:flex-start}}
   @media (max-width:759px){.apx-label__contact a{display:inline-block;padding:.65rem .2rem}.apx-gallery__chip,.apx-gallery__zoom{min-height:40px}}
+
+  /* the photo card is vertical (portrait 4:5) on every screen */
+  .apx-gallery__slide{aspect-ratio:4/5}
+  @media (min-width:990px){.apx-gallery__slide{aspect-ratio:4/5}}
+  .apx-gallery__slide img,.apx-gallery__slide svg:not(.apx-placeholder){object-fit:cover}
+  .apx-gallery__video{object-fit:cover}
 {% endstylesheet %}
 
 {% schema %}

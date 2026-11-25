@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.2
+- Product page photo card is now vertical (portrait 4:5) on laptops and phones instead of a square or wide box (520 x 650 px on a laptop). Photos fill the card; the "Day + Night Duo" chip and "+ Inspect" zoom stay on it.
+
 ## 2.13.1
 - Product page: the "1. Kit" cards (the four formula / kit cards) are removed from the buy box. New setting "Show the kit / formula cards (variant choice)" in the product section, off by default. While it is off, the product's first variant stays selected and Add to bag works as before; the step numbering now starts at "1. Purchase options". Turn the setting on if you add more variants that customers should choose from.
 

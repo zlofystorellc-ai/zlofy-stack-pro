@@ -444,9 +444,6 @@
     "founder": {
       "type": "ap-founder-note"
     },
-    "upsell": {
-      "type": "ap-upsell"
-    },
     "videos": {
       "type": "ap-video-cards",
       "blocks": {
@@ -624,7 +621,6 @@
     "comparison",
     "reviews",
     "founder",
-    "upsell",
     "videos",
     "guarantee",
     "faqsplit",

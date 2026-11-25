@@ -52,7 +52,6 @@ const productOrder = [
   ['comparison', 'ap-comparison'],
   ['reviews', 'ap-reviews'],
   ['founder', 'ap-founder-note'],
-  ['upsell', 'ap-upsell'],
   ['videos', 'ap-video-cards'],
   ['guarantee', 'ap-guarantee'],
   ['faqsplit', 'ap-faq-split'],

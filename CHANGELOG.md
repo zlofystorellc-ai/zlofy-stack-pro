@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.3
+- Product page: the "Complete your routine" section (Add to your routine) is removed from the starting template. Its file (`sections/ap-upsell.liquid`) is kept. The bag drawer's own suggestions are not changed.
+
 ## 2.7.2
 - Product page: the "Every patch in the box" section (Your kit) is removed from the starting template. Its file (`sections/ap-kit-contents.liquid`) is kept, so it can be added back from the theme editor if wanted.
 

@@ -34,7 +34,7 @@
 
 <div class="apx-band">
 <div
-  class="apx-pdp apx-wrap"
+  class="apx-pdp apx-wrap{% if has_plans %} apx-pdp--plans{% endif %}"
   data-ap-product
   data-locale="{{ request.locale.iso_code }}"
   data-currency="{{ cart.currency.iso_code }}"
@@ -47,7 +47,19 @@
   data-label-save="{{ 'ap.product.save_percent' | t: percent: '__percent__' | escape }}"
 >
   {%- comment -%} ---------- Gallery ---------- {%- endcomment -%}
-  <div class="apx-gallery">
+  <div class="apx-gallery" data-ap-gal>
+    {%- if section.settings.banner_title != blank -%}
+      <div class="apx-banner">
+        <div>
+          <p class="apx-banner__t">{{ section.settings.banner_title }}</p>
+          {%- if section.settings.banner_sub != blank -%}<p class="apx-banner__s">{{ section.settings.banner_sub }}</p>{%- endif -%}
+        </div>
+        {%- if section.settings.banner_tag != blank -%}<span class="apx-banner__tag">{{ section.settings.banner_tag }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="apx-gallery__stage">
+    {%- if section.settings.media_chip != blank -%}<span class="apx-gallery__chip">{{ section.settings.media_chip }}</span>{%- endif -%}
+    <button type="button" class="apx-gallery__zoom" data-ap-zoom aria-pressed="false">{{ section.settings.zoom_label }}</button>
     <ul class="apx-gallery__track" data-ap-track tabindex="0" aria-label="{{ 'ap.product.gallery' | t }}">
       {%- for media in product.media -%}
         <li class="apx-gallery__slide" data-media-id="{{ media.id }}">
@@ -85,6 +97,7 @@
         {%- endif -%}
       {%- endfor -%}
     </ul>
+    </div>
 
     {%- liquid
       assign gal_total = product.media.size
@@ -104,6 +117,7 @@
           <li>
             <button type="button" class="{% if media.media_type == 'video' or media.media_type == 'external_video' %}apx-gallery__vthumb{% endif %}" data-ap-thumb="{{ media.id }}" aria-label="{{ 'ap.product.show_image' | t: number: forloop.index, total: gal_total }}"{% if forloop.first %} aria-current="true"{% endif %}>
               {{- thumb | image_url: width: 160 | image_tag: width: 64, height: 64, loading: 'lazy', alt: '' -}}
+              <span class="apx-gallery__lab">{{ media.alt | default: product.title | truncate: 16 }}</span>
             </button>
           </li>
         {%- endfor -%}
@@ -336,6 +350,26 @@
       </ul>
     {%- endif -%}
 
+    {%- assign qa_n = 0 -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'qa' -%}{%- assign qa_n = qa_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    {%- if qa_n > 0 -%}
+      <section class="apx-qa" data-ap-qa aria-labelledby="{{ form_id }}-qa">
+        <div class="apx-qa__top"><h2 id="{{ form_id }}-qa" class="apx-qa__h">{% render 'ap-icon', name: 'sparkle', size: 16 %}{{ section.settings.qa_title }}</h2><span class="apx-qa__hint">{{ section.settings.qa_hint }}</span></div>
+        <div class="apx-qa__chips" role="tablist">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'qa' -%}
+              <button type="button" role="tab" class="apx-qa__chip" id="{{ form_id }}-qt{{ forloop.index }}" aria-controls="{{ form_id }}-qp{{ forloop.index }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.question }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'qa' -%}
+            <div class="apx-qa__a" role="tabpanel" id="{{ form_id }}-qp{{ forloop.index }}" aria-labelledby="{{ form_id }}-qt{{ forloop.index }}"{% unless forloop.first %} hidden{% endunless %}><p>{{ block.settings.answer }}</p></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </section>
+    {%- endif -%}
+
     <aside class="apx-label" aria-labelledby="{{ form_id }}-label">
       <h2 id="{{ form_id }}-label" class="apx-label__title">{{ 'ap.product.good_to_know' | t }}</h2>
       {%- if product.metafields.custom.warnings.value != blank -%}
@@ -442,6 +476,7 @@
 
 <script src="{{ 'ap-cart.js' | asset_url }}" type="module"></script>
 <script src="{{ 'ap-product.js' | asset_url }}" type="module"></script>
+<script src="{{ 'ap-pdp-extras.js' | asset_url }}" type="module"></script>
 
 {% stylesheet %}
   .apx-pdp{display:grid;gap:20px;padding-block:12px 40px}
@@ -579,6 +614,65 @@
     .apx-gallery__thumbs button{width:88px;height:88px}
     .apx-info{padding-left:48px;border-left:1px solid var(--ap-line)}
   }
+
+  /* ---- editorial look: bundle banner, framed media with chips, step labels, cards, trust strip, Q&A, plus accordions ---- */
+  .apx-banner{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 14px;padding:16px 20px;border-radius:14px;background:linear-gradient(100deg,#3B0A14,#6E1423);color:#fff}
+  .apx-banner__t{margin:0;font-size:1.0625rem;font-weight:700}
+  .apx-banner__s{margin:2px 0 0;font-size:.8125rem;color:#F5E6E8}
+  .apx-banner__tag{flex:none;padding:.35rem .8rem;border:1px solid rgba(255,255,255,.5);border-radius:999px;font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+  .apx-gallery__stage{position:relative;overflow:hidden;border:1px solid var(--ap-line);border-radius:24px;background:radial-gradient(circle at 50% 38%,#fff,#F7EBED);box-shadow:0 18px 44px rgba(59,10,20,.08)}
+  .apx-gallery__stage .apx-gallery__track{border-radius:0;background:transparent}
+  .apx-gallery__chip,.apx-gallery__zoom{position:absolute;top:14px;z-index:2;padding:.45rem .9rem;border:1px solid var(--ap-line);border-radius:999px;background:rgba(255,255,255,.92);color:var(--ap-ink);font-family:inherit;font-size:.8125rem;font-weight:600;line-height:1}
+  .apx-gallery__chip{left:14px}
+  .apx-gallery__zoom{right:14px;cursor:pointer}
+  .apx-gallery__zoom:hover,.apx-gallery__zoom[aria-pressed="true"]{background:var(--ap-ink);color:#fff;border-color:var(--ap-ink)}
+  .apx-gallery__zoom:focus-visible{outline:3px solid var(--ap-ink);outline-offset:2px}
+  .apx-gallery__slide img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  [data-ap-gal].is-zoom .apx-gallery__slide img{transform:scale(1.7);cursor:zoom-out}
+  .apx-gallery__thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;overflow:visible;padding:0;margin-top:14px}
+  .apx-gallery__thumbs button{display:flex;flex-direction:column;align-items:center;gap:6px;width:auto;height:auto;padding:10px 6px;border:1.5px solid var(--ap-line);border-radius:14px;background:#fff;font-family:inherit;font-size:.75rem;font-weight:600;color:var(--ap-ink)}
+  .apx-gallery__thumbs button img{width:44px;height:44px;border-radius:10px}
+  .apx-gallery__thumbs button[aria-current="true"]{border-color:var(--ap-ink);box-shadow:0 0 0 1px var(--ap-ink),0 8px 18px rgba(59,10,20,.12);background:#FBF7F5}
+  .apx-gallery__lab{display:block;line-height:1.2;text-align:center}
+  .apx-pdp--plans .apx-price{display:none}
+  .apx-options__grid:not(.apx-options__grid--swatch){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .apx-options__grid:not(.apx-options__grid--swatch) .apx-card label{min-height:76px;justify-content:center}
+  .apx-info .apx-eyebrow{display:inline-block;align-self:flex-start;padding:.4rem .9rem;border:1.5px solid var(--ap-blush-deep);border-radius:999px;background:#fff;color:var(--ap-blush-deep);font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .apx-bullets{border-bottom:0;padding-bottom:0;margin-bottom:1.5rem;gap:8px}
+  .apx-bullets li{padding:8px 14px;border:1px solid var(--ap-line);font-size:.8125rem}
+  .apx-info{counter-reset:apx-step}
+  .apx-options[data-ap-option-group] legend,.apx-purchase legend{counter-increment:apx-step;display:block;width:100%;margin-bottom:.8rem;font-size:.6875rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-ink)}
+  .apx-options[data-ap-option-group] legend::before,.apx-purchase legend::before{content:counter(apx-step) ". "}
+  .apx-options[data-ap-option-group]{border-bottom:0;padding-bottom:0}
+  .apx-card label{border:1.5px solid var(--ap-line);border-radius:14px;background:#fff;transition:border-color .2s,box-shadow .2s,transform .2s}
+  .apx-card label:hover{border-color:var(--ap-blush);transform:translateY(-1px)}
+  .apx-card input:checked + label{border:2px solid var(--ap-ink);background:#fff;box-shadow:0 10px 24px rgba(59,10,20,.12)}
+  .apx-card--plan label{border-radius:16px}
+  .apx-card--plan input:checked + label{background:linear-gradient(180deg,#fff,#FBF3F4)}
+  .apx-perks{background:#FBF7F5}
+  .apx-btn.apx-buy__atc,.apx-buy__atc{min-height:56px;font-weight:700;letter-spacing:.01em}
+  .apx-qty{border-radius:999px}
+  .apx-assure{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1rem 0;padding:14px;border:1px solid var(--ap-line);border-radius:16px;background:#fff;text-align:center}
+  .apx-assure li{flex-direction:column;gap:6px;font-size:.8125rem;line-height:1.35}
+  .apx-qa{margin:1.25rem 0;padding:18px;border:1px solid var(--ap-line);border-radius:20px;background:#fff;box-shadow:0 12px 30px rgba(59,10,20,.06)}
+  .apx-qa__top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .apx-qa__h{display:flex;align-items:center;gap:8px;margin:0;font-family:var(--ap-font);font-size:1rem;font-weight:700}
+  .apx-qa__h .apx-icon{color:var(--ap-blush-deep)}
+  .apx-qa__hint{font-size:.75rem;color:var(--ap-ink-soft)}
+  .apx-qa__chips{display:flex;flex-wrap:wrap;gap:8px}
+  .apx-qa__chip{padding:.55rem 1rem;min-height:40px;border:1px solid var(--ap-line);border-radius:999px;background:#FBF7F5;color:var(--ap-ink);font-family:inherit;font-size:.8125rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+  .apx-qa__chip:hover{border-color:var(--ap-blush-deep)}
+  .apx-qa__chip[aria-selected="true"]{background:var(--ap-ink);border-color:var(--ap-ink);color:#fff}
+  .apx-qa__chip:focus-visible{outline:3px solid var(--ap-ink);outline-offset:2px}
+  .apx-qa__a{margin-top:14px;padding:14px 16px;border-left:3px solid var(--ap-blush-deep);border-radius:4px;background:#FBF7F5;animation:apx-qa-in .35s ease}
+  .apx-qa__a p{margin:0;font-size:.9375rem;line-height:1.6;color:var(--ap-ink-soft)}
+  @keyframes apx-qa-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .apx-acc__item summary .apx-icon{display:none}
+  .apx-acc__item summary::after{content:"+";font-size:1.25rem;font-weight:500;line-height:1}
+  .apx-acc__item[open] summary::after{content:"\2212"}
+  .apx-acc__item summary{min-height:52px;font-size:.9375rem}
+  @media (prefers-reduced-motion:reduce){.apx-gallery__slide img,.apx-card label{transition:none}.apx-qa__a{animation:none}}
+  @media (max-width:560px){.apx-gallery__thumbs{gap:6px}.apx-gallery__thumbs button{padding:8px 4px;font-size:.6875rem}.apx-gallery__thumbs button img{width:36px;height:36px}.apx-banner{padding:14px 16px}}
 {% endstylesheet %}
 
 {% schema %}
@@ -629,9 +723,18 @@
         { "value": "swatches", "label": "Round swatches (uses each variant image)" },
         { "value": "cards", "label": "Cards with price" }
       ],
-      "default": "swatches",
+      "default": "cards",
       "info": "Swatches apply when the product has one option."
     },
+    { "type": "header", "content": "Left column" },
+    { "type": "text", "id": "banner_title", "label": "Top banner title (optional)", "info": "For example a bundle offer. Hidden when empty. Only state real offers and prices." },
+    { "type": "text", "id": "banner_sub", "label": "Top banner second line" },
+    { "type": "text", "id": "banner_tag", "label": "Top banner tag" },
+    { "type": "text", "id": "media_chip", "label": "Chip on the photo (optional)", "info": "For example the kit name and patch count. Hidden when empty." },
+    { "type": "text", "id": "zoom_label", "label": "Zoom button text", "default": "+ Inspect" },
+    { "type": "header", "content": "Question and answer panel" },
+    { "type": "text", "id": "qa_title", "label": "Panel title", "default": "Inside the patch" },
+    { "type": "text", "id": "qa_hint", "label": "Panel hint", "default": "Tap a question" },
     { "type": "text", "id": "plan_badge", "label": "Subscribe card tag", "default": "Best value", "info": "Leave empty to hide. Only keep it if Subscribe really is the best price." },
     { "type": "text", "id": "gifts_heading", "label": "Welcome gifts heading", "default": "Your welcome gifts" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
@@ -660,6 +763,15 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Gift", "default": "Travel pouch" },
         { "type": "text", "id": "note", "label": "Note (optional)", "default": "Added to your first subscription box", "info": "Only list gifts you really ship, with the real conditions." }
+      ]
+    },
+    {
+      "type": "qa",
+      "name": "Question and answer",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How does it absorb fluid?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "info": "Plain words only. Say only what is true for your product." }
       ]
     },
     {
@@ -713,6 +825,10 @@
         { "type": "bullet", "settings": { "text": "Night patch: cushioned, so it stays put while you sleep" } },
         { "type": "bullet", "settings": { "text": "Less picking: give your fingers something else to find" } },
         { "type": "bullet", "settings": { "text": "Drug-free hydrocolloid in three sizes, so there is a patch for every spot" } },
+        { "type": "qa", "settings": { "question": "How does it absorb fluid?", "answer": "Hydrocolloid is a soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered." } },
+        { "type": "qa", "settings": { "question": "Why does it turn white?", "answer": "As the patch takes in fluid, the middle can turn white or cloudy. That means it has taken in fluid. Peel it off, and swap in a fresh patch if the spot is still there." } },
+        { "type": "qa", "settings": { "question": "Day vs. night difference?", "answer": "Day patches are thin and low-shine so you can wear them in daylight. Night patches are cushioned for overnight wear." } },
+        { "type": "qa", "settings": { "question": "Using it on sensitive skin?", "answer": "Try one patch first. If your skin feels sore or irritated, take it off and stop using it. If you are unsure, ask a doctor." } },
         { "type": "plan_perk", "settings": { "text": "Cancel or skip any time" } },
         { "type": "plan_perk", "settings": { "text": "A lower price on every delivery" } },
         { "type": "gift", "settings": { "title": "Travel pouch", "note": "Added to your first subscription box" } },

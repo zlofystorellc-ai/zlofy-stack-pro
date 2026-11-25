@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.0
+- Product page buy box restyled to the editorial layout: optional dark banner above the photo, a framed photo with a kit chip and a working "+ Inspect" zoom, labelled photo tabs in a row of four, a category pill, numbered steps ("1. Kit", "2. Purchase options"), outlined formula cards in two columns, radio-style purchase cards, a 3-up trust strip, a new "Inside the patch" question panel (tap a question, the answer swaps; keyboard arrows work), and plus/minus accordions. The big price is hidden when the product has subscription plans (the cards show prices). The banner, chip and rating stay hidden until you fill them or have real reviews. Default answers are plain and make no medical claim.
+
 ## 2.0.0
 - New palette across the whole store: deep oxblood (#3B0A14 ink, #6E1423 buttons) with warm alabaster (#FBF7F5) and soft rose accents, instead of navy and bright pink. Done in one place: the colour defaults in `snippets/ap-tokens.liquid` and `config/settings_schema.json` (editable in Theme settings), plus the fixed colours inside sections, shadows and dark panels. All 39 contrast pairs still pass. The buying panel on the product page (formula cards, one-time or subscribe, quantity, sticky bar, bag drawer) already existed and now uses the new colours. Colours saved earlier in the theme editor (if any) override the defaults and must be reset there.
 

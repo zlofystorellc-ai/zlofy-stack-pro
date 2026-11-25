@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "locator": {
+      "type": "ap-store-locator"
+    }
+  },
+  "order": [
+    "locator"
+  ]
+}

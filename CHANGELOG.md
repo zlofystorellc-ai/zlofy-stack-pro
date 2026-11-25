@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.10.0
+- New "Find a store" page: section `Store locator` (`sections/ap-store-locator.liquid`, `assets/ap-locator.js`) and template `page.find-us`. It has a search box (zip, city, state or name), filter chips, a list of places and a map of the lower 48 states (real outline from Natural Earth, Albers projection, made by `scripts/gen-us-outline.mjs`) with a pin per place. The list comes ONLY from "Place" blocks you add (name, type, address, zip, latitude, longitude, website). With no places it honestly says Zlofy is sold online for now and offers a Shop button; no store or hospital is invented. The US delivery globe now has a second button, "Find a store", linking to /pages/find-us (create a page called Find us in Shopify admin with the page.find-us template).
+
 ## 2.9.1
 - US delivery globe now shows the whole real world map: land is drawn from Natural Earth 1:110m country outlines (public domain), reduced to dots (about 3,000), with the United States, Alaska and Hawaii highlighted in white and a few softly twinkling dots. It starts facing the US and turns slowly on its own so every continent comes into view; drag or arrow keys spin it. Reduced motion keeps it still until dragged. The data is made by `scripts/gen-globe-data.mjs` and sits inside `assets/ap-globe.js` (8 KB). The hint now reads "Drag to spin the globe."
 

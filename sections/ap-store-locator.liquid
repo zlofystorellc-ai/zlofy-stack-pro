@@ -1,0 +1,134 @@
+{%- comment -%}
+  Store locator: search box, filter chips, a list of places and a map of the lower 48 states with a pin for each place.
+  The list comes ONLY from the "Place" blocks you add. Nothing is invented: with no places, the section says you sell online.
+  Add a place only when a shop, pharmacy or clinic really stocks or recommends your product, and you have their OK.
+  Pins need latitude and longitude; a place without them is still listed.
+{%- endcomment -%}
+<section class="apx-loc apx-section" aria-labelledby="{{ section.id }}-title" data-ap-loc>
+  <div class="apx-wrap">
+    <div class="apx-center">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h1>
+      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    {%- if section.blocks.size == 0 -%}
+      <div class="apx-loc__empty">
+        <p>{{ section.settings.empty_text }}</p>
+        {%- if section.settings.empty_button_label != blank -%}<a class="apx-btn" href="{{ section.settings.empty_button_link | default: routes.all_products_collection_url }}">{{ section.settings.empty_button_label }}</a>{%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="apx-loc__grid">
+        <div class="apx-loc__side">
+          <form class="apx-loc__search" role="search" data-ap-loc-form>
+            <label class="apx-sr" for="{{ section.id }}-q">{{ section.settings.search_label }}</label>
+            <input id="{{ section.id }}-q" type="search" placeholder="{{ section.settings.search_label | escape }}" autocomplete="postal-code" data-ap-loc-q>
+            <button type="submit">{{ section.settings.search_button }}</button>
+          </form>
+          <div class="apx-loc__chips" role="group" aria-label="Filter" data-ap-loc-chips>
+            <button type="button" class="is-on" aria-pressed="true" data-kind="all">All</button>
+            {%- assign seen = '' -%}
+            {%- for block in section.blocks -%}
+              {%- unless seen contains block.settings.kind -%}
+                {%- assign seen = seen | append: block.settings.kind | append: '|' -%}
+                <button type="button" aria-pressed="false" data-kind="{{ block.settings.kind | handleize }}">{{ block.settings.kind }}</button>
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+          <p class="apx-loc__count" aria-live="polite" data-ap-loc-count></p>
+          <ul class="apx-loc__list" data-ap-loc-list>
+            {%- for block in section.blocks -%}
+              <li class="apx-loc__item" data-kind="{{ block.settings.kind | handleize }}" data-lat="{{ block.settings.lat }}" data-lon="{{ block.settings.lon }}" data-text="{{ block.settings.name }} {{ block.settings.address }} {{ block.settings.city }} {{ block.settings.state }} {{ block.settings.zip }}" data-i="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                <button type="button" class="apx-loc__card" data-ap-loc-card>
+                  <span class="apx-loc__kind">{{ block.settings.kind }}</span>
+                  <strong>{{ block.settings.name }}</strong>
+                  <span>{{ block.settings.address }}{% if block.settings.address != blank and block.settings.city != blank %}, {% endif %}{{ block.settings.city }}{% if block.settings.state != blank %}, {{ block.settings.state }}{% endif %} {{ block.settings.zip }}</span>
+                </button>
+                {%- if block.settings.link != blank -%}<a class="apx-loc__go" href="{{ block.settings.link }}">{{ section.settings.link_label }} <span aria-hidden="true">&rarr;</span></a>{%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+          <p class="apx-loc__none" data-ap-loc-none hidden>{{ section.settings.none_text }}</p>
+        </div>
+        <div class="apx-loc__map" aria-hidden="true">
+          <svg viewBox="0 0 1000 637" data-ap-loc-svg preserveAspectRatio="xMidYMid meet">
+            <path class="apx-loc__land" d="M102.4 20.0L144.6 31.6L189.0 42.3L203.8 45.5L249.9 54.6L294.7 62.0L340.6 68.1L386.6 72.8L438.8 76.2L491.5 77.9L523.4 77.9L523.4 69.2L528.6 69.0L531.5 81.5L536.3 85.3L547.2 86.5L563.1 89.7L578.5 96.2L591.0 92.6L610.5 97.4L615.6 96.8L629.0 89.2L644.4 96.3L660.5 103.7L674.0 110.0L687.1 116.0L689.4 121.8L693.3 123.6L692.6 126.0L697.0 126.2L699.8 123.5L701.3 128.8L705.0 132.0L709.4 131.4L712.1 134.0L710.6 138.3L728.9 146.8L735.3 167.1L741.6 186.7L738.7 201.0L732.6 214.9L730.0 223.5L729.9 225.9L732.3 229.0L738.6 231.8L742.8 231.2L760.7 215.9L777.4 209.5L797.3 194.3L797.2 191.9L794.4 185.1L791.0 181.1L797.7 176.1L813.8 173.0L828.9 170.0L832.3 160.0L833.9 157.8L847.5 137.8L853.7 132.0L877.9 126.2L907.2 118.8L907.3 112.8L912.1 110.3L917.8 105.0L920.6 93.3L920.4 74.7L927.3 54.6L934.0 58.9L943.1 52.2L951.8 56.5L961.0 86.7L975.0 96.1L980.0 102.5L966.5 118.4L952.5 131.0L937.4 142.4L932.6 158.2L931.2 164.0L934.3 176.0L943.0 186.4L950.0 185.1L946.0 177.3L952.3 180.9L952.8 187.7L942.6 194.5L934.5 196.2L923.2 203.4L916.2 206.4L906.7 210.0L894.3 220.0L918.0 209.6L924.0 212.6L902.1 225.4L891.3 228.0L891.1 225.1L887.5 232.6L892.7 232.5L892.9 249.7L884.3 270.2L881.7 264.6L877.6 264.3L870.7 259.8L876.9 271.3L882.2 274.4L884.4 283.0L880.8 293.1L874.7 313.6L872.9 313.0L875.0 296.3L864.1 289.5L858.0 270.9L856.8 281.5L863.6 295.2L851.2 294.0L864.9 298.9L870.2 320.6L875.7 321.1L879.2 328.6L886.7 350.9L878.7 370.4L860.9 381.1L851.2 396.9L842.1 400.2L834.1 410.4L832.8 418.6L814.4 437.1L805.4 449.8L798.4 464.9L797.9 481.7L803.9 497.2L813.6 515.7L825.2 530.4L826.8 540.3L840.9 565.1L842.9 580.5L843.5 589.5L840.6 604.2L834.8 608.1L824.0 607.0L819.1 597.5L810.5 593.5L796.5 575.6L784.4 559.5L780.1 551.0L782.1 535.2L774.8 523.3L756.6 506.2L748.4 503.7L729.5 516.6L725.8 515.8L714.9 506.1L701.8 501.7L679.6 506.8L661.7 505.7L646.6 508.5L638.7 512.6L642.7 518.5L643.0 528.0L647.6 532.3L644.0 535.5L636.2 532.6L628.9 537.5L614.2 537.7L598.5 526.2L581.1 529.8L566.3 524.9L553.8 526.8L536.9 532.6L518.6 549.9L498.3 559.9L486.9 570.8L482.1 581.2L481.7 597.0L482.6 608.1L486.4 616.0L478.2 616.6L463.4 611.2L447.2 603.6L441.7 592.6L437.7 576.3L426.1 562.6L419.6 548.8L410.3 532.5L396.6 522.4L380.1 521.8L366.1 539.2L349.9 530.9L340.1 523.1L336.3 509.9L330.8 497.2L320.1 485.8L310.8 477.5L304.5 468.5L270.7 464.4L269.5 474.0L253.9 471.9L215.1 466.3L173.7 442.5L146.9 425.8L149.6 421.7L124.9 419.2L103.0 416.2L102.5 403.9L93.3 388.0L85.3 383.1L84.8 376.2L74.7 372.5L69.6 364.7L53.1 358.1L49.4 353.2L50.5 340.2L39.1 312.7L33.3 277.3L35.4 272.2L29.8 262.6L22.1 239.8L25.2 220.8L20.0 205.8L29.3 188.5L34.6 169.1L34.7 150.4L47.4 131.3L55.5 111.7L63.5 92.1L69.7 61.6L70.7 41.2L69.6 29.7L72.7 26.0L92.0 39.9L94.0 63.2L99.5 58.4L102.2 39.6L102.4 20.0Z"/>
+            <g data-ap-loc-pins></g>
+          </svg>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+<script src="{{ 'ap-locator.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .apx-loc{background:linear-gradient(180deg,#FBF7F5,#F5E6E8)}
+  .apx-loc__empty{max-width:560px;margin:34px auto 0;padding:28px;border:1px solid var(--ap-line);border-radius:20px;background:#fff;text-align:center;box-shadow:0 14px 32px rgba(59,10,20,.07)}
+  .apx-loc__empty p{margin:0 0 18px;font-size:1.0625rem;line-height:1.6}
+  .apx-loc__grid{display:grid;gap:24px;margin-top:clamp(28px,4vw,48px)}
+  .apx-loc__search{display:flex;gap:0;overflow:hidden;border:1.5px solid var(--ap-ink);border-radius:999px;background:#fff}
+  .apx-loc__search input{flex:1;min-width:0;min-height:50px;padding:0 20px;border:0;background:transparent;font:inherit;font-size:1rem;color:var(--ap-ink)}
+  .apx-loc__search input:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:-4px}
+  .apx-loc__search button{flex:none;padding:0 24px;border:0;background:var(--ap-ink);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+  .apx-loc__chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+  .apx-loc__chips button{min-height:40px;padding:0 18px;border:1px solid var(--ap-line);border-radius:999px;background:#fff;color:var(--ap-ink);font:inherit;font-size:.9375rem;font-weight:600;cursor:pointer}
+  .apx-loc__chips button.is-on{background:var(--ap-ink);border-color:var(--ap-ink);color:#fff}
+  .apx-loc__chips button:focus-visible,.apx-loc__card:focus-visible,.apx-loc__search button:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-loc__count{margin:6px 0 10px;font-size:.875rem;color:var(--ap-ink-soft)}
+  .apx-loc__list{display:grid;gap:10px;max-height:560px;margin:0;padding:0 4px 4px 0;overflow:auto;list-style:none}
+  .apx-loc__item[hidden]{display:none}
+  .apx-loc__card{display:grid;gap:3px;width:100%;padding:14px 16px;border:1.5px solid var(--ap-line);border-radius:14px;background:#fff;color:var(--ap-ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+  .apx-loc__item.is-on .apx-loc__card,.apx-loc__card:hover{border-color:var(--ap-ink);box-shadow:0 10px 22px rgba(59,10,20,.1)}
+  .apx-loc__kind{font-size:.6875rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ap-blush-deep)}
+  .apx-loc__card span:last-child{font-size:.9375rem;color:var(--ap-ink-soft)}
+  .apx-loc__go{display:inline-block;margin:6px 4px 0;font-size:.875rem;font-weight:700;color:var(--ap-blush-deep)}
+  .apx-loc__none{margin:12px 0 0;padding:14px;border-radius:12px;background:#fff;color:var(--ap-ink-soft)}
+  .apx-loc__map{position:relative;padding:18px;border:1px solid var(--ap-line);border-radius:24px;background:#fff;box-shadow:0 16px 36px rgba(59,10,20,.08)}
+  .apx-loc__map svg{display:block;width:100%;height:auto}
+  .apx-loc__land{fill:#F2E3E5;stroke:#C99AA3;stroke-width:1.4;stroke-linejoin:round}
+  .apx-loc__pin{cursor:pointer}
+  .apx-loc__pin circle{fill:var(--ap-ink);stroke:#fff;stroke-width:3;transition:r .2s,fill .2s}
+  .apx-loc__pin.is-on circle,.apx-loc__pin:hover circle{fill:var(--ap-blush-deep)}
+  @media (min-width:900px){.apx-loc__grid{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:32px;align-items:start}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Store locator",
+  "tag": "div",
+  "enabled_on": { "templates": ["page"] },
+  "settings": [
+    { "type": "paragraph", "content": "Add a Place only when a shop, pharmacy or clinic really stocks or recommends your product and has agreed to be listed. With no places added, visitors see the message below. No places are made up for you." },
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Where to buy" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find a store" },
+    { "type": "textarea", "id": "text", "label": "Intro", "default": "" },
+    { "type": "textarea", "id": "empty_text", "label": "Message when no places are added", "default": "Zlofy is sold online for now, and we ship across the United States. Stores that carry it will be listed here." },
+    { "type": "text", "id": "empty_button_label", "label": "Button under that message", "default": "Shop the kit" },
+    { "type": "url", "id": "empty_button_link", "label": "Button link", "info": "Leave empty to go to all products." },
+    { "type": "text", "id": "search_label", "label": "Search box text", "default": "Search by zip code, city or store" },
+    { "type": "text", "id": "search_button", "label": "Search button", "default": "Search" },
+    { "type": "text", "id": "none_text", "label": "Message when a search finds nothing", "default": "No places match that search. Try a city or a state." },
+    { "type": "text", "id": "link_label", "label": "Link text for a place's website", "default": "Visit" }
+  ],
+  "blocks": [
+    {
+      "type": "place",
+      "name": "Place",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "select", "id": "kind", "label": "Type", "default": "Store", "options": [
+          { "value": "Store", "label": "Store" }, { "value": "Pharmacy", "label": "Pharmacy" }, { "value": "Clinic", "label": "Clinic" }, { "value": "Other", "label": "Other" } ] },
+        { "type": "text", "id": "address", "label": "Street address" },
+        { "type": "text", "id": "city", "label": "City" },
+        { "type": "text", "id": "state", "label": "State (for example TX)" },
+        { "type": "text", "id": "zip", "label": "Zip code" },
+        { "type": "text", "id": "lat", "label": "Latitude (for the map pin)", "info": "For example 29.7604. Leave empty for no pin." },
+        { "type": "text", "id": "lon", "label": "Longitude (for the map pin)", "info": "For example -95.3698." },
+        { "type": "url", "id": "link", "label": "Website (optional)" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Store locator" } ]
+}
+{% endschema %}

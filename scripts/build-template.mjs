@@ -99,26 +99,12 @@ const howPage = {
   order: []
 };
 const howSections = [
-  ['banner', 'ap-page-banner', { settings: { eyebrow: 'How it works', heading: 'Two patches. One kit. Simple to use.', text: 'Drug-free hydrocolloid patches that cover a surfaced spot and help absorb fluid: a thin one for the day and a cushioned one for the night.', button_label: 'Shop now', note: '' } }],
-  ['system', 'ap-system-parts', { settings: { eyebrow: 'The system', heading: 'Two patches. One kit.', text: 'Both are the same soft hydrocolloid layer with a breathable film on top. What changes is how thin or how cushioned they are, so you can pick the right one for the moment.' } }],
-  ['watch', 'ap-how-it-works', { settings: { eyebrow: 'Watch it work', heading: 'Press, wait, peel.' }, blocks: [
-    { type: 'step', settings: { title: 'Cleanse and dry', text: 'Wash your face gently and pat dry. Patches stick best to clean, dry skin.' } },
-    { type: 'step', settings: { title: 'Press on', text: 'Place the patch over the spot and press from the center out so the edges seal.' } },
-    { type: 'step', settings: { title: 'Wear, then peel', text: 'Leave it on for 6 to 8 hours, or until it turns white. Peel from an edge, toss it, and add a fresh one if the spot is still there.' } }
-  ] }],
-  ['built', 'ap-stats-strip', { settings: { eyebrow: 'Made for real days', heading: 'What you can expect', note: '' }, blocks: [
-    { type: 'stat', settings: { value: '6–8h', label: 'typical wear time' } },
-    { type: 'stat', settings: { value: '2', label: 'patch types: day and night' } },
-    { type: 'stat', settings: { value: '3', label: 'sizes for different spots' } }
-  ] }],
-  ['spots', 'ap-feature-cards', { settings: { eyebrow: 'Spot by spot', heading: 'Different spots, one simple routine', text: 'Pick the size for the spot and the patch for the moment.' }, blocks: [
-    { type: 'card', settings: { icon: 'shield', title: 'A single spot', text: 'A small patch that sits right over one surfaced spot.' } },
-    { type: 'card', settings: { icon: 'layers', title: 'A few spots', text: 'Use several small patches side by side, each covering its own spot.' } },
-    { type: 'card', settings: { icon: 'check', title: 'Back, shoulders, chest', text: 'The larger body strip covers more area. Press it flat and keep it dry.' } },
-    { type: 'card', settings: { icon: 'clock', title: 'On the go', text: 'Keep a few in a bag and swap one when it has turned white or the edges lift.' } }
-  ] }],
-  ['sizes', 'ap-size-guide'],
-  ['compare', 'ap-comparison'],
+  ['parts', 'ap-mosaic-parts'],
+  ['watch', 'ap-watch-band'],
+  ['perform', 'ap-feature-banner'],
+  ['proof', 'ap-media-cards'],
+  ['sizes', 'ap-size-slider'],
+  ['duo', 'ap-duo-band'],
   ['faq', 'ap-faq'],
   ['newsletter', 'ap-newsletter']
 ];
@@ -127,6 +113,10 @@ for (const [key, type, overrides] of howSections) {
   howPage.order.push(key);
 }
 writeFileSync(join(root, 'templates', 'page.how-it-works.json'), JSON.stringify(howPage, null, 2) + '\n');
+
+// "Find a store" page (templates/page.find-us.json): create a page in Shopify admin and pick this template. It lists only the places you add.
+const findPage = { sections: { locator: sectionFromPreset('ap-store-locator') }, order: ['locator'] };
+writeFileSync(join(root, 'templates', 'page.find-us.json'), JSON.stringify(findPage, null, 2) + '\n');
 
 const header = {
   name: 'Header',

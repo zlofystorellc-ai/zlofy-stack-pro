@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.2
+- Product page: the payment icons under the trust strip are now a picture of the real logos (Visa, Mastercard, American Express, Apple Pay, Shop Pay) in white tiles (`assets/ap-payment-strip.png`, 60 KB), replacing the plain text boxes. Turn it off with "Show payment logos". Show it only for methods your checkout accepts.
+
 ## 2.2.1
 - Product page "Add to bag" button: soft oxblood shadow, lifts a little on hover, presses down on click; no shadow when disabled.
 

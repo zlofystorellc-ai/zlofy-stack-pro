@@ -731,6 +731,42 @@
   .apx-acc{margin-top:.75rem}
   .apx-acc__item summary{min-height:46px;font-size:.9rem}
   .apx-acc__body{padding-bottom:12px;font-size:.875rem;line-height:1.55}
+
+  /* phones: compact, app-like buy box */
+  @media (max-width:759px){
+    .apx-pdp{gap:14px;padding-block:8px 28px}
+    .apx-banner{margin-bottom:10px;padding:11px 14px;border-radius:12px}
+    .apx-banner__t{font-size:.9375rem}
+    .apx-banner__s{font-size:.75rem}
+    .apx-banner__tag{display:none}
+    .apx-gallery__stage{border-radius:22px}
+    .apx-gallery__thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px}
+    .apx-gallery__thumbs::-webkit-scrollbar{display:none}
+    .apx-gallery__thumbs li{flex:none;width:68px;scroll-snap-align:start}
+    .apx-gallery__thumbs button{width:100%;padding:4px;border-radius:12px}
+    .apx-gallery__thumbs button img{width:100%;height:auto;aspect-ratio:1/1;border-radius:8px}
+    .apx-gallery__lab{display:none}
+    .apx-info__title{font-size:1.75rem;margin-bottom:.3em}
+    .apx-info__lead{margin-bottom:1rem;font-size:1rem;line-height:1.5}
+    .apx-options__grid:not(.apx-options__grid--swatch){grid-template-columns:1fr;gap:8px}
+    .apx-options__grid:not(.apx-options__grid--swatch) .apx-card label{min-height:62px;padding:10px 12px}
+    .apx-card--note .apx-card__txt .apx-card__name{font-size:1rem}
+    .apx-qa{padding:14px;margin:.9rem 0}
+    .apx-qa__top{flex-wrap:wrap;gap:2px 10px}
+    .apx-qa__chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:-14px;padding:2px 14px;scrollbar-width:none}
+    .apx-qa__chips::-webkit-scrollbar{display:none}
+    .apx-qa__chip{flex:none;white-space:nowrap;min-height:44px}
+    .apx-bullets{flex-wrap:nowrap;overflow-x:auto;margin-inline:calc(var(--ap-gutter) * -1);padding:2px var(--ap-gutter);scrollbar-width:none}
+    .apx-bullets::-webkit-scrollbar{display:none}
+    .apx-bullets li{flex:none;white-space:nowrap}
+    .apx-trio{padding:12px 14px}
+    .apx-buy__atc{min-height:54px}
+    .apx-payimg{max-width:300px;margin:.5rem auto .75rem}
+    .apx-gallery__chip,.apx-gallery__zoom{top:10px;min-height:36px;font-size:.75rem}
+    .apx-gallery__chip{left:10px}.apx-gallery__zoom{right:10px}
+  }
+  @media (max-width:759px){.apx-card--note label{justify-content:flex-start}}
+  @media (max-width:759px){.apx-label__contact a{display:inline-block;padding:.65rem .2rem}.apx-gallery__chip,.apx-gallery__zoom{min-height:40px}}
 {% endstylesheet %}
 
 {% schema %}

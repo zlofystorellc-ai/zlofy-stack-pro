@@ -159,6 +159,21 @@
   .apx-prob__node{border-color:var(--ap-ink);color:var(--ap-ink);width:44px;height:44px}
   .apx-prob__chip{left:12px;bottom:12px}
   @media (min-width:900px){.apx-prob__t{min-height:2.45em;margin-bottom:4px}.apx-prob__node{top:30px}.apx-prob__line{top:52px;background:linear-gradient(90deg,var(--ap-ink),var(--ap-apricot))}}
+
+  /* phones: swipe through the four moments instead of a long vertical list */
+  @media (max-width:599px){
+    .apx-prob__steps{display:flex;gap:14px;margin:24px calc(var(--ap-gutter) * -1) 0;padding:4px var(--ap-gutter) 14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+    .apx-prob__steps::-webkit-scrollbar{display:none}
+    .apx-prob__line{display:none}
+    .apx-prob__step{flex:0 0 76%;scroll-snap-align:center;padding:0}
+    .apx-prob__node{position:static;width:40px;height:40px;margin:0 0 10px}
+    .apx-prob__time{position:static;margin:0 0 6px}
+    .apx-prob__photo{aspect-ratio:4/5}
+    .apx-prob__t{min-height:0;font-size:1.1875rem}
+    .apx-prob__cap{margin-top:26px}
+    .apx-prob__pains-l li{font-size:.8125rem;padding:.45rem .8rem}
+  }
+  @media (max-width:599px){.apx-prob__pains-l{flex-wrap:nowrap;justify-content:flex-start;margin-inline:calc(var(--ap-gutter) * -1);padding:2px var(--ap-gutter);overflow-x:auto;scrollbar-width:none}.apx-prob__pains-l::-webkit-scrollbar{display:none}.apx-prob__pains-l li{flex:none;white-space:nowrap}}
 {% endstylesheet %}
 
 {% schema %}

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.11.1
+- Footer colour now uses the site's own ink colour (the same oxblood as the buttons, banners and headings, `--ap-ink`, #3B0A14) instead of a separate darker brown, so it follows Theme settings > Colors. The US delivery globe and Video cards bands use the same ink colour (fading to a slightly warmer oxblood), so the dark bands on the page now match each other.
+
 ## 2.11.0
 - "Video cards" section redesigned as a filmstrip: deep oxblood background with slow colour glows, tall rounded cards with a number and a "Demonstration" tag, the middle card grows and plays by itself (muted, looping, with a thin progress line), the others dim; tap any card to play or pause, arrows, dots and the arrow keys move along, cards tilt toward the mouse on laptops, and the stats sit in glass tiles. It now uses the theme's own demonstration clips (press-wait-peel, spot then close-up, patch close-up, patch cutaway), which are AI-generated and labelled, so nothing is called a customer. The "Real routines" pill, "First name / Customer" cards and the "6-8 hours per patch" stat are gone; stats are now 2 patch types, 1 kit for day and night, 30-day guarantee. Your own video or photo still works on any card. Nothing autoplays for visitors who prefer reduced motion.
 

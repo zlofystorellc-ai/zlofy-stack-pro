@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.1
+- Product page "Add to bag" button: soft oxblood shadow, lifts a little on hover, presses down on click; no shadow when disabled.
+
 ## 2.2.0
 - Header matches the reference: a slim oxblood announcement bar with a small outlined pill ("Free US shipping $35+") and one calm line, the logo on the left, links centred, and a dark "Bag" pill with a count on the right (the old icon is gone). The links now come from Theme settings > Header links (Shop, Hydrocolloid science, How it works, FAQ), so they work without editing the store's Main menu; clear every label to use the Main menu instead. Anchors that exist: #shop, #ingredient, #how, #faq on the home page; the links use /#... so they also work from the product page. Added id="faq" to both FAQ sections. A "Verified Results" link was not added.
 

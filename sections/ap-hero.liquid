@@ -669,6 +669,10 @@
   .apx-card--plan input:checked + label{background:linear-gradient(180deg,#fff,#FBF3F4)}
   .apx-perks{background:#FBF7F5}
   .apx-btn.apx-buy__atc,.apx-buy__atc{min-height:56px;font-weight:700;letter-spacing:.01em}
+  .apx-buy__atc{box-shadow:0 14px 28px rgba(59,10,20,.32),0 4px 10px rgba(59,10,20,.18);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+  .apx-buy__atc:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 20px 36px rgba(59,10,20,.38),0 6px 14px rgba(59,10,20,.2)}
+  .apx-buy__atc:active:not(:disabled){transform:translateY(0);box-shadow:0 8px 16px rgba(59,10,20,.3)}
+  .apx-buy__atc:disabled{box-shadow:none}
   .apx-qty{border-radius:999px}
   .apx-assure{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1rem 0;padding:14px;border:1px solid var(--ap-line);border-radius:16px;background:#fff;text-align:center}
   .apx-assure li{flex-direction:column;gap:6px;font-size:.8125rem;line-height:1.35}

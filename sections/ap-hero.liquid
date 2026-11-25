@@ -383,14 +383,14 @@
     {%- endif -%}
 
     <aside class="apx-label" aria-labelledby="{{ form_id }}-label">
-      <h2 id="{{ form_id }}-label" class="apx-label__title">{{ 'ap.product.good_to_know' | t }}</h2>
+      <h2 id="{{ form_id }}-label" class="apx-label__title">{% render 'ap-icon', name: 'check', size: 14 %}<span>{{ 'ap.product.good_to_know' | t }}</span></h2>
       {%- if product.metafields.custom.warnings.value != blank -%}
         <p>{{ product.metafields.custom.warnings.value | escape | newline_to_br }}</p>
       {%- else -%}
         <p>{{ 'ap.product.default_warnings' | t }}</p>
       {%- endif -%}
       {%- if product.metafields.custom.wear_time.value != blank -%}
-        <p><strong>{{ 'ap.product.wear_time' | t }}</strong> {{ product.metafields.custom.wear_time.value }}</p>
+        <p class="apx-label__wear"><strong>{{ 'ap.product.wear_time' | t }}</strong><span>{{ product.metafields.custom.wear_time.value }}</span></p>
       {%- endif -%}
       {%- if product.metafields.custom.material.value != blank -%}
         <details>
@@ -718,6 +718,21 @@
     .apx-gallery__thumbs button img{width:100%;height:auto;aspect-ratio:1/1;border-radius:10px;object-fit:cover}
   }
   .apx-options__grid:not(.apx-options__grid--swatch){grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+
+  /* "Good to know": compact, tidy note */
+  .apx-label{margin:.5rem 0 0;padding:12px 16px 12px 18px;border:1px solid var(--ap-line);border-left:3px solid var(--ap-blush-deep);border-radius:12px;background:#FBF7F5;font-size:.8125rem;line-height:1.5;color:var(--ap-ink-soft)}
+  .apx-label__title{display:flex;align-items:center;gap:.4rem;margin:0 0 .3rem;font-family:var(--ap-font);font-size:.6875rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-ink)}
+  .apx-label__title .apx-icon{color:var(--ap-blush-deep)}
+  .apx-label p{margin:0 0 .35rem}
+  .apx-label__wear{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .6rem;margin:.1rem 0 .35rem!important}
+  .apx-label__wear strong{color:var(--ap-ink);font-size:.75rem;letter-spacing:.02em}
+  .apx-label__wear span{padding:.15rem .6rem;border-radius:999px;background:#fff;border:1px solid var(--ap-line);color:var(--ap-ink);font-size:.75rem;font-weight:600}
+  .apx-label__contact{margin:0!important;font-size:.75rem}
+  .apx-label__contact a{color:var(--ap-blush-deep);font-weight:600}
+  .apx-label summary{min-height:36px}
+  .apx-acc{margin-top:.75rem}
+  .apx-acc__item summary{min-height:46px;font-size:.9rem}
+  .apx-acc__body{padding-bottom:12px;font-size:.875rem;line-height:1.55}
 {% endstylesheet %}
 
 {% schema %}

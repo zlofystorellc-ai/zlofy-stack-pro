@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.2
+- Product page title ("Day & Night Pimple Patches") now stays on one line on laptops: the size scales with the screen from 28 px up to 40 px. Phones still wrap it if needed.
+
 ## 2.8.1
 - Product page top section made smaller on laptops: the frame is 1120 px wide (was up to 1440 px), so each column is about 520 px instead of 676 px, with a 48 px gap. Same proportions: square photo card, tall photo tabs (about 121 x 145 px), kit cards in rows.
 

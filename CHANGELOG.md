@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.1
+- Product page top section made smaller on laptops: the frame is 1120 px wide (was up to 1440 px), so each column is about 520 px instead of 676 px, with a 48 px gap. Same proportions: square photo card, tall photo tabs (about 121 x 145 px), kit cards in rows.
+
 ## 2.8.0
 - Product page top section: proportions set like the reference on laptops. The frame is wider (up to 1440 px), the photo column and the buy column are equal width with a 56 px gap and no divider line, the photo card is a square, the photo tabs are tall tiles with a large preview (about 160 x 185 px), and the kit cards sit three to a row. Phones and tablets are unchanged.
 

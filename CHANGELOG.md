@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.3
+- Product page intro under the title replaced with: "Wear the 0.15 mm ultra-thin matte Day patch to school or work. Switch to the 0.35 mm cushioned Night patch before bed. One kit engineered for every stage of a surfaced spot." The two sizes (0.15 mm and 0.35 mm) come from the owner and must match the real patches.
+
 ## 2.8.2
 - Product page title ("Day & Night Pimple Patches") now stays on one line on laptops: the size scales with the screen from 28 px up to 40 px. Phones still wrap it if needed.
 

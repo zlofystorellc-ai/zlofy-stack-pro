@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.15.0
+- Product page "What the patch is made of": the demonstration photo is replaced by a built-in close-up video (`assets/ap-ingredient-prod-video.mp4`, 10 s, 2 MB, audio removed) of a thin patch over a small spot, in a clean portrait window with a soft ring, a pause button and an "AI-generated illustration" note. It plays only while on screen and never autoplays for reduced motion. The section also gets the site's soft blush-to-lilac background with drifting glows and floating patch dots, a staged entrance, and a mouse tilt on laptops. The photo is still there as an option (turn the video off).
+
 ## 1.14.2
 - Home banner: the built-in video is replaced by a new 15 s clip (a face with a spot, then a close-up of a patch on it). Audio removed, 3.2 MB, new cover image. It is an AI-generated illustration, not a real customer.
 

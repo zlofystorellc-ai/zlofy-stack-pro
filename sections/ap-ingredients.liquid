@@ -16,11 +16,29 @@
   assign free_items = section.settings.free_from | newline_to_br | split: '<br />'
 -%}
 {%- if section.blocks.size > 0 or full_list != blank -%}
-<section class="apx-ing apx-section" id="ingredients" aria-labelledby="{{ section.id }}-title">
-  <div class="apx-wrap">
+<section class="apx-ing apx-section" id="ingredients" aria-labelledby="{{ section.id }}-title" data-ap-hi-root>
+  <div class="apx-ing__bg" aria-hidden="true">
+    <i class="apx-ing__blob apx-ing__blob--1"></i><i class="apx-ing__blob apx-ing__blob--2"></i>
+    <b style="--x:7%;--s:28px;--d:18s;--l:0s"></b><b style="--x:36%;--s:18px;--d:22s;--l:-9s"></b><b style="--x:62%;--s:36px;--d:26s;--l:-13s"></b><b style="--x:88%;--s:22px;--d:20s;--l:-5s"></b>
+  </div>
+  <div class="apx-wrap apx-ing__in">
     <div class="apx-ing__split">
       <div class="apx-ing__visual">
-        {%- if section.settings.show_builtin_photo -%}
+        {%- if section.settings.show_builtin_video -%}
+          <figure class="apx-ing__fig apx-ing__fig--video" data-ap-hi>
+            <div class="apx-ing__vid">
+              <video muted playsinline loop preload="metadata" poster="{{ 'ap-ingredient-prod-video.jpg' | asset_url }}" aria-label="{{ section.settings.video_alt | escape }}" data-ap-hi-video>
+                <source src="{{ 'ap-ingredient-prod-video.mp4' | asset_url }}" type="video/mp4">
+              </video>
+              <span class="apx-ing__shine" aria-hidden="true"></span>
+              <button type="button" class="apx-ing__pause" data-ap-hi-pause aria-pressed="false" aria-label="{{ 'ap.ingredient.pause' | t }}">
+                <svg class="apx-hi__i-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+                <svg class="apx-hi__i-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+              </button>
+              {%- if section.settings.video_note != blank -%}<span class="apx-ing__vnote">{{ section.settings.video_note }}</span>{%- endif -%}
+            </div>
+          </figure>
+        {%- elsif section.settings.show_builtin_photo -%}
           <figure class="apx-ing__fig">
             <div class="apx-ing__photo"><img src="{{ 'ap-card-swap.jpg' | asset_url }}" alt="{{ section.settings.builtin_alt | escape }}" width="738" height="1100" loading="lazy"></div>
             {%- if section.settings.photo_caption != blank -%}<figcaption class="apx-ing__cap">{{ section.settings.photo_caption }}</figcaption>{%- endif -%}
@@ -142,9 +160,36 @@
     {%- if section.settings.note != blank -%}<p class="apx-fine apx-center apx-ing__note">{{ section.settings.note }}</p>{%- endif -%}
   </div>
 </section>
+<script src="{{ 'ap-ingredient.js' | asset_url }}" type="module"></script>
 {%- endif -%}
 
 {% stylesheet %}
+  .apx-ing{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#FFF4F6 55%,#F8F1FF 100%)}
+  .apx-ing__in{position:relative;z-index:1}
+  .apx-ing__bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .apx-ing__blob{position:absolute;border-radius:50%;filter:blur(70px);will-change:transform;transform:translate3d(0,calc(var(--sp,0) * -40px),0)}
+  .apx-ing__blob--1{width:420px;height:420px;left:-120px;top:10%;background:var(--ap-blush);opacity:.22;animation:apx-ing-drift 18s ease-in-out infinite alternate}
+  .apx-ing__blob--2{width:460px;height:460px;right:-150px;bottom:-120px;background:var(--ap-lilac);opacity:.45;animation:apx-ing-drift 22s ease-in-out -7s infinite alternate-reverse}
+  @keyframes apx-ing-drift{from{margin:0}to{margin:40px 0 0 50px}}
+  .apx-ing__bg b{position:absolute;left:var(--x);bottom:-60px;width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.95),rgba(255,255,255,.4) 60%,rgba(255,255,255,.1));box-shadow:inset 0 0 0 1.5px #fff,0 6px 14px rgba(207,39,73,.12);opacity:0;animation:apx-ing-rise var(--d) linear var(--l) infinite}
+  @keyframes apx-ing-rise{0%{transform:translate3d(0,0,0) scale(.8);opacity:0}12%{opacity:.9}85%{opacity:.7}100%{transform:translate3d(24px,-115vh,0) scale(1.1);opacity:0}}
+  /* the video: a clean portrait window with a soft ring and glow */
+  .apx-ing__vid{position:relative;overflow:hidden;aspect-ratio:4/5;max-width:440px;margin-inline:auto;border-radius:28px;background:#2a2147;box-shadow:0 0 0 7px rgba(255,255,255,.85),0 0 0 8px rgba(249,93,117,.35),0 34px 70px rgba(207,39,73,.22);transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .4s ease}
+  .apx-ing__vid:hover{box-shadow:0 0 0 7px #fff,0 0 0 9px rgba(249,93,117,.55),0 44px 90px rgba(207,39,73,.3)}
+  .apx-ing__vid video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .apx-ing__shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(27,27,58,.18),transparent 25%,transparent 70%,rgba(27,27,58,.3)),radial-gradient(circle at 25% 15%,rgba(255,255,255,.22),transparent 45%)}
+  .apx-ing__pause{position:absolute;right:14px;bottom:14px;z-index:2;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1.5px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(27,27,58,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;cursor:pointer}
+  .apx-ing__pause:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .apx-ing__pause .apx-hi__i-play{display:none}
+  .apx-ing__pause[aria-pressed="true"] .apx-hi__i-pause{display:none}
+  .apx-ing__pause[aria-pressed="true"] .apx-hi__i-play{display:block}
+  .apx-ing__vnote{position:absolute;left:14px;bottom:20px;z-index:2;padding:.28rem .7rem;border-radius:8px;background:rgba(27,27,58,.62);color:#E6E9F2;font-size:.6875rem;letter-spacing:.04em}
+  /* staged entrance */
+  .apx-ing.is-armed .apx-ing__copy>*,.apx-ing.is-armed .apx-ing__row{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .apx-ing.is-armed .apx-ing__visual{opacity:0;transform:scale(.93);transition:opacity .9s ease .1s,transform .9s cubic-bezier(.2,.7,.2,1) .1s}
+  .apx-ing.is-armed.is-in .apx-ing__copy>*,.apx-ing.is-armed.is-in .apx-ing__row,.apx-ing.is-armed.is-in .apx-ing__visual{opacity:1;transform:none}
+  .apx-ing.is-in .apx-ing__copy>:nth-child(2){transition-delay:.1s}.apx-ing.is-in .apx-ing__copy>:nth-child(3){transition-delay:.2s}.apx-ing.is-in .apx-ing__copy>:nth-child(n+4){transition-delay:.3s}
+  @media (prefers-reduced-motion:reduce){.apx-ing__blob,.apx-ing__bg b{animation:none}.apx-ing__bg b{opacity:.5;bottom:20%}.apx-ing__blob{transform:none}.apx-ing__vid{transform:none}.apx-ing.is-armed .apx-ing__copy>*,.apx-ing.is-armed .apx-ing__row,.apx-ing.is-armed .apx-ing__visual{opacity:1;transform:none;transition:none}}
   .apx-ing__split{display:grid;gap:36px;align-items:center}
   .apx-ing__copy .apx-lede{margin:.5rem 0 0}
   .apx-ing__rows{display:grid;gap:0;margin:28px 0 0;padding:0;list-style:none;border-top:1px solid var(--ap-line)}
@@ -223,6 +268,9 @@
       "label": "Intro",
       "default": "What is in the patch, in plain words. The full label is below, exactly as printed on the pack."
     },
+    { "type": "checkbox", "id": "show_builtin_video", "label": "Show the built-in close-up video", "default": true, "info": "A short AI-generated close-up of a thin patch on a spot (muted, loops, can be paused). It is an illustration, NOT a real customer. Turn off to use the demonstration photo below." },
+    { "type": "text", "id": "video_note", "label": "Note on the video", "default": "AI-generated illustration" },
+    { "type": "text", "id": "video_alt", "label": "Video description", "default": "A close-up of a thin, clear round patch covering a small spot on the chin" },
     { "type": "checkbox", "id": "show_builtin_photo", "label": "Show the built-in demonstration photo", "default": true, "info": "An AI-generated photo of a used patch (white in the middle) beside a fresh one. It is NOT a real customer. Turn off to use your own photo or the layer drawing." },
     { "type": "text", "id": "photo_caption", "label": "Photo caption", "default": "Demonstration photo" },
     { "type": "text", "id": "builtin_alt", "label": "Built-in photo description", "default": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip" },

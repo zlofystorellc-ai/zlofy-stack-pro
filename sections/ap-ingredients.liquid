@@ -106,7 +106,20 @@
     {%- endif -%}
 
     {%- if full_list != blank -%}
-      <div class="apx-ing__label">
+      <div class="apx-ing__label{% if section.settings.show_label_video %} apx-ing__label--video{% endif %}">
+        {%- if section.settings.show_label_video -%}
+          <figure class="apx-ing__lv" data-ap-hi>
+            <video muted playsinline loop preload="none" poster="{{ 'ap-ingredient-label-video.jpg' | asset_url }}" aria-label="{{ section.settings.label_video_alt | escape }}" data-ap-hi-video>
+              <source src="{{ 'ap-ingredient-label-video.mp4' | asset_url }}" type="video/mp4">
+            </video>
+            <button type="button" class="apx-ing__pause apx-ing__pause--s" data-ap-hi-pause aria-pressed="false" aria-label="{{ 'ap.ingredient.pause' | t }}">
+              <svg class="apx-hi__i-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+              <svg class="apx-hi__i-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+            </button>
+            {%- if section.settings.label_video_note != blank -%}<figcaption class="apx-ing__lvnote">{{ section.settings.label_video_note }}</figcaption>{%- endif -%}
+          </figure>
+        {%- endif -%}
+        <div class="apx-ing__label-main">
         <p class="apx-ing__label-t">{{ section.settings.full_list_title }}</p>
         <div class="apx-ing__label-b">
           {%- if full_list contains '<' -%}
@@ -124,6 +137,7 @@
             {%- endfor -%}
           </ul>
         {%- endif -%}
+        </div>
       </div>
     {%- endif -%}
 
@@ -226,6 +240,14 @@
   /* label */
   .apx-ing__label{max-width:860px;margin:clamp(32px,5vw,56px) auto 0;padding:22px 26px;border:2px solid var(--ap-ink);border-radius:6px;background:var(--ap-white)}
   .apx-ing__label-t{margin:0 0 .5rem;padding-bottom:.5rem;border-bottom:4px solid var(--ap-ink);font-size:1.5rem;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+  /* label box with a video: stacked on phones, side by side on laptops */
+  .apx-ing__label--video{max-width:960px;display:grid;gap:20px;padding:18px}
+  .apx-ing__lv{position:relative;margin:0;overflow:hidden;border-radius:4px;aspect-ratio:16/9;background:#eceaf2}
+  .apx-ing__lv video{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-ing__pause--s{right:10px;bottom:10px;width:40px;height:40px}
+  .apx-ing__lvnote{position:absolute;left:10px;bottom:12px;padding:.22rem .6rem;border-radius:6px;background:rgba(27,27,58,.62);color:#E6E9F2;font-size:.6875rem;letter-spacing:.04em}
+  .apx-ing__label--video .apx-ing__label-main{padding:4px 8px 8px}
+  @media (min-width:760px){.apx-ing__label--video{grid-template-columns:minmax(0,5fr) minmax(0,4fr);align-items:center;gap:28px;padding:22px}.apx-ing__label--video .apx-ing__label-main{padding:0}}
   .apx-ing__label-b{color:var(--ap-ink);font-size:.9375rem;line-height:1.6}
   .apx-ing__label-b p{margin:0}
   .apx-ing__free{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none}
@@ -268,6 +290,9 @@
       "label": "Intro",
       "default": "What is in the patch, in plain words. The full label is below, exactly as printed on the pack."
     },
+    { "type": "checkbox", "id": "show_label_video", "label": "Show the close-up video inside the ingredient label box", "default": true, "info": "A short AI-generated close-up of a patch (muted, loops, can be paused). It is an illustration, NOT a real customer. Phones: stacked above the list. Laptops: beside it." },
+    { "type": "text", "id": "label_video_note", "label": "Note on the label video", "default": "AI-generated illustration" },
+    { "type": "text", "id": "label_video_alt", "label": "Label video description", "default": "A close-up of a thin, clear hydrocolloid patch resting on a white surface" },
     { "type": "checkbox", "id": "show_builtin_video", "label": "Show the built-in close-up video", "default": true, "info": "A short AI-generated close-up of a thin patch on a spot (muted, loops, can be paused). It is an illustration, NOT a real customer. Turn off to use the demonstration photo below." },
     { "type": "text", "id": "video_note", "label": "Note on the video", "default": "AI-generated illustration" },
     { "type": "text", "id": "video_alt", "label": "Video description", "default": "A close-up of a thin, clear round patch covering a small spot on the chin" },

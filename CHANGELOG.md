@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.15.1
+- Product page ingredient label box: a built-in close-up video (`assets/ap-ingredient-label-video.mp4`, 10 s, 1.8 MB, landscape 16:9, audio removed) sits inside the box. On laptops it is beside the ingredient list; on phones it stacks above it at full width. It loads only when scrolled near (preload none), plays only while on screen, has a pause button, and never autoplays for reduced motion. It is an AI-generated illustration (noted on the video). Turn it off in the section with "Show the close-up video inside the ingredient label box".
+
 ## 1.15.0
 - Product page "What the patch is made of": the demonstration photo is replaced by a built-in close-up video (`assets/ap-ingredient-prod-video.mp4`, 10 s, 2 MB, audio removed) of a thin patch over a small spot, in a clean portrait window with a soft ring, a pause button and an "AI-generated illustration" note. It plays only while on screen and never autoplays for reduced motion. The section also gets the site's soft blush-to-lilac background with drifting glows and floating patch dots, a staged entrance, and a mouse tilt on laptops. The photo is still there as an option (turn the video off).
 

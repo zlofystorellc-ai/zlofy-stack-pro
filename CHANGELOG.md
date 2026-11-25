@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.0
+- Home "One kit for the whole day" (Day and night panels) rebuilt to the new reference: outlined pill, big serif heading with a small gold-to-oxblood rule, a pale gold Day card (wider) and a deep oxblood Night card, each with a round icon, a time pill, short text, three chips and a side-on cross-section drawing panel, then a white strip with two points and a small note. Every word is editable. Left out because unverified: millimetre sizes, 15 degree edge, "8+ hour pillow-lock", "medical-grade", "fragrance-free", "non-drying", "visibly flattens in 6 hours", "safe for sensitive skin", "stays put while you sleep" and "absorbs deeper". The drawings are marked as illustrations, not to scale. The old hover-grow, round decorative circles and photo slots are gone.
+
 ## 2.6.0
 - Footer reworked to the newer reference: a four-point trust bar on top (drug-free hydrocolloid, day and night patches, US dispatch, 30-day guarantee), then the ZLOFY name with a tagline, small badges and the email sign-up, three link columns (Shop, The science, Support), a "US customer care" card with your support email, the big soft wordmark, and a bottom bar with four legal links, payment logos and the cosmetic-use note. Everything is editable in Theme settings > Footer links. Not added because they are unverified: "Dermatologist tested", "Cruelty-free", "Fragrance-free", "Visible results in 6 hours", "Reply under 4 hours", opening hours, the company name and address line, shipping within 24 hours, and the footnote claiming blemishes are reduced in 6 hours. Product prices in the Shop links were left out.
 

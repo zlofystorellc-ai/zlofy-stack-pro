@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.1.1
+- Product page buy box: formula cards can now carry an icon, a second line and a small tag (new "Formula card note" blocks, matched by option value), a 3-column trust strip (US dispatch, guarantee, clean formula; edit the text to match your real policy), the question panel is titled "Inside the patch · Hydrocolloid science", and the starting template fills the top banner and the photo chip. Preview product now uses the four formula names.
+
 ## 2.1.0
 - Product page buy box restyled to the editorial layout: optional dark banner above the photo, a framed photo with a kit chip and a working "+ Inspect" zoom, labelled photo tabs in a row of four, a category pill, numbered steps ("1. Kit", "2. Purchase options"), outlined formula cards in two columns, radio-style purchase cards, a 3-up trust strip, a new "Inside the patch" question panel (tap a question, the answer swaps; keyboard arrows work), and plus/minus accordions. The big price is hidden when the product has subscription plans (the cards show prices). The banner, chip and rating stay hidden until you fill them or have real reviews. Default answers are plain and make no medical claim.
 

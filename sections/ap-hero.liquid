@@ -206,9 +206,16 @@
                 {%- if product.options.size == 1 -%}
                   {%- for v in product.variants -%}{%- if v.option1 == value -%}{%- assign card_variant = v -%}{%- endif -%}{%- endfor -%}
                 {%- endif -%}
-                <div class="apx-card">
+                {%- assign note = nil -%}
+                {%- for nb in section.blocks -%}{%- if nb.type == 'option_note' and nb.settings.value == value -%}{%- assign note = nb -%}{%- endif -%}{%- endfor -%}
+                <div class="apx-card{% if note %} apx-card--note{% endif %}" {% if note %}{{ note.shopify_attributes }}{% endif %}>
                   <input type="radio" id="{{ input_id }}" name="option_{{ opt_index }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
                   <label for="{{ input_id }}">
+                    {%- if note -%}
+                      {%- if note.settings.tag != blank -%}<span class="apx-card__flag">{{ note.settings.tag }}</span>{%- endif -%}
+                      <span class="apx-card__ico" aria-hidden="true">{% render 'ap-icon', name: note.settings.icon, size: 20 %}</span>
+                      <span class="apx-card__txt"><span class="apx-card__name">{{ value }}</span>{%- if note.settings.subtitle != blank -%}<span class="apx-card__sub">{{ note.settings.subtitle }}</span>{%- endif -%}</span>
+                    {%- endif -%}
                     {%- if swatch_mode -%}
                       <span class="apx-swatch" aria-hidden="true">
                         {%- if card_variant.featured_media.preview_image != blank -%}
@@ -218,8 +225,8 @@
                         {%- endif -%}
                       </span>
                     {%- endif -%}
-                    <span class="apx-card__name">{{ value }}</span>
-                    {%- if card_variant -%}
+                    {%- unless note -%}<span class="apx-card__name">{{ value }}</span>{%- endunless -%}
+                    {%- if card_variant and note == nil -%}
                       {%- assign card_count = card_variant.metafields.custom.patch_count.value | default: product_patch_count -%}
                       <span class="apx-card__price">{{ card_variant.price | money }}</span>
                       {%- if card_count > 0 -%}
@@ -333,7 +340,16 @@
       <p class="apx-sr" role="status" aria-live="polite" data-ap-live></p>
     {%- endform -%}
 
-    <ul class="apx-assure">
+    {%- if section.settings.trust_1_title != blank -%}
+      <ul class="apx-trio">
+        {%- for n in (1..3) -%}
+          {%- assign tk = 'trust_' | append: n | append: '_title' -%}
+          {%- assign sk = 'trust_' | append: n | append: '_sub' -%}
+          {%- if section.settings[tk] != blank -%}<li><strong>{{ section.settings[tk] }}</strong><span>{{ section.settings[sk] }}</span></li>{%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    <ul class="apx-assure{% if section.settings.trust_1_title != blank %} apx-assure--off{% endif %}">
       {%- if settings.shipping_note != blank -%}
         <li>{% render 'ap-icon', name: 'truck', size: 22 %}<span>{{ settings.shipping_note }}</span></li>
       {%- endif -%}
@@ -673,6 +689,18 @@
   .apx-acc__item summary{min-height:52px;font-size:.9375rem}
   @media (prefers-reduced-motion:reduce){.apx-gallery__slide img,.apx-card label{transition:none}.apx-qa__a{animation:none}}
   @media (max-width:560px){.apx-gallery__thumbs{gap:6px}.apx-gallery__thumbs button{padding:8px 4px;font-size:.6875rem}.apx-gallery__thumbs button img{width:36px;height:36px}.apx-banner{padding:14px 16px}}
+
+  .apx-card--note label{position:relative;display:flex;flex-direction:row;align-items:center;gap:12px;min-height:72px;padding:14px}
+  .apx-card__ico{flex:none;display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--ap-line);border-radius:10px;background:#FBF7F5;color:var(--ap-blush-deep)}
+  .apx-card__txt{display:flex;flex-direction:column;min-width:0}
+  .apx-card__sub{margin-top:2px;font-size:.75rem;line-height:1.3;color:var(--ap-ink-soft)}
+  .apx-card__flag{position:absolute;top:-10px;right:12px;padding:.18rem .6rem;border:1px solid var(--ap-ink);border-radius:999px;background:#fff;color:var(--ap-ink);font-size:.625rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .apx-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:1rem 0;padding:14px 10px;border:1px solid var(--ap-line);border-radius:16px;background:#fff;text-align:center}
+  .apx-trio li{display:flex;flex-direction:column;gap:3px;padding:0 4px}
+  .apx-trio strong{font-size:.8125rem}
+  .apx-trio span{font-size:.75rem;line-height:1.35;color:var(--ap-ink-soft)}
+  .apx-assure--off{display:none}
+  @media (max-width:560px){.apx-trio{grid-template-columns:1fr;text-align:left}.apx-trio li{flex-direction:row;gap:8px;align-items:baseline;flex-wrap:wrap}}
 {% endstylesheet %}
 
 {% schema %}
@@ -733,8 +761,15 @@
     { "type": "text", "id": "media_chip", "label": "Chip on the photo (optional)", "info": "For example the kit name and patch count. Hidden when empty." },
     { "type": "text", "id": "zoom_label", "label": "Zoom button text", "default": "+ Inspect" },
     { "type": "header", "content": "Question and answer panel" },
-    { "type": "text", "id": "qa_title", "label": "Panel title", "default": "Inside the patch" },
+    { "type": "text", "id": "qa_title", "label": "Panel title", "default": "Inside the patch · Hydrocolloid science" },
     { "type": "text", "id": "qa_hint", "label": "Panel hint", "default": "Tap a question" },
+    { "type": "header", "content": "Trust strip (3 columns)" },
+    { "type": "text", "id": "trust_1_title", "label": "Column 1 title", "default": "US dispatch" },
+    { "type": "text", "id": "trust_1_sub", "label": "Column 1 text", "default": "Ships in 3 to 5 business days", "info": "Must match your real shipping times." },
+    { "type": "text", "id": "trust_2_title", "label": "Column 2 title", "default": "30-day guarantee" },
+    { "type": "text", "id": "trust_2_sub", "label": "Column 2 text", "default": "Refund if you are not happy", "info": "Must match your real return policy." },
+    { "type": "text", "id": "trust_3_title", "label": "Column 3 title", "default": "Clean formula" },
+    { "type": "text", "id": "trust_3_sub", "label": "Column 3 text", "default": "Drug-free hydrocolloid" },
     { "type": "text", "id": "plan_badge", "label": "Subscribe card tag", "default": "Best value", "info": "Leave empty to hide. Only keep it if Subscribe really is the best price." },
     { "type": "text", "id": "gifts_heading", "label": "Welcome gifts heading", "default": "Your welcome gifts" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true }
@@ -763,6 +798,19 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Gift", "default": "Travel pouch" },
         { "type": "text", "id": "note", "label": "Note (optional)", "default": "Added to your first subscription box", "info": "Only list gifts you really ship, with the real conditions." }
+      ]
+    },
+    {
+      "type": "option_note",
+      "name": "Formula card note",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "value", "label": "Option value it belongs to", "info": "Type the option value exactly as it is on the product, for example Day + Night Duo." },
+        { "type": "text", "id": "subtitle", "label": "Second line" },
+        { "type": "text", "id": "tag", "label": "Small tag (optional)", "info": "For example Most popular. Only if true." },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "layers", "options": [
+          { "value": "layers", "label": "Layers" }, { "value": "drop", "label": "Drop" }, { "value": "sparkle", "label": "Sparkle" },
+          { "value": "shield", "label": "Shield" }, { "value": "heart", "label": "Heart" }, { "value": "leaf", "label": "Leaf" }, { "value": "check", "label": "Check" }, { "value": "hand", "label": "Hand" } ] }
       ]
     },
     {
@@ -825,6 +873,10 @@
         { "type": "bullet", "settings": { "text": "Night patch: cushioned, so it stays put while you sleep" } },
         { "type": "bullet", "settings": { "text": "Less picking: give your fingers something else to find" } },
         { "type": "bullet", "settings": { "text": "Drug-free hydrocolloid in three sizes, so there is a patch for every spot" } },
+        { "type": "option_note", "settings": { "value": "Day + Night Duo", "subtitle": "Thin day patches and cushioned night patches", "tag": "Most popular", "icon": "layers" } },
+        { "type": "option_note", "settings": { "value": "Ultra-Thin Day", "subtitle": "Thin, low-shine, for daytime", "icon": "sparkle" } },
+        { "type": "option_note", "settings": { "value": "Cushioned Night", "subtitle": "Cushioned, for overnight", "icon": "drop" } },
+        { "type": "option_note", "settings": { "value": "Multi-Size Variety", "subtitle": "Small, medium and large mix", "icon": "hand" } },
         { "type": "qa", "settings": { "question": "How does it absorb fluid?", "answer": "Hydrocolloid is a soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered." } },
         { "type": "qa", "settings": { "question": "Why does it turn white?", "answer": "As the patch takes in fluid, the middle can turn white or cloudy. That means it has taken in fluid. Peel it off, and swap in a fresh patch if the spot is still there." } },
         { "type": "qa", "settings": { "question": "Day vs. night difference?", "answer": "Day patches are thin and low-shine so you can wear them in daylight. Night patches are cushioned for overnight wear." } },

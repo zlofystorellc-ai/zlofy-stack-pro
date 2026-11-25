@@ -22,9 +22,10 @@ const mediaList = [
 mediaList.forEach((m) => { m.preview_image = m; });
 
 export const variants = [
-  variant(1001, 'Day & Night Duo', 1800, 36, 101),
-  variant(1002, '3-Month Stash', 4200, 108, 102, 5400),
-  variant(1003, 'Refill Pouch', 1200, 36, 103)
+  variant(1001, 'Day + Night Duo', 1800, 36, 101),
+  variant(1002, 'Ultra-Thin Day', 1800, 36, 102),
+  variant(1003, 'Cushioned Night', 1800, 36, 103),
+  variant(1004, 'Multi-Size Variety', 1800, 36, 104)
 ];
 
 export const product = {

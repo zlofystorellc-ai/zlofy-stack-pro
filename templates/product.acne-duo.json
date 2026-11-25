@@ -37,6 +37,12 @@
     },
     "main": {
       "type": "ap-hero",
+      "settings": {
+        "banner_title": "3-Kit Value Bundle · Save 15%",
+        "banner_sub": "108 Day and Night patches, priority US dispatch",
+        "banner_tag": "Best seller",
+        "media_chip": "Day + Night Duo"
+      },
       "blocks": {
         "bullet_1": {
           "type": "bullet",
@@ -62,40 +68,101 @@
             "text": "Drug-free hydrocolloid in three sizes, so there is a patch for every spot"
           }
         },
-        "plan_perk_5": {
+        "option_note_5": {
+          "type": "option_note",
+          "settings": {
+            "value": "Day + Night Duo",
+            "subtitle": "Thin day patches and cushioned night patches",
+            "tag": "Most popular",
+            "icon": "layers"
+          }
+        },
+        "option_note_6": {
+          "type": "option_note",
+          "settings": {
+            "value": "Ultra-Thin Day",
+            "subtitle": "Thin, low-shine, for daytime",
+            "icon": "sparkle"
+          }
+        },
+        "option_note_7": {
+          "type": "option_note",
+          "settings": {
+            "value": "Cushioned Night",
+            "subtitle": "Cushioned, for overnight",
+            "icon": "drop"
+          }
+        },
+        "option_note_8": {
+          "type": "option_note",
+          "settings": {
+            "value": "Multi-Size Variety",
+            "subtitle": "Small, medium and large mix",
+            "icon": "hand"
+          }
+        },
+        "qa_9": {
+          "type": "qa",
+          "settings": {
+            "question": "How does it absorb fluid?",
+            "answer": "Hydrocolloid is a soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered."
+          }
+        },
+        "qa_10": {
+          "type": "qa",
+          "settings": {
+            "question": "Why does it turn white?",
+            "answer": "As the patch takes in fluid, the middle can turn white or cloudy. That means it has taken in fluid. Peel it off, and swap in a fresh patch if the spot is still there."
+          }
+        },
+        "qa_11": {
+          "type": "qa",
+          "settings": {
+            "question": "Day vs. night difference?",
+            "answer": "Day patches are thin and low-shine so you can wear them in daylight. Night patches are cushioned for overnight wear."
+          }
+        },
+        "qa_12": {
+          "type": "qa",
+          "settings": {
+            "question": "Using it on sensitive skin?",
+            "answer": "Try one patch first. If your skin feels sore or irritated, take it off and stop using it. If you are unsure, ask a doctor."
+          }
+        },
+        "plan_perk_13": {
           "type": "plan_perk",
           "settings": {
             "text": "Cancel or skip any time"
           }
         },
-        "plan_perk_6": {
+        "plan_perk_14": {
           "type": "plan_perk",
           "settings": {
             "text": "A lower price on every delivery"
           }
         },
-        "gift_7": {
+        "gift_15": {
           "type": "gift",
           "settings": {
             "title": "Travel pouch",
             "note": "Added to your first subscription box"
           }
         },
-        "accordion_8": {
+        "accordion_16": {
           "type": "accordion",
           "settings": {
             "title": "How to use",
             "body": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, leave it on for 6–8 hours or until it turns white, then peel and swap.</p>"
           }
         },
-        "accordion_9": {
+        "accordion_17": {
           "type": "accordion",
           "settings": {
             "title": "What is in the kit",
             "body": "<p>Day and night patches in the sizes shown in the size guide below. The patch count is shown on each option above.</p>"
           }
         },
-        "accordion_10": {
+        "accordion_18": {
           "type": "accordion",
           "settings": {
             "title": "Shipping and returns",
@@ -108,12 +175,20 @@
         "bullet_2",
         "bullet_3",
         "bullet_4",
-        "plan_perk_5",
-        "plan_perk_6",
-        "gift_7",
-        "accordion_8",
-        "accordion_9",
-        "accordion_10"
+        "option_note_5",
+        "option_note_6",
+        "option_note_7",
+        "option_note_8",
+        "qa_9",
+        "qa_10",
+        "qa_11",
+        "qa_12",
+        "plan_perk_13",
+        "plan_perk_14",
+        "gift_15",
+        "accordion_16",
+        "accordion_17",
+        "accordion_18"
       ]
     },
     "problem": {

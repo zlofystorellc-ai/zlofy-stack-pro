@@ -62,7 +62,12 @@ const productOrder = [
 
 const product = { sections: {}, order: [] };
 for (const [key, type] of productOrder) {
-  product.sections[key] = sectionFromPreset(type);
+  product.sections[key] = sectionFromPreset(type, key === 'main' ? { settings: {
+    banner_title: '3-Kit Value Bundle · Save 15%',
+    banner_sub: '108 Day and Night patches, priority US dispatch',
+    banner_tag: 'Best seller',
+    media_chip: 'Day + Night Duo'
+  } } : {});
   product.order.push(key);
 }
 writeFileSync(join(root, 'templates', 'product.acne-duo.json'), JSON.stringify(product, null, 2) + '\n');

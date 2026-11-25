@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.2
+- Product page: the "Every patch in the box" section (Your kit) is removed from the starting template. Its file (`sections/ap-kit-contents.liquid`) is kept, so it can be added back from the theme editor if wanted.
+
 ## 2.7.1
 - Real ingredient list added: Cellulose Gum, Hydrogenated Poly(C6-20 Olefin), Polyisobutene, Pectin. It is the default of the product page ingredient label (now titled "Full ingredients (INCI)"; a product metafield custom.ingredients, if set, still wins) and it shows in the small print of the home ingredient section. Because the list has four ingredients, the home section no longer says "The only ingredient" or "One ingredient. Nothing else to guess."; it now says "Inside the patch" and "A short ingredient list, shown in full." The preview product uses the same list.
 

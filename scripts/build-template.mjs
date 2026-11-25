@@ -49,7 +49,6 @@ const productOrder = [
   ['how', 'ap-how-it-works'],
   ['ingredients', 'ap-ingredients'],
   ['beforeafter', 'ap-before-after'],
-  ['kit', 'ap-kit-contents'],
   ['comparison', 'ap-comparison'],
   ['reviews', 'ap-reviews'],
   ['founder', 'ap-founder-note'],

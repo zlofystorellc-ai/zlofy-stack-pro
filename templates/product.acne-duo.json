@@ -388,57 +388,6 @@
         "pair_2"
       ]
     },
-    "kit": {
-      "type": "ap-kit-contents",
-      "blocks": {
-        "item_1": {
-          "type": "item",
-          "settings": {
-            "name": "Day patches",
-            "count": 12,
-            "size_mm": 10,
-            "tone": "day",
-            "note": "Thin, low-shine"
-          }
-        },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "name": "Night patches",
-            "count": 12,
-            "size_mm": 12,
-            "tone": "night",
-            "note": "Thicker, cushioned"
-          }
-        },
-        "item_3": {
-          "type": "item",
-          "settings": {
-            "name": "Small spot patches",
-            "count": 8,
-            "size_mm": 8,
-            "tone": "neutral",
-            "note": "Single spots"
-          }
-        },
-        "item_4": {
-          "type": "item",
-          "settings": {
-            "name": "XL body strips",
-            "count": 4,
-            "size_mm": 0,
-            "tone": "neutral",
-            "note": "Back, shoulders, chest"
-          }
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "item_3",
-        "item_4"
-      ]
-    },
     "comparison": {
       "type": "ap-comparison",
       "blocks": {
@@ -672,7 +621,6 @@
     "how",
     "ingredients",
     "beforeafter",
-    "kit",
     "comparison",
     "reviews",
     "founder",

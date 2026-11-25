@@ -179,15 +179,9 @@ async function renderSection(engine, scopeBase, id, type, overrides = {}) {
     section.settings.poster = null;
   }
   if (type === 'ap-hero') {
-    // Preview only: fake customer videos (no video files, poster only) so the row's layout can be seen
+    // Preview only: fake extra gallery photo and video (the customer videos row is no longer mocked)
     section.blocks.push({ id: 'gal_img_1', type: 'gallery_image', shopify_attributes: '', settings: { image: { key: 'v103', alt: 'Mock extra photo' } } });
     section.blocks.push({ id: 'gal_vid_1', type: 'gallery_video', shopify_attributes: '', settings: { video: { sources: [], preview_image: { key: 'v102' } }, poster: null } });
-    [101, 102, 103, 104, 101, 102].forEach((mid, i) => {
-      section.blocks.push({
-        id: `video_${i + 1}`, type: 'video', shopify_attributes: '',
-        settings: { video: { sources: [], preview_image: { key: `v${mid}` } }, poster: null, caption: `Mock video ${i + 1}`, captions_vtt: '' }
-      });
-    });
   }
   if (type === 'ap-bundles') {
     section.blocks.forEach((b, i) => {

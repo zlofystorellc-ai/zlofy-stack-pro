@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.8.4
+- Product page: the "Customer videos" row under the accordions is gone from the preview (it was fed by placeholder videos). The starting product template never contained customer videos. The option to add real customer videos in the product section is kept but stays hidden until a video is added in the theme editor.
+
 ## 2.8.3
 - Product page intro under the title replaced with: "Wear the 0.15 mm ultra-thin matte Day patch to school or work. Switch to the 0.35 mm cushioned Night patch before bed. One kit engineered for every stage of a surfaced spot." The two sizes (0.15 mm and 0.35 mm) come from the owner and must match the real patches.
 

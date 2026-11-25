@@ -363,21 +363,29 @@
     },
     "beforeafter": {
       "type": "ap-before-after",
+      "settings": {
+        "eyebrow": "Demonstration",
+        "heading": "How a patch looks",
+        "text": "Drag the slider to compare the patch before and after wearing it.",
+        "disclaimer": "Demonstration photos: AI-generated illustrations, not real customers and not real results. Individual results vary."
+      },
       "blocks": {
         "pair_1": {
-          "type": "pair"
+          "type": "pair",
+          "settings": {
+            "caption": "Illustrative demonstration"
+          }
         },
         "pair_2": {
-          "type": "pair"
-        },
-        "pair_3": {
-          "type": "pair"
+          "type": "pair",
+          "settings": {
+            "caption": "Illustrative demonstration"
+          }
         }
       },
       "block_order": [
         "pair_1",
-        "pair_2",
-        "pair_3"
+        "pair_2"
       ]
     },
     "kit": {

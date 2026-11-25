@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.4.1
+- Product page "Before and after" now starts with two demonstration pairs (the placeholder third card, "Customer C", is gone) and the same honest copy as the home page: "How a patch looks", an AI-generated disclaimer, no "real customers" wording. The section's preset also starts with two pairs.
+
 ## 2.4.0
 - "A spot's day" timeline redone in the reference layout: four time labels over round icons joined by a line, four photo cards with a time tag, "Step 1: ... Step 4:" titles (numbering is automatic), and under each title a small line drawing (magnifier, thin day patch, cushioned night patch, round patch) above a soft caption box. Captions are aligned. The longer "annoyance" line is hidden by default (switch on in the section). Starting copy rewritten to say only what is safe: no "healing", no "less inflamed", no "stays put while you sleep".
 

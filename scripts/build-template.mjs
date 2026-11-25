@@ -60,6 +60,7 @@ const productOrder = [
   ['sticky', 'ap-sticky-atc']
 ];
 
+const baOverride = { settings: { eyebrow: 'Demonstration', heading: 'How a patch looks', text: 'Drag the slider to compare the patch before and after wearing it.', disclaimer: 'Demonstration photos: AI-generated illustrations, not real customers and not real results. Individual results vary.' }, blocks: [{ type: 'pair', settings: { caption: 'Illustrative demonstration' } }, { type: 'pair', settings: { caption: 'Illustrative demonstration' } }] };
 const product = { sections: {}, order: [] };
 for (const [key, type] of productOrder) {
   product.sections[key] = sectionFromPreset(type, key === 'main' ? { settings: {
@@ -67,7 +68,7 @@ for (const [key, type] of productOrder) {
     banner_sub: '108 Day and Night patches, priority US dispatch',
     banner_tag: 'Best seller',
     media_chip: 'Day + Night Duo'
-  } } : {});
+  } } : key === 'beforeafter' ? baOverride : {});
   product.order.push(key);
 }
 writeFileSync(join(root, 'templates', 'product.acne-duo.json'), JSON.stringify(product, null, 2) + '\n');

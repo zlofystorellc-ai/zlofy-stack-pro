@@ -438,6 +438,9 @@
         "price_per_patch_5"
       ]
     },
+    "globe": {
+      "type": "ap-us-globe"
+    },
     "reviews": {
       "type": "ap-reviews"
     },
@@ -619,6 +622,7 @@
     "ingredients",
     "beforeafter",
     "comparison",
+    "globe",
     "reviews",
     "founder",
     "videos",

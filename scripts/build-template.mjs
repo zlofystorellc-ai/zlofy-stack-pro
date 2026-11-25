@@ -50,6 +50,7 @@ const productOrder = [
   ['ingredients', 'ap-ingredients'],
   ['beforeafter', 'ap-before-after'],
   ['comparison', 'ap-comparison'],
+  ['globe', 'ap-us-globe'],
   ['reviews', 'ap-reviews'],
   ['founder', 'ap-founder-note'],
   ['videos', 'ap-video-cards'],

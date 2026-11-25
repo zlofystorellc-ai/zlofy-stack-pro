@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.9.0
+- New section "US delivery globe" (`sections/ap-us-globe.liquid`, `assets/ap-globe.js`, 8 KB): a dotted globe you can drag or spin with the arrow keys, centred on the United States with a few softly twinkling dots, beside a short heading, two points and a button, on a deep oxblood background like the footer. Placed on the product page just above Reviews. Wording is deliberately factual and editable: "Delivered across the United States.", "Ships in 3 to 5 business days", "A tracking email when your order ships", "Shop the kit". The reference's invented numbers (providers, locations) and "recommended by professionals" were not used. The map is an illustration (hint says so). It idles with a gentle sway and eases back to the US; reduced motion draws it once and only moves when dragged. Pauses when off screen.
+
 ## 2.8.7
 - The support email in the product page "Good to know" note is now a clickable link (opens a new email to the support address). Every place the email shows (note, top trust line, FAQ card, footer card and footer Contact link) is a mailto link.
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.3.0
+- FAQ with image: the empty right side is now an original panel: a soft rose background with a framed close-up patch video (muted, loops, pause button, "AI-generated illustration" note) and a "Still have a question?" card with an email link taken from Theme settings. Your own photo (Image setting) still replaces it. First question renamed to "What are Zlofy Day and Night patches?" (the old text used the theme's working name). No other brand's packaging or photos are used.
+
 ## 2.2.3
 - Product page: the payment logo strip is centred under the trust strip.
 

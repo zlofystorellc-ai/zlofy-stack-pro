@@ -3,7 +3,7 @@
   The image area is intentionally EMPTY until you upload your own photo (Image setting).
   Upload only photos you own or have licensed. No FAQPage JSON-LD here: the main FAQ section already outputs it.
 {%- endcomment -%}
-<section class="apx-fs{% if section.settings.image == blank %} apx-fs--noimg{% endif %}" id="faq" aria-labelledby="{{ section.id }}-title">
+<section class="apx-fs{% if section.settings.image == blank and section.settings.show_builtin_video == false %} apx-fs--noimg{% endif %}" id="faq" data-ap-hi-root aria-labelledby="{{ section.id }}-title">
   <div class="apx-fs__panel">
     <div class="apx-fs__inner">
       <h2 class="apx-fs__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
@@ -23,6 +23,30 @@
   <div class="apx-fs__media">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600, 900, 1200', sizes: '(min-width: 990px) 50vw, 100vw', alt: section.settings.image.alt | default: section.settings.heading }}
+    {%- elsif section.settings.show_builtin_video -%}
+      <div class="apx-fs__side">
+        <i class="apx-fs__blob apx-fs__blob--1" aria-hidden="true"></i><i class="apx-fs__blob apx-fs__blob--2" aria-hidden="true"></i>
+        <figure class="apx-fs__vid" data-ap-hi>
+          <video muted playsinline loop preload="none" poster="{{ 'ap-ingredient-video.jpg' | asset_url }}" aria-label="{{ section.settings.video_alt | escape }}" data-ap-hi-video>
+            <source src="{{ 'ap-ingredient-video.mp4' | asset_url }}" type="video/mp4">
+          </video>
+          <button type="button" class="apx-fs__pause" data-ap-hi-pause aria-pressed="false" aria-label="{{ 'ap.ingredient.pause' | t }}">
+            <svg class="apx-hi__i-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <svg class="apx-hi__i-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+          </button>
+          {%- if section.settings.video_note != blank -%}<figcaption class="apx-fs__note">{{ section.settings.video_note }}</figcaption>{%- endif -%}
+        </figure>
+        {%- if section.settings.contact_title != blank -%}
+          <div class="apx-fs__card">
+            <p class="apx-fs__card-t">{{ section.settings.contact_title }}</p>
+            {%- if section.settings.contact_text != blank -%}<p class="apx-fs__card-p">{{ section.settings.contact_text }}</p>{%- endif -%}
+            {%- if settings.support_email != blank and section.settings.contact_label != blank -%}
+              <a class="apx-fs__card-a" href="mailto:{{ settings.support_email }}">{{ section.settings.contact_label }}<span aria-hidden="true"> &rarr;</span></a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      <script src="{{ 'ap-ingredient.js' | asset_url }}" type="module"></script>
     {%- elsif request.design_mode -%}
       <div class="apx-fs__empty">Image space: upload a photo in this section's settings</div>
     {%- endif -%}
@@ -74,6 +98,26 @@
     .apx-fs__inner{margin-inline:auto 0;padding-inline:56px 48px}
   }
   @media (max-width:989px){.apx-fs--noimg .apx-fs__media{display:none}}
+
+  /* built-in right side: soft panel with a framed close-up video and a "still have a question" card */
+  .apx-fs__side{position:relative;display:grid;place-items:center;min-height:100%;padding:48px 24px 96px;overflow:hidden;background:linear-gradient(160deg,#FBF7F5,#F5E6E8 60%,#F2DADF)}
+  .apx-fs__blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none}
+  .apx-fs__blob--1{width:340px;height:340px;right:-90px;top:-80px;background:var(--ap-blush);opacity:.28}
+  .apx-fs__blob--2{width:360px;height:360px;left:-120px;bottom:-110px;background:var(--ap-lilac);opacity:.5}
+  .apx-fs__vid{position:relative;z-index:1;margin:0;width:min(100%,360px);aspect-ratio:4/5;overflow:hidden;border-radius:26px;background:#3B1220;box-shadow:0 0 0 7px rgba(255,255,255,.85),0 0 0 8px rgba(110,20,35,.25),0 32px 64px rgba(59,10,20,.28)}
+  .apx-fs__vid video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 52%}
+  .apx-fs__pause{position:absolute;right:12px;top:12px;z-index:2;display:grid;place-items:center;width:40px;height:40px;padding:0;border:1.5px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(42,8,16,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;cursor:pointer}
+  .apx-fs__pause:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .apx-fs__pause .apx-hi__i-play{display:none}
+  .apx-fs__pause[aria-pressed="true"] .apx-hi__i-pause{display:none}
+  .apx-fs__pause[aria-pressed="true"] .apx-hi__i-play{display:block}
+  .apx-fs__note{position:absolute;left:12px;top:18px;padding:.22rem .6rem;border-radius:6px;background:rgba(42,8,16,.6);color:#F5E6E8;font-size:.6875rem;letter-spacing:.04em}
+  .apx-fs__card{position:absolute;z-index:2;left:50%;bottom:28px;transform:translateX(-50%);width:min(calc(100% - 48px),360px);padding:16px 18px;border:1px solid var(--ap-line);border-radius:18px;background:#fff;color:var(--ap-ink);box-shadow:0 18px 40px rgba(59,10,20,.18)}
+  .apx-fs__card-t{margin:0;font-family:var(--ap-font-display);font-size:1.25rem}
+  .apx-fs__card-p{margin:4px 0 0;font-size:.875rem;line-height:1.5;color:var(--ap-ink-soft)}
+  .apx-fs__card-a{display:inline-block;margin-top:10px;color:var(--ap-blush-deep);font-size:.875rem;font-weight:700;text-decoration:none;border-bottom:2px solid currentColor}
+  .apx-fs__card-a:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
+  @media (max-width:989px){.apx-fs__side{padding:40px 20px 100px}}
 {% endstylesheet %}
 
 {% schema %}
@@ -86,7 +130,13 @@
     { "type": "checkbox", "id": "first_open", "label": "Open the first question", "default": true },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore all FAQs" },
     { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "image_picker", "id": "image", "label": "Image", "info": "Left empty on purpose. Upload your own photo here later." }
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. Replaces the built-in video panel. Upload only photos you own or have licensed." },
+    { "type": "checkbox", "id": "show_builtin_video", "label": "Show the built-in close-up video panel", "default": true, "info": "A short AI-generated close-up of a thin patch on skin (muted, loops, can be paused). It is an illustration, not a real customer." },
+    { "type": "text", "id": "video_note", "label": "Note on the video", "default": "AI-generated illustration" },
+    { "type": "text", "id": "video_alt", "label": "Video description", "default": "A close-up of a thin, clear round patch resting on skin" },
+    { "type": "text", "id": "contact_title", "label": "Contact card title", "default": "Still have a question?" },
+    { "type": "text", "id": "contact_text", "label": "Contact card text", "default": "Send us a message and we will get back to you." },
+    { "type": "text", "id": "contact_label", "label": "Contact card link text", "default": "Email us", "info": "Uses the support email from Theme settings. Hidden if that is empty." }
   ],
   "blocks": [
     {
@@ -103,7 +153,7 @@
     {
       "name": "FAQ with image",
       "blocks": [
-        { "type": "question", "settings": { "question": "What is ZLOFY Stack Pro?", "answer": "<p>A day and night set of drug-free hydrocolloid patches. Day patches are thin and low-shine, night patches are thicker and more cushioned. Both cover and protect surfaced spots.</p>" } },
+        { "type": "question", "settings": { "question": "What are Zlofy Day and Night patches?", "answer": "<p>A day and night set of drug-free hydrocolloid patches. Day patches are thin and low-shine, night patches are thicker and more cushioned. Both cover and protect surfaced spots.</p>" } },
         { "type": "question", "settings": { "question": "How long do I wear a patch?", "answer": "<p>Leave a patch on for 6–8 hours, or until it turns white. Change it sooner if the edges lift.</p>" } },
         { "type": "question", "settings": { "question": "Can I wear makeup over the day patch?", "answer": "<p>You can try it: press the patch flat, then dab a thin layer of your usual product around the edges. Avoid rubbing, which can lift the patch.</p>" } },
         { "type": "question", "settings": { "question": "Does it work on deep or cystic bumps?", "answer": "<p>No. These patches are made for surfaced spots, the kind with a visible head. They are not designed for deep, under-the-skin bumps. If a breakout is painful, large or keeps coming back, see a dermatologist.</p>" } },

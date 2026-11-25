@@ -3,7 +3,7 @@
   The image area is intentionally EMPTY until you upload your own photo (Image setting).
   Upload only photos you own or have licensed. No FAQPage JSON-LD here: the main FAQ section already outputs it.
 {%- endcomment -%}
-<section class="apx-fs{% if section.settings.image == blank %} apx-fs--noimg{% endif %}" aria-labelledby="{{ section.id }}-title">
+<section class="apx-fs{% if section.settings.image == blank %} apx-fs--noimg{% endif %}" id="faq" aria-labelledby="{{ section.id }}-title">
   <div class="apx-fs__panel">
     <div class="apx-fs__inner">
       <h2 class="apx-fs__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>

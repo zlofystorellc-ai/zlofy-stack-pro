@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.0
+- Header matches the reference: a slim oxblood announcement bar with a small outlined pill ("Free US shipping $35+") and one calm line, the logo on the left, links centred, and a dark "Bag" pill with a count on the right (the old icon is gone). The links now come from Theme settings > Header links (Shop, Hydrocolloid science, How it works, FAQ), so they work without editing the store's Main menu; clear every label to use the Main menu instead. Anchors that exist: #shop, #ingredient, #how, #faq on the home page; the links use /#... so they also work from the product page. Added id="faq" to both FAQ sections. A "Verified Results" link was not added.
+
 ## 2.1.2
 - Product page benefit pills: shorter starting text ("Thin, low-shine day patches", "Cushioned night patches", "Less picking", "Drug-free hydrocolloid") so they sit two to a row instead of stacking one per line. Removed the "stays put while you sleep" wording, which was not verified.
 

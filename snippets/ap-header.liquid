@@ -5,21 +5,19 @@
 {%- endcomment -%}
 {%- liquid
   assign menu = linklists['main-menu']
-  assign half = menu.links.size | divided_by: 2.0 | ceil
+  assign use_custom = false
+  for n in (1..5)
+    assign lk = 'nav_' | append: n | append: '_label'
+    if settings[lk] != blank
+      assign use_custom = true
+    endif
+  endfor
 -%}
 <header class="apx-header" data-ap-header>
   <div class="apx-wrap apx-header__row">
     <button type="button" class="apx-iconbtn apx-header__burger" data-ap-menu-toggle aria-expanded="false" aria-controls="ap-mobile-menu" aria-label="{{ 'ap.header.menu' | t }}">
       {% render 'ap-icon', name: 'menu', size: 24 %}
     </button>
-
-    <nav class="apx-header__nav apx-header__nav--l" aria-label="{{ 'ap.header.primary_nav' | t }}">
-      <ul>
-        {%- for link in menu.links limit: half -%}
-          {% render 'ap-nav-item', link: link %}
-        {%- endfor -%}
-      </ul>
-    </nav>
 
     <a class="apx-header__brand" href="{{ routes.root_url }}" aria-label="{{ settings.brand_name }}">
       {%- if settings.logo != blank -%}
@@ -29,21 +27,28 @@
       {%- endif -%}
     </a>
 
-    <div class="apx-header__right">
-      <nav class="apx-header__nav" aria-label="{{ 'ap.header.secondary_nav' | t }}">
-        <ul>
-          {%- for link in menu.links offset: half -%}
-            {% render 'ap-nav-item', link: link %}
+    <nav class="apx-header__nav" aria-label="{{ 'ap.header.primary_nav' | t }}">
+      <ul>
+        {%- if use_custom -%}
+          {%- for n in (1..5) -%}
+            {%- assign lk = 'nav_' | append: n | append: '_label' -%}
+            {%- assign uk = 'nav_' | append: n | append: '_url' -%}
+            {%- if settings[lk] != blank -%}<li><a href="{{ settings[uk] | default: '/' }}">{{ settings[lk] }}</a></li>{%- endif -%}
           {%- endfor -%}
-        </ul>
-      </nav>
+        {%- else -%}
+          {%- for link in menu.links -%}{% render 'ap-nav-item', link: link %}{%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </nav>
+
+    <div class="apx-header__right">
       {%- if shop.customer_accounts_enabled -%}
         <a class="apx-header__cart" href="{{ routes.account_url }}" aria-label="{{ 'ap.header.account' | t }}">
           {% render 'ap-icon', name: 'user', size: 24 %}
         </a>
       {%- endif -%}
-      <a class="apx-header__cart" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">
-        {% render 'ap-icon', name: 'bag', size: 24 %}
+      <a class="apx-header__cart apx-header__bag" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">
+        <span class="apx-header__bag-t" aria-hidden="true">{{ 'ap.header.bag' | t }}</span>
         <span class="apx-header__count" data-ap-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
@@ -51,11 +56,19 @@
 
   <nav class="apx-mobilemenu" id="ap-mobile-menu" data-ap-menu hidden aria-label="{{ 'ap.header.primary_nav' | t }}">
     <ul class="apx-wrap">
-      {%- for link in menu.links -%}
-        <li>
-          <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-        </li>
-      {%- endfor -%}
+      {%- if use_custom -%}
+        {%- for n in (1..5) -%}
+          {%- assign lk = 'nav_' | append: n | append: '_label' -%}
+          {%- assign uk = 'nav_' | append: n | append: '_url' -%}
+          {%- if settings[lk] != blank -%}<li><a href="{{ settings[uk] | default: '/' }}">{{ settings[lk] }}</a></li>{%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for link in menu.links -%}
+          <li>
+            <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
     </ul>
   </nav>
 </header>

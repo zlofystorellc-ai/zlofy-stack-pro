@@ -8,20 +8,13 @@
         "message_1": {
           "type": "message",
           "settings": {
-            "text": "Free US shipping on kits",
-            "subtext": "Day and night patches in one kit"
-          }
-        },
-        "message_2": {
-          "type": "message",
-          "settings": {
-            "text": "Subscribe & save 15%"
+            "pill": "Free US shipping $35+",
+            "text": "Subscribe & save 20% + a free refillable travel tin on monthly kits"
           }
         }
       },
       "block_order": [
-        "message_1",
-        "message_2"
+        "message_1"
       ]
     }
   },

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.0
+- Footer reworked to the newer reference: a four-point trust bar on top (drug-free hydrocolloid, day and night patches, US dispatch, 30-day guarantee), then the ZLOFY name with a tagline, small badges and the email sign-up, three link columns (Shop, The science, Support), a "US customer care" card with your support email, the big soft wordmark, and a bottom bar with four legal links, payment logos and the cosmetic-use note. Everything is editable in Theme settings > Footer links. Not added because they are unverified: "Dermatologist tested", "Cruelty-free", "Fragrance-free", "Visible results in 6 hours", "Reply under 4 hours", opening hours, the company name and address line, shipping within 24 hours, and the footnote claiming blemishes are reduced in 6 hours. Product prices in the Shop links were left out.
+
 ## 2.5.0
 - New footer in the reference layout: dark oxblood, four link columns, a cream "Stay in the loop" sign-up card, a big soft ZLOFY wordmark, and a bottom bar with copyright and legal links. Links are edited in Theme settings > Footer links (one "Text | address" per line; "email" opens your support email). Starting links only point to things that exist: Shop all, Cart, Hydrocolloid science, How it works, FAQs, Shipping policy, Refund policy, Contact us (email), Privacy policy, Terms of service. The reference's other columns (Skincare, Press, Sustainability, Wholesale, Track Order) and "Formulated in California | Cruelty-Free" were not added because they do not exist or are not verified. The separate newsletter band on the home page is removed because the footer now has the sign-up.
 

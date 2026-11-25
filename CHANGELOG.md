@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.7.1
+- Real ingredient list added: Cellulose Gum, Hydrogenated Poly(C6-20 Olefin), Polyisobutene, Pectin. It is the default of the product page ingredient label (now titled "Full ingredients (INCI)"; a product metafield custom.ingredients, if set, still wins) and it shows in the small print of the home ingredient section. Because the list has four ingredients, the home section no longer says "The only ingredient" or "One ingredient. Nothing else to guess."; it now says "Inside the patch" and "A short ingredient list, shown in full." The preview product uses the same list.
+
 ## 2.7.0
 - Home "One kit for the whole day" (Day and night panels) rebuilt to the new reference: outlined pill, big serif heading with a small gold-to-oxblood rule, a pale gold Day card (wider) and a deep oxblood Night card, each with a round icon, a time pill, short text, three chips and a side-on cross-section drawing panel, then a white strip with two points and a small note. Every word is editable. Left out because unverified: millimetre sizes, 15 degree edge, "8+ hour pillow-lock", "medical-grade", "fragrance-free", "non-drying", "visibly flattens in 6 hours", "safe for sensitive skin", "stays put while you sleep" and "absorbs deeper". The drawings are marked as illustrations, not to scale. The old hover-grow, round decorative circles and photo slots are gone.
 

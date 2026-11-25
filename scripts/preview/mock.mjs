@@ -48,7 +48,7 @@ export const product = {
     custom: {
       patch_count: { value: 36 },
       wear_time: { value: 'Day 4–6 hours, night 6–8 hours' },
-      ingredients: { value: 'Mock ingredient one\nMock ingredient two\nMock ingredient three (preview only)' },
+      ingredients: { value: 'Cellulose Gum\nHydrogenated Poly(C6-20 Olefin)\nPolyisobutene\nPectin' },
       patch_sizes: { value: ['8 mm', '10 mm', '12 mm', 'XL body strip'] }
     },
     reviews: {}

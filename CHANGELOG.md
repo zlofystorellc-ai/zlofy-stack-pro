@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0
+- New palette across the whole store: deep oxblood (#3B0A14 ink, #6E1423 buttons) with warm alabaster (#FBF7F5) and soft rose accents, instead of navy and bright pink. Done in one place: the colour defaults in `snippets/ap-tokens.liquid` and `config/settings_schema.json` (editable in Theme settings), plus the fixed colours inside sections, shadows and dark panels. All 39 contrast pairs still pass. The buying panel on the product page (formula cards, one-time or subscribe, quantity, sticky bar, bag drawer) already existed and now uses the new colours. Colours saved earlier in the theme editor (if any) override the defaults and must be reset there.
+
 ## 1.15.1
 - Product page ingredient label box: a built-in close-up video (`assets/ap-ingredient-label-video.mp4`, 10 s, 1.8 MB, landscape 16:9, audio removed) sits inside the box. On laptops it is beside the ingredient list; on phones it stacks above it at full width. It loads only when scrolled near (preload none), plays only while on screen, has a pause button, and never autoplays for reduced motion. It is an AI-generated illustration (noted on the video). Turn it off in the section with "Show the close-up video inside the ingredient label box".
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.10
+- Footer tidied up: the big empty ZLOFY wordmark band is removed; thin rose accent line on top, clearer column headings with an underline, visible "Stay in the loop" label above the sign-up, a stronger customer care card (email button plus an outlined "Send a message" button), and a cleaner bottom bar.
+
 ## 2.13.9
 - Product page: new "Disclaimer" accordion (information accuracy, read the label, not medical advice, not medicines), written in ZLOFY's own words.
 

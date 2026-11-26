@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.17.7
+- Customer-facing text no longer says "AI-generated": the small badges and notes now say "Illustration", the video row line reads "Short demonstration clips, not customers.", and the demonstration photo disclaimer reads "Demonstration photos: illustrations, not real customers and not real results. Individual results vary." Editor-only help text is unchanged.
+
 ## 2.17.6
 - Home "One kit for the whole day" is shorter on laptops (tighter card padding, spacing and text size). Same text and colours.
 

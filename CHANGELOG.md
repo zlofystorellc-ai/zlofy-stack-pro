@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.14.2
+- Sign in and Create account pages now use a split layout: a deep oxblood panel on the left (label, heading, short text, highlight box, perk checklist, guest-checkout note) and the form on the right, on a soft blush background. Password field has a show/hide eye, "Forgot your password?" sits on the label row. The panel text is editable in the section settings. On phones it collapses to just the form card.
+- No made-up testimonial or member claims in the panel; the highlight box repeats the offer already in the announcement bar and is editable.
+
 ## 2.14.1
 - Footer colours: soft blush background with oxblood headings, buttons and logo (it matches the pale pages and stands apart from the red FAQ band). The email box is now a white pill with a "Subscribe" button; the care card is white with an oxblood email button.
 - Preview server: footer sign-up form keeps its own class so it previews as it will look in the store.

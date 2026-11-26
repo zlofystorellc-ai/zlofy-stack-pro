@@ -54,16 +54,16 @@
     "name": "Header links",
     "settings": [
       { "type": "paragraph", "content": "These links fill the header menu. Leave a label empty to hide that link. If every label is empty, the store's Main menu (Online Store > Navigation) is used instead. Home page anchors work from every page." },
-      { "type": "text", "id": "nav_1_label", "label": "Link 1 text", "default": "Shop" },
-      { "type": "text", "id": "nav_1_url", "label": "Link 1 address", "default": "product", "info": "The word product opens your product page (the first product in your store). You can also type any address, for example /collections/all." },
-      { "type": "text", "id": "nav_2_label", "label": "Link 2 text", "default": "Hydrocolloid science" },
-      { "type": "text", "id": "nav_2_url", "label": "Link 2 address", "default": "/#ingredient" },
-      { "type": "text", "id": "nav_3_label", "label": "Link 3 text", "default": "How it works" },
-      { "type": "text", "id": "nav_3_url", "label": "Link 3 address", "default": "/#how" },
-      { "type": "text", "id": "nav_4_label", "label": "Link 4 text", "default": "FAQ" },
-      { "type": "text", "id": "nav_4_url", "label": "Link 4 address", "default": "/#faq" },
-      { "type": "text", "id": "nav_5_label", "label": "Link 5 text", "default": "" },
-      { "type": "text", "id": "nav_5_url", "label": "Link 5 address", "default": "" }
+      { "type": "text", "id": "nav_1_label", "label": "Link 1 text", "default": "Home" },
+      { "type": "text", "id": "nav_1_url", "label": "Link 1 address", "default": "/", "info": "The word product opens your product page (the first product in your store). You can also type any address, for example /collections/all." },
+      { "type": "text", "id": "nav_2_label", "label": "Link 2 text", "default": "Shop" },
+      { "type": "text", "id": "nav_2_url", "label": "Link 2 address", "default": "product" },
+      { "type": "text", "id": "nav_3_label", "label": "Link 3 text", "default": "Ingredients" },
+      { "type": "text", "id": "nav_3_url", "label": "Link 3 address", "default": "/#ingredient" },
+      { "type": "text", "id": "nav_4_label", "label": "Link 4 text", "default": "How it works" },
+      { "type": "text", "id": "nav_4_url", "label": "Link 4 address", "default": "/#how" },
+      { "type": "text", "id": "nav_5_label", "label": "Link 5 text", "default": "FAQ" },
+      { "type": "text", "id": "nav_5_url", "label": "Link 5 address", "default": "/#faq" }
     ]
   },
   {
@@ -91,7 +91,7 @@
       { "type": "text", "id": "footer_signup_text", "label": "Text under the sign-up", "default": "Product news and offers by email. Unsubscribe any time." },
       { "type": "header", "content": "Link columns" },
       { "type": "text", "id": "footer_1_title", "label": "Column 1 title", "default": "Shop" },
-      { "type": "textarea", "id": "footer_1_links", "label": "Column 1 links", "default": "Shop all | /collections/all\nCart | /cart" },
+      { "type": "textarea", "id": "footer_1_links", "label": "Column 1 links", "default": "Home | /\nShop | /collections/all\nCart | /cart" },
       { "type": "text", "id": "footer_2_title", "label": "Column 2 title", "default": "The science" },
       { "type": "textarea", "id": "footer_2_links", "label": "Column 2 links", "default": "Hydrocolloid science | /#ingredient\nHow it works | /#how\nFAQs | /#faq" },
       { "type": "text", "id": "footer_3_title", "label": "Column 3 title", "default": "Support" },

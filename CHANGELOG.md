@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.16.0
+- Header menu now reads Home, Shop, Ingredients, How it works, FAQ. Home opens the home page, Shop opens the product page, the others scroll to that section (or go to it on the home page). The page you are on is bold and underlined. The footer's first column also starts with Home. Same links in the phone menu.
+
 ## 2.15.11
 - FAQ band restyled: deeper wine panel, "Common questions" pill, filter chips (All, The patches, Skin & makeup, Shipping & returns) that show only that group, questions closed by default (one open at a time). Right side: photo card with chip, button and caption, plus a "Quick takeaway & specs" card with a Q n of N counter, three facts and an email line with Copy email. Photo is yours (Image setting) or the product photo. Claims that cannot be checked (18 + 18 count, medical-grade, daylight invisibility, overnight relief) are not used.
 

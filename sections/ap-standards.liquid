@@ -34,7 +34,8 @@
 </section>
 
 {% stylesheet %}
-  .apx-std{position:relative;overflow:hidden;background:radial-gradient(55% 140% at 82% 115%,rgba(110,20,35,.6),transparent 70%),var(--ap-ink);color:#fff}
+  .apx-std{position:relative;overflow:hidden;background:radial-gradient(50% 120% at 12% -10%,rgba(228,163,177,.22),transparent 70%),linear-gradient(180deg,var(--ap-blush-deep) 0%,#5A0F1E 55%,var(--ap-ink) 100%);color:#fff}
+  .apx-std::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)}
   .apx-std::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(228,163,177,.35),transparent)}
   .apx-std__in{display:grid;gap:22px;padding-block:clamp(28px,4vw,40px)}
   .apx-std__label{margin:0;font-size:.6875rem;font-weight:800;letter-spacing:.2em;line-height:1.7;text-transform:uppercase;color:#E4A3B1}

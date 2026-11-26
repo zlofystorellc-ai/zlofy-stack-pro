@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.17.3
+- Standards strip background is now a vertical blend: the site's brand wine at the top (matching the buttons and banners above) fading into the deep wine of the video section below, with a soft rose glow, so it sits naturally between the two.
+
 ## 2.17.2
 - Standards strip colours now match the site: the deep wine background of the video section below it, rose accents (instead of gold) and a soft wine glow, so the two dark bands flow into each other.
 

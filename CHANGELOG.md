@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.7
+- FAQ band: the built-in close-up video and the "Still have a question?" card are off by default. The right side stays empty for your own photo (upload it in the section's Image setting).
+
 ## 2.13.6
 - Footer: the top bar with four points (Drug-free hydrocolloid, Day and night patches, US dispatch, 30-day guarantee) is removed. The footer starts with the brand, link columns and customer care card.
 

@@ -7,6 +7,7 @@ document.querySelectorAll('[data-ap-how]').forEach((sec) => {
   const steps = Array.from(list.children);
   if (!steps.length) return;
   const label = sec.querySelector('[data-ap-how-label]');
+  const dots = Array.from(sec.querySelectorAll('[data-ap-how-dots] li'));
   let ticking = false;
 
   const update = () => {
@@ -27,6 +28,7 @@ document.querySelectorAll('[data-ap-how]').forEach((sec) => {
       sec.dataset.step = String(active + 1);
       if (label) label.textContent = (steps[active].querySelector('h3') || {}).textContent || '';
     }
+    dots.forEach((d, i) => d.classList.toggle('is-on', i === active));
     steps.forEach((s, i) => {
       s.classList.toggle('is-active', inView && i === active);
       s.classList.toggle('is-done', inView && i < active);

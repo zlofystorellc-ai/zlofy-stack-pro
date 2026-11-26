@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.6
+- "Press. Wait. Peel. Swap." section restyled: soft cream background, lighter step cards, dark numbered timeline, pink border on the active step, four dots under the video that follow the active step, and an optional "visual cue" line with a dot inside a step (step 3: a white center shows the patch has taken in fluid).
+
 ## 2.15.5
 - "A spot's day" section (home and product page): the button area is rebuilt. Small pill, bigger "Find your kit" button with an arrow, a guarantee line, and a white rounded trust card with three points (icon, title and short text; stacked on phones). Old picture strip is no longer used. New lock and chat icons.
 

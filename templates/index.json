@@ -172,7 +172,8 @@
             "icon": "clock",
             "chip": "6–8 hrs",
             "title": "Leave on 6–8 hours",
-            "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold."
+            "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold.",
+            "cue": "Visual cue: a white center shows the patch has taken in fluid."
           }
         },
         "step_4": {

@@ -42,6 +42,7 @@
           <span class="apx-how__orb-t" data-ap-how-label></span>
         </div>
         {%- if section.settings.show_builtin_video and section.settings.demo_note != blank -%}<p class="apx-how__demo">{{ section.settings.demo_note }}</p>{%- endif -%}
+        <ul class="apx-how__dots" aria-hidden="true" data-ap-how-dots>{%- for block in section.blocks -%}<li></li>{%- endfor -%}</ul>
       </div>
     {%- endif -%}
     <ol class="apx-how__steps" data-ap-how-steps>
@@ -58,6 +59,7 @@
             {%- endif -%}
             <h3>{{ block.settings.title }}</h3>
             <p>{{ block.settings.text }}</p>
+            {%- if block.settings.cue != blank -%}<p class="apx-how__cue"><i aria-hidden="true"></i>{{ block.settings.cue }}</p>{%- endif -%}
           </div>
         </li>
       {%- endfor -%}
@@ -173,6 +175,25 @@
   .apx-how__note{display:flex;gap:12px;align-items:flex-start;max-width:70ch;margin:clamp(32px,4vw,48px) auto 0;padding:16px 20px;border:1px solid rgba(59,10,20,.06);border-left:4px solid var(--ap-blush-deep);border-radius:0 16px 16px 0;background:var(--ap-white);font-size:.9375rem;line-height:1.55;box-shadow:0 8px 24px rgba(59,10,20,.05)}
   .apx-how__note-i{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#F5E6E8;color:var(--ap-blush-deep)}
   @media (max-width:520px){.apx-how__orb-t{left:auto;right:0;translate:none;bottom:-12px}}
+
+  /* look: soft cream background, light cards, dark numbered timeline, dots under the video, optional visual-cue line */
+  .apx-how{background:linear-gradient(180deg,#FDF8F6 0%,#FBF1EF 100%)}
+  .apx-how::before{background:radial-gradient(circle,rgba(245,225,228,.6),rgba(245,225,228,0) 70%)}
+  .apx-how::after{background:radial-gradient(circle,rgba(255,236,190,.35),rgba(255,236,190,0) 70%)}
+  .apx-how__card{border:1px solid #F0E3E1;box-shadow:0 8px 24px rgba(59,10,20,.05)}
+  .apx-how__icon{background:#FBEFF0;color:var(--ap-ink)}
+  .apx-how--media .apx-how__steps::before{background:rgba(59,10,20,.14)}
+  .apx-how--media .apx-how__steps::after{background:var(--ap-ink)}
+  .apx-how--media .apx-how__num{border-color:#fff;box-shadow:0 0 0 1px rgba(59,10,20,.14);color:var(--ap-ink)}
+  .apx-how--media .apx-how__step.is-active .apx-how__num,.apx-how--media .apx-how__step.is-done .apx-how__num{background:var(--ap-ink);border-color:#fff;box-shadow:0 0 0 1px var(--ap-ink);color:#fff}
+  .apx-how--media .apx-how__step.is-active .apx-how__card{border-color:#E6B8C0;box-shadow:0 14px 34px rgba(110,20,35,.12)}
+  .apx-how__cue{grid-column:2;display:flex;align-items:center;gap:8px;margin:12px 0 0!important;padding-top:12px;border-top:1px solid #F0E3E1;font-size:.8125rem;font-weight:600;color:var(--ap-ink)!important}
+  .apx-how__cue i{flex:none;width:8px;height:8px;border-radius:50%;background:var(--ap-ink)}
+  .apx-how__dots{display:flex;justify-content:center;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+  .apx-how__dots li{width:8px;height:8px;border-radius:999px;background:#E4D2D4;transition:width .3s,background .3s}
+  .apx-how__dots li.is-on{width:26px;background:var(--ap-ink)}
+  @media (max-width:520px){.apx-how__cue{grid-column:1}}
+  @media (prefers-reduced-motion:reduce){.apx-how__dots li{transition:none}}
 {% endstylesheet %}
 
 {% schema %}
@@ -199,6 +220,7 @@
         { "type": "text", "id": "title", "label": "Title", "default": "Cleanse and dry" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Wash your face gently and pat dry. Patches stick best to clean, dry skin." },
         { "type": "text", "id": "chip", "label": "Time tag (optional)", "info": "A short tag such as \"10 sec\"." },
+        { "type": "text", "id": "cue", "label": "Extra line with a dot (optional)", "info": "For example a visual cue. Keep it true." },
         {
           "type": "select",
           "id": "icon",
@@ -230,7 +252,7 @@
       "blocks": [
         { "type": "step", "settings": { "icon": "drop", "title": "Cleanse and dry", "text": "Wash your face gently and pat dry. Patches stick best to clean, dry skin." } },
         { "type": "step", "settings": { "icon": "hand", "chip": "10 sec", "title": "Press for 10 seconds", "text": "Place the patch over the spot and press from the center out so the edges seal." } },
-        { "type": "step", "settings": { "icon": "clock", "chip": "6–8 hrs", "title": "Leave on 6–8 hours", "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold." } },
+        { "type": "step", "settings": { "icon": "clock", "chip": "6–8 hrs", "title": "Leave on 6–8 hours", "text": "Wear it for 6–8 hours, or until the patch turns white, which means it has taken in as much fluid as it can hold.", "cue": "Visual cue: a white center shows the patch has taken in fluid." } },
         { "type": "step", "settings": { "icon": "sparkle", "title": "Peel and swap", "text": "Peel from an edge, toss it, and add a fresh patch if the spot is still there." } }
       ]
     }

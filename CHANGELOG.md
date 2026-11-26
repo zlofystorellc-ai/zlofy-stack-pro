@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.4
+- Product page: the "See it in action" video section now sits directly under the buy box (before "A spot's day").
+
 ## 2.13.3
 - Product page: the "ZLOFY vs typical single-type patches" comparison section is removed from the starting template (its file `sections/ap-comparison.liquid` is kept).
 

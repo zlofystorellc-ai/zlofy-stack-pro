@@ -191,6 +191,81 @@
         "accordion_18"
       ]
     },
+    "videos": {
+      "type": "ap-video-cards",
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "builtin": "how",
+            "alt": "A short demonstration of washing the face, drying it, and pressing a patch onto a small spot",
+            "tag": "Demonstration",
+            "name": "Press, wait, peel",
+            "role": "Clean, dry, press on, then peel and swap."
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "builtin": "banner",
+            "alt": "A face with a small spot, then a close-up of a thin patch covering it",
+            "tag": "Demonstration",
+            "name": "Cover the spot",
+            "role": "A thin patch that sits close to the skin."
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "builtin": "macro",
+            "alt": "A close-up of a thin, clear round patch resting on skin",
+            "tag": "Demonstration",
+            "name": "Up close",
+            "role": "A thin, clear hydrocolloid patch."
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "builtin": "cutaway",
+            "alt": "A close-up of a thin hydrocolloid patch on a white surface",
+            "tag": "Illustration",
+            "name": "Inside the patch",
+            "role": "Soft gel layer, shown up close."
+          }
+        },
+        "stat_5": {
+          "type": "stat",
+          "settings": {
+            "number": "2",
+            "label": "Patch types"
+          }
+        },
+        "stat_6": {
+          "type": "stat",
+          "settings": {
+            "number": "1",
+            "label": "Kit, day and night"
+          }
+        },
+        "stat_7": {
+          "type": "stat",
+          "settings": {
+            "number": "30",
+            "label": "Day guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "stat_5",
+        "stat_6",
+        "stat_7"
+      ]
+    },
     "problem": {
       "type": "ap-problem",
       "blocks": {
@@ -397,81 +472,6 @@
     "founder": {
       "type": "ap-founder-note"
     },
-    "videos": {
-      "type": "ap-video-cards",
-      "blocks": {
-        "card_1": {
-          "type": "card",
-          "settings": {
-            "builtin": "how",
-            "alt": "A short demonstration of washing the face, drying it, and pressing a patch onto a small spot",
-            "tag": "Demonstration",
-            "name": "Press, wait, peel",
-            "role": "Clean, dry, press on, then peel and swap."
-          }
-        },
-        "card_2": {
-          "type": "card",
-          "settings": {
-            "builtin": "banner",
-            "alt": "A face with a small spot, then a close-up of a thin patch covering it",
-            "tag": "Demonstration",
-            "name": "Cover the spot",
-            "role": "A thin patch that sits close to the skin."
-          }
-        },
-        "card_3": {
-          "type": "card",
-          "settings": {
-            "builtin": "macro",
-            "alt": "A close-up of a thin, clear round patch resting on skin",
-            "tag": "Demonstration",
-            "name": "Up close",
-            "role": "A thin, clear hydrocolloid patch."
-          }
-        },
-        "card_4": {
-          "type": "card",
-          "settings": {
-            "builtin": "cutaway",
-            "alt": "A close-up of a thin hydrocolloid patch on a white surface",
-            "tag": "Illustration",
-            "name": "Inside the patch",
-            "role": "Soft gel layer, shown up close."
-          }
-        },
-        "stat_5": {
-          "type": "stat",
-          "settings": {
-            "number": "2",
-            "label": "Patch types"
-          }
-        },
-        "stat_6": {
-          "type": "stat",
-          "settings": {
-            "number": "1",
-            "label": "Kit, day and night"
-          }
-        },
-        "stat_7": {
-          "type": "stat",
-          "settings": {
-            "number": "30",
-            "label": "Day guarantee"
-          }
-        }
-      },
-      "block_order": [
-        "card_1",
-        "card_2",
-        "card_3",
-        "card_4",
-        "stat_5",
-        "stat_6",
-        "stat_7"
-      ]
-    },
     "guarantee": {
       "type": "ap-guarantee",
       "blocks": {
@@ -578,6 +578,7 @@
   "order": [
     "trust",
     "main",
+    "videos",
     "problem",
     "daynight",
     "how",
@@ -586,7 +587,6 @@
     "globe",
     "reviews",
     "founder",
-    "videos",
     "guarantee",
     "faqsplit",
     "sticky"

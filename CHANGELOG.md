@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.17.2
+- Standards strip colours now match the site: the deep wine background of the video section below it, rose accents (instead of gold) and a soft wine glow, so the two dark bands flow into each other.
+
 ## 2.17.1
 - Standards strip: much shorter (about half the height) with the facts in a tidy three-column grid, so text no longer overlaps on wide screens.
 

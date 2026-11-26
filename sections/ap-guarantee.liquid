@@ -16,6 +16,13 @@
         {%- endif -%}
       </div>
       <div class="apx-guar__right">
+        {%- assign g_img = section.settings.image | default: product.featured_image -%}
+        {%- if g_img != blank -%}
+          <div class="apx-guar__photo">
+            {{ g_img | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 525, 700', sizes: '(min-width: 800px) 40vw, 90vw', alt: g_img.alt | default: section.settings.heading }}
+            <span class="apx-guar__sealbadge" aria-hidden="true"><i></i></span>
+          </div>
+        {%- endif -%}
         <svg class="apx-guar__seal" viewBox="0 0 160 160" width="150" height="150" aria-hidden="true">
           <defs><path id="{{ section.id }}-arc" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
           <circle cx="80" cy="80" r="76" fill="#fff" stroke="#EBDDC9" stroke-width="2"/>
@@ -41,8 +48,11 @@
     {%- endif -%}
     {%- if g_email != blank and section.settings.strip_text != blank -%}
       <div class="apx-guar__strip">
-        <p><i aria-hidden="true"></i>{{ section.settings.strip_text }}</p>
-        <button type="button" class="apx-guar__copy" data-ap-guar-copy data-email="{{ g_email }}">{% render 'ap-icon', name: 'plus', size: 14 %}<span>Copy email</span></button>
+        <p><i aria-hidden="true"></i><span>{{ section.settings.strip_text }} <a href="mailto:{{ g_email }}?subject={{ section.settings.strip_subject | url_encode }}">{{ g_email }}</a></span></p>
+        <span class="apx-guar__acts">
+          <a class="apx-guar__mail" href="mailto:{{ g_email }}?subject={{ section.settings.strip_subject | url_encode }}">{{ section.settings.strip_button }}<span aria-hidden="true">&rarr;</span></a>
+          <button type="button" class="apx-guar__copy" data-ap-guar-copy data-email="{{ g_email }}">{% render 'ap-icon', name: 'plus', size: 14 %}<span>Copy email</span></button>
+        </span>
       </div>
     {%- endif -%}
   </div>
@@ -113,6 +123,19 @@
   .apx-guar__copy:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
   @media (min-width:800px){.apx-guar__card{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.apx-guar__right{border-top:0;border-left:1px solid var(--ap-line)}}
   @media (max-width:560px){.apx-guar__strip{border-radius:22px;flex-direction:column;align-items:flex-start}}
+
+  .apx-guar__strip{flex-wrap:wrap;border-radius:28px}
+  .apx-guar__strip p{flex:1 1 360px}
+  .apx-guar__strip p span a{color:var(--ap-blush-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+  .apx-guar__acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .apx-guar__mail{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:var(--ap-ink);color:#fff;font-size:.875rem;font-weight:800;text-decoration:none;transition:transform .2s}
+  .apx-guar__mail:hover{transform:translateY(-1px)}
+  .apx-guar__mail:focus-visible,.apx-guar__strip a:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-guar__photo{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border:4px solid #fff;border-radius:22px;background:#F0D9DC;box-shadow:0 14px 32px rgba(59,10,20,.14)}
+  .apx-guar__photo img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-guar__photo~.apx-guar__seal{width:92px;height:92px;margin-top:-62px;position:relative;z-index:1;align-self:end;justify-self:end;margin-right:14px}
+  .apx-guar__right:has(.apx-guar__photo){justify-items:stretch}
+  .apx-guar__sealbadge{display:none}
 {% endstylesheet %}
 
 {% schema %}
@@ -135,7 +158,10 @@
     },
     { "type": "text", "id": "note_title", "label": "Note under the text (empty hides it)", "default": "Questions? We reply by email" },
     { "type": "text", "id": "note_text", "label": "Note second line", "default": "Write to us and we will help." },
-    { "type": "text", "id": "strip_text", "label": "Line in the email strip (empty hides the strip)", "default": "Questions about the guarantee? Write to us and we will help." },
+    { "type": "text", "id": "strip_text", "label": "Line in the email strip (empty hides the strip)", "default": "Questions about your order or the guarantee? Our US support team is happy to help. Email us at" },
+    { "type": "text", "id": "strip_button", "label": "Email button text", "default": "Email us" },
+    { "type": "text", "id": "strip_subject", "label": "Email subject that opens ready-made", "default": "Question about my Zlofy order" },
+    { "type": "image_picker", "id": "image", "label": "Photo in the card (optional)", "info": "Empty uses the product photo. Upload only photos you own or have licensed." },
     { "type": "url", "id": "policy_link", "label": "Refund policy link" }
   ],
   "blocks": [

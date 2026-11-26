@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.10
+- Guarantee section: the email strip now has a real "Email us" button and a linked address that open the visitor's mail app with a ready subject (plus Copy email), with friendlier wording. The card shows a photo (your own, or the product photo) with the seal on its corner.
+
 ## 2.15.9
 - "Risk-free" guarantee section restyled: two-column promise card (big 30 DAY GUARANTEE, text with the support email link, small note) beside a seal and a Day 1 to Day 30 timeline, three chips, and an email strip with a Copy email button. Wording stays within the existing 30-day promise; policy terms that were not in the store (one-time orders only, full coverage) are not added.
 

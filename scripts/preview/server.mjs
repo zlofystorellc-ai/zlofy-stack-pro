@@ -69,6 +69,7 @@ function preprocess(src) {
     .replace(/{%-?\s*form\s+'localization'[\s\S]*?-?%}/g, '<form method="post" action="/localization">')
     .replace(/{%-?\s*form\s+'contact'[\s\S]*?-?%}/g, '<form method="post" action="#" class="apx-cf__form">')
     .replace(/{%-?\s*form\s+'customer'[\s\S]*?-?%}/g, '<form method="post" action="#" id="ap-newsletter-form" class="apx-nl__form">')
+    .replace(/{%-?\s*form\s+'(customer_login|create_customer|recover_customer_password)'[\s\S]*?-?%}/g, '<form method="post" action="#" class="apx-ac__form">')
     .replace(/{%-?\s*form\s+'product'[\s\S]*?-?%}/g, '<form method="post" action="/cart/add" id="{{ form_id }}" novalidate="novalidate" data-ap-form="true">')
     .replace(/{%-?\s*endform\s*-?%}/g, '</form>')
     .replace(/{%-?\s*sections\s+'header-group'\s*-?%}/g, '{{ header_group }}');
@@ -206,10 +207,10 @@ async function renderPage(query, pageName = 'product') {
   const cart = cartObject();
   const globals = {
     settings,
-    shop: { name: 'Local preview', url: 'http://localhost:' + PORT, enabled_payment_types: ['visa', 'master', 'american_express', 'apple_pay', 'shop_pay'] },
+    shop: { customer_accounts_enabled: true, name: 'Local preview', url: 'http://localhost:' + PORT, enabled_payment_types: ['visa', 'master', 'american_express', 'apple_pay', 'shop_pay'] },
     cart,
     request: { locale: { iso_code: 'en' }, design_mode: design },
-    routes: { root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', product_recommendations_url: '/recommendations/products' },
+    routes: { account_url: '/account/login', account_login_url: '/account/login', account_register_url: '/account/register', account_logout_url: '/', all_products_collection_url: '/products/day-night-duo', root_url: '/', cart_url: '/cart', cart_add_url: '/cart/add', cart_change_url: '/cart/change', product_recommendations_url: '/recommendations/products' },
     linklists,
     collections: { all: { products: [{ url: '/products/day-night-duo' }] } },
     template: { name: pageName === 'home' ? 'index' : (pageName.startsWith('page:') ? 'page' : 'product') },
@@ -221,6 +222,7 @@ async function renderPage(query, pageName = 'product') {
     product,
     recommendations: { performed: false, products: others }
   };
+  if (pageName === 'customers/account') globals.customer = { first_name: 'Sam', email: 'sam@example.com', orders: [], default_address: null };
   const engine = makeEngine(globals);
   const requested = Number(query.get('variant'));
   const picked = variants.find((v) => v.id === requested);
@@ -228,7 +230,7 @@ async function renderPage(query, pageName = 'product') {
   product.options_with_values[0].selected_value = product.selected_or_first_available_variant.title;
 
   const header_group = await renderGroup(engine, globals, 'sections/header-group.json');
-  const tplFile = pageName === 'home' ? 'templates/index.json' : (pageName.startsWith('page:') ? `templates/page.${pageName.slice(5)}.json` : 'templates/product.acne-duo.json');
+  const tplFile = pageName.startsWith('customers/') ? `templates/${pageName}.json` : pageName === 'home' ? 'templates/index.json' : (pageName.startsWith('page:') ? `templates/page.${pageName.slice(5)}.json` : 'templates/product.acne-duo.json');
   const tpl = JSON.parse(read(tplFile));
   let content = '';
   for (const key of tpl.order) content += await renderSection(engine, globals, key, tpl.sections[key].type, tpl.sections[key]);
@@ -338,6 +340,11 @@ http.createServer(async (req, res) => {
       return json(res, 200, { products: others.map((p) => ({ id: p.id, title: p.title, handle: p.handle, available: true, featured_image: `/preview-img/${p.featured_image.key}.svg?w=300`, variants: [{ id: p.variants[0].id, price: (p.price / 100).toFixed(2), available: true }] })) });
     }
     if (url.pathname.startsWith('/recommendations/')) { res.writeHead(404); return res.end(); }
+    if (url.pathname === '/account' || url.pathname.startsWith('/account/')) {
+      const which = url.pathname === '/account' ? 'account' : url.pathname.slice(9);
+      const html = await renderPage(url.searchParams, `customers/${['login', 'register', 'account'].includes(which) ? which : 'login'}`);
+      res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); return res.end(html);
+    }
     if (url.pathname.startsWith('/pages/')) {
       const html = await renderPage(url.searchParams, `page:${url.pathname.slice(7)}`);
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });

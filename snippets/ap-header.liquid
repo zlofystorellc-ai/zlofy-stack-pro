@@ -43,8 +43,9 @@
 
     <div class="apx-header__right">
       {%- if shop.customer_accounts_enabled -%}
-        <a class="apx-header__cart" href="{{ routes.account_url }}" aria-label="{{ 'ap.header.account' | t }}">
+        <a class="apx-header__cart apx-header__acct" href="{{ routes.account_url }}" aria-label="{% if customer %}{{ 'ap.header.account' | t }}{% else %}Sign in{% endif %}">
           {% render 'ap-icon', name: 'user', size: 24 %}
+          <span class="apx-header__acct-t">{% if customer %}Account{% else %}Sign in{% endif %}</span>
         </a>
       {%- endif -%}
       <a class="apx-header__cart apx-header__bag" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">

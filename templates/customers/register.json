@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "ap-account", "settings": { "mode": "register" } }
+  },
+  "order": ["main"]
+}

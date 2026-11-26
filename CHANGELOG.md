@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.14.0
+- Customer accounts the way US shoppers expect: header shows a clear "Sign in" (or "Account" when logged in) next to the person icon; new Sign in, Create account (with perks list) and Account pages (templates/customers/*, section Customer account) with a Forgot password reset, and a note that checking out as a guest is fine.
+- Footer: the newsletter is now "Email updates" with a "Subscribe" button and an unsubscribe note, so it is not confused with account sign in or sign up.
+- Preview server: /account/login, /account/register and /account routes with mock forms.
 ## 2.13.10
 - Footer tidied up: the big empty ZLOFY wordmark band is removed; thin rose accent line on top, clearer column headings with an underline, visible "Stay in the loop" label above the sign-up, a stronger customer care card (email button plus an outlined "Send a message" button), and a cleaner bottom bar.
 

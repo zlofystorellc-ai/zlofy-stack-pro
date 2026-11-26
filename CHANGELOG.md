@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.9
+- Product page: new "Disclaimer" accordion (information accuracy, read the label, not medical advice, not medicines), written in ZLOFY's own words.
+
 ## 2.13.8
 - Product page accordions: "How to use" is now four numbered steps, plus new "Safety information" and "Ingredients" accordions written in ZLOFY's own words (external use, not for deep or cystic bumps, broken skin, sensitive skin, irritation, keep from children, not medical advice).
 

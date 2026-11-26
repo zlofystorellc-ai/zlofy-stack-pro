@@ -182,6 +182,13 @@
             "title": "Shipping and returns",
             "body": "<p>Shipping times and costs are shown at checkout. See our refund policy for how returns work.</p>"
           }
+        },
+        "accordion_21": {
+          "type": "accordion",
+          "settings": {
+            "title": "Disclaimer",
+            "body": "<p>We work to keep our product information accurate. Ingredient lists and packaging can change over time, so the pack you receive may show more or different information than this page. Please read the label, warnings and directions before use, and do not rely only on what is shown here.</p><p>This site is for reference only and is not a substitute for advice from a doctor, pharmacist or other licensed health professional. It is not meant for self-diagnosis or for managing a health condition. If you think you may have a medical problem, contact your health-care provider. These are cosmetic skin-covering patches and are not medicines.</p>"
+          }
         }
       },
       "block_order": [
@@ -204,7 +211,8 @@
         "accordion_17",
         "accordion_18",
         "accordion_19",
-        "accordion_20"
+        "accordion_20",
+        "accordion_21"
       ]
     },
     "videos": {

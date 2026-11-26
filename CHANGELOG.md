@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.2
+- Home "Shop the kit" panel trust points reworded: Day and night, sorted / Easy to use / Real people to talk to / Ingredients in plain sight (new icons). Still editable in the section settings.
+
 ## 2.15.1
 - Home "Shop the kit" panel: the kit option list is replaced by four trust points (Drug-free hydrocolloid, US dispatch, 30-day guarantee, Secure checkout). All text is editable in the section settings.
 

@@ -38,7 +38,7 @@
               {%- assign xk = 'trust_' | append: n | append: '_text' -%}
               {%- if section.settings[tk] != blank -%}
                 <li>
-                  <span class="apx-hk__ti" aria-hidden="true">{%- case n -%}{%- when 1 -%}{% render 'ap-icon', name: 'shield', size: 20 %}{%- when 2 -%}{% render 'ap-icon', name: 'truck', size: 20 %}{%- when 3 -%}{% render 'ap-icon', name: 'heart', size: 20 %}{%- else -%}{% render 'ap-icon', name: 'check', size: 20 %}{%- endcase -%}</span>
+                  <span class="apx-hk__ti" aria-hidden="true">{%- case n -%}{%- when 1 -%}{% render 'ap-icon', name: 'sun', size: 20 %}{%- when 2 -%}{% render 'ap-icon', name: 'hand', size: 20 %}{%- when 3 -%}{% render 'ap-icon', name: 'mail', size: 20 %}{%- else -%}{% render 'ap-icon', name: 'leaf', size: 20 %}{%- endcase -%}</span>
                   <span><b>{{ section.settings[tk] }}</b>{%- if section.settings[xk] != blank -%}<em>{{ section.settings[xk] }}</em>{%- endif -%}</span>
                 </li>
               {%- endif -%}
@@ -172,14 +172,14 @@
     { "type": "textarea", "id": "desc", "label": "Short description", "default": "Wear the 0.15 mm ultra-thin matte Day patch to school or work. Switch to the 0.35 mm cushioned Night patch before bed." },
     { "type": "text", "id": "step2", "label": "Purchase options title", "default": "Purchase option" },
     { "type": "header", "content": "Trust points (empty title hides one). Keep every point true for your store." },
-    { "type": "text", "id": "trust_1_title", "label": "Point 1 title", "default": "Drug-free hydrocolloid" },
-    { "type": "text", "id": "trust_1_text", "label": "Point 1 text", "default": "No medicated actives. It simply covers the spot." },
-    { "type": "text", "id": "trust_2_title", "label": "Point 2 title", "default": "US dispatch" },
-    { "type": "text", "id": "trust_2_text", "label": "Point 2 text", "default": "Ships in 3 to 5 business days." },
-    { "type": "text", "id": "trust_3_title", "label": "Point 3 title", "default": "30-day guarantee" },
-    { "type": "text", "id": "trust_3_text", "label": "Point 3 text", "default": "Refund if you are not happy." },
-    { "type": "text", "id": "trust_4_title", "label": "Point 4 title", "default": "Secure checkout" },
-    { "type": "text", "id": "trust_4_text", "label": "Point 4 text", "default": "Pay with Visa, Mastercard, American Express, Apple Pay or Shop Pay." },
+    { "type": "text", "id": "trust_1_title", "label": "Point 1 title", "default": "Day and night, sorted" },
+    { "type": "text", "id": "trust_1_text", "label": "Point 1 text", "default": "A thin patch for the day and a cushioned one for the night." },
+    { "type": "text", "id": "trust_2_title", "label": "Point 2 title", "default": "Easy to use" },
+    { "type": "text", "id": "trust_2_text", "label": "Point 2 text", "default": "Clean, press on, peel and swap." },
+    { "type": "text", "id": "trust_3_title", "label": "Point 3 title", "default": "Real people to talk to" },
+    { "type": "text", "id": "trust_3_text", "label": "Point 3 text", "default": "Write to contact@zlofy.com and we will get back to you." },
+    { "type": "text", "id": "trust_4_title", "label": "Point 4 title", "default": "Ingredients in plain sight" },
+    { "type": "text", "id": "trust_4_text", "label": "Point 4 text", "default": "The full ingredient list is shown on the product page." },
     { "type": "text", "id": "footnote", "label": "Line under the button", "default": "Free US shipping on orders $35+", "info": "Keep this true for your store." },
     { "type": "text", "id": "all_label", "label": "See-all link text (leave empty for a one-product store)", "default": "" },
     { "type": "url", "id": "all_link", "label": "See-all link", "info": "Leave empty to open all products." }

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.11
+- FAQ band restyled: deeper wine panel, "Common questions" pill, filter chips (All, The patches, Skin & makeup, Shipping & returns) that show only that group, questions closed by default (one open at a time). Right side: photo card with chip, button and caption, plus a "Quick takeaway & specs" card with a Q n of N counter, three facts and an email line with Copy email. Photo is yours (Image setting) or the product photo. Claims that cannot be checked (18 + 18 count, medical-grade, daylight invisibility, overnight relief) are not used.
+
 ## 2.15.10
 - Guarantee section: the email strip now has a real "Email us" button and a linked address that open the visitor's mail app with a ready subject (plus Copy email), with friendlier wording. The card shows a photo (your own, or the product photo) with the seal on its corner.
 

@@ -61,6 +61,7 @@
             {%- endfor -%}
           </ul>
 
+          {%- if section.settings.qty_label == blank -%}<input type="hidden" name="quantity" value="1">{%- endif -%}
           {%- if section.settings.qty_label != blank -%}
             <p class="apx-hk__step" id="{{ section.id }}-qty">{{ section.settings.qty_label }}</p>
             <div class="apx-hk__qty" role="radiogroup" aria-labelledby="{{ section.id }}-qty">
@@ -286,7 +287,7 @@
     { "type": "text", "id": "trust_3_text", "label": "Feature 3 text", "default": "No medicated actives. It simply covers the spot." },
     { "type": "text", "id": "trust_4_title", "label": "Feature 4 title", "default": "Ingredients in plain sight" },
     { "type": "text", "id": "trust_4_text", "label": "Feature 4 text", "default": "Full list on the product page. Questions? contact@zlofy.com." },
-    { "type": "text", "id": "qty_label", "label": "Quantity row title (empty hides the row)", "default": "Select kit quantity" },
+    { "type": "text", "id": "qty_label", "label": "Quantity row title (empty hides the row)", "default": "" },
     { "type": "text", "id": "qty_1_title", "label": "Quantity 1 title", "default": "1 Kit" },
     { "type": "text", "id": "qty_1_text", "label": "Quantity 1 text", "default": "Day + night" },
     { "type": "text", "id": "qty_2_title", "label": "Quantity 2 title", "default": "2 Kits" },

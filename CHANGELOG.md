@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.18.1
+- Home "Shop the kit" panel: the "Select kit quantity" row (1 Kit, 2 Kits, 3 Kits) is removed. The bag always gets 1 (the cart drawer has the plus and minus for more).
+
 ## 2.18.0
 - Home "Shop the kit" panel is now a real buy box: pick 1, 2 or 3 kits and One-time or Subscribe & save, then "Add to bag" adds it to the cart and opens the bag drawer on the home page, with no trip to the product page. The button price updates with the choice. Photo and title still link to the product page for details; the photo tabs are now plain labels.
 

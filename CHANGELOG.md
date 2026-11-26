@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.17.6
+- Home "One kit for the whole day" is shorter on laptops (tighter card padding, spacing and text size). Same text and colours.
+
 ## 2.17.5
 - Home "Shop the kit" panel is shorter on laptops (tighter spacing and a slightly wider photo). Same text and colours.
 

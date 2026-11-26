@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.9
+- "Risk-free" guarantee section restyled: two-column promise card (big 30 DAY GUARANTEE, text with the support email link, small note) beside a seal and a Day 1 to Day 30 timeline, three chips, and an email strip with a Copy email button. Wording stays within the existing 30-day promise; policy terms that were not in the store (one-time orders only, full coverage) are not added.
+
 ## 2.15.8
 - "How a patch looks" restyled: cream background, a three-button switch above the photos (Before wearing / 50-50 split / After wearing) that moves both sliders, a live "x% before · y% after" chip, and two-line captions (Illustrative demonstration + patch type). Photos stay labelled as AI-generated illustrations.
 

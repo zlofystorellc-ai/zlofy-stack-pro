@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.18.0
+- Home "Shop the kit" panel is now a real buy box: pick 1, 2 or 3 kits and One-time or Subscribe & save, then "Add to bag" adds it to the cart and opens the bag drawer on the home page, with no trip to the product page. The button price updates with the choice. Photo and title still link to the product page for details; the photo tabs are now plain labels.
+
 ## 2.17.7
 - Customer-facing text no longer says "AI-generated": the small badges and notes now say "Illustration", the video row line reads "Short demonstration clips, not customers.", and the demonstration photo disclaimer reads "Demonstration photos: illustrations, not real customers and not real results. Individual results vary." Editor-only help text is unchanged.
 

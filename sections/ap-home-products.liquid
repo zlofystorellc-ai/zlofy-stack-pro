@@ -20,7 +20,8 @@
       {%- if sb.settings.product != blank -%}{%- assign sp = sb.settings.product -%}{%- endif -%}
       {%- assign sv = sp.selected_or_first_available_variant | default: sp.variants.first -%}
       {%- assign alloc = sv.selling_plan_allocations.first -%}
-      <div class="apx-hk" {{ sb.shopify_attributes }}>
+      <form class="apx-hk" method="post" action="{{ routes.cart_add_url }}" data-ap-quick-add data-ap-hk data-unit="{{ sv.price }}" data-currency="{{ cart.currency.iso_code | default: shop.currency | default: 'USD' }}" {{ sb.shopify_attributes }}>
+        <input type="hidden" name="id" value="{{ sv.id }}">
         <div class="apx-hk__left">
           <a class="apx-hk__media" href="{{ sp.url }}" aria-label="{{ sp.title | escape }}">
             <span class="apx-hk__chips">
@@ -37,7 +38,7 @@
               {%- assign tk = 'tab_' | append: n | append: '_title' -%}
               {%- assign xk = 'tab_' | append: n | append: '_text' -%}
               {%- if section.settings[tk] != blank -%}
-                <li><a class="apx-hk__tab{% if n == 1 %} is-on{% endif %}" href="{{ sp.url }}"><b>{{ section.settings[tk] }}</b>{%- if section.settings[xk] != blank -%}<span>{{ section.settings[xk] }}</span>{%- endif -%}</a></li>
+                <li><span class="apx-hk__tab{% if n == 1 %} is-on{% endif %}"><b>{{ section.settings[tk] }}</b>{%- if section.settings[xk] != blank -%}<span>{{ section.settings[xk] }}</span>{%- endif -%}</span></li>
               {%- endif -%}
             {%- endfor -%}
           </ul>
@@ -61,36 +62,59 @@
           </ul>
 
           {%- if section.settings.qty_label != blank -%}
-            <p class="apx-hk__step">{{ section.settings.qty_label }}</p>
-            <ul class="apx-hk__qty">
+            <p class="apx-hk__step" id="{{ section.id }}-qty">{{ section.settings.qty_label }}</p>
+            <div class="apx-hk__qty" role="radiogroup" aria-labelledby="{{ section.id }}-qty">
               {%- for n in (1..3) -%}
                 {%- assign tk = 'qty_' | append: n | append: '_title' -%}
                 {%- assign xk = 'qty_' | append: n | append: '_text' -%}
                 {%- if section.settings[tk] != blank -%}
-                  <li><a class="apx-hk__q{% if n == 1 %} is-on{% endif %}" href="{{ sp.url }}"><b>{{ section.settings[tk] }}</b>{%- if section.settings[xk] != blank -%}<span>{{ section.settings[xk] }}</span>{%- endif -%}</a></li>
+                  <label class="apx-hk__q"><input type="radio" name="quantity" value="{{ n }}"{% if n == 1 %} checked{% endif %}><b>{{ section.settings[tk] }}</b>{%- if section.settings[xk] != blank -%}<span>{{ section.settings[xk] }}</span>{%- endif -%}</label>
                 {%- endif -%}
               {%- endfor -%}
-            </ul>
+            </div>
           {%- endif -%}
 
           <p class="apx-hk__step">{{ section.settings.step2 }}</p>
-          <ul class="apx-hk__plans">
+          <div class="apx-hk__plans" role="radiogroup" aria-label="{{ section.settings.step2 | escape }}">
             {%- if alloc != blank -%}
-              <li>
-                <a class="apx-hk__plan is-on" href="{{ sp.url }}">
-                  <i aria-hidden="true"></i>
-                  <span><b>Subscribe &amp; save <em class="apx-hk__best">Best value</em></b><small>Choose your delivery plan on the next page</small></span>
-                  <strong>{{ alloc.price | money }}{%- if alloc.compare_at_price > alloc.price -%}<s>{{ alloc.compare_at_price | money }}</s>{%- endif -%}</strong>
-                </a>
-              </li>
+              <label class="apx-hk__plan">
+                <input type="radio" name="selling_plan" value="{{ alloc.selling_plan.id | default: alloc.selling_plan_id }}" data-price="{{ alloc.price }}" checked>
+                <i aria-hidden="true"></i>
+                <span><b>Subscribe &amp; save <em class="apx-hk__best">Best value</em></b><small>Pause, skip or cancel anytime</small></span>
+                <strong>{{ alloc.price | money }}{%- if alloc.compare_at_price > alloc.price -%}<s>{{ alloc.compare_at_price | money }}</s>{%- endif -%}</strong>
+              </label>
             {%- endif -%}
-            <li><a class="apx-hk__plan{% if alloc == blank %} is-on{% endif %}" href="{{ sp.url }}"><i aria-hidden="true"></i><span><b>One-time purchase</b><small>Standard single-order dispatch</small></span><strong>{{ sv.price | money }}</strong></a></li>
-          </ul>
+            <label class="apx-hk__plan">
+              <input type="radio" name="selling_plan" value="" data-price="{{ sv.price }}"{% if alloc == blank %} checked{% endif %}>
+              <i aria-hidden="true"></i>
+              <span><b>One-time purchase</b><small>Standard single-order dispatch</small></span>
+              <strong>{{ sv.price | money }}</strong>
+            </label>
+          </div>
 
-          <a class="apx-hk__btn" href="{{ sp.url }}">{{ section.settings.button_label }} &mdash; {% if alloc != blank %}{{ alloc.price | money }}{% else %}{{ sv.price | money }}{% endif %}<span aria-hidden="true">&rarr;</span><span class="apx-sr"> {{ sp.title }}</span></a>
+          {%- if sv.available -%}
+            <button type="submit" class="apx-hk__btn">{{ section.settings.button_label }} &mdash; <span data-ap-hk-price>{% if alloc != blank %}{{ alloc.price | money }}{% else %}{{ sv.price | money }}{% endif %}</span><span aria-hidden="true">&rarr;</span><span class="apx-sr"> {{ sp.title }}</span></button>
+          {%- else -%}
+            <a class="apx-hk__btn" href="{{ sp.url }}">{{ 'ap.cart.sold_out' | t }}</a>
+          {%- endif -%}
           {%- if section.settings.footnote != blank -%}<p class="apx-hk__foot">{{ section.settings.footnote }}</p>{%- endif -%}
         </div>
-      </div>
+      </form>
+      {% render 'ap-cart-drawer' %}
+      <script src="{{ 'ap-cart.js' | asset_url }}" type="module"></script>
+      <script>
+        (function () {
+          var f = document.querySelector('[data-ap-hk]'); if (!f) return;
+          var btn = f.querySelector('[data-ap-hk-price]'), cur = f.getAttribute('data-currency') || 'USD';
+          function money(c) { try { return new Intl.NumberFormat('en-US', { style: 'currency', currency: cur }).format(c / 100); } catch (e) { return '$' + (c / 100).toFixed(2); } }
+          function upd() {
+            var plan = f.querySelector('input[name="selling_plan"]:checked'), q = f.querySelector('input[name="quantity"]:checked');
+            var unit = Number(plan ? plan.getAttribute('data-price') : f.getAttribute('data-unit')), n = Number(q ? q.value : 1);
+            if (btn && unit) btn.textContent = money(unit * n);
+          }
+          f.addEventListener('change', upd); upd();
+        })();
+      </script>
     {%- else -%}
     <ul class="apx-hp__grid">
       {%- for block in section.blocks -%}
@@ -211,6 +235,21 @@
     .apx-hk__foot{margin-top:.7rem}
     .apx-hk__media{aspect-ratio:1/.9}
   }
+
+  /* real buying controls: selected state, hidden radios, button */
+  .apx-hk label{cursor:pointer}
+  .apx-hk input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+  .apx-hk__qty{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .apx-hk label.apx-hk__q{position:relative;display:grid;gap:2px;justify-items:center;padding:14px 8px;border:1.5px solid var(--ap-line);border-radius:16px;background:#fff;text-align:center;font-size:.9375rem;transition:border-color .2s,box-shadow .2s}
+  .apx-hk label.apx-hk__q:has(input:checked),.apx-hk label.apx-hk__plan:has(input:checked){border-color:var(--ap-ink);box-shadow:0 8px 22px rgba(59,10,20,.08)}
+  .apx-hk label.apx-hk__plan{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:18px;border:1.5px solid var(--ap-line);border-radius:18px;background:#fff;transition:border-color .2s,box-shadow .2s}
+  .apx-hk label.apx-hk__plan:has(input:checked) i{border:7px solid var(--ap-ink)}
+  .apx-hk label:has(input:focus-visible){outline:3px solid var(--ap-blush-deep);outline-offset:3px}
+  .apx-hk span.apx-hk__tab{display:grid;gap:2px;align-content:center;min-height:56px;padding:10px 8px;border:1.5px solid var(--ap-line);border-radius:14px;background:#fff;text-align:center;font-size:.8125rem}
+  .apx-hk span.apx-hk__tab.is-on{border-color:var(--ap-ink)}
+  button.apx-hk__btn{width:100%;border:0;font:inherit;font-size:1.0625rem;font-weight:800;cursor:pointer}
+  button.apx-hk__btn[aria-busy="true"]{opacity:.7}
+  @media (min-width:900px){.apx-hk label.apx-hk__plan{padding:13px 16px}.apx-hk label.apx-hk__q{padding:11px 8px}}
   .apx-hp__all{margin-top:28px}
   .apx-hp__all a{font-weight:800}
   @media (hover:hover){.apx-hp__card:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(59,10,20,.12)}.apx-hp__card:hover .apx-hp__img img{transform:scale(1.06)}}
@@ -225,7 +264,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Shop the kit" },
     { "type": "textarea", "id": "text", "label": "Intro (optional)", "default": "Day and night patches in one kit." },
-    { "type": "text", "id": "button_label", "label": "Card button", "default": "Shop the kit" },
+    { "type": "text", "id": "button_label", "label": "Card button", "default": "Add to bag" },
     { "type": "header", "content": "Big product panel (one-product store). Keep every line true for your store." },
     { "type": "text", "id": "chip", "label": "Small chip on the photo (optional)", "default": "" },
     { "type": "text", "id": "caption", "label": "Caption on the photo", "default": "0.15 mm Matte Day + 0.35 mm Cushioned Night" },

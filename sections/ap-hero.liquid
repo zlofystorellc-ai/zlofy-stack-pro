@@ -591,6 +591,10 @@
   .apx-acc__item[open] summary .apx-icon{transform:rotate(180deg)}
   .apx-acc__body{padding-bottom:14px;color:var(--ap-ink-soft)}
   .apx-acc__body p:last-child{margin-bottom:0}
+  .apx-acc__body ol,.apx-acc__body ul{margin:0 0 .6rem;padding-left:1.15rem}
+  .apx-acc__body ol{list-style:decimal}.apx-acc__body ul{list-style:disc}
+  .apx-acc__body li{margin:0 0 .3rem;padding-left:.15rem}
+  .apx-acc__body li::marker{color:var(--ap-blush-deep);font-weight:700}
   /* customer videos: swipeable row under the accordions */
   .apx-vids{margin-top:1.5rem}
   .apx-vids__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:.75rem}
@@ -967,7 +971,9 @@
         { "type": "plan_perk", "settings": { "text": "Cancel or skip any time" } },
         { "type": "plan_perk", "settings": { "text": "A lower price on every delivery" } },
         { "type": "gift", "settings": { "title": "Travel pouch", "note": "Added to your first subscription box" } },
-        { "type": "accordion", "settings": { "title": "How to use", "body": "<p>Cleanse and dry your skin, press the patch on for 10 seconds, leave it on for 6–8 hours or until it turns white, then peel and swap.</p>" } },
+        { "type": "accordion", "settings": { "title": "How to use", "body": "<ol><li><strong>Prep.</strong> Wash and fully dry the spot.</li><li><strong>Apply.</strong> Press the patch on gently for a few seconds.</li><li><strong>Wear.</strong> Day patch about 4–6 hours, night patch about 6–8 hours, or until it turns white.</li><li><strong>Remove.</strong> Peel it off slowly, then repeat with a fresh patch if needed.</li></ol>" } },
+        { "type": "accordion", "settings": { "title": "Safety information", "body": "<ul><li>For external use only.</li><li>Made for small, surfaced spots. Not for deep or cystic bumps or blackheads.</li><li>Do not apply to broken, open or infected skin.</li><li>Have sensitive skin or known allergies? Check with your doctor first, or try one patch on a small area.</li><li>Stop using it and ask a doctor if a rash or irritation appears.</li><li>Keep out of reach of children.</li></ul><p><small>This is general guidance, not medical advice. Always read the label and directions on your pack. Questions before you start? Send us a message.</small></p>" } },
+        { "type": "accordion", "settings": { "title": "Ingredients", "body": "<p>Drug-free hydrocolloid. The full ingredient list is shown in “Inside the patch” further down this page.</p>" } },
         { "type": "accordion", "settings": { "title": "What is in the kit", "body": "<p>Day and night patches in the sizes shown in the size guide below. The patch count is shown on each option above.</p>" } },
         { "type": "accordion", "settings": { "title": "Shipping and returns", "body": "<p>Shipping times and costs are shown at checkout. See our refund policy for how returns work.</p>" } }
       ]

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.8
+- Product page accordions: "How to use" is now four numbered steps, plus new "Safety information" and "Ingredients" accordions written in ZLOFY's own words (external use, not for deep or cystic bumps, broken skin, sensitive skin, irritation, keep from children, not medical advice).
+
 ## 2.13.7
 - FAQ band: the built-in close-up video and the "Still have a question?" card are off by default. The right side stays empty for your own photo (upload it in the section's Image setting).
 

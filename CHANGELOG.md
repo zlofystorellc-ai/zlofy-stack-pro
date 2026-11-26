@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.7
+- "What the patch is made of" restyled: pill label, big serif heading, three layer rows (the first lifted in a white card with a tag), small fact chips, and a rounded "Full ingredients (INCI)" card with a Copy INCI list button, tap-any-ingredient buttons and a note box (name | tag | text, editable). Texts only describe the four ingredients on the label; unchecked claims (medical-grade, dermatologist-tested, latex-free, fragrance-free, 0.05 mm edge) are not used.
+
 ## 2.15.6
 - "Press. Wait. Peel. Swap." section restyled: soft cream background, lighter step cards, dark numbered timeline, pink border on the active step, four dots under the video that follow the active step, and an optional "visual cue" line with a dot inside a step (step 3: a white center shows the patch has taken in fluid).
 

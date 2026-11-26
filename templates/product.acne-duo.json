@@ -462,12 +462,29 @@
           "type": "ingredient",
           "settings": {
             "name": "Hydrocolloid",
+            "tag": "Main layer",
             "note": "A soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered."
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Flexible polymer base",
+            "note": "Polyisobutene and Hydrogenated Poly(C6-20 Olefin) give the patch its soft, flexible body and help it stay on the skin."
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "A short, open label",
+            "note": "Four ingredients, listed in full below exactly as printed on the pack."
           }
         }
       },
       "block_order": [
-        "ingredient_1"
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3"
       ]
     },
     "beforeafter": {

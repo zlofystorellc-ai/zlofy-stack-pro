@@ -69,8 +69,8 @@
             {%- for block in section.blocks -%}
               <li class="apx-ing__row" style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
                 <span class="apx-ing__dot" aria-hidden="true">{{ forloop.index }}</span>
-                <div>
-                  <h3>{{ block.settings.name }}</h3>
+                <div class="apx-ing__rt">
+                  <h3>{{ block.settings.name }}{%- if block.settings.tag != blank -%}<span class="apx-ing__tag">{{ block.settings.tag }}</span>{%- endif -%}</h3>
                   <p>{{ block.settings.note }}</p>
                 </div>
                 {%- if block.settings.image != blank -%}
@@ -79,6 +79,12 @@
               </li>
             {%- endfor -%}
           </ol>
+        {%- endif -%}
+        {%- if section.settings.chips != blank -%}
+          <ul class="apx-ing__chips">
+            {%- assign chip_lines = section.settings.chips | newline_to_br | split: '<br />' -%}
+            {%- for c in chip_lines -%}{%- assign ct = c | strip -%}{%- if ct != blank -%}<li><i aria-hidden="true"></i>{{ ct }}</li>{%- endif -%}{%- endfor -%}
+          </ul>
         {%- endif -%}
       </div>
     </div>
@@ -120,15 +126,34 @@
           </figure>
         {%- endif -%}
         <div class="apx-ing__label-main">
-        <p class="apx-ing__label-t">{{ section.settings.full_list_title }}</p>
-        <div class="apx-ing__label-b">
+        <div class="apx-ing__label-h">
+          <p class="apx-ing__label-t">{{ section.settings.full_list_title }}</p>
+          <button type="button" class="apx-ing__cp" data-ap-ing-copy>{% render 'ap-icon', name: 'plus', size: 14 %}<span>{{ section.settings.copy_label }}</span></button>
+        </div>
+        {%- assign list_lines = full_list | strip | newline_to_br | split: '<br />' -%}
+        <div class="apx-ing__label-b" data-ap-ing-text>
           {%- if full_list contains '<' -%}
             {{ full_list }}
           {%- else -%}
-            {%- assign list_lines = full_list | strip | newline_to_br | split: '<br />' -%}
             <p>{%- for line in list_lines -%}{%- assign t = line | strip -%}{%- if t != blank -%}{{ t | escape }}{%- unless forloop.last -%}, {% endunless -%}{%- endif -%}{%- endfor -%}</p>
           {%- endif -%}
         </div>
+        {%- assign list_is_html = false -%}
+        {%- if full_list contains '<' -%}{%- assign list_is_html = true -%}{%- endif -%}
+        {%- if section.settings.ingredient_notes != blank and list_is_html == false -%}
+          {%- assign note_lines = section.settings.ingredient_notes | newline_to_br | split: '<br />' -%}
+          <p class="apx-ing__tapt">{{ section.settings.tap_label }}</p>
+          <div class="apx-ing__taps" role="group" aria-label="{{ section.settings.tap_label | escape }}">
+            {%- for line in note_lines -%}
+              {%- assign parts = line | split: '|' -%}
+              {%- if parts.size > 2 -%}
+                <button type="button" class="apx-ing__tap{% if forloop.first %} is-on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-ap-ing-tap data-tag="{{ parts[1] | strip | escape }}" data-note="{{ parts[2] | strip | escape }}">{{ parts[0] | strip }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- assign first_parts = note_lines.first | split: '|' -%}
+          <div class="apx-ing__nbox" aria-live="polite"><p data-ap-ing-note>{{ first_parts[2] | strip }}</p><span class="apx-ing__ntag" data-ap-ing-ntag>{{ first_parts[1] | strip }}</span></div>
+        {%- endif -%}
         {%- if section.settings.free_from != blank -%}
           <ul class="apx-ing__free" aria-label="{{ section.settings.free_title | escape }}">
             {%- for item in free_items -%}
@@ -175,6 +200,26 @@
   </div>
 </section>
 <script src="{{ 'ap-ingredient.js' | asset_url }}" type="module"></script>
+<script>
+  (function () {
+    document.querySelectorAll('.apx-ing__label-main').forEach(function (box) {
+      var taps = box.querySelectorAll('[data-ap-ing-tap]'), note = box.querySelector('[data-ap-ing-note]'), tag = box.querySelector('[data-ap-ing-ntag]');
+      taps.forEach(function (b) {
+        b.addEventListener('click', function () {
+          taps.forEach(function (o) { var on = o === b; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on); });
+          if (note) note.textContent = b.getAttribute('data-note');
+          if (tag) tag.textContent = b.getAttribute('data-tag');
+        });
+      });
+      var copy = box.querySelector('[data-ap-ing-copy]'), txt = box.querySelector('[data-ap-ing-text]');
+      if (copy && txt) copy.addEventListener('click', function () {
+        var label = copy.querySelector('span'), old = label.textContent;
+        var done = function () { label.textContent = 'Copied'; setTimeout(function () { label.textContent = old; }, 1600); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt.textContent.trim()).then(done, function () {});
+      });
+    });
+  })();
+</script>
 {%- endif -%}
 
 {% stylesheet %}
@@ -274,6 +319,36 @@
   @media (min-width:900px){.apx-ing__split{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:72px}}
   @media (prefers-reduced-motion:reduce){.apx-stack__layer{transition:none}}
   @media (max-width:759px){.apx-ing__bg b{display:none}.apx-ing__blob{opacity:.18}}
+
+  /* look: pill eyebrow, card rows (first one lifted), fact chips, rounded label card with tap-to-learn */
+  .apx-ing__row{border:1px solid transparent;border-radius:20px;padding:18px 20px;align-items:flex-start;border-bottom-color:var(--ap-line);border-radius:0}
+  .apx-ing__rows{border-top:0}
+  .apx-ing__row:first-child{border:1px solid #F0E3E1;border-radius:20px;background:#fff;box-shadow:0 10px 28px rgba(59,10,20,.06)}
+  .apx-ing__row:first-child .apx-ing__dot{background:#B5495E;color:#fff}
+  .apx-ing__row:not(:first-child) .apx-ing__dot{background:#fff;color:var(--ap-ink);box-shadow:inset 0 0 0 1px var(--ap-line)}
+  .apx-ing__row h3{display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--ap-font-display);font-size:1.3rem;font-weight:400}
+  .apx-ing__tag{padding:.3rem .7rem;border-radius:999px;background:#FBEFF0;color:#B5495E;font-family:var(--ap-font);font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .apx-ing__rt{min-width:0;flex:1}
+  .apx-ing__chips{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+  .apx-ing__chips li{display:inline-flex;align-items:center;gap:8px;padding:.55rem 1rem;border:1px solid var(--ap-line);border-radius:999px;background:#fff;font-size:.8125rem;font-weight:700;color:var(--ap-ink)}
+  .apx-ing__chips i{width:6px;height:6px;border-radius:50%;background:var(--ap-ink)}
+  .apx-ing__label{border:1px solid var(--ap-line);border-radius:36px;background:linear-gradient(180deg,#fff,#FDF7F6);box-shadow:0 24px 60px rgba(59,10,20,.07)}
+  .apx-ing__label--video{max-width:1180px;padding:clamp(14px,2.4vw,28px)}
+  .apx-ing__label-h{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:3px solid var(--ap-ink);padding-bottom:.6rem;margin-bottom:1rem}
+  .apx-ing__label-t{margin:0;padding:0;border:0;font-family:var(--ap-font-display);font-size:clamp(1.5rem,2.4vw,2.1rem);font-weight:400}
+  .apx-ing__cp{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border:1px solid var(--ap-line);border-radius:999px;background:#fff;color:var(--ap-ink);font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;white-space:nowrap}
+  .apx-ing__cp:hover{border-color:var(--ap-ink)}
+  .apx-ing__cp:focus-visible,.apx-ing__tap:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-ing__label-b{font-size:1.0625rem}
+  .apx-ing__tapt{margin:1.4rem 0 .6rem;font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ap-ink-soft)}
+  .apx-ing__taps{display:flex;flex-wrap:wrap;gap:8px}
+  .apx-ing__tap{min-height:44px;padding:0 16px;border:1px solid var(--ap-line);border-radius:999px;background:#fff;color:var(--ap-ink);font:inherit;font-size:.9375rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
+  .apx-ing__tap.is-on{background:var(--ap-ink);border-color:var(--ap-ink);color:#fff}
+  .apx-ing__nbox{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-top:12px;padding:16px 18px;border:1px solid var(--ap-line);border-radius:18px;background:#fff}
+  .apx-ing__nbox p{margin:0;font-size:.9375rem;line-height:1.55;color:var(--ap-ink-soft)}
+  .apx-ing__ntag{flex:none;padding:.3rem .75rem;border:1px solid var(--ap-line);border-radius:999px;background:#fff;font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ap-ink)}
+  @media (max-width:520px){.apx-ing__nbox{flex-direction:column-reverse}.apx-ing__label-h{flex-wrap:wrap}.apx-ing__row h3{flex-wrap:wrap}}
+  @media (prefers-reduced-motion:reduce){.apx-ing__tap{transition:none}}
 {% endstylesheet %}
 
 {% schema %}
@@ -302,6 +377,10 @@
     { "type": "text", "id": "builtin_alt", "label": "Built-in photo description", "default": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip" },
     { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Optional. When set (and the built-in photo is off), your photo replaces the layer drawing. Upload only images you own or have licensed." },
     { "type": "text", "id": "full_list_title", "label": "Label title", "default": "Full ingredients (INCI)" },
+    { "type": "text", "id": "copy_label", "label": "Copy button text", "default": "Copy INCI list" },
+    { "type": "text", "id": "tap_label", "label": "Line above the ingredient buttons", "default": "Tap any ingredient to see what it does:" },
+    { "type": "textarea", "id": "ingredient_notes", "label": "What each ingredient does (one per line: Name | Tag | Text)", "info": "Use the same names as the list above. Only describe what your supplier confirms.", "default": "Cellulose Gum | Absorbent | A plant-derived material that takes in fluid and swells into a soft gel.\nHydrogenated Poly(C6-20 Olefin) | Base | A synthetic polymer that helps the patch hold its shape and stay flexible.\nPolyisobutene | Adhesive base | A synthetic, rubber-like polymer that helps the patch stay on the skin.\nPectin | Gel former | A plant-derived fiber from fruit that helps the patch take in moisture." },
+    { "type": "textarea", "id": "chips", "label": "Small chips under the layers (one per line)", "info": "Only true, documented facts. Empty hides them.", "default": "No medicated actives\nExternal use only\nFull label shown below" },
     { "type": "textarea", "id": "free_from", "label": "Free from (optional, one per line)", "info": "Only list what is true and documented for your formula. Leave empty to hide." },
     { "type": "text", "id": "free_title", "label": "Free-from label (screen readers)", "default": "Free from" },
     {
@@ -341,6 +420,7 @@
       "limit": 8,
       "settings": [
         { "type": "text", "id": "name", "label": "Name", "default": "Hydrocolloid layer" },
+        { "type": "text", "id": "tag", "label": "Small tag (optional)", "info": "For example Main layer." },
         { "type": "textarea", "id": "note", "label": "What it is", "default": "A soft, flexible layer that sits on the skin and covers the spot." },
         { "type": "image_picker", "id": "image", "label": "Small photo (optional)", "info": "Upload only images you own or have licensed." }
       ]
@@ -350,7 +430,9 @@
     {
       "name": "Ingredients",
       "blocks": [
-        { "type": "ingredient", "settings": { "name": "Hydrocolloid", "note": "A soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered." } }
+        { "type": "ingredient", "settings": { "name": "Hydrocolloid", "tag": "Main layer", "note": "A soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered." } },
+        { "type": "ingredient", "settings": { "name": "Flexible polymer base", "note": "Polyisobutene and Hydrogenated Poly(C6-20 Olefin) give the patch its soft, flexible body and help it stay on the skin." } },
+        { "type": "ingredient", "settings": { "name": "A short, open label", "note": "Four ingredients, listed in full below exactly as printed on the pack." } }
       ]
     }
   ]

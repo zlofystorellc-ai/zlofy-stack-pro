@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.14.3
+- Menu and footer links such as "/#faq", "/#how" and "/#ingredient" now scroll smoothly to that section when it is on the page you are already on (home or product page), and go to the home page section from any other page. Headings no longer hide under the header (scroll padding).
+
 ## 2.14.2
 - Sign in and Create account pages now use a split layout: a deep oxblood panel on the left (label, heading, short text, highlight box, perk checklist, guest-checkout note) and the form on the right, on a soft blush background. Password field has a show/hide eye, "Forgot your password?" sits on the label row. The panel text is editable in the section settings. On phones it collapses to just the form card.
 - No made-up testimonial or member claims in the panel; the highlight box repeats the offer already in the announcement bar and is editable.

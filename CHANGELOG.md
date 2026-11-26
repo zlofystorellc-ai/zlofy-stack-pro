@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.6
+- Footer: the top bar with four points (Drug-free hydrocolloid, Day and night patches, US dispatch, 30-day guarantee) is removed. The footer starts with the brand, link columns and customer care card.
+
 ## 2.13.5
 - Product title is now two stacked lines: "Day & Night" in the large serif, "Pimple Patches" below it in a smaller italic (laptop and phone).
 

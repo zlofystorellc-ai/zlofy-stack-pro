@@ -1,5 +1,5 @@
 {%- comment -%}
-  Footer: a trust bar with four short points, then brand + tagline + sign-up, three link columns and a customer care card,
+  Footer: brand + tagline + sign-up, three link columns and a customer care card,
   a big soft wordmark, and a bottom bar with legal links and payment logos.
   Links are in Theme settings > Footer links (one "Text | address" per line; "email" opens your support email).
   Keep every point true for your store. Nothing here makes a result claim.
@@ -10,23 +10,6 @@
   assign badges = settings.footer_badges | newline_to_br | split: '<br />'
 -%}
 <footer class="apx-footer apx-ft">
-  {%- if settings.footer_trust_1_title != blank -%}
-    <div class="apx-ft__trust">
-      <ul class="apx-wrap apx-ft__trust-l">
-        {%- for n in (1..4) -%}
-          {%- assign tk = 'footer_trust_' | append: n | append: '_title' -%}
-          {%- assign xk = 'footer_trust_' | append: n | append: '_text' -%}
-          {%- assign ik = 'footer_trust_' | append: n | append: '_icon' -%}
-          {%- if settings[tk] != blank -%}
-            <li>
-              <span class="apx-ft__ico" aria-hidden="true">{% render 'ap-icon', name: settings[ik], size: 22 %}</span>
-              <span class="apx-ft__trust-t"><strong>{{ settings[tk] }}</strong><span>{{ settings[xk] }}</span></span>
-            </li>
-          {%- endif -%}
-        {%- endfor -%}
-      </ul>
-    </div>
-  {%- endif -%}
 
   <div class="apx-wrap apx-ft__top">
     <div class="apx-ft__brand">

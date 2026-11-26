@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.4
+- Product page "Two patches, two jobs" section rebuilt to the new layout: pill, two-line heading with a rule, segmented tabs (Both patches / Daylight / Overnight that show one column or both), a card table with a Specification column, Day and Night header cells with icon, time, patch profile and thickness tag, and a Makeup friendly row. All text is editable. Unchecked claims (2.3x absorption, medical-grade, 18 + 18 count, vanishes on skin) are not used.
+
 ## 2.15.3
 - Home "Shop the kit" panel rebuilt to the new layout: framed photo with badge and caption pill, four photo tabs, one-line title, description, 2x2 feature cards, kit quantity tiles, purchase options (subscribe card with Best value when the product has a plan, plus one-time) and a big button with the price. Everything links to the product page. All text is editable in the section settings; claims that cannot be checked (medical-grade, FSA/HSA, performance and discount figures) are not used.
 

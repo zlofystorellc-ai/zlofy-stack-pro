@@ -365,23 +365,23 @@
           "settings": {
             "label": "Finish",
             "day": "Matte, low-shine",
-            "night": "Soft gloss"
+            "night": "Soft satin gloss"
           }
         },
         "row_2": {
           "type": "row",
           "settings": {
             "label": "Thickness",
-            "day": "Ultra-thin",
-            "night": "Thicker and cushioned"
+            "day": "0.15 mm ultra-thin tapered edge",
+            "night": "0.35 mm thicker and cushioned center"
           }
         },
         "row_3": {
           "type": "row",
           "settings": {
             "label": "Best for",
-            "day": "Out and about",
-            "night": "Overnight"
+            "day": "Out and about, work and under makeup",
+            "night": "Overnight sleep"
           }
         },
         "row_4": {
@@ -391,13 +391,22 @@
             "day": "4–6 hours",
             "night": "6–8 hours"
           }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "label": "Makeup friendly",
+            "day": "Yes — thin matte finish",
+            "night": "Made for bare, clean skin"
+          }
         }
       },
       "block_order": [
         "row_1",
         "row_2",
         "row_3",
-        "row_4"
+        "row_4",
+        "row_5"
       ]
     },
     "how": {

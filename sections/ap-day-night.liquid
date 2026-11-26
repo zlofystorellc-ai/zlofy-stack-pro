@@ -8,67 +8,136 @@
   assign meta_rows = specs.rows
   assign wear = product.metafields.custom.wear_time.value
 -%}
-<section class="apx-dn apx-section">
+<section class="apx-dn apx-section" data-ap-dn data-show="both">
   <div class="apx-wrap">
-    <div class="apx-center">
-      {%- if section.settings.eyebrow != blank -%}<p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-      <h2 class="apx-h2">{{ section.settings.heading }}</h2>
-      {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
+    <div class="apx-center apx-dn__top">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-dn__pill">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-dn__h">{{ section.settings.heading | newline_to_br }}</h2>
+      <i class="apx-dn__rule" aria-hidden="true"></i>
+      {%- if section.settings.text != blank -%}<p class="apx-dn__lede">{{ section.settings.text }}</p>{%- endif -%}
     </div>
 
-    <table class="apx-dn__table">
-      <caption class="apx-sr">{{ 'ap.dn.caption' | t }}</caption>
-      <thead>
-        <tr>
-          <td></td>
-          <th scope="col" class="apx-dn__day">
-            {% render 'ap-icon', name: 'sun', size: 26 %}
-            <span>{{ settings.day_product_name }}</span>
-          </th>
-          <th scope="col" class="apx-dn__night">
-            {% render 'ap-icon', name: 'moon', size: 26 %}
-            <span>{{ settings.night_product_name }}</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {%- if meta_rows.size > 0 -%}
-          {%- for r in meta_rows -%}
-            <tr><th scope="row">{{ r.label }}</th><td>{{ r.day }}</td><td>{{ r.night }}</td></tr>
-          {%- endfor -%}
-        {%- else -%}
-          {%- for block in section.blocks -%}
-            <tr {{ block.shopify_attributes }}>
-              <th scope="row">{{ block.settings.label }}</th>
-              <td>{{ block.settings.day }}</td>
-              <td>{{ block.settings.night }}</td>
-            </tr>
-          {%- endfor -%}
-        {%- endif -%}
-      </tbody>
-    </table>
+    <div class="apx-dn__seg" role="group" aria-label="{{ 'ap.dn.caption' | t }}">
+      <button type="button" class="is-on" data-ap-dn-tab="both" aria-pressed="true">{{ section.settings.tab_both }}</button>
+      <button type="button" data-ap-dn-tab="day" aria-pressed="false">{{ section.settings.tab_day }}</button>
+      <button type="button" data-ap-dn-tab="night" aria-pressed="false">{{ section.settings.tab_night }}</button>
+    </div>
+
+    <div class="apx-dn__card">
+      <table class="apx-dn__table">
+        <caption class="apx-sr">{{ 'ap.dn.caption' | t }}</caption>
+        <thead>
+          <tr>
+            <th scope="col" class="apx-dn__spec">
+              <span class="apx-dn__spec-t">Specification</span>
+              {%- if section.settings.spec_note != blank -%}<span class="apx-dn__spec-n">{{ section.settings.spec_note }}</span>{%- endif -%}
+            </th>
+            <th scope="col" class="apx-dn__day" data-col="day">
+              <span class="apx-dn__ic">{% render 'ap-icon', name: 'sun', size: 20 %}</span>
+              <span class="apx-dn__name">{{ settings.day_product_name }}</span>
+              <span class="apx-dn__sub">{{ section.settings.day_sub }}</span>
+              <span class="apx-dn__prof" aria-hidden="true">
+                <svg viewBox="0 0 90 22" width="90" height="22"><path d="M2 18 Q45 12 88 18 Z" fill="#F2DADF" stroke="#8A5B63" stroke-width="1.2"/><path d="M2 19.5h86" stroke="#D9C2C6" stroke-width="2" stroke-linecap="round"/></svg>
+                <em>{{ section.settings.day_tag }}</em>
+              </span>
+            </th>
+            <th scope="col" class="apx-dn__night" data-col="night">
+              <span class="apx-dn__ic">{% render 'ap-icon', name: 'moon', size: 20 %}</span>
+              <span class="apx-dn__name">{{ settings.night_product_name }}</span>
+              <span class="apx-dn__sub">{{ section.settings.night_sub }}</span>
+              <span class="apx-dn__prof" aria-hidden="true">
+                <svg viewBox="0 0 90 28" width="90" height="28"><path d="M2 24 Q45 -4 88 24 Z" fill="#B5495E" stroke="#E4A3B1" stroke-width="1.2"/><path d="M2 25.5h86" stroke="#6B2A36" stroke-width="2" stroke-linecap="round"/></svg>
+                <em>{{ section.settings.night_tag }}</em>
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- if meta_rows.size > 0 -%}
+            {%- for r in meta_rows -%}
+              <tr><th scope="row">{{ r.label }}</th><td data-col="day">{{ r.day }}</td><td data-col="night">{{ r.night }}</td></tr>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks -%}
+              <tr {{ block.shopify_attributes }}>
+                <th scope="row">{{ block.settings.label }}</th>
+                <td data-col="day">{{ block.settings.day }}</td>
+                <td data-col="night">{{ block.settings.night }}</td>
+              </tr>
+            {%- endfor -%}
+          {%- endif -%}
+        </tbody>
+      </table>
+    </div>
 
     {%- if wear != blank -%}
-      <p class="apx-center apx-fine">{{ 'ap.dn.typical_wear' | t }} {{ wear }}</p>
+      <p class="apx-center apx-dn__fine">{{ 'ap.dn.typical_wear' | t }} {{ wear }}{% if section.settings.footnote_extra != blank %} &middot; {{ section.settings.footnote_extra }}{% endif %}</p>
+    {%- elsif section.settings.footnote != blank -%}
+      <p class="apx-center apx-dn__fine">{{ section.settings.footnote }}</p>
     {%- endif -%}
   </div>
 </section>
 
+<script>
+  (function () {
+    document.querySelectorAll('[data-ap-dn]').forEach(function (sec) {
+      var tabs = sec.querySelectorAll('[data-ap-dn-tab]');
+      tabs.forEach(function (b) {
+        b.addEventListener('click', function () {
+          sec.setAttribute('data-show', b.getAttribute('data-ap-dn-tab'));
+          tabs.forEach(function (o) { var on = o === b; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on); });
+        });
+      });
+    });
+  })();
+</script>
+
 {% stylesheet %}
-  .apx-dn{background:var(--ap-sand)}
-  .apx-dn__table{width:100%;max-width:860px;margin:28px auto 0;border-collapse:separate;border-spacing:0;table-layout:fixed;overflow:hidden;border-radius:var(--ap-radius);border:1px solid var(--ap-line)}
-  .apx-dn__table th,.apx-dn__table td{padding:14px 12px;text-align:left;vertical-align:top;border-top:1px solid var(--ap-line)}
-  .apx-dn__table thead th,.apx-dn__table thead td{border-top:0}
-  .apx-dn__table tbody th{font-weight:700;background:var(--ap-white);width:28%}
-  .apx-dn__table thead th{font-family:var(--ap-font-display);font-size:1.05rem}
-  .apx-dn__table thead th .apx-icon{display:block;margin-bottom:4px}
-  .apx-dn__day{background:var(--ap-sand);color:var(--ap-ink)}
-  .apx-dn__day .apx-icon{color:var(--ap-blush-deep)}
-  .apx-dn__night{background:var(--ap-ink);color:var(--ap-white)}
-  .apx-dn__night .apx-icon{color:var(--ap-lilac)}
-  .apx-dn__table tbody tr td:nth-child(2){background:#FBF7F5}
-  .apx-dn__table tbody tr td:nth-child(3){background:#F3E6E8}
-  @media (min-width:640px){.apx-dn__table th,.apx-dn__table td{padding:16px 20px}}
+  .apx-dn{background:radial-gradient(50% 40% at 50% 0,rgba(245,230,232,.7),transparent 70%),var(--ap-sand)}
+  .apx-dn__top{display:grid;justify-items:center}
+  .apx-dn__pill{margin:0;padding:.5rem 1.1rem;border:1.5px solid var(--ap-ink);border-radius:999px;font-size:.75rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ap-ink)}
+  .apx-dn__h{margin:1.3rem 0 0;font-family:var(--ap-font-display);font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1.04;letter-spacing:-.01em;color:var(--ap-ink)}
+  .apx-dn__rule{display:block;width:64px;height:4px;margin:1.4rem 0 1.1rem;border-radius:4px;background:linear-gradient(90deg,var(--ap-ink),#D9A3AE)}
+  .apx-dn__lede{margin:0;font-size:1.0625rem;color:var(--ap-ink-soft)}
+  .apx-dn__seg{display:flex;width:fit-content;max-width:100%;margin:1.6rem auto 0;padding:5px;gap:2px;overflow-x:auto;border:1px solid var(--ap-line);border-radius:999px;background:#fff;scrollbar-width:none}
+  .apx-dn__seg::-webkit-scrollbar{display:none}
+  .apx-dn__seg button{flex:none;min-height:44px;padding:0 20px;border:0;border-radius:999px;background:transparent;color:var(--ap-ink);font:inherit;font-size:.9375rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s}
+  .apx-dn__seg button.is-on{background:var(--ap-ink);color:#fff}
+  .apx-dn__seg button:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-dn__card{max-width:1080px;margin:2rem auto 0;overflow:hidden;border:1px solid var(--ap-line);border-radius:26px;background:#fff;box-shadow:0 24px 60px rgba(59,10,20,.08)}
+  .apx-dn__table{width:100%;border-collapse:collapse;table-layout:fixed}
+  .apx-dn__table th,.apx-dn__table td{padding:18px 20px;text-align:left;vertical-align:middle;border-top:1px solid var(--ap-line);font-size:1rem;line-height:1.4}
+  .apx-dn__table thead th{border-top:0;vertical-align:top}
+  .apx-dn__table tbody th{width:24%;font-weight:700;color:var(--ap-ink);background:#fff}
+  .apx-dn__table td[data-col=day]{background:#FFFBFA;color:var(--ap-ink)}
+  .apx-dn__table td[data-col=night]{background:#F6EAEC;color:var(--ap-ink)}
+  .apx-dn__table tbody td[data-col=night],.apx-dn__table tbody td[data-col=day]{border-left:1px solid var(--ap-line)}
+  .apx-dn__spec{display:table-cell;vertical-align:bottom!important;background:#fff}
+  .apx-dn__spec-t{display:block;font-size:.75rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ap-ink)}
+  .apx-dn__spec-n{display:block;margin-top:6px;font-size:.8125rem;font-weight:400;line-height:1.4;color:var(--ap-ink-soft)}
+  th.apx-dn__day{position:relative;padding-top:22px;background:#FFFBFA;color:var(--ap-ink)}
+  th.apx-dn__night{position:relative;padding-top:22px;background:var(--ap-ink);color:#fff}
+  .apx-dn__ic{display:grid;place-items:center;width:40px;height:40px;margin-bottom:14px;border-radius:50%;background:#fff;color:var(--ap-ink);box-shadow:0 3px 10px rgba(59,10,20,.1)}
+  th.apx-dn__night .apx-dn__ic{background:rgba(255,255,255,.12);color:#fff;box-shadow:none}
+  .apx-dn__name{display:block;font-family:var(--ap-font-display);font-size:1.6rem;font-weight:400;line-height:1.1}
+  .apx-dn__sub{display:block;margin-top:6px;font-size:.8125rem;font-weight:400;line-height:1.4;opacity:.8}
+  .apx-dn__prof{position:absolute;right:18px;top:26px;display:grid;justify-items:end;gap:4px}
+  .apx-dn__prof em{font-style:normal;font-size:.6875rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+  .apx-dn__fine{margin-top:1.1rem;font-size:.8125rem;color:var(--ap-ink-soft)}
+  /* tabs: show one column */
+  [data-ap-dn][data-show=day] [data-col=night],[data-ap-dn][data-show=night] [data-col=day]{display:none}
+  @media (max-width:759px){
+    .apx-dn__table th,.apx-dn__table td{padding:14px 12px;font-size:.9375rem}
+    .apx-dn__table tbody th{width:30%}
+    .apx-dn__name{font-size:1.2rem}
+    .apx-dn__spec-t{font-size:.625rem;letter-spacing:.08em;overflow-wrap:anywhere}
+    .apx-dn__spec-n{font-size:.75rem}
+    .apx-dn__prof{position:static;justify-items:start;margin-top:10px}
+    .apx-dn__prof svg{width:64px;height:auto}
+    .apx-dn__seg{justify-content:flex-start}
+    .apx-dn__seg button{padding:0 14px;font-size:.875rem}
+  }
+  @media (prefers-reduced-motion:reduce){.apx-dn__seg button{transition:none}}
 {% endstylesheet %}
 
 {% schema %}
@@ -79,13 +148,20 @@
   "settings": [
     { "type": "paragraph", "content": "Editor note: the rows below are example values. Edit every row so it matches your real patches." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Two patches, two jobs" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Day patch for daylight. Night patch for sleep." },
-    {
-      "type": "textarea",
-      "id": "text",
-      "label": "Intro",
-      "default": "Pick the one that fits the moment."
-    }
+    { "type": "textarea", "id": "heading", "label": "Heading (a new line starts a second line)", "default": "Day patch for daylight.\nNight patch for sleep." },
+    { "type": "textarea", "id": "text", "label": "Intro", "default": "Pick the one that fits the moment." },
+    { "type": "header", "content": "Tabs" },
+    { "type": "text", "id": "tab_both", "label": "Tab 1", "default": "Both patches" },
+    { "type": "text", "id": "tab_day", "label": "Tab 2", "default": "Daylight · Thin wear" },
+    { "type": "text", "id": "tab_night", "label": "Tab 3", "default": "Overnight · Cushioned wear" },
+    { "type": "header", "content": "Table header" },
+    { "type": "text", "id": "spec_note", "label": "Note under Specification", "default": "Day and night patches in every kit" },
+    { "type": "text", "id": "day_sub", "label": "Day subtitle", "default": "7:00 AM · Thin matte patch" },
+    { "type": "text", "id": "day_tag", "label": "Day thickness tag", "default": "0.15 mm edge" },
+    { "type": "text", "id": "night_sub", "label": "Night subtitle", "default": "10:30 PM · Cushioned gel core" },
+    { "type": "text", "id": "night_tag", "label": "Night thickness tag", "default": "0.35 mm core" },
+    { "type": "text", "id": "footnote", "label": "Line under the table", "default": "Typical wear time: Day 4–6 hours, night 6–8 hours · Drug-free hydrocolloid" },
+    { "type": "text", "id": "footnote_extra", "label": "Extra text after the wear time (when a wear-time metafield is set)", "default": "Drug-free hydrocolloid" }
   ],
   "blocks": [
     {
@@ -102,10 +178,11 @@
     {
       "name": "Day vs night",
       "blocks": [
-        { "type": "row", "settings": { "label": "Finish", "day": "Matte, low-shine", "night": "Soft gloss" } },
-        { "type": "row", "settings": { "label": "Thickness", "day": "Ultra-thin", "night": "Thicker and cushioned" } },
-        { "type": "row", "settings": { "label": "Best for", "day": "Out and about", "night": "Overnight" } },
-        { "type": "row", "settings": { "label": "Wear time", "day": "4–6 hours", "night": "6–8 hours" } }
+        { "type": "row", "settings": { "label": "Finish", "day": "Matte, low-shine", "night": "Soft satin gloss" } },
+        { "type": "row", "settings": { "label": "Thickness", "day": "0.15 mm ultra-thin tapered edge", "night": "0.35 mm thicker and cushioned center" } },
+        { "type": "row", "settings": { "label": "Best for", "day": "Out and about, work and under makeup", "night": "Overnight sleep" } },
+        { "type": "row", "settings": { "label": "Wear time", "day": "4–6 hours", "night": "6–8 hours" } },
+        { "type": "row", "settings": { "label": "Makeup friendly", "day": "Yes — thin matte finish", "night": "Made for bare, clean skin" } }
       ]
     }
   ]

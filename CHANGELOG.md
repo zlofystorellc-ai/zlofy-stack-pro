@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.17.4
+- Home hero is shorter on laptops (about 13 percent): the photo is 4:5 and a little narrower. Nothing else changed.
+
 ## 2.17.3
 - Standards strip background is now a vertical blend: the site's brand wine at the top (matching the buttons and banners above) fading into the deep wine of the video section below, with a soft rose glow, so it sits naturally between the two.
 

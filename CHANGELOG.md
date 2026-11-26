@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.20.0
+- New logo (version D): ZLOFY in high-contrast serif capitals with the Z and L joined at the base and a fine rose underline. It replaces the earlier logo in the header and footer; the browser tab and phone icons are now a wine tile with the joined ZL. Files in /brand (SVG and PNG, wine and white), older versions kept in /brand/archive and /brand/options.
+
 ## 2.19.2
 - Favicon: the SVG icon is joined by a 180 px PNG and an Apple touch icon (the Z on wine), so Safari, iPhone home-screen shortcuts and older browsers show it too.
 

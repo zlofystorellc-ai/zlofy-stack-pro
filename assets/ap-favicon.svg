@@ -1,8 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Zlofy">
-  <title>Zlofy</title>
-  <circle cx="256" cy="256" r="248" fill="#6E1423"/>
-  <circle cx="256" cy="256" r="226" fill="none" stroke="#E4A3B1" stroke-opacity=".45" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
-  <path d="M173.05 355 174.25 349.6 306.85 163H261.55Q240.25 163 226.75 179.5L200.05 212.2H197.05L209.05 157H353.35L352.15 163L219.55 349H266.05Q279.25 349 288.7 344.5Q298.15 340 306.55 329.8L330.85 299.8H333.85L321.85 355Z" fill="#FBF7F5"/>
-  <path d="M150 404 C210 440 310 440 372 396" fill="none" stroke="#E4A3B1" stroke-width="12" stroke-linecap="round"/>
-  <circle cx="392" cy="150" r="22" fill="#E4A3B1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Zlofy"><title>Zlofy</title>
+  <rect width="512" height="512" rx="112" fill="#6E1423"/>
+  <path d="M115.15 330V326.4L219.25 138H162.25Q152.35 138 146.2 142.5Q140.05 147 135.25 155.7L121.45 180H118.45L120.55 132H267.25V135.6L163.15 324H228.55Q238.45 324 244.3 319.35Q250.15 314.7 254.95 306L267.85 282H270.85L268.75 330Z" fill="#FBF7F5"/><path d="M248.35 330V327L254.65 324.6Q260.95 322.2 262.6 318.75Q264.25 315.3 264.25 309.3V152.7Q264.25 146.7 262.45 143.1Q260.65 139.5 254.65 137.4L248.35 135V132H324.85V135L319.45 137.4Q313.75 139.5 311.65 143.25Q309.55 147 309.55 153V324H355.75Q366.85 324 372.1 318.6Q377.35 313.2 382.15 303L393.85 277.8H396.85L394.15 330Z" fill="#FBF7F5"/>
+  <rect x="115.2" y="360" width="281.7" height="7" fill="#E4A3B1"/>
 </svg>

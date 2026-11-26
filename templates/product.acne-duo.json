@@ -499,13 +499,15 @@
         "pair_1": {
           "type": "pair",
           "settings": {
-            "caption": "Illustrative demonstration"
+            "caption": "Illustrative demonstration",
+            "sub": "Day patch · 0.15 mm ultra-thin matte"
           }
         },
         "pair_2": {
           "type": "pair",
           "settings": {
-            "caption": "Illustrative demonstration"
+            "caption": "Illustrative demonstration",
+            "sub": "Night patch · 0.35 mm cushioned"
           }
         }
       },

@@ -4,6 +4,19 @@
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
+function syncCtl(root) {
+  root.querySelectorAll('[data-ap-ba-ctl]').forEach((ctl) => {
+    const sec = ctl.closest('section') || root;
+    const items = Array.from(sec.querySelectorAll('[data-ap-ba-range]'));
+    if (!items.length) return;
+    const v = Math.round(Number(items[0].value));
+    const pct = ctl.querySelector('[data-ap-ba-pct]');
+    if (pct) pct.textContent = `${v}% before · ${100 - v}% after`;
+    const mode = v >= 70 ? '100' : v <= 30 ? '0' : '50';
+    ctl.querySelectorAll('[data-ap-ba-all]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.apBaAll === mode)));
+  });
+}
+
 function init(root) {
   root.querySelectorAll('[data-ap-ba]').forEach((item) => {
     if (item.dataset.apBound) return;
@@ -15,6 +28,7 @@ function init(root) {
     const paint = () => {
       const v = Number(range.value);
       stage.style.setProperty('--pos', `${v}%`);
+      syncCtl(document);
       item.dataset.side = v >= 70 ? 'before' : v <= 30 ? 'after' : '';
       item.querySelectorAll('[data-ap-ba-snap]').forEach((b) => {
         b.setAttribute('aria-pressed', String((b.dataset.apBaSnap === '100' && v >= 70) || (b.dataset.apBaSnap === '0' && v <= 30)));
@@ -41,6 +55,7 @@ function init(root) {
       item.classList.add('is-touched');
       to(Number(b.dataset.apBaSnap), 520);
     }));
+    item._apTo = to;
     paint();
 
     // 3D tilt + soft light that follows the mouse (mouse only)
@@ -71,6 +86,17 @@ function init(root) {
       }, { threshold: 0.6 });
       io.observe(stage);
     }
+  });
+
+  // switch above the photos: moves every slider at once
+  root.querySelectorAll('[data-ap-ba-all]').forEach((b) => {
+    if (b.dataset.apBound) return;
+    b.dataset.apBound = '1';
+    b.addEventListener('click', () => {
+      const sec = b.closest('section');
+      if (!sec) return;
+      sec.querySelectorAll('[data-ap-ba]').forEach((it) => { it.classList.add('is-touched'); if (it._apTo) it._apTo(Number(b.dataset.apBaAll), 520); });
+    });
   });
 
   // soft entrance for the whole section

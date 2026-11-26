@@ -58,7 +58,7 @@ const productOrder = [
   ['sticky', 'ap-sticky-atc']
 ];
 
-const baOverride = { settings: { eyebrow: 'Demonstration', heading: 'How a patch looks', text: 'Drag the slider to compare the patch before and after wearing it.', disclaimer: 'Demonstration photos: AI-generated illustrations, not real customers and not real results. Individual results vary.' }, blocks: [{ type: 'pair', settings: { caption: 'Illustrative demonstration' } }, { type: 'pair', settings: { caption: 'Illustrative demonstration' } }] };
+const baOverride = { settings: { eyebrow: 'Demonstration', heading: 'How a patch looks', text: 'Drag the slider to compare the patch before and after wearing it.', disclaimer: 'Demonstration photos: AI-generated illustrations, not real customers and not real results. Individual results vary.' }, blocks: [{ type: 'pair', settings: { caption: 'Illustrative demonstration', sub: 'Day patch · 0.15 mm ultra-thin matte' } }, { type: 'pair', settings: { caption: 'Illustrative demonstration', sub: 'Night patch · 0.35 mm cushioned' } }] };
 const product = { sections: {}, order: [] };
 for (const [key, type] of productOrder) {
   product.sections[key] = sectionFromPreset(type, key === 'main' ? { settings: {
@@ -79,7 +79,7 @@ const homeOrder = [
   ['split', 'ap-home-split'],
   ['ingredient', 'ap-home-ingredient'],
   ['how', 'ap-how-it-works'],
-  ['beforeafter', 'ap-before-after', { settings: { eyebrow: 'Demonstration', heading: 'How a patch looks', text: 'Drag the slider to compare the patch before and after wearing it.', disclaimer: 'Demonstration photos: AI-generated illustrations, not real customers and not real results. Individual results vary.' }, blocks: [{ type: 'pair', settings: { caption: 'Illustrative demonstration' } }, { type: 'pair', settings: { caption: 'Illustrative demonstration' } }] }],
+  ['beforeafter', 'ap-before-after', { settings: { eyebrow: 'Demonstration', heading: 'How a patch looks', text: 'Drag the slider to compare the patch before and after wearing it.', disclaimer: 'Demonstration photos: AI-generated illustrations, not real customers and not real results. Individual results vary.' }, blocks: [{ type: 'pair', settings: { caption: 'Illustrative demonstration', sub: 'Day patch · 0.15 mm ultra-thin matte' } }, { type: 'pair', settings: { caption: 'Illustrative demonstration', sub: 'Night patch · 0.35 mm cushioned' } }] }],
   ['videos', 'ap-video-cards'],
   ['founder', 'ap-founder-note'],
   ['guarantee', 'ap-guarantee'],

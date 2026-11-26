@@ -19,6 +19,16 @@
       <h2 class="apx-h2" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
       {%- if section.settings.text != blank -%}<p class="apx-lede">{{ section.settings.text }}</p>{%- endif -%}
     </div>
+    {%- if section.settings.tab_before != blank -%}
+      <div class="apx-ba__ctl" data-ap-ba-ctl>
+        <div class="apx-ba__seg" role="group" aria-label="{{ 'ap.before_after.slider' | t }}">
+          <button type="button" data-ap-ba-all="100" aria-pressed="false">{{ section.settings.tab_before }}</button>
+          <button type="button" data-ap-ba-all="50" aria-pressed="true">{{ section.settings.tab_split }}</button>
+          <button type="button" data-ap-ba-all="0" aria-pressed="false">{{ section.settings.tab_after }}</button>
+        </div>
+        <p class="apx-ba__pct" aria-live="polite"><i aria-hidden="true"></i><span data-ap-ba-pct>50% before · 50% after</span></p>
+      </div>
+    {%- endif -%}
     <div class="apx-ba__grid">
       {%- for block in section.blocks -%}
         {%- if block.settings.before != blank and block.settings.after != blank -%}
@@ -36,10 +46,11 @@
               {%- if section.settings.badge != blank -%}<span class="apx-ba__badge">{{ section.settings.badge }}</span>{%- endif -%}
               <input class="apx-ba__range" type="range" min="0" max="100" value="50" step="1" data-ap-ba-range aria-label="{{ 'ap.before_after.slider' | t }}: {{ ba_label | escape }}">
             </div>
-            {%- if block.settings.name != blank or block.settings.caption != blank -%}
+            {%- if block.settings.name != blank or block.settings.caption != blank or block.settings.sub != blank -%}
               <figcaption>
                 {%- if block.settings.name != blank -%}<strong>{{ block.settings.name }}</strong>{%- endif -%}
                 {%- if block.settings.caption != blank -%}<span>{{ block.settings.caption }}</span>{%- endif -%}
+                {%- if block.settings.sub != blank -%}<span class="apx-ba__sub">{{ block.settings.sub }}</span>{%- endif -%}
               </figcaption>
             {%- endif -%}
           </figure>
@@ -134,6 +145,23 @@
   }
   @media (max-width:759px){.apx-ba__bg b{display:none}}
   @media (max-width:759px){.apx-ba__tag{min-height:40px}}
+
+  /* look: cream background, segmented control + live percentage chip, two-line captions */
+  .apx-ba{background:linear-gradient(180deg,#FDF8F6 0%,#FAF0EF 100%)}
+  .apx-ba__ctl{display:grid;justify-items:center;gap:12px;margin-top:1.6rem}
+  .apx-ba__seg{display:flex;max-width:100%;padding:5px;gap:2px;overflow-x:auto;border:1px solid var(--ap-line);border-radius:999px;background:#fff;scrollbar-width:none}
+  .apx-ba__seg::-webkit-scrollbar{display:none}
+  .apx-ba__seg button{flex:none;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:transparent;color:var(--ap-ink);font:inherit;font-size:.9375rem;font-weight:600;white-space:nowrap;cursor:pointer;transition:background .2s,color .2s}
+  .apx-ba__seg button[aria-pressed="true"]{background:var(--ap-ink);color:#fff}
+  .apx-ba__seg button:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-ba__pct{display:inline-flex;align-items:center;gap:8px;margin:0;padding:.4rem .95rem;border:1px solid var(--ap-line);border-radius:999px;background:#fff;font-size:.8125rem;font-weight:600;color:var(--ap-ink)}
+  .apx-ba__pct i{width:6px;height:6px;border-radius:50%;background:var(--ap-ink)}
+  .apx-ba__grid{max-width:1100px}
+  .apx-ba__item figcaption{margin-top:16px;gap:4px}
+  .apx-ba__item figcaption span{font-size:.9375rem;font-weight:400;color:var(--ap-ink)}
+  .apx-ba__item figcaption .apx-ba__sub{font-size:.8125rem;font-weight:700;color:var(--ap-ink-soft)}
+  @media (max-width:520px){.apx-ba__seg button{padding:0 12px;font-size:.8125rem}}
+  @media (prefers-reduced-motion:reduce){.apx-ba__seg button{transition:none}}
 {% endstylesheet %}
 
 {% schema %}
@@ -146,6 +174,10 @@
     { "type": "text", "id": "eyebrow", "label": "Pill label", "default": "Real photos" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Before and after, from real customers" },
     { "type": "textarea", "id": "text", "label": "Intro (optional)", "default": "Drag the slider to compare." },
+    { "type": "header", "content": "Switch above the photos (empty first text hides it)" },
+    { "type": "text", "id": "tab_before", "label": "Button 1 (all photos to before)", "default": "Before wearing (0 hrs)" },
+    { "type": "text", "id": "tab_split", "label": "Button 2 (50/50)", "default": "50 / 50 split view" },
+    { "type": "text", "id": "tab_after", "label": "Button 3 (all photos to after)", "default": "After wearing (6–8 hrs)" },
     { "type": "text", "id": "badge", "label": "Small corner badge on each photo", "default": "AI-generated illustration", "info": "Leave it in for AI photos. Clear it only for your own real photos." },
     { "type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "Photos are from real customers, shared with permission and not retouched. Results vary from person to person." }
   ],
@@ -158,6 +190,7 @@
         { "type": "image_picker", "id": "before", "label": "Before photo" },
         { "type": "image_picker", "id": "after", "label": "After photo" },
         { "type": "text", "id": "name", "label": "First name (optional)" },
+        { "type": "text", "id": "sub", "label": "Second caption line (optional)", "info": "For example Day patch · 0.15 mm ultra-thin matte." },
         { "type": "text", "id": "caption", "label": "Caption (optional)", "info": "For example how long the patch was worn. State only what actually happened." }
       ]
     }

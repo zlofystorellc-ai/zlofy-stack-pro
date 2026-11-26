@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.17.1
+- Standards strip: much shorter (about half the height) with the facts in a tidy three-column grid, so text no longer overlaps on wide screens.
+
 ## 2.17.0
 - New dark "Formulation & US standards" strip (section Standards strip) between the buy box and "See it in action" on the product page: label, five facts (Drug-free Hydrocolloid, 0.15mm / 0.35mm, INCI Disclosed, External use, 30-Day Guarantee) and two icon lines. All text editable. Unchecked claims (100% hydrocolloid, non-drying, fragrance and latex free, FSA / HSA eligible, fast tracked dispatch) are not used.
 

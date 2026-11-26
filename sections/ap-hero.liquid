@@ -163,7 +163,14 @@
       <p class="apx-eyebrow">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
 
-    <h1 class="apx-info__title">{{ product.title }}</h1>
+    {%- assign t_parts = product.title | split: ' Pimple' -%}
+    <h1 class="apx-info__title">
+      {%- if t_parts.size > 1 -%}
+        <span class="apx-info__t1">{{ t_parts[0] }}</span><span class="apx-info__t2">Pimple{{ t_parts[1] }}</span>
+      {%- else -%}
+        {{ product.title }}
+      {%- endif -%}
+    </h1>
 
     {%- if section.settings.lead != blank -%}
       <p class="apx-info__lead">{{ section.settings.lead }}</p>
@@ -508,6 +515,9 @@
   .apx-gallery__video,.apx-gallery__slide iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border:0;background:var(--ap-ink)}
   .apx-info{display:flex;flex-direction:column;min-width:0}
   .apx-info__title{font-size:clamp(2.5rem,5vw,3.75rem);line-height:1.06;letter-spacing:-.015em;margin-bottom:.35em}
+  .apx-info__t1,.apx-info__t2{display:block}
+  .apx-info__t1{line-height:1}
+  .apx-info__t2{font-style:italic;font-weight:400;font-size:.52em;line-height:1.2;letter-spacing:.01em;margin-top:.22em;color:var(--ap-blush-deep)}
   .apx-info>*{animation:apx-rise .8s cubic-bezier(.2,.7,.2,1) both}
   .apx-info>*:nth-child(2){animation-delay:.07s}.apx-info>*:nth-child(3){animation-delay:.14s}.apx-info>*:nth-child(4){animation-delay:.21s}.apx-info>*:nth-child(5){animation-delay:.28s}.apx-info>*:nth-child(6){animation-delay:.35s}.apx-info>*:nth-child(n+7){animation-delay:.42s}
   .apx-gallery__thumbs{animation:apx-rise .8s .3s cubic-bezier(.2,.7,.2,1) both}
@@ -709,7 +719,7 @@
     .apx-pdp.apx-wrap{max-width:1120px}
     .apx-pdp{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px}
     .apx-info{padding-left:0;border-left:0}
-    .apx-info__title{font-size:clamp(1.75rem,2.6vw,2.5rem);line-height:1.1;white-space:nowrap;letter-spacing:-.01em}
+    .apx-info__title{font-size:clamp(2.25rem,3.4vw,3.25rem);line-height:1.05;letter-spacing:-.01em}
     .apx-gallery__stage{border-radius:32px}
     .apx-gallery__thumbs{gap:12px;margin-top:14px}
     .apx-gallery__thumbs button{width:auto;height:auto;padding:8px 8px 12px;border-radius:16px}
@@ -746,7 +756,7 @@
     .apx-gallery__thumbs button{width:100%;padding:4px;border-radius:12px}
     .apx-gallery__thumbs button img{width:100%;height:auto;aspect-ratio:1/1;border-radius:8px}
     .apx-gallery__lab{display:none}
-    .apx-info__title{font-size:1.75rem;margin-bottom:.3em}
+    .apx-info__title{font-size:2.125rem;margin-bottom:.3em}
     .apx-info__lead{margin-bottom:1rem;font-size:1rem;line-height:1.5}
     .apx-options__grid:not(.apx-options__grid--swatch){grid-template-columns:1fr;gap:8px}
     .apx-options__grid:not(.apx-options__grid--swatch) .apx-card label{min-height:62px;padding:10px 12px}

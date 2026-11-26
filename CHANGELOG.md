@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.13.5
+- Product title is now two stacked lines: "Day & Night" in the large serif, "Pimple Patches" below it in a smaller italic (laptop and phone).
+
 ## 2.13.4
 - Product page: the "See it in action" video section now sits directly under the buy box (before "A spot's day").
 

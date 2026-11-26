@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.15.0
+- Home page: the "Shop the kit" section under the hero is now a big product panel (photo with badge and caption, title, short description, kit options, purchase options, big button). Every part of it links to the product page; kit options open the product page with that option selected. No review counts or unverified claims.
+- The section now falls back to the first product in the store when no product is picked in the theme editor, so it never disappears.
+
 ## 2.14.3
 - Menu and footer links such as "/#faq", "/#how" and "/#ingredient" now scroll smoothly to that section when it is on the page you are already on (home or product page), and go to the home page section from any other page. Headings no longer hide under the header (scroll padding).
 

@@ -13,7 +13,10 @@
 
   <div class="apx-wrap apx-ft__top">
     <div class="apx-ft__brand">
-      <a class="apx-ft__logo" href="{{ routes.root_url }}" aria-label="{{ settings.brand_name }}">{{ settings.brand_name | upcase }}</a>
+      <a class="apx-ft__logo" href="{{ routes.root_url }}" aria-label="{{ settings.brand_name }}">
+        {%- assign ft_name = settings.brand_name | strip | downcase -%}
+        {%- if ft_name == 'zlofy' -%}<img src="{{ 'ap-logo.svg' | asset_url }}" alt="" width="142" height="70" loading="lazy">{%- else -%}{{ settings.brand_name | upcase }}{%- endif -%}
+      </a>
       {%- if settings.footer_tagline != blank -%}<p class="apx-ft__tag">{{ settings.footer_tagline }}</p>{%- endif -%}
       {%- if settings.footer_badges != blank -%}
         <ul class="apx-ft__badges">
@@ -124,6 +127,7 @@
   .apx-ft{position:relative;border-top:3px solid #B5495E}
   .apx-ft__top{padding-block:56px 48px}
   .apx-ft__logo{display:inline-block;font-size:2rem;letter-spacing:.14em}
+  .apx-ft__logo img{display:block;width:auto;height:64px}
   .apx-ft__tag{font-size:1rem;color:#D9C2C6}
   .apx-ft__join{margin:24px 0 0;font-size:.8125rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#E4A3B1}
   .apx-ft__form{margin-top:10px}

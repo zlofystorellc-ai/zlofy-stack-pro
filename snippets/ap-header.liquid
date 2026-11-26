@@ -23,7 +23,12 @@
       {%- if settings.logo != blank -%}
         {{ settings.logo | image_url: width: 480 | image_tag: width: settings.logo_width, alt: settings.brand_name, loading: 'eager' }}
       {%- else -%}
-        {% render 'ap-logo' %}
+        {%- assign logo_name = settings.brand_name | strip | downcase -%}
+        {%- if logo_name == 'zlofy' -%}
+          <img class="apx-header__logo" src="{{ 'ap-logo.svg' | asset_url }}" alt="{{ settings.brand_name }}" width="142" height="70">
+        {%- else -%}
+          {% render 'ap-logo' %}
+        {%- endif -%}
       {%- endif -%}
     </a>
 

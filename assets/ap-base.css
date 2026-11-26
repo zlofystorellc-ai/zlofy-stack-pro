@@ -172,3 +172,6 @@ html [data-ap-in="1"]{opacity:1;transform:none}
 }
 
 html{scroll-padding-top:84px}
+
+.apx-header__logo{display:block;width:auto;height:52px}
+@media (max-width:759px){.apx-header__logo{height:44px}}

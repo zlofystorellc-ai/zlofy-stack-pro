@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.3
+- Home "Shop the kit" panel rebuilt to the new layout: framed photo with badge and caption pill, four photo tabs, one-line title, description, 2x2 feature cards, kit quantity tiles, purchase options (subscribe card with Best value when the product has a plan, plus one-time) and a big button with the price. Everything links to the product page. All text is editable in the section settings; claims that cannot be checked (medical-grade, FSA/HSA, performance and discount figures) are not used.
+
 ## 2.15.2
 - Home "Shop the kit" panel trust points reworded: Day and night, sorted / Easy to use / Real people to talk to / Ingredients in plain sight (new icons). Still editable in the section settings.
 

@@ -68,7 +68,7 @@ function preprocess(src) {
     .replace(/{%-?\s*endstylesheet\s*-?%}/g, '</style>')
     .replace(/{%-?\s*form\s+'localization'[\s\S]*?-?%}/g, '<form method="post" action="/localization">')
     .replace(/{%-?\s*form\s+'contact'[\s\S]*?-?%}/g, '<form method="post" action="#" class="apx-cf__form">')
-    .replace(/{%-?\s*form\s+'customer'[\s\S]*?-?%}/g, '<form method="post" action="#" id="ap-newsletter-form" class="apx-nl__form">')
+    .replace(/{%-?\s*form\s+'customer'[\s\S]*?-?%}/g, (m) => `<form method="post" action="#" id="ap-newsletter-form" class="${(m.match(/class:\s*'([^']+)'/) || [])[1] || 'apx-nl__form'}">`)
     .replace(/{%-?\s*form\s+'(customer_login|create_customer|recover_customer_password)'[\s\S]*?-?%}/g, '<form method="post" action="#" class="apx-ac__form">')
     .replace(/{%-?\s*form\s+'product'[\s\S]*?-?%}/g, '<form method="post" action="/cart/add" id="{{ form_id }}" novalidate="novalidate" data-ap-form="true">')
     .replace(/{%-?\s*endform\s*-?%}/g, '</form>')

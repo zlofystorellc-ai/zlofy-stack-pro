@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.14.1
+- Footer colours: soft blush background with oxblood headings, buttons and logo (it matches the pale pages and stands apart from the red FAQ band). The email box is now a white pill with a "Subscribe" button; the care card is white with an oxblood email button.
+- Preview server: footer sign-up form keeps its own class so it previews as it will look in the store.
+
 ## 2.14.0
 - Customer accounts the way US shoppers expect: header shows a clear "Sign in" (or "Account" when logged in) next to the person icon; new Sign in, Create account (with perks list) and Account pages (templates/customers/*, section Customer account) with a Forgot password reset, and a note that checking out as a guest is fine.
 - Footer: the newsletter is now "Email updates" with a "Subscribe" button and an unsubscribe note, so it is not confused with account sign in or sign up.

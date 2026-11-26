@@ -44,6 +44,7 @@ const productOrder = [
   // ap-bundles (repeats the hero kit options), ap-faq (replaced by the FAQ-with-image band, which now carries the FAQ schema).
   ['trust', 'ap-trust-strip'],
   ['main', 'ap-hero'],
+  ['standards', 'ap-standards'],
   ['videos', 'ap-video-cards'],
   ['problem', 'ap-problem'],
   ['daynight', 'ap-day-night'],

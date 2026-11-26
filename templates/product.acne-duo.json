@@ -215,6 +215,9 @@
         "accordion_21"
       ]
     },
+    "standards": {
+      "type": "ap-standards"
+    },
     "videos": {
       "type": "ap-video-cards",
       "blocks": {
@@ -639,6 +642,7 @@
   "order": [
     "trust",
     "main",
+    "standards",
     "videos",
     "problem",
     "daynight",

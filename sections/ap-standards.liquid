@@ -1,0 +1,93 @@
+{%- comment -%}
+  Dark "formulation and US standards" strip. Sits between the buy box and the dark video section.
+  Every line must be true for your store. Edit the text in the section settings.
+{%- endcomment -%}
+<section class="apx-std" aria-label="{{ section.settings.label | escape }}">
+  <div class="apx-wrap apx-std__in">
+    {%- if section.settings.label != blank -%}<p class="apx-std__label">{{ section.settings.label }}</p>{%- endif -%}
+    <ul class="apx-std__stats">
+      {%- for n in (1..5) -%}
+        {%- assign bk = 'stat_' | append: n | append: '_big' -%}
+        {%- assign ik = 'stat_' | append: n | append: '_ital' -%}
+        {%- assign sk = 'stat_' | append: n | append: '_sub' -%}
+        {%- if section.settings[bk] != blank or section.settings[ik] != blank -%}
+          <li class="apx-std__s apx-std__s--{{ n }}">
+            <b>{{ section.settings[bk] | escape | replace: '/', '<span class="apx-std__sl">/</span>' | replace: 'mm', '<span class="apx-std__g">mm</span>' }}{%- if section.settings[ik] != blank %} <i>{{ section.settings[ik] }}</i>{%- endif -%}</b>
+            {%- if section.settings[sk] != blank -%}<span>{{ section.settings[sk] }}</span>{%- endif -%}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    <ul class="apx-std__items">
+      {%- for n in (1..2) -%}
+        {%- assign tk = 'item_' | append: n | append: '_title' -%}
+        {%- assign xk = 'item_' | append: n | append: '_text' -%}
+        {%- if section.settings[tk] != blank -%}
+          <li>
+            <span class="apx-std__ic" aria-hidden="true">{%- if n == 1 -%}{% render 'ap-icon', name: 'shield', size: 20 %}{%- else -%}{% render 'ap-icon', name: 'check', size: 20 %}{%- endif -%}</span>
+            <span><b>{{ section.settings[tk] }}</b>{%- if section.settings[xk] != blank -%}<em>{{ section.settings[xk] }}</em>{%- endif -%}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-std{position:relative;overflow:hidden;background:radial-gradient(60% 120% at 70% 100%,rgba(122,18,36,.35),transparent 70%),linear-gradient(180deg,#120305,#1E0509);color:#fff}
+  .apx-std::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(228,194,154,.35),transparent)}
+  .apx-std__in{display:grid;gap:26px;padding-block:clamp(36px,5vw,56px)}
+  .apx-std__label{margin:0;font-size:.6875rem;font-weight:800;letter-spacing:.2em;line-height:1.7;text-transform:uppercase;color:#E4C29A}
+  .apx-std__stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px;margin:0;padding:0;list-style:none}
+  .apx-std__s{display:grid;gap:6px;align-content:start;min-width:0}
+  .apx-std__s b{font-family:var(--ap-font-display);font-size:clamp(1.25rem,2.4vw,1.75rem);font-weight:400;line-height:1.1;color:#fff}
+  .apx-std__s b i{font-style:italic}
+  .apx-std__g{color:#E4C29A}
+  .apx-std__sl{margin:0 .15em;color:#8A6A5C}
+  .apx-std__s>span{font-size:.625rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#C7ADA9}
+  .apx-std__s--5 b{display:inline-block;justify-self:start;padding:.15em .55em;border:1px solid rgba(255,255,255,.7);border-radius:4px;font-family:var(--ap-font);font-weight:700;font-size:1.0625rem;letter-spacing:.14em;text-transform:uppercase}
+  .apx-std__items{display:grid;gap:16px;margin:0;padding:0;list-style:none}
+  .apx-std__items li{display:flex;align-items:center;gap:14px}
+  .apx-std__ic{flex:none;display:grid;place-items:center;width:46px;height:46px;border:1px solid rgba(228,194,154,.35);border-radius:12px;background:rgba(255,255,255,.04);color:#E4C29A}
+  .apx-std__items b{display:block;font-size:.875rem;font-weight:600;color:#fff}
+  .apx-std__items em{display:block;margin-top:2px;font-style:normal;font-size:.75rem;color:#C7ADA9}
+  @media (min-width:900px){
+    .apx-std__in{grid-template-columns:130px minmax(0,1fr) auto;align-items:center;gap:36px}
+    .apx-std__stats{display:flex;flex-wrap:wrap;gap:30px 48px}
+    .apx-std__s b{white-space:nowrap;font-size:clamp(1.15rem,1.9vw,1.6rem)}
+    .apx-std__s--2{margin-right:auto}
+    .apx-std__items{gap:20px;padding-left:34px;border-left:1px solid rgba(255,255,255,.14)}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Standards strip",
+  "tag": "div",
+  "enabled_on": { "templates": ["product", "index"] },
+  "settings": [
+    { "type": "paragraph", "content": "Every line must be true and provable for your store. Empty big text hides a fact." },
+    { "type": "text", "id": "label", "label": "Label", "default": "Formulation & US standards" },
+    { "type": "text", "id": "stat_1_big", "label": "Fact 1 big text", "default": "Drug-free" },
+    { "type": "text", "id": "stat_1_ital", "label": "Fact 1 italic word", "default": "Hydrocolloid" },
+    { "type": "text", "id": "stat_1_sub", "label": "Fact 1 small line", "default": "No medicated actives" },
+    { "type": "text", "id": "stat_2_big", "label": "Fact 2 big text", "default": "0.15mm / 0.35mm" },
+    { "type": "text", "id": "stat_2_ital", "label": "Fact 2 italic word" },
+    { "type": "text", "id": "stat_2_sub", "label": "Fact 2 small line", "default": "Day matte · Night cushion" },
+    { "type": "text", "id": "stat_3_big", "label": "Fact 3 big text", "default": "INCI Disclosed" },
+    { "type": "text", "id": "stat_3_ital", "label": "Fact 3 italic word" },
+    { "type": "text", "id": "stat_3_sub", "label": "Fact 3 small line", "default": "4 ingredients · full list shown" },
+    { "type": "text", "id": "stat_4_big", "label": "Fact 4 big text", "default": "External use" },
+    { "type": "text", "id": "stat_4_ital", "label": "Fact 4 italic word" },
+    { "type": "text", "id": "stat_4_sub", "label": "Fact 4 small line", "default": "For surfaced spots" },
+    { "type": "text", "id": "stat_5_big", "label": "Fact 5 boxed text", "default": "30-Day" },
+    { "type": "text", "id": "stat_5_ital", "label": "Fact 5 italic word" },
+    { "type": "text", "id": "stat_5_sub", "label": "Fact 5 small line", "default": "Guarantee" },
+    { "type": "text", "id": "item_1_title", "label": "Icon line 1 title", "default": "Full ingredient transparency" },
+    { "type": "text", "id": "item_1_text", "label": "Icon line 1 text", "default": "Complete list shown on this page" },
+    { "type": "text", "id": "item_2_title", "label": "Icon line 2 title", "default": "US dispatch & care" },
+    { "type": "text", "id": "item_2_text", "label": "Icon line 2 text", "default": "Ships in 3 to 5 business days" }
+  ],
+  "presets": [{ "name": "Standards strip" }]
+}
+{% endschema %}

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.20.1
+- Ready-made favicon files in /brand/favicon: favicon.ico (16, 32, 48 px), PNG at 16, 32, 48, 180, 192 and 512 px, and favicon.svg. All show the joined ZL on the wine tile.
+
 ## 2.20.0
 - New logo (version D): ZLOFY in high-contrast serif capitals with the Z and L joined at the base and a fine rose underline. It replaces the earlier logo in the header and footer; the browser tab and phone icons are now a wine tile with the joined ZL. Files in /brand (SVG and PNG, wine and white), older versions kept in /brand/archive and /brand/options.
 

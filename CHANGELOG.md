@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.1
+- Home "Shop the kit" panel: the kit option list is replaced by four trust points (Drug-free hydrocolloid, US dispatch, 30-day guarantee, Secure checkout). All text is editable in the section settings.
+
 ## 2.15.0
 - Home page: the "Shop the kit" section under the hero is now a big product panel (photo with badge and caption, title, short description, kit options, purchase options, big button). Every part of it links to the product page; kit options open the product page with that option selected. No review counts or unverified claims.
 - The section now falls back to the first product in the store when no product is picked in the theme editor, so it never disappears.

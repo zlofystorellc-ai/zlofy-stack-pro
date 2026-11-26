@@ -32,16 +32,20 @@
           <h3 class="apx-hk__title"><a href="{{ sp.url }}">{{ sp.title }}</a></h3>
           {%- if section.settings.desc != blank -%}<p class="apx-hk__desc">{{ section.settings.desc }}</p>{%- endif -%}
 
-          {%- if sp.variants.size > 1 -%}
-            <p class="apx-hk__step">1. {{ section.settings.step1 }}</p>
-            <ul class="apx-hk__opts">
-              {%- for v in sp.variants limit: 4 -%}
-                <li><a class="apx-hk__opt{% if forloop.first %} is-on{% endif %}" href="{{ sp.url }}?variant={{ v.id }}"><b>{{ v.title }}</b><span>{{ v.price | money }}</span></a></li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
+          <ul class="apx-hk__trust">
+            {%- for n in (1..4) -%}
+              {%- assign tk = 'trust_' | append: n | append: '_title' -%}
+              {%- assign xk = 'trust_' | append: n | append: '_text' -%}
+              {%- if section.settings[tk] != blank -%}
+                <li>
+                  <span class="apx-hk__ti" aria-hidden="true">{%- case n -%}{%- when 1 -%}{% render 'ap-icon', name: 'shield', size: 20 %}{%- when 2 -%}{% render 'ap-icon', name: 'truck', size: 20 %}{%- when 3 -%}{% render 'ap-icon', name: 'heart', size: 20 %}{%- else -%}{% render 'ap-icon', name: 'check', size: 20 %}{%- endcase -%}</span>
+                  <span><b>{{ section.settings[tk] }}</b>{%- if section.settings[xk] != blank -%}<em>{{ section.settings[xk] }}</em>{%- endif -%}</span>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
 
-          <p class="apx-hk__step">{% if sp.variants.size > 1 %}2{% else %}1{% endif %}. {{ section.settings.step2 }}</p>
+          <p class="apx-hk__step">{{ section.settings.step2 }}</p>
           <ul class="apx-hk__plans">
             <li><a class="apx-hk__plan is-on" href="{{ sp.url }}"><i aria-hidden="true"></i><span><b>One-time purchase</b><em>Standard single-order dispatch</em></span><strong>{{ sv.price | money }}</strong></a></li>
             {%- if sv.selling_plan_allocations.size > 0 -%}
@@ -123,12 +127,14 @@
   .apx-hk__title{margin:0;font-family:var(--ap-font-display);font-size:clamp(1.9rem,3.4vw,2.9rem);line-height:1.05}
   .apx-hk__title a{color:var(--ap-ink);text-decoration:none}
   .apx-hk__desc{margin:.7rem 0 0;font-size:1rem;line-height:1.6;color:var(--ap-ink-soft)}
-  .apx-hk__step{margin:1.5rem 0 .6rem;font-size:.8125rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-ink)}
-  .apx-hk__opts,.apx-hk__plans{display:grid;gap:10px;margin:0;padding:0;list-style:none}
-  .apx-hk__opts{grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
-  .apx-hk a.apx-hk__opt,.apx-hk a.apx-hk__plan{display:grid;border:1.5px solid var(--ap-line);border-radius:16px;background:#fff;color:var(--ap-ink);text-decoration:none;transition:border-color .2s,box-shadow .2s,transform .2s}
-  .apx-hk a.apx-hk__opt{gap:2px;padding:12px 14px;font-size:.9375rem}
-  .apx-hk__opt span{color:var(--ap-ink-soft);font-size:.875rem}
+  .apx-hk__step{margin:1.4rem 0 .6rem;font-size:.8125rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-ink)}
+  .apx-hk__plans{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+  .apx-hk__trust{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:1.4rem 0 0;padding:0;list-style:none}
+  .apx-hk__trust li{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--ap-line);border-radius:16px;background:linear-gradient(160deg,#FFFBFB,#FBF1F2)}
+  .apx-hk__ti{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#fff;color:var(--ap-blush-deep);box-shadow:0 4px 12px rgba(59,10,20,.08)}
+  .apx-hk__trust b{display:block;font-size:.9375rem;line-height:1.25;color:var(--ap-ink)}
+  .apx-hk__trust em{display:block;margin-top:3px;font-style:normal;font-size:.8125rem;line-height:1.4;color:var(--ap-ink-soft)}
+  .apx-hk a.apx-hk__plan{display:grid;border:1.5px solid var(--ap-line);border-radius:16px;background:#fff;color:var(--ap-ink);text-decoration:none;transition:border-color .2s,box-shadow .2s,transform .2s}
   .apx-hk a.apx-hk__plan{grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:16px}
   .apx-hk__plan i{width:20px;height:20px;border:2px solid var(--ap-line);border-radius:50%}
   .apx-hk__plan.is-on i{border:6px solid var(--ap-ink)}
@@ -136,14 +142,15 @@
   .apx-hk__plan em{display:block;margin-top:2px;font-style:normal;font-size:.875rem;color:var(--ap-ink-soft)}
   .apx-hk__plan strong{font-family:var(--ap-font-display);font-size:1.5rem;font-weight:400}
   .apx-hk a.is-on{border-color:var(--ap-ink)}
-  .apx-hk a.apx-hk__opt:hover,.apx-hk a.apx-hk__plan:hover{border-color:var(--ap-blush-deep);box-shadow:0 10px 24px rgba(59,10,20,.1);transform:translateY(-1px)}
+  .apx-hk a.apx-hk__plan:hover{border-color:var(--ap-blush-deep);box-shadow:0 10px 24px rgba(59,10,20,.1);transform:translateY(-1px)}
   .apx-hk__btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:58px;margin-top:1.4rem;padding:0 24px;border-radius:999px;background:var(--ap-ink);color:#fff;font-size:1.0625rem;font-weight:800;text-decoration:none;box-shadow:0 16px 30px rgba(59,10,20,.28);transition:transform .2s,box-shadow .2s}
   .apx-hk__btn:hover{transform:translateY(-2px);box-shadow:0 22px 38px rgba(59,10,20,.34)}
   .apx-hk a:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:3px}
   .apx-hk__foot{margin:.9rem 0 0;text-align:center;font-size:.875rem;color:var(--ap-ink-soft)}
+  @media (max-width:420px){.apx-hk__trust{grid-template-columns:minmax(0,1fr)}}
   @media (min-width:900px){.apx-hk{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:44px;align-items:center;padding:clamp(28px,3vw,52px)}.apx-hk__media{aspect-ratio:1/1.02}}
   @media (hover:hover){.apx-hk__media:hover img{transform:scale(1.04)}}
-  @media (prefers-reduced-motion:reduce){.apx-hk__btn,.apx-hk a.apx-hk__opt,.apx-hk a.apx-hk__plan,.apx-hk__media img{transition:none}}
+  @media (prefers-reduced-motion:reduce){.apx-hk__btn,.apx-hk a.apx-hk__plan,.apx-hk__media img{transition:none}}
   .apx-hp__all{margin-top:28px}
   .apx-hp__all a{font-weight:800}
   @media (hover:hover){.apx-hp__card:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(59,10,20,.12)}.apx-hp__card:hover .apx-hp__img img{transform:scale(1.06)}}
@@ -163,9 +170,17 @@
     { "type": "text", "id": "caption", "label": "Caption on the photo", "default": "Day and night patches in one kit" },
     { "type": "text", "id": "meta", "label": "Small line above the title", "default": "Day patches + night patches" },
     { "type": "textarea", "id": "desc", "label": "Short description", "default": "Wear the 0.15 mm ultra-thin matte Day patch to school or work. Switch to the 0.35 mm cushioned Night patch before bed." },
-    { "type": "text", "id": "step1", "label": "Step 1 title", "default": "Choose your kit" },
-    { "type": "text", "id": "step2", "label": "Step 2 title", "default": "Purchase option" },
-    { "type": "text", "id": "footnote", "label": "Line under the button", "default": "30-day guarantee · Free US shipping on orders $35+", "info": "Keep this true for your store." },
+    { "type": "text", "id": "step2", "label": "Purchase options title", "default": "Purchase option" },
+    { "type": "header", "content": "Trust points (empty title hides one). Keep every point true for your store." },
+    { "type": "text", "id": "trust_1_title", "label": "Point 1 title", "default": "Drug-free hydrocolloid" },
+    { "type": "text", "id": "trust_1_text", "label": "Point 1 text", "default": "No medicated actives. It simply covers the spot." },
+    { "type": "text", "id": "trust_2_title", "label": "Point 2 title", "default": "US dispatch" },
+    { "type": "text", "id": "trust_2_text", "label": "Point 2 text", "default": "Ships in 3 to 5 business days." },
+    { "type": "text", "id": "trust_3_title", "label": "Point 3 title", "default": "30-day guarantee" },
+    { "type": "text", "id": "trust_3_text", "label": "Point 3 text", "default": "Refund if you are not happy." },
+    { "type": "text", "id": "trust_4_title", "label": "Point 4 title", "default": "Secure checkout" },
+    { "type": "text", "id": "trust_4_text", "label": "Point 4 text", "default": "Pay with Visa, Mastercard, American Express, Apple Pay or Shop Pay." },
+    { "type": "text", "id": "footnote", "label": "Line under the button", "default": "Free US shipping on orders $35+", "info": "Keep this true for your store." },
     { "type": "text", "id": "all_label", "label": "See-all link text (leave empty for a one-product store)", "default": "" },
     { "type": "url", "id": "all_link", "label": "See-all link", "info": "Leave empty to open all products." }
   ],

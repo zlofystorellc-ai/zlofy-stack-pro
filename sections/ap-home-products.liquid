@@ -197,6 +197,20 @@
   @media (min-width:900px){.apx-hk{grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:48px;align-items:center}.apx-hk__title{white-space:nowrap}}
   @media (hover:hover){.apx-hk__media:hover img{transform:scale(1.04)}}
   @media (prefers-reduced-motion:reduce){.apx-hk__btn,.apx-hk a.apx-hk__plan,.apx-hk a.apx-hk__q,.apx-hk a.apx-hk__tab,.apx-hk__media img{transition:none}}
+  /* compact height */
+  @media (min-width:900px){
+    .apx-hk{padding:clamp(20px,2.4vw,36px);gap:36px}
+    .apx-hk__trust{gap:10px;margin-top:1.1rem}
+    .apx-hk__trust li{padding:12px 14px}
+    .apx-hk__trust em{margin-top:2px}
+    .apx-hk__step{margin:1.15rem 0 .55rem}
+    .apx-hk a.apx-hk__plan{padding:13px 16px}
+    .apx-hk__plans{gap:10px}
+    .apx-hk a.apx-hk__q{padding:11px 8px}
+    .apx-hk__btn{min-height:54px;margin-top:1.1rem}
+    .apx-hk__foot{margin-top:.7rem}
+    .apx-hk__media{aspect-ratio:1/.9}
+  }
   .apx-hp__all{margin-top:28px}
   .apx-hp__all a{font-weight:800}
   @media (hover:hover){.apx-hp__card:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(59,10,20,.12)}.apx-hp__card:hover .apx-hp__img img{transform:scale(1.06)}}

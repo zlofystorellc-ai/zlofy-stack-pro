@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.17.5
+- Home "Shop the kit" panel is shorter on laptops (tighter spacing and a slightly wider photo). Same text and colours.
+
 ## 2.17.4
 - Home hero is shorter on laptops (about 13 percent): the photo is 4:5 and a little narrower. Nothing else changed.
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.19.2
+- Favicon: the SVG icon is joined by a 180 px PNG and an Apple touch icon (the Z on wine), so Safari, iPhone home-screen shortcuts and older browsers show it too.
+
 ## 2.19.1
 - The new Zlofy logo is live in the header and the footer (and the browser tab icon). It loads from the theme files (assets/ap-logo.svg), so nothing has to be uploaded; a logo uploaded in Theme settings still wins in the header.
 

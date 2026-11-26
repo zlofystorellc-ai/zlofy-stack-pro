@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.15.5
+- "A spot's day" section (home and product page): the button area is rebuilt. Small pill, bigger "Find your kit" button with an arrow, a guarantee line, and a white rounded trust card with three points (icon, title and short text; stacked on phones). Old picture strip is no longer used. New lock and chat icons.
+
 ## 2.15.4
 - Product page "Two patches, two jobs" section rebuilt to the new layout: pill, two-line heading with a rule, segmented tabs (Both patches / Daylight / Overnight that show one column or both), a card table with a Specification column, Day and Night header cells with icon, time, patch profile and thickness tag, and a Makeup friendly row. All text is editable. Unchecked claims (2.3x absorption, medical-grade, 18 + 18 count, vanishes on skin) are not used.
 

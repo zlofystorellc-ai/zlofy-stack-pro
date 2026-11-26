@@ -65,20 +65,25 @@
 
     {%- if section.settings.photo_note != blank -%}<p class="apx-fine apx-center apx-prob__note">{{ section.settings.photo_note }}</p>{%- endif -%}
     {%- if section.settings.button_label != blank -%}
-      <p class="apx-center apx-prob__cta"><a class="apx-prob__btn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.button_label }}</a></p>
+      <div class="apx-prob__cta">
+        {%- if section.settings.cta_pill != blank -%}<p class="apx-prob__pill"><i aria-hidden="true"></i>{{ section.settings.cta_pill }}</p>{%- endif -%}
+        <a class="apx-prob__btn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.button_label }}<span aria-hidden="true">&rarr;</span></a>
+        {%- if section.settings.cta_note != blank -%}<p class="apx-prob__ctanote">{{ section.settings.cta_note }}</p>{%- endif -%}
+      </div>
     {%- endif -%}
     {%- if section.settings.show_trust -%}
-      {%- assign trust_alt = section.settings.trust_1 | append: ', ' | append: section.settings.trust_2 | append: ', ' | append: section.settings.trust_3 -%}
-      <div class="apx-prob__trust{% if section.settings.trust_use_image %} apx-prob__trust--img{% endif %}">
-        {%- if section.settings.trust_use_image -%}
-          <img class="apx-prob__trust-img" src="{{ 'ap-trust-strip.png' | asset_url }}" alt="{{ trust_alt | escape }}" width="1860" height="216" loading="lazy">
-        {%- endif -%}
-        <ul class="apx-prob__trust-list">
-          <li>{% render 'ap-icon', name: 'truck', size: 20 %}<span>{{ section.settings.trust_1 }}</span></li>
-          <li>{% render 'ap-icon', name: 'heart', size: 20 %}<span>{{ section.settings.trust_2 }}</span></li>
-          <li>{% render 'ap-icon', name: 'shield', size: 20 %}<span>{{ section.settings.trust_3 }}</span></li>
-        </ul>
-      </div>
+      <ul class="apx-prob__trust">
+        {%- for n in (1..3) -%}
+          {%- assign tk = 'trust_' | append: n -%}
+          {%- assign sk = 'trust_' | append: n | append: '_sub' -%}
+          {%- if section.settings[tk] != blank -%}
+            <li>
+              <span class="apx-prob__ti" aria-hidden="true">{%- case n -%}{%- when 1 -%}{% render 'ap-icon', name: 'truck', size: 22 %}{%- when 2 -%}{% render 'ap-icon', name: 'chat', size: 22 %}{%- else -%}{% render 'ap-icon', name: 'lock', size: 22 %}{%- endcase -%}</span>
+              <span class="apx-prob__tt"><b>{{ section.settings[tk] }}</b>{%- if section.settings[sk] != blank -%}<em>{{ section.settings[sk] }}</em>{%- endif -%}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
     {%- endif -%}
   </div>
 </section>
@@ -115,18 +120,23 @@
   .apx-prob__chip{position:absolute;left:12px;bottom:12px;padding:.35rem .8rem;border-radius:999px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ap-ink);font-size:.8125rem;font-weight:800;letter-spacing:.04em;box-shadow:0 6px 16px rgba(59,10,20,.2)}
   .apx-prob__lab{display:block;margin:0 0 .15rem;font-size:.6875rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ap-blush-deep)}
   .apx-prob__lab--fix{color:var(--ap-ink-soft)}
-  .apx-prob__cta{margin-top:clamp(28px,4vw,48px)}
-  .apx-prob__trust{max-width:920px;margin:clamp(24px,3vw,36px) auto 0}
-  .apx-prob__trust-img{display:none;width:100%;height:auto;mix-blend-mode:multiply}
-  .apx-prob__trust-list{display:grid;gap:12px;justify-content:center;margin:0;padding:0;list-style:none}
-  .apx-prob__trust-list li{display:flex;align-items:center;gap:.7rem;font-weight:700;color:var(--ap-ink)}
-  .apx-prob__trust-list .apx-icon{flex:none;width:36px;height:36px;padding:8px;border-radius:50%;background:#F5E6E8;color:var(--ap-blush-deep)}
-  @media (min-width:700px){
-    .apx-prob__trust-list{grid-auto-flow:column;gap:12px 32px}
-    .apx-prob__trust--img .apx-prob__trust-img{display:block}
-    .apx-prob__trust--img .apx-prob__trust-list{display:none}
+  .apx-prob__cta{display:grid;justify-items:center;margin-top:clamp(28px,4vw,48px);text-align:center}
+  .apx-prob__pill{display:inline-flex;align-items:center;gap:10px;margin:0 0 1.2rem;padding:.6rem 1.3rem;border:1.5px solid #EBDDC9;border-radius:999px;background:#fff;font-size:.8125rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ap-ink)}
+  .apx-prob__pill i{width:8px;height:8px;border-radius:50%;background:#B5495E}
+  .apx-prob__ctanote{margin:1.1rem 0 0;font-size:1rem;color:var(--ap-ink-soft)}
+  .apx-prob__trust{display:grid;gap:0;max-width:1100px;margin:clamp(28px,4vw,48px) auto 0;padding:10px;list-style:none;border:1px solid var(--ap-line);border-radius:36px;background:#fff;box-shadow:0 20px 50px rgba(59,10,20,.07)}
+  .apx-prob__trust li{display:flex;align-items:center;gap:16px;padding:16px 20px}
+  .apx-prob__trust li+li{border-top:1px solid var(--ap-line)}
+  .apx-prob__ti{flex:none;display:grid;place-items:center;width:52px;height:52px;border:1px solid #F0D9DC;border-radius:16px;background:#FBEFF0;color:#B5495E}
+  .apx-prob__tt{display:grid;gap:3px;min-width:0}
+  .apx-prob__tt b{font-size:1.125rem;line-height:1.25;color:var(--ap-ink)}
+  .apx-prob__tt em{font-style:normal;font-size:.9375rem;line-height:1.4;color:var(--ap-ink-soft)}
+  @media (min-width:800px){
+    .apx-prob__trust{grid-template-columns:repeat(3,minmax(0,1fr));border-radius:999px;padding:14px 18px}
+    .apx-prob__trust li{padding:14px 22px}
+    .apx-prob__trust li+li{border-top:0;border-left:1px solid var(--ap-line)}
   }
-  .apx-prob__btn{display:inline-flex;align-items:center;min-height:56px;padding:0 2.25rem;border-radius:999px;background:var(--ap-blush-deep);color:var(--ap-white);font-weight:800;text-decoration:none;transition:transform .25s,box-shadow .25s}
+  .apx-prob__btn{display:inline-flex;align-items:center;gap:12px;min-height:64px;padding:0 2.75rem;font-size:1.25rem;border-radius:999px;background:var(--ap-ink);color:var(--ap-white);font-weight:800;text-decoration:none;transition:transform .25s,box-shadow .25s}
   .apx-prob__btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(179,56,75,.35)}
   .apx-prob__btn:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
   @media (min-width:600px) and (max-width:899px){
@@ -199,12 +209,17 @@
     { "type": "text", "id": "label_problem", "label": "Label above the problem", "default": "The problem" },
     { "type": "text", "id": "label_fix", "label": "Label above what helps", "default": "What helps" },
     { "type": "text", "id": "photo_note", "label": "Photo note (small print)", "info": "Shown under the cards. Clear it once all photos are your own real photos.", "default": "Photos are illustrative demonstrations, not customer testimonials." },
-    { "type": "header", "content": "Trust line under the button" },
-    { "type": "checkbox", "id": "show_trust", "label": "Show the trust line", "default": true },
-    { "type": "text", "id": "trust_1", "label": "Point 1", "default": "Free US shipping on kits" },
-    { "type": "text", "id": "trust_2", "label": "Point 2", "default": "US-based support" },
-    { "type": "text", "id": "trust_3", "label": "Point 3", "default": "Secure checkout" },
-    { "type": "checkbox", "id": "trust_use_image", "label": "Use the picture strip on larger screens", "default": true, "info": "The picture shows the default wording. If you change the points above, untick this so the text version is used on every screen. Say only what is true for your store." }
+    { "type": "header", "content": "Button area" },
+    { "type": "text", "id": "cta_pill", "label": "Small pill above the button (empty hides it)", "default": "Day & night hydrocolloid duo" },
+    { "type": "text", "id": "cta_note", "label": "Line under the button (empty hides it)", "default": "30-day guarantee · Cancel or skip anytime", "info": "Keep this true for your store." },
+    { "type": "header", "content": "Trust card under the button" },
+    { "type": "checkbox", "id": "show_trust", "label": "Show the trust card", "default": true },
+    { "type": "text", "id": "trust_1", "label": "Point 1 title", "default": "Free US shipping on kits" },
+    { "type": "text", "id": "trust_1_sub", "label": "Point 1 text", "default": "Ships in 3 to 5 business days" },
+    { "type": "text", "id": "trust_2", "label": "Point 2 title", "default": "US-based support" },
+    { "type": "text", "id": "trust_2_sub", "label": "Point 2 text", "default": "Real humans at contact@zlofy.com" },
+    { "type": "text", "id": "trust_3", "label": "Point 3 title", "default": "Secure checkout" },
+    { "type": "text", "id": "trust_3_sub", "label": "Point 3 text", "default": "Encrypted checkout · Apple Pay & Shop Pay" }
   ],
   "blocks": [
     {

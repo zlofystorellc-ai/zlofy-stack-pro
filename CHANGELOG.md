@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.19.0
+- New brand files in /brand: the Zlofy logo (italic DM Serif Display wordmark with the swash and patch dot, exactly as in the site header) as SVG and PNG in ink, oxblood and white versions, plus a round Z icon (SVG, 512 and 180 px PNG). The browser tab icon now uses the new icon in the site's wine colour instead of the old red circle.
+
 ## 2.18.1
 - Home "Shop the kit" panel: the "Select kit quantity" row (1 Kit, 2 Kits, 3 Kits) is removed. The bag always gets 1 (the cart drawer has the plus and minus for more).
 

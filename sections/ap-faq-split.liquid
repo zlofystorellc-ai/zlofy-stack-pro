@@ -37,13 +37,7 @@
       <div class="apx-fs__side">
         <i class="apx-fs__blob apx-fs__blob--1" aria-hidden="true"></i><i class="apx-fs__blob apx-fs__blob--2" aria-hidden="true"></i>
         <figure class="apx-fs__vid" data-ap-hi>
-          <video muted playsinline loop preload="none" poster="{{ 'ap-ingredient-video.jpg' | asset_url }}" aria-label="{{ section.settings.video_alt | escape }}" data-ap-hi-video>
-            <source src="{{ 'ap-ingredient-video.mp4' | asset_url }}" type="video/mp4">
-          </video>
-          <button type="button" class="apx-fs__pause" data-ap-hi-pause aria-pressed="false" aria-label="{{ 'ap.ingredient.pause' | t }}">
-            <svg class="apx-hi__i-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-            <svg class="apx-hi__i-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
-          </button>
+          <img src="{{ 'ap-ingredient-video.jpg' | asset_url }}" width="269" height="480" alt="{{ section.settings.video_alt | escape }}" loading="lazy">
           {%- if section.settings.video_note != blank -%}<figcaption class="apx-fs__note">{{ section.settings.video_note }}</figcaption>{%- endif -%}
         </figure>
         {%- if section.settings.contact_title != blank -%}

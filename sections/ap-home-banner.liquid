@@ -77,15 +77,15 @@
           {%- if section.settings.video != blank -%}
             {{ section.settings.video | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'auto', class: 'apx-hh__video', poster: section.settings.image | default: section.settings.video.preview_image }}
           {%- else -%}
-            <video class="apx-hh__video" autoplay loop muted playsinline preload="auto" poster="{{ 'ap-banner-video.jpg' | asset_url }}" aria-hidden="true" tabindex="-1">
-              <source src="{{ 'ap-banner-video.mp4' | asset_url }}" type="video/mp4">
-            </video>
+            <img class="apx-hh__video" src="{{ 'ap-banner-video.jpg' | asset_url }}" width="404" height="720" alt="" aria-hidden="true">
           {%- endif -%}
           {%- if section.settings.video_label != blank -%}<span class="apx-hh__vlabel">{{ section.settings.video_label }}</span>{%- endif -%}
+          {%- if section.settings.video != blank -%}
           <button type="button" class="apx-hh__pause" data-ap-banner-pause aria-pressed="false" aria-label="{{ 'ap.banner.pause' | t }}" data-label-pause="{{ 'ap.banner.pause' | t | escape }}" data-label-play="{{ 'ap.banner.play' | t | escape }}">
             <span data-pause>{% render 'ap-icon', name: 'pause', size: 20 %}</span>
             <span data-play hidden>{% render 'ap-icon', name: 'play', size: 20 %}</span>
           </button>
+          {%- endif -%}
         </div>
       {%- elsif section.settings.image != blank -%}
         <div class="apx-hh__photo">

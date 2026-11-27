@@ -35,16 +35,13 @@
                 assign poster = 'ap-ingredient-label-video.jpg'
             endcase
             assign has_video = false
-            if src != blank or block.settings.video != blank
+            if block.settings.video != blank
               assign has_video = true
             endif
           -%}
           <article class="apx-vc__card" data-i="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
             {%- if src != blank -%}
-              <img class="apx-vc__media apx-vc__poster" src="{{ poster | asset_url }}" alt="" loading="lazy" width="720" height="1280">
-              <video class="apx-vc__media" muted loop playsinline preload="none" poster="{{ poster | asset_url }}" aria-label="{{ block.settings.alt | default: block.settings.name | escape }}" data-ap-vc-video>
-                <source src="{{ src | asset_url }}" type="video/mp4">
-              </video>
+              <img class="apx-vc__media apx-vc__poster" src="{{ poster | asset_url }}" alt="{{ block.settings.alt | default: block.settings.name | escape }}" loading="lazy" width="720" height="1280">
             {%- elsif block.settings.video != blank -%}
               {{ block.settings.video | video_tag: image_size: '720x', autoplay: false, loop: true, muted: true, controls: false, preload: 'none', playsinline: true, class: 'apx-vc__media', data-ap-vc-video: true }}
             {%- elsif block.settings.poster != blank -%}

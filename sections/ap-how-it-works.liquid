@@ -17,13 +17,8 @@
       <div class="apx-how__stage">
         <div class="apx-how__media" data-ap-media>
           {%- if section.settings.show_builtin_video -%}
-            <video class="apx-how__video" muted playsinline loop preload="none" poster="{{ 'ap-how-video.jpg' | asset_url }}" aria-label="{{ section.settings.builtin_alt | escape }}">
-              <source src="{{ 'ap-how-video.mp4' | asset_url }}" type="video/mp4">
-            </video>
-            <button type="button" class="apx-how__play" data-ap-media-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ section.settings.heading | escape }}">
-              <span class="apx-how__disc" aria-hidden="true"></span>
-              {%- if section.settings.media_caption != blank -%}<span class="apx-how__cap" aria-hidden="true">{{ section.settings.media_caption }}</span>{%- endif -%}
-            </button>
+            <img class="apx-how__video" src="{{ 'ap-how-video.jpg' | asset_url }}" width="480" height="854" loading="lazy" alt="{{ section.settings.builtin_alt | escape }}">
+            {%- if section.settings.media_caption != blank -%}<span class="apx-how__cap apx-how__cap--static" aria-hidden="true">{{ section.settings.media_caption }}</span>{%- endif -%}
           {%- elsif section.settings.video != blank -%}
             {{ section.settings.video | video_tag: image_size: '900x', controls: false, muted: true, playsinline: true, preload: 'none', loop: true, class: 'apx-how__video', poster: section.settings.poster | default: section.settings.video.preview_image }}
             <button type="button" class="apx-how__play" data-ap-media-play aria-pressed="false" aria-label="{{ 'ap.video_cards.play' | t }}: {{ section.settings.heading | escape }}">

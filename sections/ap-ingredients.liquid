@@ -27,14 +27,8 @@
         {%- if section.settings.show_builtin_video -%}
           <figure class="apx-ing__fig apx-ing__fig--video" data-ap-hi>
             <div class="apx-ing__vid">
-              <video muted playsinline loop preload="metadata" poster="{{ 'ap-ingredient-prod-video.jpg' | asset_url }}" aria-label="{{ section.settings.video_alt | escape }}" data-ap-hi-video>
-                <source src="{{ 'ap-ingredient-prod-video.mp4' | asset_url }}" type="video/mp4">
-              </video>
+              <img src="{{ 'ap-ingredient-prod-video.jpg' | asset_url }}" width="404" height="720" alt="{{ section.settings.video_alt | escape }}" loading="lazy">
               <span class="apx-ing__shine" aria-hidden="true"></span>
-              <button type="button" class="apx-ing__pause" data-ap-hi-pause aria-pressed="false" aria-label="{{ 'ap.ingredient.pause' | t }}">
-                <svg class="apx-hi__i-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-                <svg class="apx-hi__i-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
-              </button>
               {%- if section.settings.video_note != blank -%}<span class="apx-ing__vnote">{{ section.settings.video_note }}</span>{%- endif -%}
             </div>
           </figure>
@@ -115,13 +109,7 @@
       <div class="apx-ing__label{% if section.settings.show_label_video %} apx-ing__label--video{% endif %}">
         {%- if section.settings.show_label_video -%}
           <figure class="apx-ing__lv" data-ap-hi>
-            <video muted playsinline loop preload="none" poster="{{ 'ap-ingredient-label-video.jpg' | asset_url }}" aria-label="{{ section.settings.label_video_alt | escape }}" data-ap-hi-video>
-              <source src="{{ 'ap-ingredient-label-video.mp4' | asset_url }}" type="video/mp4">
-            </video>
-            <button type="button" class="apx-ing__pause apx-ing__pause--s" data-ap-hi-pause aria-pressed="false" aria-label="{{ 'ap.ingredient.pause' | t }}">
-              <svg class="apx-hi__i-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-              <svg class="apx-hi__i-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
-            </button>
+            <img src="{{ 'ap-ingredient-label-video.jpg' | asset_url }}" width="854" height="480" alt="{{ section.settings.label_video_alt | escape }}" loading="lazy">
             {%- if section.settings.label_video_note != blank -%}<figcaption class="apx-ing__lvnote">{{ section.settings.label_video_note }}</figcaption>{%- endif -%}
           </figure>
         {%- endif -%}

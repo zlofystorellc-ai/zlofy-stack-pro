@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.20.3
+- Fixed a bug where an announcement countdown (when an end date is set) was overwritten by the number-count-up script and showed "2026" instead of days, hours, minutes and seconds.
+
 ## 2.20.2
 - Final link check: the "See the kit" button in the FAQ band now goes to the product page when it sits on the home page (it pointed at a missing #buy there); "Back to sign in" has its target; the announcement countdown no longer throws an error when its parts are missing.
 

@@ -88,6 +88,7 @@ function counts() {
       if (!en.isIntersecting) return;
       const el = en.target;
       io.unobserve(el);
+      if (!/^\d+$/.test(el.dataset.apCount || '')) return; // a countdown date is not a number to count up to
       const to = parseInt(el.dataset.apCount, 10);
       if (!(to > 0)) return;
       const t0 = performance.now();

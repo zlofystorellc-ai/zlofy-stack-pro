@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.20.6
+- Full page check (laptop, tablet, phone widths and iPhone Safari): no page scrolls sideways and nothing is cut off. Tap targets under 44 px fixed: "Forgot your password?" and the email and message links in "Good to know".
+
 ## 2.20.5
 - iPhone check (Safari in the iOS simulator): the home headline now breaks cleanly into two lines ("Cover the spot." / "Keep your day."), and the feature pills under the buy button on the product page no longer touch the button on phones.
 

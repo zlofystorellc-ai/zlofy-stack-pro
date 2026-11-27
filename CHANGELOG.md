@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.20.5
+- iPhone check (Safari in the iOS simulator): the home headline now breaks cleanly into two lines ("Cover the spot." / "Keep your day."), and the feature pills under the buy button on the product page no longer touch the button on phones.
+
 ## 2.20.4
 - Photo check: before/after photos now have descriptive alt text (shown to screen readers and search) instead of empty text.
 

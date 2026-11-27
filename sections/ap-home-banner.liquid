@@ -36,7 +36,7 @@
         {%- for word in words -%}
           <span class="apx-hh__w{% if second %} apx-hh__w--b{% endif %}" style="--i:{{ forloop.index0 }}">{{ word }}</span>
           {%- assign last_char = word | slice: -1 -%}
-          {%- if last_char == '.' or last_char == '!' or last_char == '?' -%}{%- assign second = true -%}{%- endif %} {% endfor -%}
+          {%- if last_char == '.' or last_char == '!' or last_char == '?' -%}{%- unless second -%}<br>{%- endunless -%}{%- assign second = true -%}{%- endif %} {% endfor -%}
       </h1>
       {%- if section.settings.text != blank -%}<p class="apx-hh__text">{{ section.settings.text }}</p>{%- endif -%}
       <div class="apx-hh__cta">

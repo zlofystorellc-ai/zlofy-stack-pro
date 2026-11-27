@@ -1,3 +1,4 @@
+{%- assign buy_fallback = '#buy' -%}{%- if template.name == 'index' -%}{%- assign buy_fallback = collections.all.products.first.url | default: '/collections/all' -%}{%- endif -%}
 {%- comment -%}
   "A spot's day" timeline: each moment of the day shows the real annoyance and, right under it, what helps.
   Empathetic, not fear-based. Cosmetic wording only; keep every line true for your product.
@@ -67,7 +68,7 @@
     {%- if section.settings.button_label != blank -%}
       <div class="apx-prob__cta">
         {%- if section.settings.cta_pill != blank -%}<p class="apx-prob__pill"><i aria-hidden="true"></i>{{ section.settings.cta_pill }}</p>{%- endif -%}
-        <a class="apx-prob__btn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.button_label }}<span aria-hidden="true">&rarr;</span></a>
+        <a class="apx-prob__btn" href="{{ section.settings.button_link | default: buy_fallback }}">{{ section.settings.button_label }}<span aria-hidden="true">&rarr;</span></a>
         {%- if section.settings.cta_note != blank -%}<p class="apx-prob__ctanote">{{ section.settings.cta_note }}</p>{%- endif -%}
       </div>
     {%- endif -%}

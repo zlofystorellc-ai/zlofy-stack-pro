@@ -35,7 +35,7 @@ document.querySelectorAll('[data-ap-count]').forEach((box) => {
   const end = Date.parse(box.dataset.apCount);
   if (Number.isNaN(end) || end <= Date.now()) return;
   const pad = (n) => String(n).padStart(2, '0');
-  const set = (sel, v) => { box.querySelector(sel).textContent = pad(v); };
+  const set = (sel, v) => { const n = box.querySelector(sel); if (n) n.textContent = pad(v); };
   let t;
   const tick = () => {
     const left = Math.max(0, end - Date.now());

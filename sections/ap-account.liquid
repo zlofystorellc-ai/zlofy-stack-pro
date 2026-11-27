@@ -88,7 +88,7 @@
           <p class="apx-ac__eyebrow">Welcome back</p>
           <h1 class="apx-ac__h" id="{{ section.id }}-title">Sign in</h1>
           <p class="apx-ac__sub">Enter your details below to access your {{ settings.brand_name | capitalize }} account.</p>
-          <div data-ap-ac-login>
+          <div id="login" data-ap-ac-login>
             {%- form 'customer_login', novalidate: 'novalidate', class: 'apx-ac__form' -%}
               {%- if form.errors -%}<p class="apx-ac__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
               <label class="apx-ac__f"><span>Email</span><input type="email" name="customer[email]" autocomplete="email" inputmode="email" required placeholder="you@example.com"></label>

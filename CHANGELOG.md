@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.20.2
+- Final link check: the "See the kit" button in the FAQ band now goes to the product page when it sits on the home page (it pointed at a missing #buy there); "Back to sign in" has its target; the announcement countdown no longer throws an error when its parts are missing.
+
 ## 2.20.1
 - Ready-made favicon files in /brand/favicon: favicon.ico (16, 32, 48 px), PNG at 16, 32, 48, 180, 192 and 512 px, and favicon.svg. All show the joined ZL on the wine tile.
 

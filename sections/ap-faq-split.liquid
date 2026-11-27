@@ -1,3 +1,4 @@
+{%- assign buy_fallback = '#buy' -%}{%- if template.name == 'index' -%}{%- assign buy_fallback = collections.all.products.first.url | default: '/collections/all' -%}{%- endif -%}
 {%- comment -%}
   Split FAQ band: questions on a blush-red panel, image space on the right.
   The image area is intentionally EMPTY until you upload your own photo (Image setting).
@@ -67,7 +68,7 @@
             {{ fs_img | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000', sizes: '(min-width: 990px) 40vw, 92vw', alt: fs_img.alt | default: section.settings.heading }}
           {%- endif -%}
           {%- if section.settings.photo_chip != blank -%}<span class="apx-fs__chip">{{ section.settings.photo_chip }}</span>{%- endif -%}
-          {%- if section.settings.photo_button != blank -%}<a class="apx-fs__pbtn" href="{{ section.settings.button_link | default: '#buy' }}">{{ section.settings.photo_button }}</a>{%- endif -%}
+          {%- if section.settings.photo_button != blank -%}<a class="apx-fs__pbtn" href="{{ section.settings.button_link | default: buy_fallback }}">{{ section.settings.photo_button }}</a>{%- endif -%}
           <figcaption><b>{{ section.settings.photo_title }}</b>{%- if section.settings.photo_sub != blank -%}<span>{{ section.settings.photo_sub }}</span>{%- endif -%}</figcaption>
         </figure>
         <div class="apx-fs__take">

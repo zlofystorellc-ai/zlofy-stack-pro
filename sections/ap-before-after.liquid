@@ -35,9 +35,9 @@
           {%- assign ba_label = block.settings.caption | default: block.settings.name | default: product.title -%}
           <figure class="apx-ba__item" data-ap-ba data-pos="50" {{ block.shopify_attributes }}>
             <div class="apx-ba__stage">
-              {{ block.settings.after | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 450px, (min-width: 760px) 45vw, 92vw', class: 'apx-ba__img apx-ba__img--after', alt: '' }}
+              {{ block.settings.after | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 450px, (min-width: 760px) 45vw, 92vw', class: 'apx-ba__img apx-ba__img--after', alt: block.settings.after.alt | default: 'Illustration of a worn patch that has turned white in the middle' }}
               <div class="apx-ba__clip">
-                {{ block.settings.before | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 450px, (min-width: 760px) 45vw, 92vw', class: 'apx-ba__img', alt: '' }}
+                {{ block.settings.before | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 990px) 450px, (min-width: 760px) 45vw, 92vw', class: 'apx-ba__img', alt: block.settings.before.alt | default: 'Illustration of a small spot before the patch is worn' }}
               </div>
               <span class="apx-ba__bar" aria-hidden="true"><i></i></span>
               <button type="button" class="apx-ba__tag apx-ba__tag--b" data-ap-ba-snap="100" aria-pressed="false">{{ 'ap.before_after.before' | t }}</button>

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.20.4
+- Photo check: before/after photos now have descriptive alt text (shown to screen readers and search) instead of empty text.
+
 ## 2.20.3
 - Fixed a bug where an announcement countdown (when an end date is set) was overwritten by the number-count-up script and showed "2026" instead of days, hours, minutes and seconds.
 

@@ -1,0 +1,180 @@
+{%- comment -%}
+  Day / Night cards: a pale gold Day card and a deep oxblood Night card, each with a time pill, a short text, three chips and a small
+  cross-section drawing, then a white strip of two points. All wording is editable. Keep it true for your product: the drawings are
+  illustrations, not to scale, and no measurements are written for you.
+{%- endcomment -%}
+<section class="apx-hs apx-section" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap">
+    <div class="apx-hs__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-hs__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-hs__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      <span class="apx-hs__rule" aria-hidden="true"></span>
+    </div>
+
+    <div class="apx-hs__row">
+      <article class="apx-hs__card apx-hs__card--day">
+        <div class="apx-hs__top">
+          <span class="apx-hs__icon">{% render 'ap-icon', name: 'sun', size: 24 %}</span>
+          {%- if section.settings.day_pill != blank -%}<span class="apx-hs__pill">{{ section.settings.day_pill }}</span>{%- endif -%}
+        </div>
+        <h3 class="apx-hs__t">{{ section.settings.day_title }}</h3>
+        <p class="apx-hs__p">{{ section.settings.day_text }}</p>
+        <ul class="apx-hs__chips">
+          {%- for k in (1..3) -%}{%- assign ck = 'day_chip_' | append: k -%}{%- if section.settings[ck] != blank -%}<li>{{ section.settings[ck] }}</li>{%- endif -%}{%- endfor -%}
+        </ul>
+        <figure class="apx-hs__diag" aria-label="{{ section.settings.diagram_alt | escape }}">
+          <figcaption class="apx-hs__dh"><span>{{ section.settings.day_diag_l }}</span><span>{{ section.settings.day_diag_r }}</span></figcaption>
+          <p class="apx-hs__dc">{{ section.settings.day_diag_c }}</p>
+          <svg class="apx-hs__svg" viewBox="0 0 420 56" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+            <line x1="210" y1="0" x2="210" y2="28" stroke="#6E1423" stroke-width="1.2" stroke-dasharray="2 3"/>
+            <circle cx="210" cy="30" r="2.6" fill="#3B0A14"/>
+            <path d="M72 41 C 108 41 128 31 154 31 L 266 31 C 292 31 312 41 348 41" fill="none" stroke="#3B0A14" stroke-width="1.6" stroke-linecap="round"/>
+            <rect x="12" y="41" width="396" height="15" rx="7.5" fill="#E4C39B"/>
+            <text x="210" y="52.2" text-anchor="middle" font-size="7.6" fill="#6E4A33" letter-spacing=".2">{{ section.settings.day_diag_base }}</text>
+          </svg>
+        </figure>
+      </article>
+
+      <article class="apx-hs__card apx-hs__card--night">
+        <div class="apx-hs__top">
+          <span class="apx-hs__icon">{% render 'ap-icon', name: 'moon', size: 24 %}</span>
+          {%- if section.settings.night_pill != blank -%}<span class="apx-hs__pill">{{ section.settings.night_pill }}</span>{%- endif -%}
+        </div>
+        <h3 class="apx-hs__t">{{ section.settings.night_title }}</h3>
+        <p class="apx-hs__p">{{ section.settings.night_text }}</p>
+        <ul class="apx-hs__chips">
+          {%- for k in (1..3) -%}{%- assign ck = 'night_chip_' | append: k -%}{%- if section.settings[ck] != blank -%}<li>{{ section.settings[ck] }}</li>{%- endif -%}{%- endfor -%}
+        </ul>
+        <figure class="apx-hs__diag" aria-label="{{ section.settings.diagram_alt | escape }}">
+          <figcaption class="apx-hs__dh"><span>{{ section.settings.night_diag_l }}</span><span>{{ section.settings.night_diag_r }}</span></figcaption>
+          <p class="apx-hs__dc">{{ section.settings.night_diag_c }}</p>
+          <svg class="apx-hs__svg" viewBox="0 0 420 56" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+            <line x1="210" y1="0" x2="210" y2="22" stroke="#E4C39B" stroke-width="1.2" stroke-dasharray="2 3" opacity=".8"/>
+            <circle cx="210" cy="24" r="2.6" fill="#F5E6E8"/>
+            <path d="M60 41 C 100 41 118 24 148 24 L 272 24 C 302 24 320 41 360 41 Z" fill="#E4C39B" fill-opacity=".22" stroke="#E4C39B" stroke-width="1.4" stroke-linejoin="round"/>
+            <path d="M150 41 C 160 31 176 29 210 29 C 244 29 260 31 270 41 Z" fill="#E1B98C"/>
+            <rect x="24" y="41" width="372" height="15" rx="2" fill="#7A1426"/>
+            <text x="210" y="52.2" text-anchor="middle" font-size="7.6" fill="#F5E6E8" letter-spacing=".2">{{ section.settings.night_diag_base }}</text>
+          </svg>
+        </figure>
+      </article>
+    </div>
+
+    <div class="apx-hs__bar">
+      <ul>
+        {%- if section.settings.bar_1 != blank -%}<li><i aria-hidden="true"></i>{{ section.settings.bar_1 }}</li>{%- endif -%}
+        {%- if section.settings.bar_2 != blank -%}<li><i aria-hidden="true"></i>{{ section.settings.bar_2 }}</li>{%- endif -%}
+      </ul>
+      {%- if section.settings.bar_note != blank -%}<p>{{ section.settings.bar_note }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .apx-hs{background:#FBF7F5}
+  .apx-hs__head{text-align:center}
+  .apx-hs__eyebrow{display:inline-block;margin:0 0 18px;padding:.55rem 1.4rem;border:1px solid #3B0A14;border-radius:999px;background:#fff;color:#3B0A14;font-size:.8125rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+  .apx-hs__h{margin:0;font-family:var(--ap-font-display);font-size:clamp(2.6rem,6.2vw,4.4rem);font-weight:400;line-height:1.05;letter-spacing:-.015em;color:#4A0E1A}
+  .apx-hs__rule{display:block;width:68px;height:3px;margin:22px auto 0;border-radius:2px;background:linear-gradient(90deg,#4A0E1A,#C99A6B)}
+  .apx-hs__row{display:grid;gap:24px;margin-top:clamp(36px,5vw,64px)}
+  .apx-hs__card{display:flex;flex-direction:column;padding:clamp(24px,3.2vw,42px);border-radius:clamp(28px,3.4vw,44px)}
+  .apx-hs__card--day{background:#EEDFBB;border:1px solid #E3D0A0;color:#4A0E1A;box-shadow:0 22px 44px rgba(120,80,20,.12)}
+  .apx-hs__card--night{background:#400E19;color:#F5E6E8;box-shadow:0 26px 54px rgba(59,10,20,.32)}
+  .apx-hs__top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .apx-hs__icon{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;flex:none}
+  .apx-hs__card--day .apx-hs__icon{background:#fff;color:#4A0E1A;box-shadow:0 6px 16px rgba(120,80,20,.12)}
+  .apx-hs__card--night .apx-hs__icon{background:rgba(255,255,255,.1);color:#E9C9A5}
+  .apx-hs__pill{padding:.6rem 1.05rem;border-radius:999px;font-size:.9375rem;font-weight:500;line-height:1.2}
+  .apx-hs__card--day .apx-hs__pill{background:rgba(255,255,255,.55);border:1px solid rgba(110,20,35,.12);color:#4A0E1A}
+  .apx-hs__card--night .apx-hs__pill{border:1px solid rgba(233,201,165,.35);color:#E9C9A5}
+  .apx-hs__t{margin:34px 0 14px;font-family:var(--ap-font-display);font-size:clamp(2.6rem,5vw,3.6rem);font-weight:400;line-height:1;letter-spacing:-.01em;color:inherit}
+  .apx-hs__p{max-width:34em;margin:0;font-size:1.125rem;line-height:1.65}
+  .apx-hs__card--day .apx-hs__p{color:#6B3C3C}
+  .apx-hs__card--night .apx-hs__p{color:#E8D3D6}
+  .apx-hs__chips{display:flex;flex-wrap:wrap;gap:12px;margin:30px 0 38px;padding:0;list-style:none}
+  .apx-hs__chips li{padding:.72rem 1.1rem;border-radius:10px;font-size:.9375rem;font-weight:500;line-height:1.2}
+  .apx-hs__card--day .apx-hs__chips li{background:#FBF3E3;color:#4A0E1A;box-shadow:0 2px 6px rgba(120,80,20,.08)}
+  .apx-hs__card--night .apx-hs__chips li{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#F5E6E8}
+  .apx-hs__diag{margin:auto 0 0;padding:22px 24px 18px;border-radius:22px}
+  .apx-hs__card--day .apx-hs__diag{background:#FAF5EA}
+  .apx-hs__card--night .apx-hs__diag{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+  .apx-hs__dh{display:flex;justify-content:space-between;gap:12px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+  .apx-hs__card--day .apx-hs__dh{color:#8A5C57}
+  .apx-hs__card--night .apx-hs__dh{color:#C9A9AE}
+  .apx-hs__dc{margin:14px 0 0;text-align:center;font-size:.8125rem;font-weight:600}
+  .apx-hs__card--day .apx-hs__dc{color:#3B0A14}
+  .apx-hs__card--night .apx-hs__dc{color:#F5E6E8}
+  .apx-hs__svg{display:block;width:100%;max-width:560px;height:auto;margin:4px auto 0}
+  .apx-hs__bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 32px;margin-top:20px;padding:18px 34px;border:1px solid #EBDDDB;border-radius:24px;background:#fff;box-shadow:0 6px 18px rgba(59,10,20,.04)}
+  .apx-hs__bar ul{display:flex;flex-wrap:wrap;gap:10px 56px;margin:0;padding:0;list-style:none}
+  .apx-hs__bar li{display:flex;align-items:center;gap:14px;font-size:1rem;font-weight:600;color:#3B0A14}
+  .apx-hs__bar i{flex:none;width:9px;height:9px;border-radius:50%;background:#3B0A14}
+  .apx-hs__bar p{margin:0;font-size:.875rem;color:#8A5C57}
+  @media (min-width:900px){.apx-hs__row{grid-template-columns:1.12fr 1fr;gap:30px;align-items:stretch}}
+  @media (max-width:560px){.apx-hs__top{flex-wrap:wrap}.apx-hs__bar{padding:16px 20px}.apx-hs__diag{padding:18px 16px 14px}.apx-hs__dh{font-size:.6875rem;letter-spacing:.08em}}
+  @media (max-width:759px){
+    .apx-hs__row{gap:16px;margin-top:26px}
+    .apx-hs__card{padding:20px;border-radius:26px}
+    .apx-hs__icon{width:46px;height:46px}
+    .apx-hs__pill{padding:.45rem .85rem;font-size:.8125rem}
+    .apx-hs__t{margin:22px 0 10px;font-size:2.4rem}
+    .apx-hs__p{font-size:1rem;line-height:1.55}
+    .apx-hs__chips{gap:8px;margin:20px 0 24px}
+    .apx-hs__chips li{padding:.55rem .85rem;font-size:.8125rem}
+    .apx-hs__diag{padding:16px 14px 12px;border-radius:18px}
+    .apx-hs__bar{padding:14px 16px;margin-top:14px}
+    .apx-hs__bar ul{gap:8px 28px}
+  }
+  /* compact height on laptops */
+  @media (min-width:900px){
+    .apx-hs__row{margin-top:clamp(28px,3.6vw,46px)}
+    .apx-hs__card{padding:clamp(20px,2.4vw,32px)}
+    .apx-hs__t{margin:22px 0 10px}
+    .apx-hs__p{font-size:1.0625rem;line-height:1.55}
+    .apx-hs__chips{margin:20px 0 26px}
+    .apx-hs__chips li{padding:.6rem 1rem}
+    .apx-hs__diag{padding:18px 20px 14px}
+    .apx-hs__bar{margin-top:16px;padding:14px 30px}
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Day and night panels",
+  "tag": "div",
+  "enabled_on": { "templates": ["index"] },
+  "settings": [
+    { "type": "paragraph", "content": "Keep every word true for your product. The drawings are illustrations, not to scale, so no measurements are written for you." },
+    { "type": "text", "id": "eyebrow", "label": "Pill label", "default": "Two patches, two jobs" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One kit for the whole day" },
+    { "type": "header", "content": "Day card" },
+    { "type": "text", "id": "day_pill", "label": "Pill (top right)", "default": "Daytime wear" },
+    { "type": "text", "id": "day_title", "label": "Title", "default": "Day" },
+    { "type": "textarea", "id": "day_text", "label": "Text", "default": "Thin and low-shine, so it sits close to the skin on the way to school, work or errands. It covers the spot and gives your fingers something else to find." },
+    { "type": "text", "id": "day_chip_1", "label": "Chip 1", "default": "Thin profile" },
+    { "type": "text", "id": "day_chip_2", "label": "Chip 2", "default": "Matte, low-shine finish" },
+    { "type": "text", "id": "day_chip_3", "label": "Chip 3", "default": "Soft edge" },
+    { "type": "text", "id": "day_diag_l", "label": "Drawing label, left", "default": "Thin profile" },
+    { "type": "text", "id": "day_diag_r", "label": "Drawing label, right", "default": "Soft edge" },
+    { "type": "text", "id": "day_diag_c", "label": "Drawing label, middle", "default": "Hydrocolloid layer" },
+    { "type": "text", "id": "day_diag_base", "label": "Drawing label, on the skin bar", "default": "SKIN SURFACE" },
+    { "type": "header", "content": "Night card" },
+    { "type": "text", "id": "night_pill", "label": "Pill (top right)", "default": "Overnight wear" },
+    { "type": "text", "id": "night_title", "label": "Title", "default": "Night" },
+    { "type": "textarea", "id": "night_text", "label": "Text", "default": "Thicker and cushioned, made for overnight wear. It takes in fluid and keeps the spot covered while you sleep." },
+    { "type": "text", "id": "night_chip_1", "label": "Chip 1", "default": "Cushioned core" },
+    { "type": "text", "id": "night_chip_2", "label": "Chip 2", "default": "Overnight wear" },
+    { "type": "text", "id": "night_chip_3", "label": "Chip 3", "default": "Fluid-absorbing gel" },
+    { "type": "text", "id": "night_diag_l", "label": "Drawing label, left", "default": "Cushioned gel layer" },
+    { "type": "text", "id": "night_diag_r", "label": "Drawing label, right", "default": "Beveled edge" },
+    { "type": "text", "id": "night_diag_c", "label": "Drawing label, middle", "default": "Gel core" },
+    { "type": "text", "id": "night_diag_base", "label": "Drawing label, on the skin bar", "default": "SKIN SURFACE" },
+    { "type": "text", "id": "diagram_alt", "label": "Drawing description (for screen readers)", "default": "A simple side-on drawing of a patch resting on the skin surface. Illustration, not to scale." },
+    { "type": "header", "content": "Strip under the cards" },
+    { "type": "text", "id": "bar_1", "label": "Point 1", "default": "Drug-free hydrocolloid" },
+    { "type": "text", "id": "bar_2", "label": "Point 2", "default": "No medicated actives" },
+    { "type": "text", "id": "bar_note", "label": "Small text on the right", "default": "For surfaced spots. External use only. Illustrations, not to scale." }
+  ],
+  "presets": [ { "name": "Day and night panels" } ]
+}
+{% endschema %}

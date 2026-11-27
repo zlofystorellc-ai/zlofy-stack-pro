@@ -16,11 +16,28 @@
   assign free_items = section.settings.free_from | newline_to_br | split: '<br />'
 -%}
 {%- if section.blocks.size > 0 or full_list != blank -%}
-<section class="apx-ing apx-section" id="ingredients" aria-labelledby="{{ section.id }}-title">
-  <div class="apx-wrap">
+<section class="apx-ing apx-section" id="ingredients" aria-labelledby="{{ section.id }}-title" data-ap-hi-root>
+  <div class="apx-ing__bg" aria-hidden="true">
+    <i class="apx-ing__blob apx-ing__blob--1"></i><i class="apx-ing__blob apx-ing__blob--2"></i>
+    <b style="--x:7%;--s:28px;--d:18s;--l:0s"></b><b style="--x:36%;--s:18px;--d:22s;--l:-9s"></b><b style="--x:62%;--s:36px;--d:26s;--l:-13s"></b><b style="--x:88%;--s:22px;--d:20s;--l:-5s"></b>
+  </div>
+  <div class="apx-wrap apx-ing__in">
     <div class="apx-ing__split">
       <div class="apx-ing__visual">
-        {%- if section.settings.image != blank -%}
+        {%- if section.settings.show_builtin_video -%}
+          <figure class="apx-ing__fig apx-ing__fig--video" data-ap-hi>
+            <div class="apx-ing__vid">
+              <img src="{{ 'ap-ingredient-prod-video.jpg' | asset_url }}" width="404" height="720" alt="{{ section.settings.video_alt | escape }}" loading="lazy">
+              <span class="apx-ing__shine" aria-hidden="true"></span>
+              {%- if section.settings.video_note != blank -%}<span class="apx-ing__vnote">{{ section.settings.video_note }}</span>{%- endif -%}
+            </div>
+          </figure>
+        {%- elsif section.settings.show_builtin_photo -%}
+          <figure class="apx-ing__fig">
+            <div class="apx-ing__photo"><img src="{{ 'ap-card-swap.jpg' | asset_url }}" alt="{{ section.settings.builtin_alt | escape }}" width="738" height="1100" loading="lazy"></div>
+            {%- if section.settings.photo_caption != blank -%}<figcaption class="apx-ing__cap">{{ section.settings.photo_caption }}</figcaption>{%- endif -%}
+          </figure>
+        {%- elsif section.settings.image != blank -%}
           <div class="apx-ing__photo">
             {{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000', sizes: '(min-width: 900px) 45vw, 90vw', alt: section.settings.image.alt | default: section.settings.heading }}
           </div>
@@ -46,8 +63,8 @@
             {%- for block in section.blocks -%}
               <li class="apx-ing__row" style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
                 <span class="apx-ing__dot" aria-hidden="true">{{ forloop.index }}</span>
-                <div>
-                  <h3>{{ block.settings.name }}</h3>
+                <div class="apx-ing__rt">
+                  <h3>{{ block.settings.name }}{%- if block.settings.tag != blank -%}<span class="apx-ing__tag">{{ block.settings.tag }}</span>{%- endif -%}</h3>
                   <p>{{ block.settings.note }}</p>
                 </div>
                 {%- if block.settings.image != blank -%}
@@ -57,20 +74,74 @@
             {%- endfor -%}
           </ol>
         {%- endif -%}
+        {%- if section.settings.chips != blank -%}
+          <ul class="apx-ing__chips">
+            {%- assign chip_lines = section.settings.chips | newline_to_br | split: '<br />' -%}
+            {%- for c in chip_lines -%}{%- assign ct = c | strip -%}{%- if ct != blank -%}<li><i aria-hidden="true"></i>{{ ct }}</li>{%- endif -%}{%- endfor -%}
+          </ul>
+        {%- endif -%}
       </div>
     </div>
 
+    {%- liquid
+      assign spec_keys = '1,2,3,4' | split: ','
+      assign has_specs = false
+      for k in spec_keys
+        assign vk = 'spec_' | append: k | append: '_value'
+        if section.settings[vk] != blank
+          assign has_specs = true
+        endif
+      endfor
+    -%}
+    {%- if has_specs -%}
+      <dl class="apx-ing__specs">
+        {%- for k in spec_keys -%}
+          {%- assign vk = 'spec_' | append: k | append: '_value' -%}
+          {%- assign lk = 'spec_' | append: k | append: '_label' -%}
+          {%- if section.settings[vk] != blank -%}
+            <div class="apx-ing__spec"><dd>{{ section.settings[vk] }}</dd><dt>{{ section.settings[lk] }}</dt></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </dl>
+    {%- endif -%}
+
     {%- if full_list != blank -%}
-      <div class="apx-ing__label">
-        <p class="apx-ing__label-t">{{ section.settings.full_list_title }}</p>
-        <div class="apx-ing__label-b">
+      <div class="apx-ing__label{% if section.settings.show_label_video %} apx-ing__label--video{% endif %}">
+        {%- if section.settings.show_label_video -%}
+          <figure class="apx-ing__lv" data-ap-hi>
+            <img src="{{ 'ap-ingredient-label-video.jpg' | asset_url }}" width="854" height="480" alt="{{ section.settings.label_video_alt | escape }}" loading="lazy">
+            {%- if section.settings.label_video_note != blank -%}<figcaption class="apx-ing__lvnote">{{ section.settings.label_video_note }}</figcaption>{%- endif -%}
+          </figure>
+        {%- endif -%}
+        <div class="apx-ing__label-main">
+        <div class="apx-ing__label-h">
+          <p class="apx-ing__label-t">{{ section.settings.full_list_title }}</p>
+          <button type="button" class="apx-ing__cp" data-ap-ing-copy>{% render 'ap-icon', name: 'plus', size: 14 %}<span>{{ section.settings.copy_label }}</span></button>
+        </div>
+        {%- assign list_lines = full_list | strip | newline_to_br | split: '<br />' -%}
+        <div class="apx-ing__label-b" data-ap-ing-text>
           {%- if full_list contains '<' -%}
             {{ full_list }}
           {%- else -%}
-            {%- assign list_lines = full_list | strip | newline_to_br | split: '<br />' -%}
             <p>{%- for line in list_lines -%}{%- assign t = line | strip -%}{%- if t != blank -%}{{ t | escape }}{%- unless forloop.last -%}, {% endunless -%}{%- endif -%}{%- endfor -%}</p>
           {%- endif -%}
         </div>
+        {%- assign list_is_html = false -%}
+        {%- if full_list contains '<' -%}{%- assign list_is_html = true -%}{%- endif -%}
+        {%- if section.settings.ingredient_notes != blank and list_is_html == false -%}
+          {%- assign note_lines = section.settings.ingredient_notes | newline_to_br | split: '<br />' -%}
+          <p class="apx-ing__tapt">{{ section.settings.tap_label }}</p>
+          <div class="apx-ing__taps" role="group" aria-label="{{ section.settings.tap_label | escape }}">
+            {%- for line in note_lines -%}
+              {%- assign parts = line | split: '|' -%}
+              {%- if parts.size > 2 -%}
+                <button type="button" class="apx-ing__tap{% if forloop.first %} is-on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-ap-ing-tap data-tag="{{ parts[1] | strip | escape }}" data-note="{{ parts[2] | strip | escape }}">{{ parts[0] | strip }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- assign first_parts = note_lines.first | split: '|' -%}
+          <div class="apx-ing__nbox" aria-live="polite"><p data-ap-ing-note>{{ first_parts[2] | strip }}</p><span class="apx-ing__ntag" data-ap-ing-ntag>{{ first_parts[1] | strip }}</span></div>
+        {%- endif -%}
         {%- if section.settings.free_from != blank -%}
           <ul class="apx-ing__free" aria-label="{{ section.settings.free_title | escape }}">
             {%- for item in free_items -%}
@@ -79,15 +150,93 @@
             {%- endfor -%}
           </ul>
         {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.made_in != blank or section.settings.report_link != blank -%}
+      <div class="apx-ing__proof">
+        {%- if section.settings.made_in != blank -%}<p class="apx-ing__made">{% render 'ap-icon', name: 'check', size: 18 %}<span>{{ section.settings.made_in }}</span></p>{%- endif -%}
+        {%- if section.settings.report_link != blank -%}<a class="apx-ing__report" href="{{ section.settings.report_link }}" target="_blank" rel="noopener">{{ section.settings.report_label | default: 'View the test report' }} <span aria-hidden="true">&rarr;</span></a>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- liquid
+      assign faq_keys = '1,2,3' | split: ','
+      assign has_faq = false
+      for k in faq_keys
+        assign qk = 'faq_' | append: k | append: '_q'
+        if section.settings[qk] != blank
+          assign has_faq = true
+        endif
+      endfor
+    -%}
+    {%- if has_faq -%}
+      <div class="apx-ing__faq">
+        {%- if section.settings.faq_title != blank -%}<h3 class="apx-ing__faq-t">{{ section.settings.faq_title }}</h3>{%- endif -%}
+        {%- for k in faq_keys -%}
+          {%- assign qk = 'faq_' | append: k | append: '_q' -%}
+          {%- assign ak = 'faq_' | append: k | append: '_a' -%}
+          {%- if section.settings[qk] != blank -%}
+            <details class="apx-ing__q"><summary>{{ section.settings[qk] }}</summary><p>{{ section.settings[ak] }}</p></details>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
     {%- endif -%}
 
     {%- if section.settings.note != blank -%}<p class="apx-fine apx-center apx-ing__note">{{ section.settings.note }}</p>{%- endif -%}
   </div>
 </section>
+<script src="{{ 'ap-ingredient.js' | asset_url }}" type="module"></script>
+<script>
+  (function () {
+    document.querySelectorAll('.apx-ing__label-main').forEach(function (box) {
+      var taps = box.querySelectorAll('[data-ap-ing-tap]'), note = box.querySelector('[data-ap-ing-note]'), tag = box.querySelector('[data-ap-ing-ntag]');
+      taps.forEach(function (b) {
+        b.addEventListener('click', function () {
+          taps.forEach(function (o) { var on = o === b; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on); });
+          if (note) note.textContent = b.getAttribute('data-note');
+          if (tag) tag.textContent = b.getAttribute('data-tag');
+        });
+      });
+      var copy = box.querySelector('[data-ap-ing-copy]'), txt = box.querySelector('[data-ap-ing-text]');
+      if (copy && txt) copy.addEventListener('click', function () {
+        var label = copy.querySelector('span'), old = label.textContent;
+        var done = function () { label.textContent = 'Copied'; setTimeout(function () { label.textContent = old; }, 1600); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt.textContent.trim()).then(done, function () {});
+      });
+    });
+  })();
+</script>
 {%- endif -%}
 
 {% stylesheet %}
+  .apx-ing{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#FAF1F2 55%,#F8EEF0 100%)}
+  .apx-ing__in{position:relative;z-index:1}
+  .apx-ing__bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .apx-ing__blob{position:absolute;border-radius:50%;filter:blur(70px);will-change:transform;transform:translate3d(0,calc(var(--sp,0) * -40px),0)}
+  .apx-ing__blob--1{width:420px;height:420px;left:-120px;top:10%;background:var(--ap-blush);opacity:.22;animation:apx-ing-drift 18s ease-in-out infinite alternate}
+  .apx-ing__blob--2{width:460px;height:460px;right:-150px;bottom:-120px;background:var(--ap-lilac);opacity:.45;animation:apx-ing-drift 22s ease-in-out -7s infinite alternate-reverse}
+  @keyframes apx-ing-drift{from{margin:0}to{margin:40px 0 0 50px}}
+  .apx-ing__bg b{position:absolute;left:var(--x);bottom:-60px;width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.95),rgba(255,255,255,.4) 60%,rgba(255,255,255,.1));box-shadow:inset 0 0 0 1.5px #fff,0 6px 14px rgba(110,20,35,.12);opacity:0;animation:apx-ing-rise var(--d) linear var(--l) infinite}
+  @keyframes apx-ing-rise{0%{transform:translate3d(0,0,0) scale(.8);opacity:0}12%{opacity:.9}85%{opacity:.7}100%{transform:translate3d(24px,-115vh,0) scale(1.1);opacity:0}}
+  /* the video: a clean portrait window with a soft ring and glow */
+  .apx-ing__vid{position:relative;overflow:hidden;aspect-ratio:4/5;max-width:440px;margin-inline:auto;border-radius:28px;background:#3B1220;box-shadow:0 0 0 7px rgba(255,255,255,.85),0 0 0 8px rgba(180,86,106,.35),0 34px 70px rgba(110,20,35,.22);transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .4s ease}
+  .apx-ing__vid:hover{box-shadow:0 0 0 7px #fff,0 0 0 9px rgba(180,86,106,.55),0 44px 90px rgba(110,20,35,.3)}
+  .apx-ing__vid video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .apx-ing__shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(59,10,20,.18),transparent 25%,transparent 70%,rgba(59,10,20,.3)),radial-gradient(circle at 25% 15%,rgba(255,255,255,.22),transparent 45%)}
+  .apx-ing__pause{position:absolute;right:14px;bottom:14px;z-index:2;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1.5px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(59,10,20,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;cursor:pointer}
+  .apx-ing__pause:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .apx-ing__pause .apx-hi__i-play{display:none}
+  .apx-ing__pause[aria-pressed="true"] .apx-hi__i-pause{display:none}
+  .apx-ing__pause[aria-pressed="true"] .apx-hi__i-play{display:block}
+  .apx-ing__vnote{position:absolute;left:14px;bottom:20px;z-index:2;padding:.28rem .7rem;border-radius:8px;background:rgba(59,10,20,.62);color:#F5E6E8;font-size:.6875rem;letter-spacing:.04em}
+  /* staged entrance */
+  .apx-ing.is-armed .apx-ing__copy>*,.apx-ing.is-armed .apx-ing__row{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .apx-ing.is-armed .apx-ing__visual{opacity:0;transform:scale(.93);transition:opacity .9s ease .1s,transform .9s cubic-bezier(.2,.7,.2,1) .1s}
+  .apx-ing.is-armed.is-in .apx-ing__copy>*,.apx-ing.is-armed.is-in .apx-ing__row,.apx-ing.is-armed.is-in .apx-ing__visual{opacity:1;transform:none}
+  .apx-ing.is-in .apx-ing__copy>:nth-child(2){transition-delay:.1s}.apx-ing.is-in .apx-ing__copy>:nth-child(3){transition-delay:.2s}.apx-ing.is-in .apx-ing__copy>:nth-child(n+4){transition-delay:.3s}
+  @media (prefers-reduced-motion:reduce){.apx-ing__blob,.apx-ing__bg b{animation:none}.apx-ing__bg b{opacity:.5;bottom:20%}.apx-ing__blob{transform:none}.apx-ing__vid{transform:none}.apx-ing.is-armed .apx-ing__copy>*,.apx-ing.is-armed .apx-ing__row,.apx-ing.is-armed .apx-ing__visual{opacity:1;transform:none;transition:none}}
   .apx-ing__split{display:grid;gap:36px;align-items:center}
   .apx-ing__copy .apx-lede{margin:.5rem 0 0}
   .apx-ing__rows{display:grid;gap:0;margin:28px 0 0;padding:0;list-style:none;border-top:1px solid var(--ap-line)}
@@ -101,12 +250,12 @@
   .apx-ing__row h3{margin:0 0 .15rem;font-size:1.125rem}
   .apx-ing__row p{margin:0;color:var(--ap-ink-soft);line-height:1.5}
   .apx-ing__thumb{flex:none;margin-left:auto;width:56px;height:56px;border-radius:16px;object-fit:cover}
-  .apx-ing__photo{overflow:hidden;border-radius:28px;background:var(--ap-sand);box-shadow:0 22px 50px rgba(31,42,68,.12);aspect-ratio:4/5;max-width:480px;margin-inline:auto}
+  .apx-ing__photo{overflow:hidden;border-radius:28px;background:var(--ap-sand);box-shadow:0 22px 50px rgba(59,10,20,.12);aspect-ratio:4/5;max-width:480px;margin-inline:auto}
   .apx-ing__photo img{display:block;width:100%;height:100%;object-fit:cover}
   /* exploded layer stack */
   .apx-stack{--z:58px;display:grid;place-items:center;min-height:clamp(300px,42vw,440px);perspective:1400px}
   .apx-stack__scene{position:relative;width:min(62vw,300px);aspect-ratio:1;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-34deg)}
-  .apx-stack__layer{--c:var(--ap-blush);position:absolute;inset:0;border-radius:22%;background:var(--c);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),0 24px 36px rgba(31,42,68,.18);transform:translateZ(calc(var(--i) * var(--z)));transition:transform 1s cubic-bezier(.2,.7,.2,1) calc(var(--i) * 90ms),filter .3s}
+  .apx-stack__layer{--c:var(--ap-blush);position:absolute;inset:0;border-radius:22%;background:var(--c);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),0 24px 36px rgba(59,10,20,.18);transform:translateZ(calc(var(--i) * var(--z)));transition:transform 1s cubic-bezier(.2,.7,.2,1) calc(var(--i) * 90ms),filter .3s}
   .apx-stack__layer:nth-child(2){--c:var(--ap-lilac)}
   .apx-stack__layer:nth-child(3){--c:var(--ap-apricot)}
   .apx-stack__layer:nth-child(4){--c:var(--ap-blush-deep)}
@@ -124,13 +273,70 @@
   /* label */
   .apx-ing__label{max-width:860px;margin:clamp(32px,5vw,56px) auto 0;padding:22px 26px;border:2px solid var(--ap-ink);border-radius:6px;background:var(--ap-white)}
   .apx-ing__label-t{margin:0 0 .5rem;padding-bottom:.5rem;border-bottom:4px solid var(--ap-ink);font-size:1.5rem;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+  /* label box with a video: stacked on phones, side by side on laptops */
+  .apx-ing__label--video{max-width:960px;display:grid;gap:20px;padding:18px}
+  .apx-ing__lv{position:relative;margin:0;overflow:hidden;border-radius:4px;aspect-ratio:16/9;background:#F3E6E8}
+  .apx-ing__lv video{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-ing__pause--s{right:10px;bottom:10px;width:40px;height:40px}
+  .apx-ing__lvnote{position:absolute;left:10px;bottom:12px;padding:.22rem .6rem;border-radius:6px;background:rgba(59,10,20,.62);color:#F5E6E8;font-size:.6875rem;letter-spacing:.04em}
+  .apx-ing__label--video .apx-ing__label-main{padding:4px 8px 8px}
+  @media (min-width:760px){.apx-ing__label--video{grid-template-columns:minmax(0,5fr) minmax(0,4fr);align-items:center;gap:28px;padding:22px}.apx-ing__label--video .apx-ing__label-main{padding:0}}
   .apx-ing__label-b{color:var(--ap-ink);font-size:.9375rem;line-height:1.6}
   .apx-ing__label-b p{margin:0}
   .apx-ing__free{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none}
   .apx-ing__free li{padding:.35rem .8rem;border:1px solid var(--ap-line);border-radius:999px;background:var(--ap-sand);color:var(--ap-blush-deep);font-size:.8125rem;font-weight:700}
+  .apx-ing__fig{margin:0}
+  .apx-ing__cap{margin:10px 0 0;text-align:center;color:var(--ap-ink-soft);font-size:.8125rem}
+  .apx-ing__specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;max-width:860px;margin:clamp(28px,4vw,44px) auto 0}
+  .apx-ing__spec{padding:16px;border:1px solid var(--ap-line);border-radius:18px;background:var(--ap-white);text-align:center;box-shadow:0 8px 22px rgba(59,10,20,.05)}
+  .apx-ing__spec dd{margin:0;font-family:var(--ap-font-display);font-size:1.75rem;line-height:1.1;color:var(--ap-ink)}
+  .apx-ing__spec dt{margin:.25rem 0 0;color:var(--ap-ink-soft);font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .apx-ing__proof{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 28px;max-width:860px;margin:22px auto 0}
+  .apx-ing__made{display:inline-flex;align-items:center;gap:.5rem;margin:0;font-weight:700}
+  .apx-ing__made .apx-icon{color:var(--ap-blush-deep)}
+  .apx-ing__report{color:var(--ap-blush-deep);font-weight:800;text-decoration:none;border-bottom:2px solid var(--ap-blush)}
+  .apx-ing__faq{max-width:860px;margin:clamp(24px,3vw,40px) auto 0}
+  .apx-ing__faq-t{margin:0 0 10px;text-align:center;font-size:1.25rem}
+  .apx-ing__q{border-bottom:1px solid var(--ap-line)}
+  .apx-ing__q summary{cursor:pointer;padding:14px 4px;font-weight:700;list-style:none}
+  .apx-ing__q summary::-webkit-details-marker{display:none}
+  .apx-ing__q summary::after{content:"+";float:right;color:var(--ap-blush-deep);font-weight:800}
+  .apx-ing__q[open] summary::after{content:"\2212"}
+  .apx-ing__q p{margin:0 0 14px;padding:0 4px;color:var(--ap-ink-soft);line-height:1.6}
   .apx-ing__note{margin-top:14px}
   @media (min-width:900px){.apx-ing__split{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:72px}}
   @media (prefers-reduced-motion:reduce){.apx-stack__layer{transition:none}}
+  @media (max-width:759px){.apx-ing__bg b{display:none}.apx-ing__blob{opacity:.18}}
+
+  /* look: pill eyebrow, card rows (first one lifted), fact chips, rounded label card with tap-to-learn */
+  .apx-ing__row{border:1px solid transparent;border-radius:20px;padding:18px 20px;align-items:flex-start;border-bottom-color:var(--ap-line);border-radius:0}
+  .apx-ing__rows{border-top:0}
+  .apx-ing__row:first-child{border:1px solid #F0E3E1;border-radius:20px;background:#fff;box-shadow:0 10px 28px rgba(59,10,20,.06)}
+  .apx-ing__row:first-child .apx-ing__dot{background:#B5495E;color:#fff}
+  .apx-ing__row:not(:first-child) .apx-ing__dot{background:#fff;color:var(--ap-ink);box-shadow:inset 0 0 0 1px var(--ap-line)}
+  .apx-ing__row h3{display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--ap-font-display);font-size:1.3rem;font-weight:400}
+  .apx-ing__tag{padding:.3rem .7rem;border-radius:999px;background:#FBEFF0;color:#B5495E;font-family:var(--ap-font);font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .apx-ing__rt{min-width:0;flex:1}
+  .apx-ing__chips{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+  .apx-ing__chips li{display:inline-flex;align-items:center;gap:8px;padding:.55rem 1rem;border:1px solid var(--ap-line);border-radius:999px;background:#fff;font-size:.8125rem;font-weight:700;color:var(--ap-ink)}
+  .apx-ing__chips i{width:6px;height:6px;border-radius:50%;background:var(--ap-ink)}
+  .apx-ing__label{border:1px solid var(--ap-line);border-radius:36px;background:linear-gradient(180deg,#fff,#FDF7F6);box-shadow:0 24px 60px rgba(59,10,20,.07)}
+  .apx-ing__label--video{max-width:1180px;padding:clamp(14px,2.4vw,28px)}
+  .apx-ing__label-h{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:3px solid var(--ap-ink);padding-bottom:.6rem;margin-bottom:1rem}
+  .apx-ing__label-t{margin:0;padding:0;border:0;font-family:var(--ap-font-display);font-size:clamp(1.5rem,2.4vw,2.1rem);font-weight:400}
+  .apx-ing__cp{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border:1px solid var(--ap-line);border-radius:999px;background:#fff;color:var(--ap-ink);font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;white-space:nowrap}
+  .apx-ing__cp:hover{border-color:var(--ap-ink)}
+  .apx-ing__cp:focus-visible,.apx-ing__tap:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-ing__label-b{font-size:1.0625rem}
+  .apx-ing__tapt{margin:1.4rem 0 .6rem;font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ap-ink-soft)}
+  .apx-ing__taps{display:flex;flex-wrap:wrap;gap:8px}
+  .apx-ing__tap{min-height:44px;padding:0 16px;border:1px solid var(--ap-line);border-radius:999px;background:#fff;color:var(--ap-ink);font:inherit;font-size:.9375rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
+  .apx-ing__tap.is-on{background:var(--ap-ink);border-color:var(--ap-ink);color:#fff}
+  .apx-ing__nbox{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-top:12px;padding:16px 18px;border:1px solid var(--ap-line);border-radius:18px;background:#fff}
+  .apx-ing__nbox p{margin:0;font-size:.9375rem;line-height:1.55;color:var(--ap-ink-soft)}
+  .apx-ing__ntag{flex:none;padding:.3rem .75rem;border:1px solid var(--ap-line);border-radius:999px;background:#fff;font-size:.6875rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ap-ink)}
+  @media (max-width:520px){.apx-ing__nbox{flex-direction:column-reverse}.apx-ing__label-h{flex-wrap:wrap}.apx-ing__row h3{flex-wrap:wrap}}
+  @media (prefers-reduced-motion:reduce){.apx-ing__tap{transition:none}}
 {% endstylesheet %}
 
 {% schema %}
@@ -146,18 +352,53 @@
       "type": "textarea",
       "id": "text",
       "label": "Intro",
-      "default": "Three thin layers, each with one job: cover the spot, keep it protected and stay put."
+      "default": "What is in the patch, in plain words. The full label is below, exactly as printed on the pack."
     },
-    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Optional. When set, your photo replaces the layer drawing. Upload only images you own or have licensed." },
-    { "type": "text", "id": "full_list_title", "label": "Label title", "default": "Ingredients" },
+    { "type": "checkbox", "id": "show_label_video", "label": "Show the close-up video inside the ingredient label box", "default": true, "info": "A short AI-generated close-up of a patch (muted, loops, can be paused). It is an illustration, NOT a real customer. Phones: stacked above the list. Laptops: beside it." },
+    { "type": "text", "id": "label_video_note", "label": "Note on the label video", "default": "Illustration" },
+    { "type": "text", "id": "label_video_alt", "label": "Label video description", "default": "A close-up of a thin, clear hydrocolloid patch resting on a white surface" },
+    { "type": "checkbox", "id": "show_builtin_video", "label": "Show the built-in close-up video", "default": true, "info": "A short AI-generated close-up of a thin patch on a spot (muted, loops, can be paused). It is an illustration, NOT a real customer. Turn off to use the demonstration photo below." },
+    { "type": "text", "id": "video_note", "label": "Note on the video", "default": "Illustration" },
+    { "type": "text", "id": "video_alt", "label": "Video description", "default": "A close-up of a thin, clear round patch covering a small spot on the chin" },
+    { "type": "checkbox", "id": "show_builtin_photo", "label": "Show the built-in demonstration photo", "default": true, "info": "An AI-generated photo of a used patch (white in the middle) beside a fresh one. It is NOT a real customer. Turn off to use your own photo or the layer drawing." },
+    { "type": "text", "id": "photo_caption", "label": "Photo caption", "default": "Demonstration photo" },
+    { "type": "text", "id": "builtin_alt", "label": "Built-in photo description", "default": "A used patch that has turned white in the middle beside a fresh clear patch, each held on a fingertip" },
+    { "type": "image_picker", "id": "image", "label": "Photo (optional)", "info": "Optional. When set (and the built-in photo is off), your photo replaces the layer drawing. Upload only images you own or have licensed." },
+    { "type": "text", "id": "full_list_title", "label": "Label title", "default": "Full ingredients (INCI)" },
+    { "type": "text", "id": "copy_label", "label": "Copy button text", "default": "Copy INCI list" },
+    { "type": "text", "id": "tap_label", "label": "Line above the ingredient buttons", "default": "Tap any ingredient to see what it does:" },
+    { "type": "textarea", "id": "ingredient_notes", "label": "What each ingredient does (one per line: Name | Tag | Text)", "info": "Use the same names as the list above. Only describe what your supplier confirms.", "default": "Cellulose Gum | Absorbent | A plant-derived material that takes in fluid and swells into a soft gel.\nHydrogenated Poly(C6-20 Olefin) | Base | A synthetic polymer that helps the patch hold its shape and stay flexible.\nPolyisobutene | Adhesive base | A synthetic, rubber-like polymer that helps the patch stay on the skin.\nPectin | Gel former | A plant-derived fiber from fruit that helps the patch take in moisture." },
+    { "type": "textarea", "id": "chips", "label": "Small chips under the layers (one per line)", "info": "Only true, documented facts. Empty hides them.", "default": "No medicated actives\nExternal use only\nFull label shown below" },
     { "type": "textarea", "id": "free_from", "label": "Free from (optional, one per line)", "info": "Only list what is true and documented for your formula. Leave empty to hide." },
     { "type": "text", "id": "free_title", "label": "Free-from label (screen readers)", "default": "Free from" },
     {
       "type": "textarea",
       "id": "full_list",
       "label": "Full ingredient list",
+      "default": "Cellulose Gum\nHydrogenated Poly(C6-20 Olefin)\nPolyisobutene\nPectin",
       "info": "Used when the product metafield custom.ingredients is empty. Must match the label on your pack, in the same order."
     },
+    { "type": "header", "content": "Facts at a glance (hidden when empty)" },
+    { "type": "text", "id": "spec_1_value", "label": "Fact 1 value", "info": "Only numbers you measured or your supplier confirmed, for example \"6 mm\"." },
+    { "type": "text", "id": "spec_1_label", "label": "Fact 1 label", "default": "Diameter" },
+    { "type": "text", "id": "spec_2_value", "label": "Fact 2 value" },
+    { "type": "text", "id": "spec_2_label", "label": "Fact 2 label", "default": "Thickness" },
+    { "type": "text", "id": "spec_3_value", "label": "Fact 3 value" },
+    { "type": "text", "id": "spec_3_label", "label": "Fact 3 label", "default": "Patches per kit" },
+    { "type": "text", "id": "spec_4_value", "label": "Fact 4 value" },
+    { "type": "text", "id": "spec_4_label", "label": "Fact 4 label", "default": "Wear time" },
+    { "type": "header", "content": "Proof (hidden when empty)" },
+    { "type": "text", "id": "made_in", "label": "Where it is made and packed", "info": "Only if true, for example \"Made in ___, packed in the USA\"." },
+    { "type": "url", "id": "report_link", "label": "Test report or safety document link", "info": "Link to a real document from your supplier or lab. Leave empty to hide." },
+    { "type": "text", "id": "report_label", "label": "Link text", "default": "View the test report" },
+    { "type": "header", "content": "Questions (hidden when empty)" },
+    { "type": "text", "id": "faq_title", "label": "Questions heading", "default": "Good to know" },
+    { "type": "text", "id": "faq_1_q", "label": "Question 1", "default": "Should I patch test first?" },
+    { "type": "textarea", "id": "faq_1_a", "label": "Answer 1", "default": "If your skin is sensitive, try one patch on a small area first. Stop using it and ask a doctor if you notice irritation." },
+    { "type": "text", "id": "faq_2_q", "label": "Question 2", "default": "What if it will not stick?" },
+    { "type": "textarea", "id": "faq_2_a", "label": "Answer 2", "default": "Patches stick best to clean, dry skin. Wash and pat dry, then press the patch on from the center out. Skip creams or oils on the spot first." },
+    { "type": "text", "id": "faq_3_q", "label": "Question 3", "default": "Where can I see the full ingredient list?" },
+    { "type": "textarea", "id": "faq_3_a", "label": "Answer 3", "default": "It is printed on the pack and shown above. The two always match." },
     { "type": "text", "id": "note", "label": "Small print (optional)", "default": "For external use only. Check the label on your pack." }
   ],
   "blocks": [
@@ -167,6 +408,7 @@
       "limit": 8,
       "settings": [
         { "type": "text", "id": "name", "label": "Name", "default": "Hydrocolloid layer" },
+        { "type": "text", "id": "tag", "label": "Small tag (optional)", "info": "For example Main layer." },
         { "type": "textarea", "id": "note", "label": "What it is", "default": "A soft, flexible layer that sits on the skin and covers the spot." },
         { "type": "image_picker", "id": "image", "label": "Small photo (optional)", "info": "Upload only images you own or have licensed." }
       ]
@@ -176,9 +418,9 @@
     {
       "name": "Ingredients",
       "blocks": [
-        { "type": "ingredient", "settings": { "name": "Hydrocolloid layer", "note": "A soft, flexible layer that sits on the skin and covers the spot." } },
-        { "type": "ingredient", "settings": { "name": "Breathable film", "note": "A thin outer film that keeps the patch smooth and in place." } },
-        { "type": "ingredient", "settings": { "name": "Skin-friendly adhesive", "note": "Holds the patch on until you peel it off." } }
+        { "type": "ingredient", "settings": { "name": "Hydrocolloid", "tag": "Main layer", "note": "A soft, gel-forming material. It takes in fluid from the surface of a spot and keeps the area covered." } },
+        { "type": "ingredient", "settings": { "name": "Flexible polymer base", "note": "Polyisobutene and Hydrogenated Poly(C6-20 Olefin) give the patch its soft, flexible body and help it stay on the skin." } },
+        { "type": "ingredient", "settings": { "name": "A short, open label", "note": "Four ingredients, listed in full below exactly as printed on the pack." } }
       ]
     }
   ]

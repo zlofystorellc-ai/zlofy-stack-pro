@@ -22,9 +22,10 @@ const mediaList = [
 mediaList.forEach((m) => { m.preview_image = m; });
 
 export const variants = [
-  variant(1001, 'Day & Night Duo', 1800, 36, 101),
-  variant(1002, '3-Month Stash', 4200, 108, 102, 5400),
-  variant(1003, 'Refill Pouch', 1200, 36, 103)
+  variant(1001, 'Day + Night Duo', 1800, 36, 101),
+  variant(1002, 'Ultra-Thin Day', 1800, 36, 102),
+  variant(1003, 'Cushioned Night', 1800, 36, 103),
+  variant(1004, 'Multi-Size Variety', 1800, 36, 104)
 ];
 
 export const product = {
@@ -47,7 +48,7 @@ export const product = {
     custom: {
       patch_count: { value: 36 },
       wear_time: { value: 'Day 4–6 hours, night 6–8 hours' },
-      ingredients: { value: 'Mock ingredient one\nMock ingredient two\nMock ingredient three (preview only)' },
+      ingredients: { value: 'Cellulose Gum\nHydrogenated Poly(C6-20 Olefin)\nPolyisobutene\nPectin' },
       patch_sizes: { value: ['8 mm', '10 mm', '12 mm', 'XL body strip'] }
     },
     reviews: {}
@@ -90,6 +91,6 @@ export const bundleCompare = [
 export const settingsOverrides = {};
 
 export const linklists = {
-  'main-menu': { links: [{ title: 'Shop', url: '/collections/all', links: [{ title: 'Day patches', url: '#' }, { title: 'Night patches', url: '#' }] }, { title: 'How it works', url: '#how' }, { title: 'Reviews', url: '#reviews' }, { title: 'FAQ', url: '#faq' }] },
+  'main-menu': { links: [{ title: 'Shop', url: '/products/day-night-duo' }, { title: 'How it works', url: '/pages/how-it-works' }, { title: 'Reviews', url: '#reviews' }, { title: 'FAQ', url: '#faq' }] },
   footer: { links: [{ title: 'Refund policy', url: '/policies/refund-policy' }, { title: 'Shipping', url: '/policies/shipping-policy' }, { title: 'Contact', url: '/pages/contact' }] }
 };

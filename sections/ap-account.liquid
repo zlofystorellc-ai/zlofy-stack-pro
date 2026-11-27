@@ -1,0 +1,226 @@
+{%- comment -%}
+  Customer account pages: Sign in, Create account (with password reset) and the account home.
+  Used by templates/customers/login.json, register.json and account.json (set "Page" in the section settings).
+  Newsletter sign-up is separate (footer: "Subscribe"). This page is only for people who want an account.
+{%- endcomment -%}
+{%- assign mode = section.settings.mode -%}
+<section class="apx-ac apx-section" aria-labelledby="{{ section.id }}-title">
+  <div class="apx-wrap apx-ac__wrap">
+
+{%- capture side_panel -%}
+      <aside class="apx-ac__side">
+        <span class="apx-ac__pill"><i></i>{{ section.settings.pill }}</span>
+        <h2 class="apx-ac__sh">{{ section.settings.side_heading }}</h2>
+        <p class="apx-ac__sp">{{ section.settings.side_text }}</p>
+        {%- if section.settings.offer_title != blank -%}
+          <div class="apx-ac__offer">
+            <span class="apx-ac__offer-i" aria-hidden="true">{% render 'ap-icon', name: 'check', size: 20 %}</span>
+            <div>
+              {%- if section.settings.offer_label != blank -%}<p class="apx-ac__offer-l">{{ section.settings.offer_label }}</p>{%- endif -%}
+              <p class="apx-ac__offer-t">{{ section.settings.offer_title }}</p>
+              {%- if section.settings.offer_text != blank -%}<p class="apx-ac__offer-p">{{ section.settings.offer_text }}</p>{%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+        <ul class="apx-ac__checks">
+          {%- assign perk_lines = section.settings.perks | newline_to_br | split: '<br />' -%}
+          {%- for perk in perk_lines -%}{%- assign pt = perk | strip -%}{%- if pt != blank -%}<li>{{ pt }}</li>{%- endif -%}{%- endfor -%}
+        </ul>
+        <p class="apx-ac__guest">{{ section.settings.side_note }}</p>
+      </aside>
+    {%- endcapture -%}
+    {%- if mode == 'account' -%}
+      <div class="apx-ac__card apx-ac__card--wide">
+        <p class="apx-ac__eyebrow">Your account</p>
+        <h1 class="apx-ac__h" id="{{ section.id }}-title">Hi{% if customer.first_name != blank %}, {{ customer.first_name }}{% endif %}</h1>
+        <p class="apx-ac__sub">{{ customer.email }}</p>
+        <div class="apx-ac__grid">
+          <div class="apx-ac__box">
+            <h2 class="apx-ac__h2">Orders</h2>
+            {%- if customer.orders.size > 0 -%}
+              <ul class="apx-ac__orders">
+                {%- for order in customer.orders limit: 10 -%}
+                  <li><a href="{{ order.customer_url }}"><span>Order {{ order.name }}</span><span>{{ order.created_at | date: '%b %-d, %Y' }}</span><b>{{ order.total_price | money }}</b></a></li>
+                {%- endfor -%}
+              </ul>
+            {%- else -%}
+              <p class="apx-ac__muted">No orders yet. When you place one, you can track it here.</p>
+              <a class="apx-ac__btn apx-ac__btn--ghost" href="{{ routes.all_products_collection_url }}">Start shopping</a>
+            {%- endif -%}
+          </div>
+          <div class="apx-ac__box">
+            <h2 class="apx-ac__h2">Address</h2>
+            {%- if customer.default_address != blank -%}
+              {{ customer.default_address | format_address }}
+            {%- else -%}
+              <p class="apx-ac__muted">No saved address yet. Add one at checkout to speed up your next order.</p>
+            {%- endif -%}
+          </div>
+        </div>
+        <a class="apx-ac__out" href="{{ routes.account_logout_url }}">Sign out</a>
+      </div>
+
+    {%- elsif mode == 'register' -%}
+      <div class="apx-ac__shell">
+        {{ side_panel }}
+        <div class="apx-ac__main">
+          <p class="apx-ac__eyebrow">New here</p>
+          <h1 class="apx-ac__h" id="{{ section.id }}-title">Create your account</h1>
+          <p class="apx-ac__sub">It takes a minute. Then checkout is faster every time.</p>
+          {%- form 'create_customer', novalidate: 'novalidate', class: 'apx-ac__form' -%}
+            {%- if form.errors -%}<p class="apx-ac__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+            <div class="apx-ac__row">
+              <label class="apx-ac__f"><span>First name</span><input type="text" name="customer[first_name]" autocomplete="given-name" placeholder="First name" value="{{ form.first_name }}"></label>
+              <label class="apx-ac__f"><span>Last name</span><input type="text" name="customer[last_name]" autocomplete="family-name" placeholder="Last name" value="{{ form.last_name }}"></label>
+            </div>
+            <label class="apx-ac__f"><span>Email</span><input type="email" name="customer[email]" autocomplete="email" inputmode="email" required placeholder="you@example.com" value="{{ form.email }}"></label>
+            <label class="apx-ac__f"><span>Password</span><span class="apx-ac__pw"><input type="password" name="customer[password]" autocomplete="new-password" required minlength="5" placeholder="At least 5 characters"><button type="button" class="apx-ac__eye" data-ap-ac-eye aria-label="Show password" aria-pressed="false">{% render 'ap-icon', name: 'eye', size: 20 %}</button></span></label>
+            <button type="submit" class="apx-ac__btn">Create account</button>
+          {%- endform -%}
+          <p class="apx-ac__alt">Already have an account? <a href="{{ routes.account_login_url }}">Sign in</a></p>
+        </div>
+      </div>
+
+    {%- else -%}
+      <div class="apx-ac__shell">
+        {{ side_panel }}
+        <div class="apx-ac__main">
+          <p class="apx-ac__eyebrow">Welcome back</p>
+          <h1 class="apx-ac__h" id="{{ section.id }}-title">Sign in</h1>
+          <p class="apx-ac__sub">Enter your details below to access your {{ settings.brand_name | capitalize }} account.</p>
+          <div id="login" data-ap-ac-login>
+            {%- form 'customer_login', novalidate: 'novalidate', class: 'apx-ac__form' -%}
+              {%- if form.errors -%}<p class="apx-ac__err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+              <label class="apx-ac__f"><span>Email</span><input type="email" name="customer[email]" autocomplete="email" inputmode="email" required placeholder="you@example.com"></label>
+              <label class="apx-ac__f"><span class="apx-ac__lr">Password <a class="apx-ac__forgot" href="#recover" data-ap-ac-toggle>Forgot your password?</a></span><span class="apx-ac__pw"><input type="password" name="customer[password]" autocomplete="current-password" required placeholder="Your password"><button type="button" class="apx-ac__eye" data-ap-ac-eye aria-label="Show password" aria-pressed="false">{% render 'ap-icon', name: 'eye', size: 20 %}</button></span></label>
+              <button type="submit" class="apx-ac__btn">Sign in</button>
+            {%- endform -%}
+          </div>
+          <div id="recover" data-ap-ac-recover hidden>
+            <h2 class="apx-ac__h2">Reset your password</h2>
+            <p class="apx-ac__muted">Enter your email and we will send you a link to choose a new password.</p>
+            {%- form 'recover_customer_password', novalidate: 'novalidate', class: 'apx-ac__form' -%}
+              {%- if form.posted_successfully? -%}<p class="apx-ac__ok" role="status">Check your inbox. We have sent you a reset link.</p>{%- endif -%}
+              <label class="apx-ac__f"><span>Email</span><input type="email" name="email" autocomplete="email" inputmode="email" required placeholder="you@example.com"></label>
+              <button type="submit" class="apx-ac__btn">Send reset link</button>
+              <a class="apx-ac__back" href="#login" data-ap-ac-toggle>Back to sign in</a>
+            {%- endform -%}
+          </div>
+          <div class="apx-ac__split"><span>New to {{ settings.brand_name | capitalize }}?</span></div>
+          <a class="apx-ac__btn apx-ac__btn--ghost" href="{{ routes.account_register_url }}">Create an account</a>
+          <p class="apx-ac__small">You can also check out as a guest. An account is optional.</p>
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-ap-ac-toggle]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var card = a.closest('.apx-ac__card'), login = card.querySelector('[data-ap-ac-login]'), rec = card.querySelector('[data-ap-ac-recover]');
+      var toRec = a.getAttribute('href') === '#recover';
+      login.hidden = toRec; rec.hidden = !toRec;
+      (toRec ? rec : login).querySelector('input').focus();
+    });
+  });
+  if (location.hash === '#recover') { var r = document.querySelector('[data-ap-ac-recover]'), l = document.querySelector('[data-ap-ac-login]'); if (r && l) { l.hidden = true; r.hidden = false; } }
+  document.querySelectorAll('[data-ap-ac-eye]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var i = b.parentNode.querySelector('input'), show = i.type === 'password';
+      i.type = show ? 'text' : 'password'; b.setAttribute('aria-pressed', show); b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    });
+  });
+</script>
+
+{% stylesheet %}
+  .apx-ac{padding-block:clamp(28px,6vw,80px);background:radial-gradient(50% 60% at 12% 18%,rgba(228,163,177,.45),transparent 70%),radial-gradient(45% 55% at 88% 80%,rgba(190,214,150,.28),transparent 70%),radial-gradient(60% 50% at 70% 0,rgba(245,230,232,.9),transparent 70%),#F6EEEC}
+  .apx-ac__wrap{display:grid;place-items:start center}
+  .apx-ac__card{width:min(100%,460px);padding:clamp(24px,4vw,40px);border:1px solid var(--ap-line);border-radius:26px;background:#fff;box-shadow:0 24px 60px rgba(59,10,20,.12)}
+  .apx-ac__card--wide{width:min(100%,780px)}
+  .apx-ac__eyebrow{margin:0 0 .4rem;font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ap-blush-deep)}
+  .apx-ac__h{margin:0 0 .4rem;font-family:var(--ap-font-display);font-size:clamp(2rem,5vw,2.75rem);line-height:1.05;color:var(--ap-ink)}
+  .apx-ac__h2{margin:1.25rem 0 .5rem;font-family:var(--ap-font-display);font-size:1.375rem;font-weight:400;color:var(--ap-ink)}
+  .apx-ac__sub,.apx-ac__muted{margin:0 0 1rem;color:var(--ap-ink-soft);font-size:.9375rem;line-height:1.55}
+  .apx-ac__perks{margin:.5rem 0 1.25rem;padding:0;list-style:none;display:grid;gap:.4rem}
+  .apx-ac__perks li{position:relative;padding-left:1.6rem;font-size:.9375rem;color:var(--ap-ink-soft)}
+  .apx-ac__perks li::before{content:"";position:absolute;left:0;top:.35em;width:.95rem;height:.95rem;border-radius:50%;background:var(--ap-blush-deep) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-4.9' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+  .apx-ac__form{display:grid;gap:14px;margin-top:1rem}
+  .apx-ac__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+  .apx-ac__f{min-width:0;display:grid;gap:6px;font-size:.8125rem;font-weight:700;color:var(--ap-ink)}
+  .apx-ac__f input{box-sizing:border-box;width:100%;min-width:0;min-height:50px;padding:0 14px;border:1.5px solid var(--ap-line);border-radius:14px;background:#fff;color:var(--ap-ink);font:inherit;font-size:1rem;font-weight:400;transition:border-color .2s,box-shadow .2s}
+  .apx-ac__f input:focus{outline:0;border-color:var(--ap-blush-deep);box-shadow:0 0 0 4px rgba(181,73,94,.16)}
+  .apx-ac__btn{display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 20px;border:0;border-radius:999px;background:var(--ap-blush-deep);color:#fff;font:inherit;font-size:1rem;font-weight:800;text-decoration:none;cursor:pointer;box-shadow:0 14px 28px rgba(59,10,20,.26);transition:transform .2s,box-shadow .2s}
+  .apx-ac__btn:hover{transform:translateY(-2px);box-shadow:0 20px 36px rgba(59,10,20,.32)}
+  .apx-ac__btn--ghost{margin-top:.25rem;border:1.5px solid var(--ap-ink);background:transparent;color:var(--ap-ink);box-shadow:none}
+  .apx-ac__btn--ghost:hover{background:var(--ap-ink);color:#fff;box-shadow:none}
+  .apx-ac__btn:focus-visible,.apx-ac__f input:focus-visible,.apx-ac a:focus-visible{outline:3px solid var(--ap-ink);outline-offset:3px}
+  .apx-ac__forgot{display:inline-flex;align-items:center;min-height:44px;font-size:.875rem;font-weight:700;color:var(--ap-blush-deep);text-decoration:none;border-bottom:1.5px solid currentColor}
+  .apx-ac__split{display:flex;align-items:center;gap:12px;margin:1.5rem 0 .9rem;font-size:.875rem;color:var(--ap-ink-soft)}
+  .apx-ac__split::before,.apx-ac__split::after{content:"";flex:1;height:1px;background:var(--ap-line)}
+  .apx-ac__small,.apx-ac__alt{margin:1rem 0 0;font-size:.875rem;text-align:center;color:var(--ap-ink-soft)}
+  .apx-ac__alt a{font-weight:800;color:var(--ap-blush-deep)}
+  .apx-ac__ok{margin:0;padding:12px 14px;border-radius:14px;background:#EAF4EC;color:#1F4D2B;font-weight:600}
+  .apx-ac__err{margin:0;padding:12px 14px;border-radius:14px;background:#FCE8E8;color:#7A1426;font-weight:600}
+  .apx-ac__shell{display:grid;width:min(100%,1180px);overflow:hidden;border-radius:32px;background:#FFF9F8;box-shadow:0 40px 90px rgba(59,10,20,.25)}
+  .apx-ac__main{padding:clamp(24px,5vw,56px);align-self:center}
+  .apx-ac__main .apx-ac__h{font-size:clamp(2.25rem,5vw,3.25rem)}
+  .apx-ac__side{display:none;padding:clamp(32px,4vw,52px);background:linear-gradient(165deg,#5A0F1E,#3B0A14 70%,#2B0610);color:#F5E6E8}
+  .apx-ac__pill{display:inline-flex;align-items:center;gap:8px;padding:.5rem .95rem;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.06);font-size:.75rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+  .apx-ac__pill i{width:6px;height:6px;border-radius:50%;background:#E4A3B1}
+  .apx-ac__sh{margin:1.6rem 0 .8rem;font-family:var(--ap-font-display);font-size:clamp(2rem,3.2vw,2.75rem);line-height:1.08;font-weight:400;color:#fff}
+  .apx-ac__sp{margin:0 0 1.5rem;font-size:1rem;line-height:1.6;color:#E8D3D6}
+  .apx-ac__offer{display:flex;gap:14px;align-items:flex-start;margin-bottom:1.5rem;padding:16px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.07)}
+  .apx-ac__offer-i{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#fff;color:#5A0F1E}
+  .apx-ac__offer p{margin:0}
+  .apx-ac__offer-l{font-size:.6875rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#E4A3B1}
+  .apx-ac__offer-t{margin-top:4px!important;font-size:1.0625rem;font-weight:700;line-height:1.35;color:#fff}
+  .apx-ac__offer-p{margin-top:4px!important;font-size:.875rem;color:#D9C2C6}
+  .apx-ac__checks{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+  .apx-ac__checks li{position:relative;padding-left:2.1rem;font-size:1rem;color:#F5E6E8}
+  .apx-ac__checks li::before{content:"";position:absolute;left:0;top:-.1em;width:1.5rem;height:1.5rem;border-radius:50%;background:rgba(255,255,255,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-4.9' fill='none' stroke='%23F5E6E8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/70% no-repeat}
+  .apx-ac__guest{margin:1.75rem 0 0;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.14);font-size:.9375rem;line-height:1.55;color:#D9C2C6}
+  .apx-ac__lr{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .apx-ac__pw{position:relative;display:block}
+  .apx-ac__pw input{padding-right:48px}
+  .apx-ac__eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:var(--ap-ink-soft);cursor:pointer}
+  .apx-ac__eye[aria-pressed="true"]{color:var(--ap-blush-deep)}
+  .apx-ac__back{justify-self:center;font-size:.9375rem;font-weight:700;color:var(--ap-blush-deep)}
+  .apx-ac__main .apx-ac__btn:not(.apx-ac__btn--ghost){background:var(--ap-ink)}
+  .apx-ac__f input::placeholder{color:#A58A91}
+  @media (min-width:900px){.apx-ac__shell{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}.apx-ac__side{display:block}}
+  .apx-ac__grid{display:grid;gap:16px;margin-top:1rem}
+  .apx-ac__box{padding:18px;border:1px solid var(--ap-line);border-radius:18px;background:var(--ap-cream,#FBF7F5)}
+  .apx-ac__box .apx-ac__h2{margin-top:0}
+  .apx-ac__orders{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+  .apx-ac__orders a{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px;border-radius:12px;background:#fff;color:var(--ap-ink);text-decoration:none;font-size:.9375rem}
+  .apx-ac__orders span:nth-child(2){grid-column:1;font-size:.8125rem;color:var(--ap-ink-soft)}
+  .apx-ac__orders b{grid-column:2;grid-row:1/3;align-self:center}
+  .apx-ac__out{display:inline-flex;align-items:center;min-height:44px;margin-top:1.25rem;font-weight:800;color:var(--ap-blush-deep)}
+  @media (min-width:760px){.apx-ac__grid{grid-template-columns:1.4fr 1fr}}
+  @media (max-width:420px){.apx-ac__row{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){.apx-ac__btn{transition:none}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Customer account",
+  "settings": [
+    { "type": "header", "content": "Left panel (Sign in and Create account)" },
+    { "type": "text", "id": "pill", "label": "Small label", "default": "Member perks" },
+    { "type": "text", "id": "side_heading", "label": "Heading", "default": "Your day and night routine, simplified." },
+    { "type": "textarea", "id": "side_text", "label": "Text", "default": "Sign in to see your orders and keep your details in one place." },
+    { "type": "text", "id": "offer_label", "label": "Highlight label", "default": "Subscribe and save" },
+    { "type": "text", "id": "offer_title", "label": "Highlight title", "default": "Subscribe & save 20% + a free refillable travel tin", "info": "Keep this the same as your real offer. Empty hides the box." },
+    { "type": "text", "id": "offer_text", "label": "Highlight text", "default": "Free US shipping on orders $35+" },
+    { "type": "textarea", "id": "perks", "label": "Perks (one per line)", "default": "Track your orders in one place\nSave your address for faster checkout\nReorder your patches in a few taps" },
+    { "type": "text", "id": "side_note", "label": "Note at the bottom", "default": "Prefer not to sign in? Guest checkout is always available." },
+    { "type": "header", "content": "Page" },
+    { "type": "select", "id": "mode", "label": "Page", "default": "login", "options": [
+      { "value": "login", "label": "Sign in" }, { "value": "register", "label": "Create account" }, { "value": "account", "label": "Account home" } ] }
+  ],
+  "presets": [{ "name": "Customer account" }]
+}
+{% endschema %}

@@ -9,6 +9,7 @@
       <div class="apx-announce__msgs">
         {%- for block in section.blocks -%}
           <p class="apx-announce__msg" data-ap-msg {{ block.shopify_attributes }}{% unless forloop.first %} hidden{% endunless %}>
+            {%- if block.settings.pill != blank -%}<span class="apx-announce__pill">{{ block.settings.pill }}</span>{%- endif -%}
             {%- if block.settings.link != blank -%}
               <a href="{{ block.settings.link }}">{{ block.settings.text }}</a>
             {%- else -%}
@@ -67,11 +68,14 @@
   .apx-announce__loc select{min-height:44px;padding:0 .5rem;border:0;background:transparent;color:var(--ap-white);font-weight:700;cursor:pointer}
   .apx-announce__loc option{color:var(--ap-ink)}
   .apx-announce__msgs{flex:0 1 auto;text-align:center;font-size:.875rem;font-weight:600}
-  .apx-announce__msg{margin:0}
+  .apx-announce__msg{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.35rem .75rem;margin:0}
+  .apx-announce__pill{display:inline-block;padding:.22rem .7rem;border:1px solid rgba(255,255,255,.55);border-radius:999px;font-size:.6875rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+  .apx-announce{background:linear-gradient(90deg,#2A0A11,var(--ap-ink) 60%,#4A0E1A)}
   .apx-announce a{color:var(--ap-white)}
   .apx-announce__toggle{color:var(--ap-white);width:44px;height:44px}
   .apx-announce__toggle:hover{background:rgba(255,255,255,.14)}
   .apx-announce :focus-visible{outline-color:var(--ap-white);box-shadow:0 0 0 5px var(--ap-ink)}
+  @media (max-width:559px){.apx-announce__pill{display:none}.apx-announce__row{min-height:38px;padding-block:5px;gap:.15rem 1rem}.apx-announce__msgs{font-size:.75rem;line-height:1.35}.apx-announce__sub{display:none}}
 {% endstylesheet %}
 
 {% schema %}
@@ -98,6 +102,7 @@
       "name": "Message",
       "settings": [
         { "type": "text", "id": "text", "label": "Text", "default": "Free US shipping on kits" },
+        { "type": "text", "id": "pill", "label": "Small pill before the text (optional)", "info": "For example a free-shipping threshold. Must match your real offer." },
         { "type": "text", "id": "subtext", "label": "Second line (optional)" },
         { "type": "url", "id": "link", "label": "Link (optional)" }
       ]
@@ -107,8 +112,7 @@
     {
       "name": "Announcement bar",
       "blocks": [
-        { "type": "message", "settings": { "text": "Free US shipping on kits", "subtext": "Day and night patches in one kit" } },
-        { "type": "message", "settings": { "text": "Subscribe & save 15%" } }
+        { "type": "message", "settings": { "pill": "Free US shipping $35+", "text": "Subscribe & save 20% + a free refillable travel tin on monthly kits" } }
       ]
     }
   ]

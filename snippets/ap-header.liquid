@@ -1,11 +1,17 @@
 {%- comment -%}
-  Header: nav left (links with sub-links become dropdowns), centered logo, nav right + account + cart.
+  Header: nav left (plain links, no dropdowns), centered logo, nav right + account + cart.
   Under 760px the nav collapses into a menu button. Cart link opens the drawer when it exists (JS), else goes to /cart.
-  Menu: Online Store > Navigation > "Main menu". Links with sub-links get a dropdown.
+  Menu: Online Store > Navigation > "Main menu". Sub-links are ignored: every item is a plain link.
 {%- endcomment -%}
 {%- liquid
   assign menu = linklists['main-menu']
-  assign half = menu.links.size | divided_by: 2.0 | ceil
+  assign use_custom = false
+  for n in (1..5)
+    assign lk = 'nav_' | append: n | append: '_label'
+    if settings[lk] != blank
+      assign use_custom = true
+    endif
+  endfor
 -%}
 <header class="apx-header" data-ap-header>
   <div class="apx-wrap apx-header__row">
@@ -13,37 +19,42 @@
       {% render 'ap-icon', name: 'menu', size: 24 %}
     </button>
 
-    <nav class="apx-header__nav apx-header__nav--l" aria-label="{{ 'ap.header.primary_nav' | t }}">
-      <ul>
-        {%- for link in menu.links limit: half -%}
-          {% render 'ap-nav-item', link: link %}
-        {%- endfor -%}
-      </ul>
-    </nav>
-
     <a class="apx-header__brand" href="{{ routes.root_url }}" aria-label="{{ settings.brand_name }}">
       {%- if settings.logo != blank -%}
         {{ settings.logo | image_url: width: 480 | image_tag: width: settings.logo_width, alt: settings.brand_name, loading: 'eager' }}
       {%- else -%}
-        {% render 'ap-logo' %}
+        {%- assign logo_name = settings.brand_name | strip | downcase -%}
+        {%- if logo_name == 'zlofy' -%}
+          <img class="apx-header__logo" src="{{ 'ap-logo.svg' | asset_url }}" alt="{{ settings.brand_name }}" width="115" height="52">
+        {%- else -%}
+          {% render 'ap-logo' %}
+        {%- endif -%}
       {%- endif -%}
     </a>
 
-    <div class="apx-header__right">
-      <nav class="apx-header__nav" aria-label="{{ 'ap.header.secondary_nav' | t }}">
-        <ul>
-          {%- for link in menu.links offset: half -%}
-            {% render 'ap-nav-item', link: link %}
+    <nav class="apx-header__nav" aria-label="{{ 'ap.header.primary_nav' | t }}">
+      <ul>
+        {%- if use_custom -%}
+          {%- for n in (1..5) -%}
+            {%- assign lk = 'nav_' | append: n | append: '_label' -%}
+            {%- assign uk = 'nav_' | append: n | append: '_url' -%}
+            {%- if settings[lk] != blank -%}{%- assign nav_href = settings[uk] | default: '/' -%}{%- if nav_href == 'product' -%}{%- assign nav_href = collections.all.products.first.url | default: '/collections/all' -%}{%- endif -%}<li><a href="{{ nav_href }}"{% if nav_href == request.path %} aria-current="page"{% endif %}>{{ settings[lk] }}</a></li>{%- endif -%}
           {%- endfor -%}
-        </ul>
-      </nav>
+        {%- else -%}
+          {%- for link in menu.links -%}{% render 'ap-nav-item', link: link %}{%- endfor -%}
+        {%- endif -%}
+      </ul>
+    </nav>
+
+    <div class="apx-header__right">
       {%- if shop.customer_accounts_enabled -%}
-        <a class="apx-header__cart" href="{{ routes.account_url }}" aria-label="{{ 'ap.header.account' | t }}">
+        <a class="apx-header__cart apx-header__acct" href="{{ routes.account_url }}" aria-label="{% if customer %}{{ 'ap.header.account' | t }}{% else %}Sign in{% endif %}">
           {% render 'ap-icon', name: 'user', size: 24 %}
+          <span class="apx-header__acct-t">{% if customer %}Account{% else %}Sign in{% endif %}</span>
         </a>
       {%- endif -%}
-      <a class="apx-header__cart" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">
-        {% render 'ap-icon', name: 'bag', size: 24 %}
+      <a class="apx-header__cart apx-header__bag" href="{{ routes.cart_url }}" data-ap-cart-toggle aria-label="{{ 'ap.header.cart' | t }}">
+        <span class="apx-header__bag-t" aria-hidden="true">{{ 'ap.header.bag' | t }}</span>
         <span class="apx-header__count" data-ap-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
@@ -51,18 +62,19 @@
 
   <nav class="apx-mobilemenu" id="ap-mobile-menu" data-ap-menu hidden aria-label="{{ 'ap.header.primary_nav' | t }}">
     <ul class="apx-wrap">
-      {%- for link in menu.links -%}
-        <li>
-          <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-          {%- if link.links.size > 0 -%}
-            <ul>
-              {%- for child in link.links -%}
-                <li><a href="{{ child.url }}">{{ child.title }}</a></li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </li>
-      {%- endfor -%}
+      {%- if use_custom -%}
+        {%- for n in (1..5) -%}
+          {%- assign lk = 'nav_' | append: n | append: '_label' -%}
+          {%- assign uk = 'nav_' | append: n | append: '_url' -%}
+          {%- if settings[lk] != blank -%}{%- assign nav_href = settings[uk] | default: '/' -%}{%- if nav_href == 'product' -%}{%- assign nav_href = collections.all.products.first.url | default: '/collections/all' -%}{%- endif -%}<li><a href="{{ nav_href }}"{% if nav_href == request.path %} aria-current="page"{% endif %}>{{ settings[lk] }}</a></li>{%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for link in menu.links -%}
+          <li>
+            <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
     </ul>
   </nav>
 </header>

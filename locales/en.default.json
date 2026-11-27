@@ -21,6 +21,7 @@
       "primary_nav": "Primary",
       "secondary_nav": "Secondary",
       "cart": "Cart",
+      "bag": "Bag",
       "menu": "Menu",
       "account": "Account",
       "cart_count_one": "Cart, {{ num }} item",
@@ -56,7 +57,8 @@
       "default_warnings": "For external use. Do not use on broken, infected, or irritated skin. Stop use if irritation occurs. Not designed for deep or cystic bumps.",
       "wear_time": "Typical wear time:",
       "material": "Material",
-      "contact": "Questions or reactions? Contact {{ email }}",
+      "contact": "Questions or reactions? Contact",
+      "contact_form": "send a message",
       "show_video": "Show video {{ number }} of {{ total }}"
     },
     "trust": {
@@ -140,14 +142,28 @@
       "next": "Next videos"
     },
     "before_after": {
-      "before": "Before",
-      "after": "After",
-      "slider": "Compare before and after"
+      "before": "Patch ready",
+      "after": "Patch worn",
+      "slider": "Compare the patch before and after wearing",
+      "drag": "Drag"
     },
     "kit": {
       "quantity": "Quantity:",
       "price": "Price",
       "per_patch": "About per patch"
+    },
+    "newsletter": {
+      "email": "Email address",
+      "placeholder": "Your email",
+      "thanks": "Thanks, you are on the list.",
+      "error": "Enter a valid email address."
+    },
+    "banner": {
+      "pause": "Pause banner video",
+      "play": "Play banner video"
+    },
+    "ingredient": {
+      "pause": "Pause or play the close-up video"
     }
   }
 }

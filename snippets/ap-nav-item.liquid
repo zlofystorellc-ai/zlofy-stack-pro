@@ -1,16 +1,2 @@
-{%- comment -%} One desktop nav item. A link with sub-links becomes a disclosure dropdown. {%- endcomment -%}
-{%- if link.links.size > 0 -%}
-  <li class="apx-dd" data-ap-dd>
-    <button type="button" class="apx-dd__btn" aria-expanded="false" data-ap-dd-btn>
-      <span>{{ link.title }}</span>{% render 'ap-icon', name: 'chevron', size: 16 %}
-    </button>
-    <ul class="apx-dd__panel" hidden>
-      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-      {%- for child in link.links -%}
-        <li><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
-      {%- endfor -%}
-    </ul>
-  </li>
-{%- else -%}
-  <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
-{%- endif -%}
+{%- comment -%} One desktop nav item: always a plain link. Sub-links in the menu are ignored on purpose (no dropdowns). {%- endcomment -%}
+<li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>

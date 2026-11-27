@@ -1,0 +1,85 @@
+{%- comment -%}
+  "Delivered across the United States": a dotted globe you can drag to spin, centred on the US, with a short heading, up to three
+  short points and a button. Decoration only: the map is an illustration and it makes no claim about how many places you ship to.
+  Keep every line true for your store (shipping times, tracking). Points left empty are hidden.
+{%- endcomment -%}
+<section class="apx-gl" aria-labelledby="{{ section.id }}-title" data-ap-globe-root>
+  <div class="apx-wrap apx-gl__grid">
+    <div class="apx-gl__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="apx-gl__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="apx-gl__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="apx-gl__p">{{ section.settings.text }}</p>{%- endif -%}
+      <ul class="apx-gl__pts">
+        {%- for n in (1..3) -%}
+          {%- assign pk = 'point_' | append: n -%}
+          {%- if section.settings[pk] != blank -%}<li class="apx-gl__pt apx-gl__pt--{{ n }}"><i aria-hidden="true"></i><span>{{ section.settings[pk] }}</span></li>{%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <div class="apx-gl__btns">
+        {%- if section.settings.button_label != blank -%}
+          <a class="apx-gl__btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}<span aria-hidden="true"> &rarr;</span></a>
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank and section.settings.button2_link != blank -%}
+          <a class="apx-gl__btn apx-gl__btn--ghost" href="{{ section.settings.button2_link }}">{{ section.settings.button2_label }}<span aria-hidden="true"> &rarr;</span></a>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="apx-gl__stage">
+      <div class="apx-gl__glow" aria-hidden="true"></div>
+      <canvas class="apx-gl__cv" data-ap-globe tabindex="0" role="img" aria-label="{{ section.settings.map_alt | escape }}"></canvas>
+      <p class="apx-gl__hint">{{ section.settings.hint }}</p>
+    </div>
+  </div>
+</section>
+<script src="{{ 'ap-globe.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .apx-gl{position:relative;overflow:hidden;padding-block:clamp(48px,7vw,96px);background:radial-gradient(900px 520px at 78% 50%,rgba(180,86,106,.28),transparent 70%),linear-gradient(180deg,var(--ap-ink) 0%,#4A0E1A 100%);color:#F5E6E8}
+  .apx-gl__grid{display:grid;gap:36px;align-items:center}
+  .apx-gl__eyebrow{margin:0 0 14px;color:#E4A3B1;font-size:.9375rem;font-weight:600;letter-spacing:.04em}
+  .apx-gl__h{margin:0;font-family:var(--ap-font-display);font-size:clamp(2.1rem,4.6vw,3.6rem);font-weight:400;line-height:1.08;letter-spacing:-.01em;color:#fff}
+  .apx-gl__p{max-width:30em;margin:18px 0 0;font-size:1.125rem;line-height:1.6;color:#E8D3D6}
+  .apx-gl__pts{display:grid;gap:12px;margin:26px 0 0;padding:0;list-style:none}
+  .apx-gl__pt{display:flex;align-items:center;gap:14px;font-size:1.0625rem;color:#fff}
+  .apx-gl__pt i{flex:none;width:10px;height:10px;border-radius:50%;background:#fff}
+  .apx-gl__pt--2 i{background:#E4A3B1;box-shadow:0 0 12px rgba(228,163,177,.8)}
+  .apx-gl__pt--3 i{background:#E9C9A5}
+  .apx-gl__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .apx-gl__btn{display:inline-flex;align-items:center;min-height:54px;padding:0 1.9rem;border-radius:999px;background:#F5E6E8;color:#3B0A14;font-weight:800;text-decoration:none;box-shadow:0 14px 30px rgba(0,0,0,.35);transition:transform .2s,background .2s}
+  .apx-gl__btn:hover{transform:translateY(-2px);background:#fff}
+  .apx-gl__btn--ghost{background:transparent;color:#F5E6E8;border:1.5px solid rgba(245,230,232,.55);box-shadow:none}
+  .apx-gl__btn--ghost:hover{background:rgba(255,255,255,.1);color:#fff}
+  .apx-gl__btn:focus-visible,.apx-gl__cv:focus-visible{outline:3px solid #fff;outline-offset:4px}
+  .apx-gl__stage{position:relative;display:grid;justify-items:center}
+  .apx-gl__glow{position:absolute;left:50%;top:46%;width:86%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(228,163,177,.2),transparent 68%);pointer-events:none}
+  .apx-gl__cv{position:relative;display:block;width:min(100%,520px);aspect-ratio:1;cursor:grab;touch-action:pan-y;-webkit-tap-highlight-color:transparent;--g-dim:rgba(245,230,232,.5);--g-us:#ffffff;--g-hot:#E4A3B1;--g-ring:rgba(228,163,177,.45)}
+  .apx-gl__cv.is-drag{cursor:grabbing}
+  .apx-gl__hint{margin:6px 0 0;font-size:.875rem;color:#C9A9AE}
+  @media (min-width:900px){.apx-gl__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px}}
+  @media (prefers-reduced-motion:reduce){.apx-gl__btn{transition:none}}
+  @media (max-width:899px){.apx-gl{padding-block:44px}.apx-gl__grid{gap:12px}.apx-gl__h{font-size:clamp(1.9rem,8vw,2.4rem)}.apx-gl__pts{margin-top:18px}.apx-gl__btns{margin-top:20px}.apx-gl__btn{min-height:50px}.apx-gl__cv{width:min(100%,360px)}}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "US delivery globe",
+  "tag": "div",
+  "enabled_on": { "templates": ["product", "index"] },
+  "settings": [
+    { "type": "paragraph", "content": "A dotted world globe you can drag to spin, with the United States highlighted. Decoration only. Keep every line true for your store." },
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Delivery" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Delivered across the United States." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Pick your kit and we ship it to your door in the US.", "info": "Say only what is true, for example where you really ship." },
+    { "type": "text", "id": "point_1", "label": "Point 1 (empty hides it)", "default": "Ships in 3 to 5 business days", "info": "Must match your real shipping times." },
+    { "type": "text", "id": "point_2", "label": "Point 2 (empty hides it)", "default": "A tracking email when your order ships" },
+    { "type": "text", "id": "point_3", "label": "Point 3 (empty hides it)", "default": "" },
+    { "type": "text", "id": "button_label", "label": "Button text (empty hides it)", "default": "Shop the kit" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Leave empty to go to all products." },
+    { "type": "text", "id": "button2_label", "label": "Second button text (empty hides it)", "default": "" },
+    { "type": "url", "id": "button2_link", "label": "Second button link", "info": "For example /pages/find-us, a page that uses the page.find-us template and lists only the places you add." },
+    { "type": "text", "id": "hint", "label": "Hint under the globe", "default": "Drag to spin the globe." },
+    { "type": "text", "id": "map_alt", "label": "Globe description (for screen readers)", "default": "A dotted world globe with the United States highlighted. Illustration. Use the left and right arrow keys to spin it." }
+  ],
+  "presets": [ { "name": "US delivery globe" } ]
+}
+{% endschema %}

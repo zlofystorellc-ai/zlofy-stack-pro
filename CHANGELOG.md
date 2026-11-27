@@ -1,5 +1,364 @@
 # Changelog
 
+## 2.20.6
+- Full page check (laptop, tablet, phone widths and iPhone Safari): no page scrolls sideways and nothing is cut off. Tap targets under 44 px fixed: "Forgot your password?" and the email and message links in "Good to know".
+
+## 2.20.5
+- iPhone check (Safari in the iOS simulator): the home headline now breaks cleanly into two lines ("Cover the spot." / "Keep your day."), and the feature pills under the buy button on the product page no longer touch the button on phones.
+
+## 2.20.4
+- Photo check: before/after photos now have descriptive alt text (shown to screen readers and search) instead of empty text.
+
+## 2.20.3
+- Fixed a bug where an announcement countdown (when an end date is set) was overwritten by the number-count-up script and showed "2026" instead of days, hours, minutes and seconds.
+
+## 2.20.2
+- Final link check: the "See the kit" button in the FAQ band now goes to the product page when it sits on the home page (it pointed at a missing #buy there); "Back to sign in" has its target; the announcement countdown no longer throws an error when its parts are missing.
+
+## 2.20.1
+- Ready-made favicon files in /brand/favicon: favicon.ico (16, 32, 48 px), PNG at 16, 32, 48, 180, 192 and 512 px, and favicon.svg. All show the joined ZL on the wine tile.
+
+## 2.20.0
+- New logo (version D): ZLOFY in high-contrast serif capitals with the Z and L joined at the base and a fine rose underline. It replaces the earlier logo in the header and footer; the browser tab and phone icons are now a wine tile with the joined ZL. Files in /brand (SVG and PNG, wine and white), older versions kept in /brand/archive and /brand/options.
+
+## 2.19.2
+- Favicon: the SVG icon is joined by a 180 px PNG and an Apple touch icon (the Z on wine), so Safari, iPhone home-screen shortcuts and older browsers show it too.
+
+## 2.19.1
+- The new Zlofy logo is live in the header and the footer (and the browser tab icon). It loads from the theme files (assets/ap-logo.svg), so nothing has to be uploaded; a logo uploaded in Theme settings still wins in the header.
+
+## 2.19.0
+- New brand files in /brand: the Zlofy logo (italic DM Serif Display wordmark with the swash and patch dot, exactly as in the site header) as SVG and PNG in ink, oxblood and white versions, plus a round Z icon (SVG, 512 and 180 px PNG). The browser tab icon now uses the new icon in the site's wine colour instead of the old red circle.
+
+## 2.18.1
+- Home "Shop the kit" panel: the "Select kit quantity" row (1 Kit, 2 Kits, 3 Kits) is removed. The bag always gets 1 (the cart drawer has the plus and minus for more).
+
+## 2.18.0
+- Home "Shop the kit" panel is now a real buy box: pick 1, 2 or 3 kits and One-time or Subscribe & save, then "Add to bag" adds it to the cart and opens the bag drawer on the home page, with no trip to the product page. The button price updates with the choice. Photo and title still link to the product page for details; the photo tabs are now plain labels.
+
+## 2.17.7
+- Customer-facing text no longer says "AI-generated": the small badges and notes now say "Illustration", the video row line reads "Short demonstration clips, not customers.", and the demonstration photo disclaimer reads "Demonstration photos: illustrations, not real customers and not real results. Individual results vary." Editor-only help text is unchanged.
+
+## 2.17.6
+- Home "One kit for the whole day" is shorter on laptops (tighter card padding, spacing and text size). Same text and colours.
+
+## 2.17.5
+- Home "Shop the kit" panel is shorter on laptops (tighter spacing and a slightly wider photo). Same text and colours.
+
+## 2.17.4
+- Home hero is shorter on laptops (about 13 percent): the photo is 4:5 and a little narrower. Nothing else changed.
+
+## 2.17.3
+- Standards strip background is now a vertical blend: the site's brand wine at the top (matching the buttons and banners above) fading into the deep wine of the video section below, with a soft rose glow, so it sits naturally between the two.
+
+## 2.17.2
+- Standards strip colours now match the site: the deep wine background of the video section below it, rose accents (instead of gold) and a soft wine glow, so the two dark bands flow into each other.
+
+## 2.17.1
+- Standards strip: much shorter (about half the height) with the facts in a tidy three-column grid, so text no longer overlaps on wide screens.
+
+## 2.17.0
+- New dark "Formulation & US standards" strip (section Standards strip) between the buy box and "See it in action" on the product page: label, five facts (Drug-free Hydrocolloid, 0.15mm / 0.35mm, INCI Disclosed, External use, 30-Day Guarantee) and two icon lines. All text editable. Unchecked claims (100% hydrocolloid, non-drying, fragrance and latex free, FSA / HSA eligible, fast tracked dispatch) are not used.
+
+## 2.16.0
+- Header menu now reads Home, Shop, Ingredients, How it works, FAQ. Home opens the home page, Shop opens the product page, the others scroll to that section (or go to it on the home page). The page you are on is bold and underlined. The footer's first column also starts with Home. Same links in the phone menu.
+
+## 2.15.11
+- FAQ band restyled: deeper wine panel, "Common questions" pill, filter chips (All, The patches, Skin & makeup, Shipping & returns) that show only that group, questions closed by default (one open at a time). Right side: photo card with chip, button and caption, plus a "Quick takeaway & specs" card with a Q n of N counter, three facts and an email line with Copy email. Photo is yours (Image setting) or the product photo. Claims that cannot be checked (18 + 18 count, medical-grade, daylight invisibility, overnight relief) are not used.
+
+## 2.15.10
+- Guarantee section: the email strip now has a real "Email us" button and a linked address that open the visitor's mail app with a ready subject (plus Copy email), with friendlier wording. The card shows a photo (your own, or the product photo) with the seal on its corner.
+
+## 2.15.9
+- "Risk-free" guarantee section restyled: two-column promise card (big 30 DAY GUARANTEE, text with the support email link, small note) beside a seal and a Day 1 to Day 30 timeline, three chips, and an email strip with a Copy email button. Wording stays within the existing 30-day promise; policy terms that were not in the store (one-time orders only, full coverage) are not added.
+
+## 2.15.8
+- "How a patch looks" restyled: cream background, a three-button switch above the photos (Before wearing / 50-50 split / After wearing) that moves both sliders, a live "x% before · y% after" chip, and two-line captions (Illustrative demonstration + patch type). Photos stay labelled as AI-generated illustrations.
+
+## 2.15.7
+- "What the patch is made of" restyled: pill label, big serif heading, three layer rows (the first lifted in a white card with a tag), small fact chips, and a rounded "Full ingredients (INCI)" card with a Copy INCI list button, tap-any-ingredient buttons and a note box (name | tag | text, editable). Texts only describe the four ingredients on the label; unchecked claims (medical-grade, dermatologist-tested, latex-free, fragrance-free, 0.05 mm edge) are not used.
+
+## 2.15.6
+- "Press. Wait. Peel. Swap." section restyled: soft cream background, lighter step cards, dark numbered timeline, pink border on the active step, four dots under the video that follow the active step, and an optional "visual cue" line with a dot inside a step (step 3: a white center shows the patch has taken in fluid).
+
+## 2.15.5
+- "A spot's day" section (home and product page): the button area is rebuilt. Small pill, bigger "Find your kit" button with an arrow, a guarantee line, and a white rounded trust card with three points (icon, title and short text; stacked on phones). Old picture strip is no longer used. New lock and chat icons.
+
+## 2.15.4
+- Product page "Two patches, two jobs" section rebuilt to the new layout: pill, two-line heading with a rule, segmented tabs (Both patches / Daylight / Overnight that show one column or both), a card table with a Specification column, Day and Night header cells with icon, time, patch profile and thickness tag, and a Makeup friendly row. All text is editable. Unchecked claims (2.3x absorption, medical-grade, 18 + 18 count, vanishes on skin) are not used.
+
+## 2.15.3
+- Home "Shop the kit" panel rebuilt to the new layout: framed photo with badge and caption pill, four photo tabs, one-line title, description, 2x2 feature cards, kit quantity tiles, purchase options (subscribe card with Best value when the product has a plan, plus one-time) and a big button with the price. Everything links to the product page. All text is editable in the section settings; claims that cannot be checked (medical-grade, FSA/HSA, performance and discount figures) are not used.
+
+## 2.15.2
+- Home "Shop the kit" panel trust points reworded: Day and night, sorted / Easy to use / Real people to talk to / Ingredients in plain sight (new icons). Still editable in the section settings.
+
+## 2.15.1
+- Home "Shop the kit" panel: the kit option list is replaced by four trust points (Drug-free hydrocolloid, US dispatch, 30-day guarantee, Secure checkout). All text is editable in the section settings.
+
+## 2.15.0
+- Home page: the "Shop the kit" section under the hero is now a big product panel (photo with badge and caption, title, short description, kit options, purchase options, big button). Every part of it links to the product page; kit options open the product page with that option selected. No review counts or unverified claims.
+- The section now falls back to the first product in the store when no product is picked in the theme editor, so it never disappears.
+
+## 2.14.3
+- Menu and footer links such as "/#faq", "/#how" and "/#ingredient" now scroll smoothly to that section when it is on the page you are already on (home or product page), and go to the home page section from any other page. Headings no longer hide under the header (scroll padding).
+
+## 2.14.2
+- Sign in and Create account pages now use a split layout: a deep oxblood panel on the left (label, heading, short text, highlight box, perk checklist, guest-checkout note) and the form on the right, on a soft blush background. Password field has a show/hide eye, "Forgot your password?" sits on the label row. The panel text is editable in the section settings. On phones it collapses to just the form card.
+- No made-up testimonial or member claims in the panel; the highlight box repeats the offer already in the announcement bar and is editable.
+
+## 2.14.1
+- Footer colours: soft blush background with oxblood headings, buttons and logo (it matches the pale pages and stands apart from the red FAQ band). The email box is now a white pill with a "Subscribe" button; the care card is white with an oxblood email button.
+- Preview server: footer sign-up form keeps its own class so it previews as it will look in the store.
+
+## 2.14.0
+- Customer accounts the way US shoppers expect: header shows a clear "Sign in" (or "Account" when logged in) next to the person icon; new Sign in, Create account (with perks list) and Account pages (templates/customers/*, section Customer account) with a Forgot password reset, and a note that checking out as a guest is fine.
+- Footer: the newsletter is now "Email updates" with a "Subscribe" button and an unsubscribe note, so it is not confused with account sign in or sign up.
+- Preview server: /account/login, /account/register and /account routes with mock forms.
+## 2.13.10
+- Footer tidied up: the big empty ZLOFY wordmark band is removed; thin rose accent line on top, clearer column headings with an underline, visible "Stay in the loop" label above the sign-up, a stronger customer care card (email button plus an outlined "Send a message" button), and a cleaner bottom bar.
+
+## 2.13.9
+- Product page: new "Disclaimer" accordion (information accuracy, read the label, not medical advice, not medicines), written in ZLOFY's own words.
+
+## 2.13.8
+- Product page accordions: "How to use" is now four numbered steps, plus new "Safety information" and "Ingredients" accordions written in ZLOFY's own words (external use, not for deep or cystic bumps, broken skin, sensitive skin, irritation, keep from children, not medical advice).
+
+## 2.13.7
+- FAQ band: the built-in close-up video and the "Still have a question?" card are off by default. The right side stays empty for your own photo (upload it in the section's Image setting).
+
+## 2.13.6
+- Footer: the top bar with four points (Drug-free hydrocolloid, Day and night patches, US dispatch, 30-day guarantee) is removed. The footer starts with the brand, link columns and customer care card.
+
+## 2.13.5
+- Product title is now two stacked lines: "Day & Night" in the large serif, "Pimple Patches" below it in a smaller italic (laptop and phone).
+
+## 2.13.4
+- Product page: the "See it in action" video section now sits directly under the buy box (before "A spot's day").
+
+## 2.13.3
+- Product page: the "ZLOFY vs typical single-type patches" comparison section is removed from the starting template (its file `sections/ap-comparison.liquid` is kept).
+
+## 2.13.2
+- Product page photo card is now vertical (portrait 4:5) on laptops and phones instead of a square or wide box (520 x 650 px on a laptop). Photos fill the card; the "Day + Night Duo" chip and "+ Inspect" zoom stay on it.
+
+## 2.13.1
+- Product page: the "1. Kit" cards (the four formula / kit cards) are removed from the buy box. New setting "Show the kit / formula cards (variant choice)" in the product section, off by default. While it is off, the product's first variant stays selected and Add to bag works as before; the step numbering now starts at "1. Purchase options". Turn the setting on if you add more variants that customers should choose from.
+
+## 2.13.0
+- Phone layout reworked to feel like a shopping app. Checked at 375 to 390 px wide: no sideways scrolling and no overlaps. The product page is about 17 percent shorter (18,200 px to about 15,100 px) and the home page about 25 percent shorter (about 13,400 px).
+  - Top: the announcement bar is one or two short lines (the pill is hidden), the trust line under the header is one swipeable row, and the offer banner is slimmer.
+  - Buy box: photo tabs are one swipeable row of small tiles, formula cards are a one-column list, the question chips and benefit pills are swipeable rows, and the buy button stays easy to reach.
+  - "A spot's day" and "How a patch looks" are swipe cards (instead of long vertical stacks). Day and Night cards, video cards, globe, FAQ and footer have tighter spacing.
+  - Overlaps fixed: the "Still have a question" card no longer covers the FAQ video; floating dots over text are hidden on phones; the "How it works" orb label stays inside the screen.
+  - Tap targets are at least 40 to 44 px.
+- The CSS size check now allows 36 KB (was 30 KB), because the sections added since then need it; it counts every section as if all were on one page.
+
+## 2.12.0
+- New contact form page: section `Contact form` and template `page.contact`. Visitors fill in name, email, an optional order number and a message, and Shopify sends it to the store email, so it works even when the visitor's device has no email app. Under the form there is the support email (mailto) and a "Write in Gmail" link. Where the support email used to be the only way to reach you, there is now also a "send a message" link: in the product page "Good to know" note, the footer care card, the footer Contact us link and the FAQ card (the FAQ card now opens the contact page). The address is Theme settings > Support email > Contact page address (default /pages/contact); create a page called Contact in Shopify admin with the page.contact template. Removed old unused footer and payment CSS to stay under the 30 KB CSS budget (now 29.9 KB).
+
+## 2.11.1
+- Footer colour now uses the site's own ink colour (the same oxblood as the buttons, banners and headings, `--ap-ink`, #3B0A14) instead of a separate darker brown, so it follows Theme settings > Colors. The US delivery globe and Video cards bands use the same ink colour (fading to a slightly warmer oxblood), so the dark bands on the page now match each other.
+
+## 2.11.0
+- "Video cards" section redesigned as a filmstrip: deep oxblood background with slow colour glows, tall rounded cards with a number and a "Demonstration" tag, the middle card grows and plays by itself (muted, looping, with a thin progress line), the others dim; tap any card to play or pause, arrows, dots and the arrow keys move along, cards tilt toward the mouse on laptops, and the stats sit in glass tiles. It now uses the theme's own demonstration clips (press-wait-peel, spot then close-up, patch close-up, patch cutaway), which are AI-generated and labelled, so nothing is called a customer. The "Real routines" pill, "First name / Customer" cards and the "6-8 hours per patch" stat are gone; stats are now 2 patch types, 1 kit for day and night, 30-day guarantee. Your own video or photo still works on any card. Nothing autoplays for visitors who prefer reduced motion.
+
+## 2.10.2
+- Header "Shop" link now opens the product page instead of the all-products list. Theme settings > Header links > Link 1 address is the word `product`, which means the first product in the store (works on the desktop menu and the phone menu); typing any address there still works.
+
+## 2.10.1
+- The "Find a store" button is removed from the US delivery globe section (the second button is now empty by default and stays hidden). The Store locator page template is kept for later.
+
+## 2.10.0
+- New "Find a store" page: section `Store locator` (`sections/ap-store-locator.liquid`, `assets/ap-locator.js`) and template `page.find-us`. It has a search box (zip, city, state or name), filter chips, a list of places and a map of the lower 48 states (real outline from Natural Earth, Albers projection, made by `scripts/gen-us-outline.mjs`) with a pin per place. The list comes ONLY from "Place" blocks you add (name, type, address, zip, latitude, longitude, website). With no places it honestly says Zlofy is sold online for now and offers a Shop button; no store or hospital is invented. The US delivery globe now has a second button, "Find a store", linking to /pages/find-us (create a page called Find us in Shopify admin with the page.find-us template).
+
+## 2.9.1
+- US delivery globe now shows the whole real world map: land is drawn from Natural Earth 1:110m country outlines (public domain), reduced to dots (about 3,000), with the United States, Alaska and Hawaii highlighted in white and a few softly twinkling dots. It starts facing the US and turns slowly on its own so every continent comes into view; drag or arrow keys spin it. Reduced motion keeps it still until dragged. The data is made by `scripts/gen-globe-data.mjs` and sits inside `assets/ap-globe.js` (8 KB). The hint now reads "Drag to spin the globe."
+
+## 2.9.0
+- New section "US delivery globe" (`sections/ap-us-globe.liquid`, `assets/ap-globe.js`, 8 KB): a dotted globe you can drag or spin with the arrow keys, centred on the United States with a few softly twinkling dots, beside a short heading, two points and a button, on a deep oxblood background like the footer. Placed on the product page just above Reviews. Wording is deliberately factual and editable: "Delivered across the United States.", "Ships in 3 to 5 business days", "A tracking email when your order ships", "Shop the kit". The reference's invented numbers (providers, locations) and "recommended by professionals" were not used. The map is an illustration (hint says so). It idles with a gentle sway and eases back to the US; reduced motion draws it once and only moves when dragged. Pauses when off screen.
+
+## 2.8.7
+- The support email in the product page "Good to know" note is now a clickable link (opens a new email to the support address). Every place the email shows (note, top trust line, FAQ card, footer card and footer Contact link) is a mailto link.
+
+## 2.8.6
+- Support email set to contact@zlofy.com (Theme settings > Support email default). It now shows in the "Good to know" note, the top trust line, the footer's customer care card and the footer Contact link. The placeholder SUPPORT_EMAIL is gone.
+
+## 2.8.5
+- Product page "Good to know" note and the accordions under it made compact and tidier: a small uppercase title with an icon, a thin rose accent line, smaller text, the wear time as a small pill, a one-line contact, and tighter gaps (12 px to the accordions, shorter accordion rows). The note is about 25 percent shorter.
+
+## 2.8.4
+- Product page: the "Customer videos" row under the accordions is gone from the preview (it was fed by placeholder videos). The starting product template never contained customer videos. The option to add real customer videos in the product section is kept but stays hidden until a video is added in the theme editor.
+
+## 2.8.3
+- Product page intro under the title replaced with: "Wear the 0.15 mm ultra-thin matte Day patch to school or work. Switch to the 0.35 mm cushioned Night patch before bed. One kit engineered for every stage of a surfaced spot." The two sizes (0.15 mm and 0.35 mm) come from the owner and must match the real patches.
+
+## 2.8.2
+- Product page title ("Day & Night Pimple Patches") now stays on one line on laptops: the size scales with the screen from 28 px up to 40 px. Phones still wrap it if needed.
+
+## 2.8.1
+- Product page top section made smaller on laptops: the frame is 1120 px wide (was up to 1440 px), so each column is about 520 px instead of 676 px, with a 48 px gap. Same proportions: square photo card, tall photo tabs (about 121 x 145 px), kit cards in rows.
+
+## 2.8.0
+- Product page top section: proportions set like the reference on laptops. The frame is wider (up to 1440 px), the photo column and the buy column are equal width with a 56 px gap and no divider line, the photo card is a square, the photo tabs are tall tiles with a large preview (about 160 x 185 px), and the kit cards sit three to a row. Phones and tablets are unchanged.
+
+## 2.7.3
+- Product page: the "Complete your routine" section (Add to your routine) is removed from the starting template. Its file (`sections/ap-upsell.liquid`) is kept. The bag drawer's own suggestions are not changed.
+
+## 2.7.2
+- Product page: the "Every patch in the box" section (Your kit) is removed from the starting template. Its file (`sections/ap-kit-contents.liquid`) is kept, so it can be added back from the theme editor if wanted.
+
+## 2.7.1
+- Real ingredient list added: Cellulose Gum, Hydrogenated Poly(C6-20 Olefin), Polyisobutene, Pectin. It is the default of the product page ingredient label (now titled "Full ingredients (INCI)"; a product metafield custom.ingredients, if set, still wins) and it shows in the small print of the home ingredient section. Because the list has four ingredients, the home section no longer says "The only ingredient" or "One ingredient. Nothing else to guess."; it now says "Inside the patch" and "A short ingredient list, shown in full." The preview product uses the same list.
+
+## 2.7.0
+- Home "One kit for the whole day" (Day and night panels) rebuilt to the new reference: outlined pill, big serif heading with a small gold-to-oxblood rule, a pale gold Day card (wider) and a deep oxblood Night card, each with a round icon, a time pill, short text, three chips and a side-on cross-section drawing panel, then a white strip with two points and a small note. Every word is editable. Left out because unverified: millimetre sizes, 15 degree edge, "8+ hour pillow-lock", "medical-grade", "fragrance-free", "non-drying", "visibly flattens in 6 hours", "safe for sensitive skin", "stays put while you sleep" and "absorbs deeper". The drawings are marked as illustrations, not to scale. The old hover-grow, round decorative circles and photo slots are gone.
+
+## 2.6.0
+- Footer reworked to the newer reference: a four-point trust bar on top (drug-free hydrocolloid, day and night patches, US dispatch, 30-day guarantee), then the ZLOFY name with a tagline, small badges and the email sign-up, three link columns (Shop, The science, Support), a "US customer care" card with your support email, the big soft wordmark, and a bottom bar with four legal links, payment logos and the cosmetic-use note. Everything is editable in Theme settings > Footer links. Not added because they are unverified: "Dermatologist tested", "Cruelty-free", "Fragrance-free", "Visible results in 6 hours", "Reply under 4 hours", opening hours, the company name and address line, shipping within 24 hours, and the footnote claiming blemishes are reduced in 6 hours. Product prices in the Shop links were left out.
+
+## 2.5.0
+- New footer in the reference layout: dark oxblood, four link columns, a cream "Stay in the loop" sign-up card, a big soft ZLOFY wordmark, and a bottom bar with copyright and legal links. Links are edited in Theme settings > Footer links (one "Text | address" per line; "email" opens your support email). Starting links only point to things that exist: Shop all, Cart, Hydrocolloid science, How it works, FAQs, Shipping policy, Refund policy, Contact us (email), Privacy policy, Terms of service. The reference's other columns (Skincare, Press, Sustainability, Wholesale, Track Order) and "Formulated in California | Cruelty-Free" were not added because they do not exist or are not verified. The separate newsletter band on the home page is removed because the footer now has the sign-up.
+
+## 2.4.1
+- Product page "Before and after" now starts with two demonstration pairs (the placeholder third card, "Customer C", is gone) and the same honest copy as the home page: "How a patch looks", an AI-generated disclaimer, no "real customers" wording. The section's preset also starts with two pairs.
+
+## 2.4.0
+- "A spot's day" timeline redone in the reference layout: four time labels over round icons joined by a line, four photo cards with a time tag, "Step 1: ... Step 4:" titles (numbering is automatic), and under each title a small line drawing (magnifier, thin day patch, cushioned night patch, round patch) above a soft caption box. Captions are aligned. The longer "annoyance" line is hidden by default (switch on in the section). Starting copy rewritten to say only what is safe: no "healing", no "less inflamed", no "stays put while you sleep".
+
+## 2.3.0
+- FAQ with image: the empty right side is now an original panel: a soft rose background with a framed close-up patch video (muted, loops, pause button, "AI-generated illustration" note) and a "Still have a question?" card with an email link taken from Theme settings. Your own photo (Image setting) still replaces it. First question renamed to "What are Zlofy Day and Night patches?" (the old text used the theme's working name). No other brand's packaging or photos are used.
+
+## 2.2.3
+- Product page: the payment logo strip is centred under the trust strip.
+
+## 2.2.2
+- Product page: the payment icons under the trust strip are now a picture of the real logos (Visa, Mastercard, American Express, Apple Pay, Shop Pay) in white tiles (`assets/ap-payment-strip.png`, 60 KB), replacing the plain text boxes. Turn it off with "Show payment logos". Show it only for methods your checkout accepts.
+
+## 2.2.1
+- Product page "Add to bag" button: soft oxblood shadow, lifts a little on hover, presses down on click; no shadow when disabled.
+
+## 2.2.0
+- Header matches the reference: a slim oxblood announcement bar with a small outlined pill ("Free US shipping $35+") and one calm line, the logo on the left, links centred, and a dark "Bag" pill with a count on the right (the old icon is gone). The links now come from Theme settings > Header links (Shop, Hydrocolloid science, How it works, FAQ), so they work without editing the store's Main menu; clear every label to use the Main menu instead. Anchors that exist: #shop, #ingredient, #how, #faq on the home page; the links use /#... so they also work from the product page. Added id="faq" to both FAQ sections. A "Verified Results" link was not added.
+
+## 2.1.2
+- Product page benefit pills: shorter starting text ("Thin, low-shine day patches", "Cushioned night patches", "Less picking", "Drug-free hydrocolloid") so they sit two to a row instead of stacking one per line. Removed the "stays put while you sleep" wording, which was not verified.
+
+## 2.1.1
+- Product page buy box: formula cards can now carry an icon, a second line and a small tag (new "Formula card note" blocks, matched by option value), a 3-column trust strip (US dispatch, guarantee, clean formula; edit the text to match your real policy), the question panel is titled "Inside the patch · Hydrocolloid science", and the starting template fills the top banner and the photo chip. Preview product now uses the four formula names.
+
+## 2.1.0
+- Product page buy box restyled to the editorial layout: optional dark banner above the photo, a framed photo with a kit chip and a working "+ Inspect" zoom, labelled photo tabs in a row of four, a category pill, numbered steps ("1. Kit", "2. Purchase options"), outlined formula cards in two columns, radio-style purchase cards, a 3-up trust strip, a new "Inside the patch" question panel (tap a question, the answer swaps; keyboard arrows work), and plus/minus accordions. The big price is hidden when the product has subscription plans (the cards show prices). The banner, chip and rating stay hidden until you fill them or have real reviews. Default answers are plain and make no medical claim.
+
+## 2.0.0
+- New palette across the whole store: deep oxblood (#3B0A14 ink, #6E1423 buttons) with warm alabaster (#FBF7F5) and soft rose accents, instead of navy and bright pink. Done in one place: the colour defaults in `snippets/ap-tokens.liquid` and `config/settings_schema.json` (editable in Theme settings), plus the fixed colours inside sections, shadows and dark panels. All 39 contrast pairs still pass. The buying panel on the product page (formula cards, one-time or subscribe, quantity, sticky bar, bag drawer) already existed and now uses the new colours. Colours saved earlier in the theme editor (if any) override the defaults and must be reset there.
+
+## 1.15.1
+- Product page ingredient label box: a built-in close-up video (`assets/ap-ingredient-label-video.mp4`, 10 s, 1.8 MB, landscape 16:9, audio removed) sits inside the box. On laptops it is beside the ingredient list; on phones it stacks above it at full width. It loads only when scrolled near (preload none), plays only while on screen, has a pause button, and never autoplays for reduced motion. It is an AI-generated illustration (noted on the video). Turn it off in the section with "Show the close-up video inside the ingredient label box".
+
+## 1.15.0
+- Product page "What the patch is made of": the demonstration photo is replaced by a built-in close-up video (`assets/ap-ingredient-prod-video.mp4`, 10 s, 2 MB, audio removed) of a thin patch over a small spot, in a clean portrait window with a soft ring, a pause button and an "AI-generated illustration" note. It plays only while on screen and never autoplays for reduced motion. The section also gets the site's soft blush-to-lilac background with drifting glows and floating patch dots, a staged entrance, and a mouse tilt on laptops. The photo is still there as an option (turn the video off).
+
+## 1.14.2
+- Home banner: the built-in video is replaced by a new 15 s clip (a face with a spot, then a close-up of a patch on it). Audio removed, 3.2 MB, new cover image. It is an AI-generated illustration, not a real customer.
+
+## 1.14.1
+- Home "One ingredient": the dark navy background is now the site's soft blush-to-lilac gradient with drifting colour glows and floating patch dots. The three facts are white cards that take turns lighting up (with a progress line); hover, tap or keyboard focus holds one, and the ring around the video changes colour to match. Everything rises in one after another, the video leans toward the mouse on laptops, and all of it stops for visitors who prefer reduced motion.
+
+## 1.14.0
+- Home "One ingredient" section: a built-in close-up video of a thin patch on skin (`assets/ap-ingredient-video.mp4`, 10 s, 1.3 MB, audio removed) in a round window inside the orbit rings. Muted, loops, plays only while on screen, has a pause button, and does not autoplay for visitors who prefer reduced motion. A small "AI-generated illustration" note sits under it. Turn it off in the section to use your own photo or the old drawing.
+
+## 1.13.1
+- "Before and after": the dark navy background is replaced with the site's soft blush-to-lilac gradient. It has slowly drifting colour glows and little translucent patch dots that float up, and the glows move a little as you scroll. The headline lines rise in one by one. On laptops each photo card leans toward the mouse in 3D with a soft light following the pointer. Everything stops for visitors who prefer reduced motion.
+
+## 1.13.0
+- "Before and after" is now interactive and more polished. Tap "Patch ready" or "Patch worn" to glide to that side, or drag / use the arrow keys. A pulsing handle and a "Drag" hint show it moves (hint disappears after the first touch), and each slider gives one gentle nudge when it scrolls into view. Soft entrance, hover lift on laptops, frosted labels, and a small "AI-generated illustration" badge on each photo (editable, clear it only for your own real photos). All extra motion is off for visitors who prefer reduced motion.
+
+## 1.12.4
+- Before and after: second pair added in the preview (cropped to remove the AI watermark). Disclaimer now says plainly: AI-generated illustrations, not real customers and not real results.
+
+## 1.12.3
+- "Before and after": two photo pairs side by side on laptops (centred, max 920 px), stacked on phones, with portrait 4:5 photo frames so faces are not cropped. A single pair is centred at a narrower width. Starting template has two pairs.
+
+## 1.12.2
+- Home "Before and after" section: starting copy is now honest for demonstration photos ("How a patch looks", labels "Patch ready" / "Patch worn", AI-generated disclaimer) and starts with one pair. Replace the pair with your own photos in the theme editor. Preview shows two demonstration photos.
+
+## 1.12.1
+- "How it works" video: a 6-second clip showing a used patch being peeled off and a fresh one shown beside it is added to the end, so all four steps are now covered (26 s, audio removed, 5.5 MB). AI-generated demonstration, not a real customer.
+
+## 1.12.0
+- Product page "What the patch is made of" (Ingredients): defaults now match the one-ingredient story (Hydrocolloid only; no unverified "breathable film" or "skin-friendly adhesive" claims). New optional trust fields, all hidden until filled: facts at a glance (diameter, thickness, patches per kit, wear time), where it is made, a link to a real test report, and three short questions (patch test, what if it will not stick, where to see the full list). Built-in demonstration photo (used patch beside a fresh one) with a caption; AI-generated, not a real customer. The ingredient label must match your real pack.
+
+## 1.11.0
+- "How it works": a 3D feel. The video leans toward the mouse with depth (mouse only), the step cards swing in from the side in 3D, and a little 3D patch beside the video acts out the step you are on: drops fall (cleanse), it gets pressed with a ripple (press), it slowly turns white (wait), it peels off and a fresh one appears (swap). Its label shows the current step title. Everything stops for visitors who prefer reduced motion.
+
+## 1.10.1
+- "How it works": a built-in how-to video (`assets/ap-how-video.mp4`, 20 s, audio removed, tap to play, never autoplays) with a "Demonstration video" note. It is AI-generated, not a real customer. Turn off "Use the built-in how-to video" in the section to use your own video or photo.
+
+## 1.10.0
+- "A spot's day" rewritten around real pain points: new eyebrow, a "Sound familiar?" row of everyday annoyances, a time tag on each photo (7:30 AM, 1:00 PM, 10:30 PM, 7:00 AM), new titles and text that describe exactly what each photo shows, and small labels above "The problem" and "What helps". All wording is editable in the section settings. Keep every line true for your product (especially the night patch line).
+
+## 1.9.5
+- "A spot's day": card 4 (Next morning) now shows a built-in demonstration photo of a used patch (turned white in the middle) beside a fresh one (`assets/ap-card-swap.jpg`). All four cards now have photos. AI-generated, not real customers.
+
+## 1.9.4
+- "A spot's day": card 3 (Night) now shows a built-in demonstration photo of an adult in bed with a patch on a small spot (`assets/ap-card-night.jpg`). AI-generated, not a real customer.
+
+## 1.9.3
+- "A spot's day": card 2 (Midday) now shows a built-in demonstration photo of a fingertip pressing a patch onto a small spot (`assets/ap-card-midday.jpg`). AI-generated, not a real customer.
+
+## 1.9.2
+- "A spot's day": card 1 (Morning) now shows a built-in demonstration photo (an adult holding a patch next to a small spot, `assets/ap-card-morning.jpg`). Each card has a "Built-in sample photo" choice; set it to None to use your own photo. A small note under the cards says the photos are illustrative demonstrations, not customer testimonials (clear it once all photos are your own). The photo is AI-generated: do not call it a real customer.
+
+## 1.9.1
+- "A spot's day" section: a trust line under the button (Free US shipping on kits, US-based support, Secure checkout). Larger screens show the picture strip (`assets/ap-trust-strip.png`); phones show the same three points as readable text with icons. Editable in the section settings; untick the picture if you change the wording. Keep every point true for your store.
+
+## 1.9.0
+- Home banner: ten little glassy patches float in the background, a fine grain texture adds depth, and scrolling now moves the banner: the video slowly zooms, the text and picture drift apart and the patches rise at different speeds (`assets/ap-banner.js`). All of it stops for visitors who prefer reduced motion.
+
+## 1.8.2
+- Home banner: built-in video swapped to the first Arcads draft (the 1 MB one), cropped to portrait around the face and chin, with a seamless cross-fade loop (1.7 MB). Still an AI-generated sample, not a real customer.
+
+## 1.8.1
+- Home banner: the right side is now one plain video panel that fills the whole space (no arch, badges, sparkles or ring when a video or photo is shown). The built-in video is an AI-generated sample of an adult applying a patch (`assets/ap-banner-video.mp4`, 7 s, seamless loop with a cross-fade, 1.8 MB). It is NOT a real customer: replace it with your own video, and never label it as a customer.
+
+## 1.8.0
+- Home banner: a soft photo sits behind the banner (the patch on a pink surface, drifting slowly) and the video stays on the right. New editor settings: background photo (or built-in until you add yours), optional video label for real customer videos (needs the customer's written permission, unedited, no results claims). The spinning ring is now off by default.
+
+## 1.7.1
+- Banner scrolling strip restyled: clean white band with fine borders, a round icon before each fact, small blush dots between facts and soft white edge fades (was a plain dark bar).
+
+## 1.7.0 (one-ingredient section)
+- New home section "One ingredient" (`sections/ap-home-ingredient.liquid`), placed after the day/night split: the single ingredient in big type, a plain-words explanation, three editable facts, and an animated drawing of a patch taking in fluid and turning white (or your own photo). Placeholder wording: match it to your real label.
+
+## 1.6.0 (premium animated banner)
+- Home banner: headline words fly in one by one and the second sentence shimmers; the video reveals from an arch; glass badges and a spinning text ring drift with the mouse; twinkling sparkles; the main button glows and sweeps with light; a scrolling strip of true brand facts sits under the banner (editable). Everything stops for visitors who prefer reduced motion. New editor settings: ring text, scrolling strip.
+
+## 1.5.2
+- "How it works" section redesigned: subheading, soft glow background, framed video with a play button and caption, and a connected timeline of step cards (icon, optional time tag such as "10 sec") whose line fills and whose current step highlights as you scroll (`assets/ap-how.js`). New editor settings: subheading, video caption, per-step icon and time tag.
+
+## 1.5.1
+- Home "Shop the kit" section is now for ONE product: one block only, a wide card (image left, name, price and button right) on desktop, no "See all products" link by default.
+
+## 1.5.0 (animated banner with video)
+- Home banner: the copy rises in one line at a time, the visual pops in, the badges float. The visual can now be a video: your own Shopify-hosted video (muted loop), else your photo, else a built-in demo loop, else the drawn patch. The demo loop (`assets/ap-demo-banner.mp4`, 6 s, 1 MB, original animation, no people, no text, no claims) shows until you add your own.
+- Pause / play button on the video (WCAG 2.2.2); the video stays paused for visitors who prefer reduced motion and pauses while off-screen (`assets/ap-banner.js`).
+- Preview server: serves mp4 with Range requests.
+
+## 1.4.0 (How it works page)
+- New page template `templates/page.how-it-works.json` (generated by `npm run build:template`): page banner with Shop now button, the system (day and night patch cards), watch it work (video + 3 steps), what you can expect, spot by spot, size guide, comparison, FAQ, email sign-up. In Shopify: Online Store > Pages > Add page "How it works", template `page.how-it-works`.
+- New sections: `ap-page-banner`, `ap-system-parts`. The preview serves it at /pages/how-it-works and the header link points there.
+- Layout and structure follow the reference page; all copy is original and cosmetic only. Numbers and sizes are examples to be replaced with real ones.
+
+## 1.3.1
+- Header: "Shop" is now a plain link (no dropdown, no sub-categories). Sub-links in the menu are ignored on purpose, so a dropdown can never reappear. In the preview, Shop goes to the product page. Removed the dropdown CSS and JS. In Shopify, set the "Shop" link in Online Store > Navigation > Main menu to your product page.
+
+## 1.3.0 (home page)
+- New `templates/index.json` (generated by `scripts/build-template.mjs`): home banner, product cards, spot's-day timeline, day and night panels, how to use (`#how`), before/after, customer videos, founder note, guarantee, FAQ, email sign-up.
+- New sections: `ap-home-banner` (benefit headline, two CTAs, trust points, your photo or a drawn patch illustration with floating Day/Night badges), `ap-home-products` (up to 4 product cards from product pickers), `ap-home-split` (Day / Night panels, the hovered one grows), `ap-newsletter` (Shopify customer form tagged `newsletter`).
+- `ap-before-after`, `ap-video-cards`, `ap-founder-note`, `ap-faq-split` can now be used on the home page too; the how-to section got `id="how"`.
+- Organization JSON-LD on the home page; preview server renders it at `/home`.
+
 ## 1.2.0 (responsive QA)
 - Tested at 360, 375, 390, 768 and 1440 px: no horizontal overflow at any width.
 - iPhone: `viewport-fit=cover` so the sticky bar and footer respect the home-indicator safe area; form fields are 16 px or larger (no zoom-on-focus); footer gets extra bottom space so the sticky bar never covers the copyright line.

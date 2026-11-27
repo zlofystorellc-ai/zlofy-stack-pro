@@ -7,9 +7,9 @@
  * Usage: node scripts/contrast-check.mjs   (exit 1 if any pair fails)
  */
 const C = {
-  ink: '#1B1B3A', blush: '#F95D75', blushDeep: '#CF2749', lilac: '#CDB8FF', sand: '#FFF0F2',
-  apricot: '#FFB270', white: '#FFFFFF', inkSoft: '#4A4A6A',
-  cmpUs: '#FCDDE2', dayCell: '#FFF7F7', nightCell: '#ECE7F5', star: '#757E94', ledeOnInk: '#E6E9F2'
+  ink: '#3B0A14', blush: '#B4566A', blushDeep: '#6E1423', lilac: '#E9CED4', sand: '#FBF7F5',
+  apricot: '#E3B79A', white: '#FFFFFF', inkSoft: '#6A4C54',
+  cmpUs: '#F5E1E4', dayCell: '#FBF7F5', nightCell: '#F3E6E8', star: '#757E94', ledeOnInk: '#F5E6E8'
 };
 
 const lum = (hex) => {
@@ -42,16 +42,16 @@ const PAIRS = [
   ['Announcement bar: white on ink', C.white, C.ink, 4.5],
   ['Dark sections: light lede on ink', C.ledeOnInk, C.ink, 4.5],
   ['Dark sections: eyebrow lilac on ink', C.lilac, C.ink, 4.5],
-  ['Dark section: butter on ink (stats, highlights)', '#FFE066', C.ink, 4.5],
-  ['Guarantee band: blush-deep on butter cream', C.blushDeep, '#FFF3BC', 4.5],
-  ['Guarantee band: ink on butter cream', C.ink, '#FFF3BC', 4.5],
-  ['Guarantee pill: butter on ink', '#FFE066', C.ink, 4.5],
-  ['Video cards pill: ink on butter', C.ink, '#FFE066', 4.5],
+  ['Dark section: butter on ink (stats, highlights)', '#EBD3A8', C.ink, 4.5],
+  ['Guarantee band: blush-deep on butter cream', C.blushDeep, '#F6EAD3', 4.5],
+  ['Guarantee band: ink on butter cream', C.ink, '#F6EAD3', 4.5],
+  ['Guarantee pill: butter on ink', '#EBD3A8', C.ink, 4.5],
+  ['Video cards pill: ink on butter', C.ink, '#EBD3A8', 4.5],
   ['Badge: ink on apricot', C.ink, C.apricot, 4.5],
   ['Guarantee badge: ink on lilac', C.ink, C.lilac, 4.5],
   ['Cart count: white on ink', C.white, C.ink, 4.5],
   ['Footer: white on ink', C.white, C.ink, 4.5],
-  ['Footer fine print: light grey on ink', '#C9CFDD', C.ink, 4.5],
+  ['Footer fine print: light grey on ink', '#E8D3D6', C.ink, 4.5],
   ['Benefit pills: ink on white', C.ink, C.white, 4.5],
   ['UI: control border ink-soft on white', C.inkSoft, C.white, 3],
   ['UI: control border ink-soft on sand', C.inkSoft, C.sand, 3],

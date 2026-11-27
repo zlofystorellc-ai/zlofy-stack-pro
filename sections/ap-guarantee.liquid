@@ -6,10 +6,37 @@
     <h2 class="apx-guar__h" id="{{ section.id }}-title">{{ section.settings.heading }}</h2>
     {%- if section.settings.subheading != blank -%}<p class="apx-guar__sub">{{ section.settings.subheading }}</p>{%- endif -%}
 
+    {%- assign g_email = settings.support_email -%}
     <div class="apx-guar__card">
-      <p class="apx-guar__big"><span class="apx-guar__num">{{ section.settings.number }}</span><span class="apx-guar__unit">{{ section.settings.unit }}</span></p>
-      {%- if section.settings.card_label != blank -%}<p class="apx-guar__label">{{ section.settings.card_label }}</p>{%- endif -%}
-      <p class="apx-guar__text">{{ section.settings.text }}</p>
+      <div class="apx-guar__left">
+        <div class="apx-guar__big"><span class="apx-guar__num">{{ section.settings.number }}</span><span class="apx-guar__ut"><span class="apx-guar__unit">{{ section.settings.unit }}</span>{%- if section.settings.card_label != blank -%}<span class="apx-guar__label">{{ section.settings.card_label }}</span>{%- endif -%}</span></div>
+        <p class="apx-guar__text">{{ section.settings.text }}{%- if g_email != blank %} <a href="mailto:{{ g_email }}">{{ g_email }}</a>{%- endif -%}</p>
+        {%- if section.settings.note_title != blank -%}
+          <div class="apx-guar__note"><p class="apx-guar__nt"><i aria-hidden="true"></i>{{ section.settings.note_title }}</p>{%- if section.settings.note_text != blank -%}<p class="apx-guar__nx">{{ section.settings.note_text }}</p>{%- endif -%}</div>
+        {%- endif -%}
+      </div>
+      <div class="apx-guar__right">
+        {%- assign g_img = section.settings.image | default: product.featured_image -%}
+        {%- if g_img != blank -%}
+          <div class="apx-guar__photo">
+            {{ g_img | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 525, 700', sizes: '(min-width: 800px) 40vw, 90vw', alt: g_img.alt | default: section.settings.heading }}
+            <span class="apx-guar__sealbadge" aria-hidden="true"><i></i></span>
+          </div>
+        {%- endif -%}
+        <svg class="apx-guar__seal" viewBox="0 0 160 160" width="150" height="150" aria-hidden="true">
+          <defs><path id="{{ section.id }}-arc" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
+          <circle cx="80" cy="80" r="76" fill="#fff" stroke="#EBDDC9" stroke-width="2"/>
+          <circle cx="80" cy="80" r="46" fill="none" stroke="#B5495E" stroke-width="1" stroke-dasharray="2 3"/>
+          <text font-family="DM Sans, sans-serif" font-size="9.5" font-weight="700" letter-spacing="2.2" fill="#6E1423"><textPath href="#{{ section.id }}-arc">{{ section.settings.number }}-{{ section.settings.unit | upcase }} GUARANTEE · {{ settings.brand_name | upcase }} US CARE · </textPath></text>
+          <path d="M80 56l20 7v14c0 14-9 24-20 29-11-5-20-15-20-29V63z" fill="#fff" stroke="#6E1423" stroke-width="2.4" stroke-linejoin="round"/>
+          <text x="80" y="88" text-anchor="middle" font-family="DM Serif Display, serif" font-size="22" fill="#6E1423">{{ settings.brand_name | slice: 0, 1 | upcase }}</text>
+        </svg>
+        <div class="apx-guar__tl">
+          <p class="apx-guar__tlh"><span>{{ section.settings.number }}-{{ section.settings.unit }} window</span>{%- if section.settings.policy_link != blank -%}<a href="{{ section.settings.policy_link }}">{{ 'ap.guarantee.policy' | t }}</a>{%- endif -%}</p>
+          <i class="apx-guar__bar" aria-hidden="true"></i>
+          <p class="apx-guar__tlr"><span><b>Day 1</b><em>Delivered</em></span><span><b>Day {{ section.settings.number }}</b><em>Last day to contact us</em></span></p>
+        </div>
+      </div>
     </div>
 
     {%- if section.blocks.size > 0 -%}
@@ -19,16 +46,30 @@
         {%- endfor -%}
       </ul>
     {%- endif -%}
-    {%- if section.settings.policy_link != blank -%}
-      <p><a class="apx-guar__link" href="{{ section.settings.policy_link }}">{{ 'ap.guarantee.policy' | t }}</a></p>
+    {%- if g_email != blank and section.settings.strip_text != blank -%}
+      <div class="apx-guar__strip">
+        <p><i aria-hidden="true"></i><span>{{ section.settings.strip_text }} <a href="mailto:{{ g_email }}?subject={{ section.settings.strip_subject | url_encode }}">{{ g_email }}</a></span></p>
+        <span class="apx-guar__acts">
+          <a class="apx-guar__mail" href="mailto:{{ g_email }}?subject={{ section.settings.strip_subject | url_encode }}">{{ section.settings.strip_button }}<span aria-hidden="true">&rarr;</span></a>
+          <button type="button" class="apx-guar__copy" data-ap-guar-copy data-email="{{ g_email }}">{% render 'ap-icon', name: 'plus', size: 14 %}<span>Copy email</span></button>
+        </span>
+      </div>
     {%- endif -%}
   </div>
 </section>
+<script>
+  document.querySelectorAll('[data-ap-guar-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var l = b.querySelector('span'), o = l.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(b.getAttribute('data-email')).then(function () { l.textContent = 'Copied'; setTimeout(function () { l.textContent = o; }, 1600); }, function () {});
+    });
+  });
+</script>
 
 {% stylesheet %}
-  .apx-guar{padding-block:clamp(64px,9vw,140px);background:linear-gradient(180deg,#FFF6CF,#FFF3BC);color:var(--ap-ink)}
+  .apx-guar{padding-block:clamp(64px,9vw,140px);background:linear-gradient(180deg,#F6EAD3,#F6EAD3);color:var(--ap-ink)}
   .apx-guar__wrap{display:flex;flex-direction:column;align-items:center;max-width:760px;margin-inline:auto;padding-inline:var(--ap-gutter);text-align:center}
-  .apx-guar__icon{position:relative;display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep);box-shadow:0 10px 24px rgba(207,39,73,.18)}
+  .apx-guar__icon{position:relative;display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--ap-white);color:var(--ap-blush-deep);box-shadow:0 10px 24px rgba(110,20,35,.18)}
   .apx-guar__icon::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--ap-blush);animation:apx-ring 3.2s ease-out infinite;pointer-events:none}
   .apx-guar__pill{margin:20px 0 0;padding:.6rem 1.5rem;border-radius:999px;background:var(--ap-ink);color:var(--ap-butter);font-size:.8125rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
   .apx-guar__h{margin:24px 0 0;color:var(--ap-blush-deep);font-size:clamp(2.75rem,6vw,4.25rem);font-weight:500;line-height:1.05}
@@ -43,6 +84,58 @@
   .apx-guar__chips li{display:inline-flex;align-items:center;gap:.6rem;min-height:48px;padding:0 1.25rem;border:1px solid var(--ap-line);border-radius:999px;background:var(--ap-white);color:var(--ap-blush-deep);font-size:.8125rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
   .apx-guar__chips li::before{content:"";width:7px;height:7px;background:var(--ap-apricot);transform:rotate(45deg)}
   .apx-guar__link{display:inline-flex;align-items:center;min-height:44px;margin-top:12px;color:var(--ap-blush-deep)}
+
+  /* look: two-column promise card with a seal and timeline, chips and an email strip */
+  .apx-guar{background:#F7ECDB}
+  .apx-guar__wrap{max-width:980px}
+  .apx-guar__pill{background:var(--ap-ink);color:#fff}
+  .apx-guar__h{font-weight:400}
+  .apx-guar__sub{font-size:clamp(1.0625rem,1.8vw,1.25rem);color:var(--ap-ink-soft)}
+  .apx-guar__card{display:grid;padding:0;overflow:hidden;box-shadow:0 24px 60px rgba(59,10,20,.08)}
+  .apx-guar__left{padding:clamp(24px,4vw,48px)}
+  .apx-guar__big{display:flex;align-items:flex-end;gap:.9rem;margin:0}
+  .apx-guar__ut{display:grid;gap:2px;padding-bottom:.9rem}
+  .apx-guar__unit{font-size:1.25rem;font-weight:800;letter-spacing:.14em;line-height:1}
+  .apx-guar__label{margin:0;font-size:.875rem;font-weight:600;letter-spacing:.2em}
+  .apx-guar__text{margin:1.4rem 0 0;color:var(--ap-ink);font-size:1.125rem;line-height:1.6}
+  .apx-guar__text a{color:var(--ap-blush-deep);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  .apx-guar__note{margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--ap-line)}
+  .apx-guar__nt{display:flex;align-items:center;gap:8px;margin:0;font-size:.875rem;font-weight:600;color:var(--ap-blush-deep)}
+  .apx-guar__nt i{width:7px;height:7px;background:#C98A5E;transform:rotate(45deg)}
+  .apx-guar__nx{margin:4px 0 0;font-size:.875rem;color:var(--ap-ink-soft)}
+  .apx-guar__right{display:grid;align-content:space-between;justify-items:center;gap:24px;padding:clamp(24px,4vw,40px);background:#FBF4EC;border-top:1px solid var(--ap-line)}
+  .apx-guar__seal{display:block;filter:drop-shadow(0 8px 16px rgba(110,20,35,.12))}
+  .apx-guar__tl{width:100%;padding-top:16px;border-top:1px solid #EBDDC9}
+  .apx-guar__tlh{display:flex;justify-content:space-between;gap:10px;margin:0 0 12px;font-size:.6875rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ap-ink-soft)}
+  .apx-guar__tlh a{color:var(--ap-blush-deep);letter-spacing:0;text-transform:none;font-size:.75rem;text-decoration:underline;text-underline-offset:2px}
+  .apx-guar__bar{display:block;height:5px;border-radius:5px;background:linear-gradient(90deg,var(--ap-blush-deep),#E4A3B1)}
+  .apx-guar__tlr{display:flex;justify-content:space-between;gap:10px;margin:10px 0 0}
+  .apx-guar__tlr span{display:grid;gap:2px;font-size:.8125rem}
+  .apx-guar__tlr span:last-child{text-align:right}
+  .apx-guar__tlr b{font-weight:700;color:var(--ap-ink)}
+  .apx-guar__tlr em{font-style:normal;color:var(--ap-ink-soft);font-size:.75rem}
+  .apx-guar__chips li{font-size:.75rem}
+  .apx-guar__chips li:first-child{border-color:var(--ap-blush-deep)}
+  .apx-guar__strip{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;margin-top:14px;padding:14px 18px;border:1px solid var(--ap-line);border-radius:999px;background:#fff;text-align:left}
+  .apx-guar__strip p{display:flex;align-items:center;gap:10px;margin:0;font-size:.9375rem;color:var(--ap-ink)}
+  .apx-guar__strip i{flex:none;width:7px;height:7px;background:#C98A5E;transform:rotate(45deg)}
+  .apx-guar__copy{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border:1px solid var(--ap-line);border-radius:999px;background:#FBF4EC;color:var(--ap-ink);font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer}
+  .apx-guar__copy:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  @media (min-width:800px){.apx-guar__card{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.apx-guar__right{border-top:0;border-left:1px solid var(--ap-line)}}
+  @media (max-width:560px){.apx-guar__strip{border-radius:22px;flex-direction:column;align-items:flex-start}}
+
+  .apx-guar__strip{flex-wrap:wrap;border-radius:28px}
+  .apx-guar__strip p{flex:1 1 360px}
+  .apx-guar__strip p span a{color:var(--ap-blush-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+  .apx-guar__acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .apx-guar__mail{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:var(--ap-ink);color:#fff;font-size:.875rem;font-weight:800;text-decoration:none;transition:transform .2s}
+  .apx-guar__mail:hover{transform:translateY(-1px)}
+  .apx-guar__mail:focus-visible,.apx-guar__strip a:focus-visible{outline:3px solid var(--ap-blush-deep);outline-offset:2px}
+  .apx-guar__photo{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border:4px solid #fff;border-radius:22px;background:#F0D9DC;box-shadow:0 14px 32px rgba(59,10,20,.14)}
+  .apx-guar__photo img{display:block;width:100%;height:100%;object-fit:cover}
+  .apx-guar__photo~.apx-guar__seal{width:92px;height:92px;margin-top:-62px;position:relative;z-index:1;align-self:end;justify-self:end;margin-right:14px}
+  .apx-guar__right:has(.apx-guar__photo){justify-items:stretch}
+  .apx-guar__sealbadge{display:none}
 {% endstylesheet %}
 
 {% schema %}
@@ -63,6 +156,12 @@
       "label": "Text",
       "default": "Try the patches. If they are not for you, contact us within 30 days and we will help."
     },
+    { "type": "text", "id": "note_title", "label": "Note under the text (empty hides it)", "default": "Questions? We reply by email" },
+    { "type": "text", "id": "note_text", "label": "Note second line", "default": "Write to us and we will help." },
+    { "type": "text", "id": "strip_text", "label": "Line in the email strip (empty hides the strip)", "default": "Questions about your order or the guarantee? Our US support team is happy to help. Email us at" },
+    { "type": "text", "id": "strip_button", "label": "Email button text", "default": "Email us" },
+    { "type": "text", "id": "strip_subject", "label": "Email subject that opens ready-made", "default": "Question about my Zlofy order" },
+    { "type": "image_picker", "id": "image", "label": "Photo in the card (optional)", "info": "Empty uses the product photo. Upload only photos you own or have licensed." },
     { "type": "url", "id": "policy_link", "label": "Refund policy link" }
   ],
   "blocks": [
